@@ -3,6 +3,9 @@ import { useEffect } from 'react'
 import { useAuthStore } from '@/stores/authStore'
 // import { kakaoLogin } from '@/api/authAPI'
 
+import styles from './styles.module.scss'
+import { LoadingIndicator } from '@/components/common'
+
 export const LoginRedirectPage = () => {
   const navigate = useNavigate()
   const location = useLocation()
@@ -26,7 +29,7 @@ export const LoginRedirectPage = () => {
 
         setInterval(() => {
           navigate('/', { replace: true })
-        }, 3000)
+        }, 2000)
       } catch (err) {
         console.error('로그인 처리 중 오류 발생:', err)
         navigate('/login', { replace: true })
@@ -35,5 +38,10 @@ export const LoginRedirectPage = () => {
     handleKakaoLogin()
   }, [navigate, location.search, setTokens, setAuthCode])
 
-  return null
+  return (
+    <div className={styles.pageContainer}>
+      <LoadingIndicator />
+      <p>로그인 중...</p>
+    </div>
+  )
 }
