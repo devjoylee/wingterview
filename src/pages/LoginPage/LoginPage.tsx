@@ -1,3 +1,4 @@
+import { KakaoLoginButton } from '@/components/common'
 import styles from './styles.module.scss'
 import introImage from '@assets/intro-image.png'
 
@@ -12,6 +13,7 @@ export const LoginPage = () => {
           실전 감각을 키워보세요.
         </p>
       </div>
+      <KakaoLoginButton />
     </div>
   )
 }
