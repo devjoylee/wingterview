@@ -8,11 +8,12 @@ interface AuthState {
 
   setAuthCode: (authCode: string) => void
   setTokens: (accessToken: string, refreshToken: string) => void
+  isLoggedIn: () => boolean
 }
 
 export const useAuthStore = create<AuthState>()(
   persist(
-    set => ({
+    (set, get) => ({
       authCode: null,
       accessToken: null,
       refreshToken: null,
@@ -23,6 +24,11 @@ export const useAuthStore = create<AuthState>()(
           accessToken,
           refreshToken,
         }),
+
+      isLoggedIn: () => {
+        return !!get().authCode
+        // return !!get().accessToken
+      },
     }),
     {
       name: 'auth-storage',
