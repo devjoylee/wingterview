@@ -9,7 +9,6 @@ import { LoadingIndicator } from '@/components/common'
 export const LoginRedirectPage: React.FC = () => {
   const navigate = useNavigate()
   const location = useLocation()
-  const setAuthCode = useAuthStore(state => state.setAuthCode)
   const setTokens = useAuthStore(state => state.setTokens)
 
   useEffect(() => {
@@ -21,11 +20,12 @@ export const LoginRedirectPage: React.FC = () => {
           throw new Error('인가 코드를 찾을 수 없습니다.')
         }
 
-        console.log('인가 코드 : ', authCode)
-        setAuthCode(authCode)
-
         // const { accessToken, refreshToken } = await kakaoLogin(authCode)
-        // setTokens(accessToken, refreshToken)
+
+        const accessToken = 'temp-accessToken-dfioasdvnkcvl'
+        const refreshToken = 'temp-refreshToken=qei912qu903'
+
+        setTokens(accessToken, refreshToken)
 
         setInterval(() => {
           navigate('/', { replace: true })
@@ -36,7 +36,7 @@ export const LoginRedirectPage: React.FC = () => {
       }
     }
     handleKakaoLogin()
-  }, [navigate, location.search, setTokens, setAuthCode])
+  }, [navigate, location.search, setTokens])
 
   return (
     <div className={styles.pageContainer}>

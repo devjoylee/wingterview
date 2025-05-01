@@ -2,11 +2,9 @@ import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 
 interface AuthState {
-  authCode: string | null
   accessToken: string | null
   refreshToken: string | null
 
-  setAuthCode: (authCode: string) => void
   setTokens: (accessToken: string, refreshToken: string) => void
   isLoggedIn: () => boolean
 }
@@ -14,11 +12,9 @@ interface AuthState {
 export const useAuthStore = create<AuthState>()(
   persist(
     (set, get) => ({
-      authCode: null,
       accessToken: null,
       refreshToken: null,
 
-      setAuthCode: (authCode: string) => set({ authCode }),
       setTokens: (accessToken: string, refreshToken: string) =>
         set({
           accessToken,
@@ -26,8 +22,7 @@ export const useAuthStore = create<AuthState>()(
         }),
 
       isLoggedIn: () => {
-        return !!get().authCode
-        // return !!get().accessToken
+        return !!get().accessToken
       },
     }),
     {
