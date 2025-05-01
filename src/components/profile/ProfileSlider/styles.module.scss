@@ -1,0 +1,37 @@
+@import '@/styles/variables';
+
+.slider {
+  width: 100%;
+}
+
+:global .swiper {
+  padding-top: 60px !important;
+}
+
+:global .swiper-pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 40px;
+  top: 0 !important;
+}
+
+:global .swiper-pagination-bullet {
+  display: flex !important;
+  justify-content: center;
+  align-items: center;
+
+  padding: 10px;
+  text-align: center;
+  line-height: 20px;
+  font-size: 12px;
+  color: #000;
+  opacity: 1;
+  background: rgba(0, 0, 0, 0.2);
+}
+
+:global .swiper-pagination-bullet-active {
+  padding: 15px;
+  color: #fff;
+  background: $primary !important;
+}
