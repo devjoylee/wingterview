@@ -6,7 +6,7 @@ import { useAuthStore } from '@/stores/authStore'
 import styles from './styles.module.scss'
 import { LoadingIndicator } from '@/components/common'
 
-export const LoginRedirectPage = () => {
+export const LoginRedirectPage: React.FC = () => {
   const navigate = useNavigate()
   const location = useLocation()
   const setAuthCode = useAuthStore(state => state.setAuthCode)

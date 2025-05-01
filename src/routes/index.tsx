@@ -3,7 +3,7 @@ import { useAuthStore } from '@/stores/authStore'
 import { RootLayout } from '@/components/common'
 import { HomePage, LoginPage, LoginRedirectPage } from '@/pages'
 
-const ProtectedRoute = () => {
+const ProtectedRoute: React.FC = () => {
   const isLoggedIn = useAuthStore(state => state.isLoggedIn)()
   return isLoggedIn ? <Outlet /> : <Navigate to="/login" replace />
 }

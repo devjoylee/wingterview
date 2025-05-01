@@ -1,3 +1,4 @@
-export { HomePage } from './HomePage/HomePage'
-export { LoginPage } from './LoginPage/LoginPage'
-export { LoginRedirectPage } from './LoginRedirectPage/LoginRedirectPage'
+export { HomePage } from './Home/HomePage/HomePage'
+
+export { LoginPage } from './Login/LoginPage/LoginPage'
+export { LoginRedirectPage } from './Login/LoginRedirectPage/LoginRedirectPage'

@@ -2,7 +2,7 @@ import { KakaoLoginButton } from '@/components/common'
 import styles from './styles.module.scss'
 import introImage from '@assets/intro-image.png'
 
-export const LoginPage = () => {
+export const LoginPage: React.FC = () => {
   return (
     <div className={styles.pageContainer}>
       <div className={styles.introContent}>
