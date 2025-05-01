@@ -20,6 +20,7 @@ const routes: RouteObject[] = [
         element: <ProtectedRoute />,
         children: [
           { index: true, element: <P.HomePage /> },
+          { path: 'profile-setup', element: <P.ProfileSetupPage /> },
           //..
         ],
       },

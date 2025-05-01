@@ -10,6 +10,7 @@ export const LoginRedirectPage: React.FC = () => {
   const navigate = useNavigate()
   const location = useLocation()
   const setTokens = useAuthStore(state => state.setTokens)
+  const setIsNewUser = useAuthStore(state => state.setIsNewUser)
 
   useEffect(() => {
     const handleKakaoLogin = async () => {
@@ -20,15 +21,21 @@ export const LoginRedirectPage: React.FC = () => {
           throw new Error('인가 코드를 찾을 수 없습니다.')
         }
 
-        // const { accessToken, refreshToken } = await kakaoLogin(authCode)
+        // const { accessToken, refreshToken, isNewUser } = await kakaoLogin(authCode)
 
         const accessToken = 'temp-accessToken-dfioasdvnkcvl'
         const refreshToken = 'temp-refreshToken=qei912qu903'
+        const isNewUser = true
 
         setTokens(accessToken, refreshToken)
+        setIsNewUser(isNewUser)
 
         setInterval(() => {
-          navigate('/', { replace: true })
+          if (isNewUser) {
+            navigate('/profile-setup', { replace: true })
+          } else {
+            navigate('/', { replace: true })
+          }
         }, 2000)
       } catch (err) {
         console.error('로그인 처리 중 오류 발생:', err)
@@ -36,7 +43,7 @@ export const LoginRedirectPage: React.FC = () => {
       }
     }
     handleKakaoLogin()
-  }, [navigate, location.search, setTokens])
+  }, [navigate, location.search, setTokens, setIsNewUser])
 
   return (
     <div className={styles.pageContainer}>

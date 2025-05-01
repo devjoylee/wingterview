@@ -3,6 +3,7 @@ import apiClient from '@/api/apiClient'
 interface LoginResponse {
   accessToken: string
   refreshToken: string
+  isNewUser: boolean
 }
 
 export const kakaoLogin = async (authCode: string) => {
