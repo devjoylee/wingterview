@@ -35,6 +35,31 @@ export const SliderButtons: React.FC = () => {
   const handlePrev = () => swiper.slidePrev()
 
   const handleNext = () => {
+    switch (currentStep) {
+      case 0: // 기본 정보
+        console.log(
+          '기본 정보 유효성 검사 : ',
+          formData.name,
+          formData.nickname,
+          formData.curriculum
+        )
+        break
+      case 1: // 희망 직무
+        console.log('희망 직무 유효성 검사 : ', formData.jobInterest)
+        break
+      case 2: // 기술 스택
+        console.log('기술 스택 유효성 검사 : ', formData.techStack)
+        break
+      case 3: // 프로필 사진
+        console.log('프로필 사진 유효성 검사 : ', formData.profileImageUrl)
+        break
+      case 4: // 좌석 위치
+        console.log('좌석 위치 유효성 검사 : ', formData.seatPosition)
+        break
+      default:
+        break
+    }
+
     console.log(formData)
 
     swiper.slideNext()

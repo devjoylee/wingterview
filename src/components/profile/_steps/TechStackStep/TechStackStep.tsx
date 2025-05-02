@@ -1,9 +1,11 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import styles from './styles.module.scss'
 import { ProfileCard } from '@components/profile'
 import { ClickableTag } from '@/components/common'
+import { useProfileStore } from '@/stores/profileStore'
 
 export const TechStackStep: React.FC = () => {
+  const { updateTechStack } = useProfileStore()
   const [selected, setSelected] = useState<string[]>([])
 
   const taglist: string[] = [
@@ -42,7 +44,9 @@ export const TechStackStep: React.FC = () => {
 
   const isMaxTagsSelected: boolean = selected.length >= 3
 
-  console.log(selected)
+  useEffect(() => {
+    updateTechStack(selected)
+  }, [selected, updateTechStack])
 
   return (
     <ProfileCard name="기술 스택">

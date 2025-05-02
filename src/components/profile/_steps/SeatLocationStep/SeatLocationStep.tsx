@@ -3,9 +3,12 @@ import { createPortal } from 'react-dom'
 import { ProfileCard } from '@components/profile'
 import { SeatMap } from '@/components/common'
 import styles from './styles.module.scss'
+import { useProfileStore } from '@/stores/profileStore'
 
 export const SeatLocationStep = () => {
-  const [selectedSeat, setSelectedSeat] = useState<SeatType>({
+  const { updateSeatPosition } = useProfileStore()
+
+  const [selectedSeat, setSelectedSeat] = useState<Seat>({
     section: '?',
     line: '?',
     seat: '?',
@@ -15,6 +18,14 @@ export const SeatLocationStep = () => {
 
   const openSeatMap = () => setShowSeatMap(true)
   const closeSeatMap = () => setShowSeatMap(false)
+
+  const handleSeatSelect = (seat: Seat) => {
+    setSelectedSeat(seat)
+
+    const row = parseInt(seat.line as string) || 0
+    const col = parseInt(seat.seat as string) || 0
+    updateSeatPosition([row, col])
+  }
 
   return (
     <ProfileCard name="현재 위치 설정">
@@ -56,7 +67,7 @@ export const SeatLocationStep = () => {
         createPortal(
           <SeatMap
             selectedSeat={selectedSeat}
-            setSelectedSeat={setSelectedSeat}
+            setSelectedSeat={handleSeatSelect}
             closeSeatMap={closeSeatMap}
           />,
           document.body
