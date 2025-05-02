@@ -1,4 +1,4 @@
-import { KakaoLoginButton } from '@/components/common'
+import { KakaoLoginButton } from '@/components/auth'
 import styles from './styles.module.scss'
 import introImage from '@assets/intro-image.png'
 

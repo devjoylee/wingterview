@@ -2,23 +2,23 @@ import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 
 interface AuthState {
-  authCode: string | null
   accessToken: string | null
   refreshToken: string | null
+  isNewUser: boolean
 
-  setAuthCode: (authCode: string) => void
   setTokens: (accessToken: string, refreshToken: string) => void
+  setIsNewUser: (isNewUser: boolean) => void
   isLoggedIn: () => boolean
 }
 
 export const useAuthStore = create<AuthState>()(
   persist(
     (set, get) => ({
-      authCode: null,
       accessToken: null,
       refreshToken: null,
+      isNewUser: false,
 
-      setAuthCode: (authCode: string) => set({ authCode }),
+      setIsNewUser: (isNewUser: boolean) => set({ isNewUser }),
       setTokens: (accessToken: string, refreshToken: string) =>
         set({
           accessToken,
@@ -26,8 +26,7 @@ export const useAuthStore = create<AuthState>()(
         }),
 
       isLoggedIn: () => {
-        return !!get().authCode
-        // return !!get().accessToken
+        return !!get().accessToken
       },
     }),
     {

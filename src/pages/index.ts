@@ -1,4 +1,5 @@
-export { HomePage } from './Home/HomePage/HomePage'
+export { HomePage } from './HomePage/HomePage'
 
-export { LoginPage } from './Login/LoginPage/LoginPage'
-export { LoginRedirectPage } from './Login/LoginRedirectPage/LoginRedirectPage'
+export { LoginPage } from './auth/LoginPage/LoginPage'
+export { LoginRedirectPage } from './auth/LoginRedirectPage/LoginRedirectPage'
+export { ProfileSetupPage } from './auth/ProfileSetupPage/ProfileSetupPage'
