@@ -15,8 +15,6 @@ interface ProfileState {
   nextStep: () => void
   prevStep: () => void
   setSwiper: (swiper: SwiperType | null) => void
-
-  submitForm: () => Promise<void>
 }
 
 const initialFormData: UserProfile = {
