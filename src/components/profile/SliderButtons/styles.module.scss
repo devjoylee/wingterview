@@ -9,15 +9,15 @@
     width: 100px;
     height: 45px;
     border-radius: 50px;
-    background-color: #c3c3c3;
+    background-color: $primary;
     color: #fff;
     font-size: 0.9rem;
     font-weight: 700;
     z-index: 10;
     cursor: pointer;
-  }
 
-  button.active {
-    background-color: $primary;
+    &:disabled {
+      background-color: #cdcdcd;
+    }
   }
 }

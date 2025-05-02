@@ -1,14 +1,17 @@
-import styles from './styles.module.scss'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { EffectCoverflow, Pagination, Navigation } from 'swiper/modules'
+import { useProfileStore } from '@/stores/profileStore'
 import { SliderButtons } from '@components/profile'
 import * as S from '@components/profile/_steps'
+import styles from './styles.module.scss'
 
 import 'swiper/css'
 import 'swiper/css/navigation'
 import 'swiper/css/pagination'
 
 export const ProfileSlider: React.FC = () => {
+  const { setSwiper, currentStep } = useProfileStore()
+
   const slides = [
     { id: 1, component: <S.BasicInfoStep /> },
     { id: 2, component: <S.JobInterestStep /> },
@@ -38,11 +41,18 @@ export const ProfileSlider: React.FC = () => {
           modifier: 2,
         }}
         pagination={pagination}
+        allowTouchMove={false}
         modules={[EffectCoverflow, Pagination, Navigation]}
         className="swiper_container"
+        onSwiper={swiper => {
+          setSwiper(swiper)
+          if (currentStep > 1) {
+            swiper.slideTo(currentStep - 1, 0)
+          }
+        }}
       >
         {slides.map(slide => (
-          <SwiperSlide>{slide.component}</SwiperSlide>
+          <SwiperSlide key={slide.id}>{slide.component}</SwiperSlide>
         ))}
         <SliderButtons />
       </Swiper>

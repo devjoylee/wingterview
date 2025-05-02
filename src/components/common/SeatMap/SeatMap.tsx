@@ -3,8 +3,8 @@ import { X } from 'lucide-react'
 import styles from './styles.module.scss'
 
 interface SeatMapProps {
-  selectedSeat: SeatType
-  setSelectedSeat: (seat: SeatType) => void
+  selectedSeat: Seat
+  setSelectedSeat: (seat: Seat) => void
   closeSeatMap: () => void
 }
 

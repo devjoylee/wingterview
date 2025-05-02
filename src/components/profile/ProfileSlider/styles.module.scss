@@ -5,7 +5,11 @@
 }
 
 :global .swiper {
-  padding-top: 60px !important;
+  padding: 60px 0 30px !important;
+}
+
+:global .swiper-wrapper {
+  z-index: 1000 !important;
 }
 
 :global .swiper-pagination {
