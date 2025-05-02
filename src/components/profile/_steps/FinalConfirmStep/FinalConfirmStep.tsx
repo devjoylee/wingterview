@@ -3,17 +3,10 @@ import { ProfileCard } from '@components/profile'
 import { StaticTag } from '@/components/common'
 import { MapPin } from 'lucide-react'
 import defaultImage from '@assets/default-profile.png'
+import { useProfileStore } from '@/stores/profileStore'
 
 export const FinalConfirmStep = () => {
-  const formData = {
-    name: '이주영',
-    nickname: 'joy.lee',
-    curriculum: '풀스택',
-    jobInterest: ['프론트 엔드 개발자', 'DevOps 엔지니어'],
-    techStack: ['Java', 'Javascript', 'Python'],
-    profileImageUrl: '',
-    seatPosition: [3, 7],
-  }
+  const { formData } = useProfileStore()
 
   return (
     <ProfileCard name="최종 프로필 확인">

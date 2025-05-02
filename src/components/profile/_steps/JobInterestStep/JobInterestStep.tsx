@@ -1,9 +1,11 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import styles from './styles.module.scss'
 import { ProfileCard } from '@components/profile'
 import { ClickableTag } from '@/components/common'
+import { useProfileStore } from '@/stores/profileStore'
 
 export const JobInterestStep: React.FC = () => {
+  const { updateJobInterest } = useProfileStore()
   const [selected, setSelected] = useState<string[]>([])
 
   const taglist: string[] = [
@@ -28,7 +30,9 @@ export const JobInterestStep: React.FC = () => {
 
   const isMaxTagsSelected: boolean = selected.length >= 3
 
-  console.log(selected)
+  useEffect(() => {
+    updateJobInterest(selected)
+  }, [selected, updateJobInterest])
 
   return (
     <ProfileCard name="희망 직무">

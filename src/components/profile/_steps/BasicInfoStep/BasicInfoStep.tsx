@@ -1,26 +1,29 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { ProfileCard } from '@components/profile'
 import { Dropdown } from '@components/common'
 import styles from './styles.module.scss'
+import { useProfileStore } from '@/stores/profileStore'
 
 export const BasicInfoStep: React.FC = () => {
-  const [formData, setFormData] = useState({
+  const { updateBasicInfo } = useProfileStore()
+
+  const [userValue, setUserValue] = useState({
     name: '',
     nickname: '',
-    course: '',
+    curriculum: '',
   })
 
   const [formErrors, setFormErrors] = useState({
     name: '',
     nickname: '',
-    course: '',
+    curriculum: '',
   })
 
-  const courses: string[] = ['풀스택 과정', '클라우드 과정', '인공지능 과정']
+  const curriculum: string[] = ['풀스택 과정', '클라우드 과정', '인공지능 과정']
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     const { name, value } = e.target
-    setFormData(prev => ({
+    setUserValue(prev => ({
       ...prev,
       [name]: value,
     }))
@@ -33,19 +36,26 @@ export const BasicInfoStep: React.FC = () => {
     }
   }
 
-  const handleCourseChange = (course: string): void => {
-    setFormData(prev => ({
+  const handleDropdownChange = (curriculum: string): void => {
+    setUserValue(prev => ({
       ...prev,
-      course,
+      curriculum,
     }))
 
     setFormErrors(prev => ({
       ...prev,
-      course: '',
+      curriculum: '',
     }))
   }
 
-  console.log(formData, formErrors)
+  useEffect(() => {
+    updateBasicInfo(userValue.name, userValue.nickname, userValue.curriculum)
+  }, [
+    updateBasicInfo,
+    userValue.name,
+    userValue.nickname,
+    userValue.curriculum,
+  ])
 
   return (
     <ProfileCard name="기본 정보">
@@ -56,7 +66,7 @@ export const BasicInfoStep: React.FC = () => {
             name="name"
             placeholder="한글 이름"
             className={styles.input}
-            value={formData.name}
+            value={userValue.name}
             onChange={handleInputChange}
           />
           {formErrors.name && (
@@ -70,7 +80,7 @@ export const BasicInfoStep: React.FC = () => {
             name="nickname"
             placeholder="닉네임 예) joy.lee"
             className={styles.input}
-            value={formData.nickname}
+            value={userValue.nickname}
             onChange={handleInputChange}
           />
           {formErrors.nickname && (
@@ -79,11 +89,11 @@ export const BasicInfoStep: React.FC = () => {
         </div>
 
         <Dropdown
-          options={courses}
+          options={curriculum}
           placeholder="과정명을 선택해주세요."
-          selectedOption={formData.course}
-          onChange={handleCourseChange}
-          error={formErrors.course}
+          selectedOption={userValue.curriculum}
+          onChange={handleDropdownChange}
+          error={formErrors.curriculum}
         />
       </div>
     </ProfileCard>
