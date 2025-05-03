@@ -9,28 +9,16 @@ export const TechStackStep: React.FC = () => {
   const [selected, setSelected] = useState<string[]>([])
 
   const taglist: string[] = [
-    'JavaScript',
-    'TypeScript',
-    'React',
-    'Vue',
-    'Angular',
-    'Node.js',
-    'Python',
+    'Typescript',
+    'Javascript',
     'Java',
     'Spring',
-    'C#',
-    'Go',
+    'React',
+    'Python',
     'AWS',
-    'Azure',
-    'GCP',
-    'Docker',
+    'Pytorch',
     'Kubernetes',
-    'TensorFlow',
-    'PyTorch',
-    'NoSQL',
-    'SQL',
     'Fastapi',
-    'GraphQL',
     'Langchain',
   ]
 

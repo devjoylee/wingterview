@@ -1,3 +1,4 @@
+import { Check, Plus } from 'lucide-react'
 import styles from './styles.module.scss'
 
 interface ClickableTagProps {
@@ -19,6 +20,6 @@ export const ClickableTag: React.FC<ClickableTagProps> = ({
     className={`${styles.tag} ${selected ? styles.selected : ''} ${disabled ? styles.disabled : ''}`}
   >
     <span>{label}</span>
-    <span className={styles.icon}>{selected ? '✓' : '+'}</span>
+    <span className={styles.icon}>{selected ? <Check /> : <Plus />}</span>
   </button>
 )

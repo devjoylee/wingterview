@@ -9,15 +9,15 @@ export const JobInterestStep: React.FC = () => {
   const [selected, setSelected] = useState<string[]>([])
 
   const taglist: string[] = [
-    '프론트엔드',
-    '솔루션즈 아키텍트',
-    '백엔드',
-    '클라우드 엔지니어',
-    '풀스택',
-    'AI 개발자',
-    'DevOps',
-    '머신러닝 엔지니어',
+    '백엔드 개발자',
+    '프론트엔드 개발자',
+    '풀스택 개발자',
     '데이터 사이언티스트',
+    '솔루션즈 아키텍트',
+    '클라우드 엔지니어',
+    '머신러닝 엔지니어',
+    'AI 백엔드 개발자',
+    'DevOps 엔지니어',
   ]
 
   const toggleTag = (tag: string): void => {
