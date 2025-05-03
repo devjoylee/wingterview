@@ -15,7 +15,10 @@ const routes: RouteObject[] = [
         children: [
           {
             element: <Page hasNavbar={true} />,
-            children: [{ index: true, element: <P.HomePage /> }],
+            children: [
+              { index: true, element: <P.HomePage /> },
+              { path: 'coming-soon', element: <P.ComingSoonPage /> },
+            ],
           },
 
           {

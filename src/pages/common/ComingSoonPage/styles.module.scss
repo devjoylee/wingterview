@@ -1,0 +1,44 @@
+@import '@/styles/variables';
+
+.comingSoonPage {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: $secondary;
+}
+
+.noticeBox {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: #fff;
+  border-radius: 20px;
+  padding: 35px 0;
+  width: 80%;
+
+  img {
+    width: 100px;
+    margin-bottom: 10px;
+  }
+
+  h1 {
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 10px;
+    color: #333;
+
+    span {
+      font-weight: 900;
+      color: $primary;
+    }
+  }
+}
+
+.homeButton {
+  font-size: 15px;
+  padding: 10px 20px;
+  background-color: $primary;
+  color: #fff;
+  border-radius: 7px;
+}
