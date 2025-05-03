@@ -1,16 +1,25 @@
-import apiClient from '@/api/apiClient'
+import axios from 'axios'
 
 interface LoginData {
   accessToken: string
   isNewUser: boolean
 }
 
+// no interceptors
 export const kakaoLogin = async (authCode: string) => {
   try {
-    const response = await apiClient.post<ApiResponse<LoginData>>(
-      '/auth/oauth/kakao',
+    const API_URL = import.meta.env.VITE_API_URL || ''
+
+    const response = await axios.post<ApiResponse<LoginData>>(
+      `${API_URL}/auth/oauth/kakao`,
       {
         code: authCode,
+      },
+      {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        withCredentials: true,
       }
     )
     return response.data.data
