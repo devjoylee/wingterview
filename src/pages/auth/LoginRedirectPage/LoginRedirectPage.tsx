@@ -1,5 +1,5 @@
 import { useNavigate, useLocation } from 'react-router-dom'
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 import { useAuthStore } from '@/stores/authStore'
 // import { kakaoLogin } from '@/api/authAPI'
 
@@ -11,9 +11,13 @@ export const LoginRedirectPage: React.FC = () => {
   const location = useLocation()
   const setTokens = useAuthStore(state => state.setTokens)
   const setIsNewUser = useAuthStore(state => state.setIsNewUser)
+  const isProcessing = useRef(false)
 
   useEffect(() => {
     const handleKakaoLogin = async () => {
+      if (isProcessing.current) return // API 중복 호출 방지
+      isProcessing.current = true
+
       try {
         const authCode = new URLSearchParams(location.search).get('code')
 
@@ -24,10 +28,9 @@ export const LoginRedirectPage: React.FC = () => {
         // const { accessToken, refreshToken, isNewUser } = await kakaoLogin(authCode)
 
         const accessToken = 'temp-accessToken-dfioasdvnkcvl'
-        const refreshToken = 'temp-refreshToken=qei912qu903'
         const isNewUser = true
 
-        setTokens(accessToken, refreshToken)
+        setTokens(accessToken)
         setIsNewUser(isNewUser)
 
         setInterval(() => {

@@ -2,7 +2,6 @@ import apiClient from '@/api/apiClient'
 
 interface LoginResponse {
   accessToken: string
-  refreshToken: string
   isNewUser: boolean
 }
 
