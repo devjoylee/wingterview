@@ -1,12 +1,6 @@
-import { RouteObject, Navigate, Outlet } from 'react-router-dom'
-import { useAuthStore } from '@/stores/authStore'
-import { RootLayout } from '@/components/common'
+import { RouteObject } from 'react-router-dom'
+import { RootLayout, ProtectedLayout, Page } from '@/components/common'
 import * as P from '@/pages'
-
-const ProtectedRoute: React.FC = () => {
-  const isLoggedIn = useAuthStore(state => state.isLoggedIn)()
-  return isLoggedIn ? <Outlet /> : <Navigate to="/login" replace />
-}
 
 const routes: RouteObject[] = [
   {
@@ -17,11 +11,19 @@ const routes: RouteObject[] = [
       { path: 'auth/kakao', element: <P.LoginRedirectPage /> },
 
       {
-        element: <ProtectedRoute />,
+        element: <ProtectedLayout />,
         children: [
-          { index: true, element: <P.HomePage /> },
-          { path: 'profile-setup', element: <P.ProfileSetupPage /> },
-          //..
+          {
+            element: <Page hasNavbar={true} />,
+            children: [{ index: true, element: <P.HomePage /> }],
+          },
+
+          {
+            element: <Page hasNavbar={false} />,
+            children: [
+              { path: 'profile-setup', element: <P.ProfileSetupPage /> },
+            ],
+          },
         ],
       },
     ],

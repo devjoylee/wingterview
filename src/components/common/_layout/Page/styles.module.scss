@@ -1,0 +1,12 @@
+@import '@/styles/variables';
+
+.pageContainer {
+  width: 100%;
+  height: 100vh;
+  padding: 0 15px;
+  overflow-y: scroll;
+}
+
+.hasNavbar {
+  height: calc(100vh - #{$nav-height});
+}
