@@ -25,8 +25,8 @@ export const SeatLocationStep = () => {
   const handleSeatSelect = (seatData: Seat) => {
     setSelectedSeat(seatData)
 
-    const row = seatData.line || 0
-    const col = parseInt(seatData.seat as string) || 0
+    const row = seatData.line || 1
+    const col = parseInt(seatData.seat as string) || 1
     updateSeatPosition([row, col])
   }
 

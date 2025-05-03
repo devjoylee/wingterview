@@ -7,7 +7,6 @@ interface DropdownProps {
   placeholder?: string
   selectedOption: string
   onChange: (option: string) => void
-  error?: string
 }
 
 export const Dropdown: React.FC<DropdownProps> = ({
@@ -15,7 +14,6 @@ export const Dropdown: React.FC<DropdownProps> = ({
   placeholder = '과정명을 선택해주세요',
   selectedOption,
   onChange,
-  error,
 }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false)
 
@@ -51,8 +49,6 @@ export const Dropdown: React.FC<DropdownProps> = ({
           ))}
         </div>
       )}
-
-      {error && <p className={styles.errorText}>{error}</p>}
     </div>
   )
 }

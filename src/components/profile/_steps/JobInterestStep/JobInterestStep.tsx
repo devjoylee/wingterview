@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react'
 import styles from './styles.module.scss'
 import { ProfileCard } from '@components/profile'
-import { ClickableTag } from '@/components/common'
+import { ClickableTag, ErrorMessage } from '@/components/common'
 import { useProfileStore } from '@/stores/profileStore'
 
 export const JobInterestStep: React.FC = () => {
-  const { updateJobInterest } = useProfileStore()
+  const { updateJobInterest, formErrors } = useProfileStore()
   const [selected, setSelected] = useState<string[]>([])
 
   const taglist: string[] = [
@@ -37,9 +37,13 @@ export const JobInterestStep: React.FC = () => {
   return (
     <ProfileCard name="희망 직무">
       <div className={styles.container}>
-        <span className={styles.instruction}>
-          최대 3개까지 선택 가능합니다.
-        </span>
+        <div className={styles.instruction}>
+          {formErrors.jobInterest ? (
+            <ErrorMessage error={formErrors.jobInterest} />
+          ) : (
+            <span>최대 3개까지 선택 가능합니다.</span>
+          )}
+        </div>
         <div className={styles.tagList}>
           {taglist.map(tag => (
             <ClickableTag

@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react'
 import styles from './styles.module.scss'
 import { ProfileCard } from '@components/profile'
-import { ClickableTag } from '@/components/common'
+import { ClickableTag, ErrorMessage } from '@/components/common'
 import { useProfileStore } from '@/stores/profileStore'
 
 export const TechStackStep: React.FC = () => {
-  const { updateTechStack } = useProfileStore()
+  const { updateTechStack, formErrors } = useProfileStore()
   const [selected, setSelected] = useState<string[]>([])
 
   const taglist: string[] = [
@@ -39,9 +39,13 @@ export const TechStackStep: React.FC = () => {
   return (
     <ProfileCard name="기술 스택">
       <div className={styles.container}>
-        <span className={styles.instruction}>
-          최대 3개까지 선택 가능합니다.
-        </span>
+        <div className={styles.instruction}>
+          {formErrors.techStack ? (
+            <ErrorMessage error={formErrors.techStack} />
+          ) : (
+            <span>최대 3개까지 선택 가능합니다.</span>
+          )}
+        </div>
         <div className={styles.tagList}>
           {taglist.map(tag => (
             <ClickableTag

@@ -3,13 +3,14 @@
 .container {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 25px;
   width: 100%;
   margin-top: 40px;
 }
 
 .inputWrapper {
   width: 100%;
+  position: relative;
 }
 
 .input {
@@ -28,16 +29,9 @@
     box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.2);
   }
 
-  &.error {
-    border-color: #e53e3e;
+  & + div {
+    position: absolute;
   }
-}
-
-.errorText {
-  color: #e53e3e;
-  font-size: 14px;
-  margin-top: 8px;
-  padding-left: 20px;
 }
 
 .placeholder {
