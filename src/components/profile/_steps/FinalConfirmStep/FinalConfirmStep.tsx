@@ -6,7 +6,13 @@ import defaultImage from '@assets/default-profile.png'
 import { useProfileStore } from '@/stores/profileStore'
 
 export const FinalConfirmStep = () => {
-  const { formData } = useProfileStore()
+  const { formData, selectedSeat } = useProfileStore()
+  useProfileStore()
+
+  const { section, line, seat } = selectedSeat
+
+  const lineToString = (line as number) <= 9 ? `0${line}` : line
+  const seatCode = `${section}-${lineToString}-${seat}`
 
   return (
     <ProfileCard name="최종 프로필 확인">
@@ -29,7 +35,7 @@ export const FinalConfirmStep = () => {
 
           <div className={styles.seat}>
             <MapPin size={16} />
-            <span>A-03-M</span>
+            <span>{seatCode}</span>
           </div>
         </div>
 

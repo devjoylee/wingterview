@@ -1,6 +1,6 @@
 interface Seat {
   section: string | null
-  line: string | null
+  line: number | null
   seat: string | null
 }
 

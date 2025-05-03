@@ -21,7 +21,7 @@ export const SeatMap = ({
     }
   }
 
-  const handleSeatClick = (section: string, line: string, seat: string) => {
+  const handleSeatClick = (section: string, line: number, seat: string) => {
     setSelectedSeat({ section, line, seat })
   }
 
@@ -41,11 +41,12 @@ export const SeatMap = ({
               className={styles.line}
             >
               <div className={styles.index}>{lineIndex + 1}</div>
+
               {Array.from({ length: seats }, (_, seatIndex) => {
                 const seatName = seatNames[seatIndex]
                 const isSeleted =
                   selectedSeat?.section === sectionName &&
-                  selectedSeat?.line === (lineIndex + 1).toString() &&
+                  selectedSeat?.line === lineIndex + 1 &&
                   selectedSeat?.seat === seatName
                 return (
                   <div
@@ -54,11 +55,7 @@ export const SeatMap = ({
                       isSeleted ? styles.selected : ''
                     }`}
                     onClick={() =>
-                      handleSeatClick(
-                        sectionName,
-                        (lineIndex + 1).toString(),
-                        seatName
-                      )
+                      handleSeatClick(sectionName, lineIndex + 1, seatName)
                     }
                   >
                     {seatName}
