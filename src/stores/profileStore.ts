@@ -1,11 +1,19 @@
 import { create } from 'zustand'
 import type { Swiper as SwiperType } from 'swiper'
+import {
+  validateBasicInfo,
+  validateJobInterest,
+  validateTechStack,
+  validateProfileImage,
+  validateSeatLocation,
+} from '@/utils/validators'
 
 interface ProfileState {
   formData: UserProfile
   currentStep: number
   swiper: SwiperType | null
   selectedSeat: Seat
+  formErrors: Record<string, string>
 
   updateBasicInfo: (name: string, nickname: string, curriculum: string) => void
   updateJobInterest: (interests: string[]) => void
@@ -17,6 +25,9 @@ interface ProfileState {
   nextStep: () => void
   prevStep: () => void
   setSwiper: (swiper: SwiperType | null) => void
+
+  validateCurrentStep: () => boolean
+  setFormErrors: (errors: Record<string, string>) => void
 }
 
 const initialFormData: UserProfile = {
@@ -38,6 +49,7 @@ export const useProfileStore = create<ProfileState>()((set, get) => ({
     line: null,
     seat: null,
   },
+  formErrors: {},
 
   updateBasicInfo: (name, nickname, curriculum) =>
     set(state => ({
@@ -94,5 +106,37 @@ export const useProfileStore = create<ProfileState>()((set, get) => ({
   },
 
   setSwiper: swiper => set({ swiper }),
+
   setSelectedSeat: seat => set({ selectedSeat: seat }),
+
+  validateCurrentStep: () => {
+    const { formData, currentStep } = get()
+    let validationResult = { isValid: true, errors: {} }
+
+    switch (currentStep) {
+      case 1:
+        validationResult = validateBasicInfo(formData)
+        break
+      case 2:
+        validationResult = validateJobInterest(formData)
+        break
+      case 3:
+        validationResult = validateTechStack(formData)
+        break
+      case 4:
+        validationResult = validateProfileImage(formData)
+        break
+      case 5:
+        validationResult = validateSeatLocation(formData)
+        break
+      default:
+        break
+    }
+
+    set({ formErrors: validationResult.errors })
+
+    return validationResult.isValid
+  },
+
+  setFormErrors: errors => set({ formErrors: errors }),
 }))
