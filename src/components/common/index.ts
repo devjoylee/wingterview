@@ -7,4 +7,6 @@ export { Dropdown } from './_ui/Dropdown/Dropdown'
 export { StaticTag } from './_ui/StaticTag/StaticTag'
 export { ClickableTag } from './_ui/ClickableTag/ClickableTag'
 export { ErrorMessage } from './_ui/ErrorMessage/ErrorMessage'
+export { Logo } from './_ui/Logo/Logo'
+
 export { Navbar } from './Navbar/Navbar'
