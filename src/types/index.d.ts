@@ -13,3 +13,8 @@ interface UserProfile {
   profileImageUrl: string | null
   seatPosition: [number, number]
 }
+
+interface ApiResponse<T = null> {
+  message: string
+  data: T
+}

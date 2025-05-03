@@ -2,7 +2,7 @@ import styles from './styles.module.scss'
 import { useSwiper } from 'swiper/react'
 import { useState, useEffect } from 'react'
 import { useProfileStore } from '@/stores/profileStore'
-import { submitUserProfile } from '@/api/\bprofileAPI'
+import { submitUserProfile } from '@/api/profileAPI'
 
 export const SliderButtons: React.FC = () => {
   const swiper = useSwiper()

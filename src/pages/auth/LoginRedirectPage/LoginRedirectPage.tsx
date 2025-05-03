@@ -1,7 +1,7 @@
 import { useNavigate, useLocation } from 'react-router-dom'
 import { useEffect, useRef } from 'react'
 import { useAuthStore } from '@/stores/authStore'
-// import { kakaoLogin } from '@/api/authAPI'
+import { kakaoLogin } from '@/api/authAPI'
 
 import styles from './styles.module.scss'
 import { LoadingIndicator } from '@/components/common'
@@ -21,19 +21,21 @@ export const LoginRedirectPage: React.FC = () => {
       try {
         const authCode = new URLSearchParams(location.search).get('code')
 
+        console.log(authCode)
+
         if (!authCode) {
           throw new Error('인가 코드를 찾을 수 없습니다.')
         }
 
-        // const { accessToken, refreshToken, isNewUser } = await kakaoLogin(authCode)
+        const { accessToken, isNewUser } = await kakaoLogin(authCode)
 
-        const accessToken = 'temp-accessToken-dfioasdvnkcvl'
-        const isNewUser = true
+        // const accessToken = 'temp-accessToken-dfioasdvnkcvl'
+        // const isNewUser = true
 
         setTokens(accessToken)
         setIsNewUser(isNewUser)
 
-        setInterval(() => {
+        setTimeout(() => {
           if (isNewUser) {
             navigate('/profile-setup', { replace: true })
           } else {
