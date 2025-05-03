@@ -1,10 +1,5 @@
 import apiClient from '@/api/apiClient'
 
-interface ApiResponse<T> {
-  message: string
-  data: T | null
-}
-
 export const submitUserProfile = async (profileData: UserProfile) => {
   try {
     const response = await apiClient.put<ApiResponse<null>>(
@@ -13,6 +8,7 @@ export const submitUserProfile = async (profileData: UserProfile) => {
     )
     return response.data
   } catch (error) {
-    console.log(error)
+    console.error('프로필 전송 에러:', error)
+    throw error
   }
 }

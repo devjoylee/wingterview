@@ -4,7 +4,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 8px 16px;
+  padding: 6px 14px;
   border-radius: 9999px;
   background-color: #fff;
   opacity: 0.9;
@@ -18,6 +18,10 @@
     background-color: #02467d;
     color: #fff;
     opacity: 1;
+
+    .icon svg {
+      color: #fff;
+    }
   }
 
   &.disabled {
@@ -26,7 +30,12 @@
   }
 
   .icon {
-    margin-left: 8px;
+    margin-left: 3px;
     font-weight: bold;
+
+    svg {
+      color: #444;
+      width: 15px;
+    }
   }
 }

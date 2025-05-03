@@ -6,7 +6,7 @@ interface AuthState {
   refreshToken: string | null
   isNewUser: boolean
 
-  setTokens: (accessToken: string, refreshToken: string) => void
+  setTokens: (accessToken: string) => void
   setIsNewUser: (isNewUser: boolean) => void
   isLoggedIn: () => boolean
 }
@@ -19,10 +19,9 @@ export const useAuthStore = create<AuthState>()(
       isNewUser: false,
 
       setIsNewUser: (isNewUser: boolean) => set({ isNewUser }),
-      setTokens: (accessToken: string, refreshToken: string) =>
+      setTokens: (accessToken: string) =>
         set({
           accessToken,
-          refreshToken,
         }),
 
       isLoggedIn: () => {

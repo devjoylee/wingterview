@@ -8,6 +8,7 @@ const apiClient = axios.create({
   headers: {
     'Content-Type': 'application/json',
   },
+  withCredentials: true,
 })
 
 apiClient.interceptors.request.use(config => {
@@ -19,7 +20,8 @@ apiClient.interceptors.request.use(config => {
 apiClient.interceptors.response.use(
   response => response,
   error => {
-    window.location.href = '/login'
+    console.log('API 통신 에러:', error)
+    // window.location.href = '/login'
     return Promise.reject(error)
   }
 )
