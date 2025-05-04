@@ -1,12 +1,12 @@
 import { useState } from 'react'
 import { createPortal } from 'react-dom'
 import { ProfileCard } from '@components/profile'
-import { SeatMap } from '@/components/common'
+import { ErrorMessage, SeatMap } from '@/components/common'
 import { useProfileStore } from '@/stores/profileStore'
 import styles from './styles.module.scss'
 
 export const SeatLocationStep = () => {
-  const { updateSeatPosition, selectedSeat, setSelectedSeat } =
+  const { updateSeatPosition, selectedSeat, setSelectedSeat, formErrors } =
     useProfileStore()
 
   const { section, seat } = selectedSeat
@@ -26,6 +26,9 @@ export const SeatLocationStep = () => {
   return (
     <ProfileCard name="현재 위치 설정">
       <div className={styles.container}>
+        {formErrors.seatPosition && (
+          <ErrorMessage error={formErrors.seatPosition} />
+        )}
         <span className={styles.instruction}>
           아래 좌석 배치도 보기 버튼을 눌러 <br />
           본인의 자리를 지정해주세요.
