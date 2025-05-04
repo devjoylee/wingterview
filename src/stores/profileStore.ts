@@ -19,7 +19,7 @@ interface ProfileState {
   updateJobInterest: (interests: string[]) => void
   updateTechStack: (stacks: string[]) => void
   updateProfileImageUrl: (url: string | null) => void
-  updateSeatPosition: (seatPosition: [number, number]) => void
+  updateSeatPosition: (seatPosition: Seat) => void
   setSelectedSeat: (seat: Seat) => void
 
   nextStep: () => void
@@ -37,7 +37,10 @@ const initialFormData: UserProfile = {
   jobInterest: [],
   techStack: [],
   profileImageUrl: null,
-  seatPosition: [1, 1],
+  seatPosition: {
+    section: '',
+    seat: [null, null],
+  },
 }
 
 export const useProfileStore = create<ProfileState>()((set, get) => ({
@@ -45,9 +48,8 @@ export const useProfileStore = create<ProfileState>()((set, get) => ({
   currentStep: 1,
   swiper: null,
   selectedSeat: {
-    section: null,
-    line: null,
-    seat: null,
+    section: '',
+    seat: [null, null],
   },
   formErrors: {},
 

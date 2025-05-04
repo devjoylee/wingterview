@@ -1,7 +1,6 @@
 interface Seat {
   section: string | null
-  line: number | null
-  seat: string | null
+  seat: [number | null, number | null]
 }
 
 interface UserProfile {
@@ -11,7 +10,7 @@ interface UserProfile {
   jobInterest: string[]
   techStack: string[]
   profileImageUrl: string | null
-  seatPosition: [number, number]
+  seatPosition: Seat
 }
 
 interface ApiResponse<T = null> {
