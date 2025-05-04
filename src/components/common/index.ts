@@ -1,4 +1,6 @@
 export { RootLayout } from './_layout/RootLayout/RootLayout'
+export { ProtectedLayout } from './_layout/ProtectedLayout/ProtectedLayout'
+export { Page } from './_layout/Page/Page'
 
 export { LoadingIndicator } from './_ui/LoadingIndicator/LoadingIndicator'
 export { Dropdown } from './_ui/Dropdown/Dropdown'
@@ -6,3 +8,4 @@ export { StaticTag } from './_ui/StaticTag/StaticTag'
 export { ClickableTag } from './_ui/ClickableTag/ClickableTag'
 export { ErrorMessage } from './_ui/ErrorMessage/ErrorMessage'
 export { SeatMap } from './SeatMap/SeatMap'
+export { Navbar } from './Navbar/Navbar'

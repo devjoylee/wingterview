@@ -4,7 +4,7 @@ import introImage from '@assets/intro-image.png'
 
 export const LoginPage: React.FC = () => {
   return (
-    <div className={styles.pageContainer}>
+    <div className={styles.loginPage}>
       <div className={styles.introContent}>
         <img src={introImage} alt="img" />
         <p className={styles.greeting}>

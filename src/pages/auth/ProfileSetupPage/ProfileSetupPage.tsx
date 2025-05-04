@@ -18,7 +18,7 @@ export const ProfileSetupPage: React.FC = () => {
   }, [])
 
   return (
-    <div className={styles.pageContainer}>
+    <div className={styles.profileSetupPage}>
       <h2 className={styles.guideText}>
         매칭에 필요한 <br />
         정보를 입력해주세요.

@@ -51,7 +51,7 @@ export const LoginRedirectPage: React.FC = () => {
   }, [navigate, location.search, setTokens, setIsNewUser])
 
   return (
-    <div className={styles.pageContainer}>
+    <div className={styles.loginRedirectPage}>
       <LoadingIndicator />
       <p>로그인 중...</p>
     </div>
