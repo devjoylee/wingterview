@@ -6,7 +6,9 @@ import { submitUserProfile } from '@/api/profileAPI'
 
 export const SliderButtons: React.FC = () => {
   const swiper = useSwiper()
-  const { formData } = useProfileStore()
+  const { formData, validateCurrentStep, formErrors, prevStep, nextStep } =
+    useProfileStore()
+
   const [isBeginning, setIsBeginning] = useState(true)
   const [isEnd, setIsEnd] = useState(false)
   const [currentStep, setCurrentStep] = useState(0)
@@ -33,37 +35,15 @@ export const SliderButtons: React.FC = () => {
     }
   }, [swiper])
 
-  const handlePrev = () => swiper.slidePrev()
-
+  const handlePrev = () => prevStep()
   const handleNext = () => {
-    switch (currentStep) {
-      case 0: // 기본 정보
-        console.log(
-          '기본 정보 유효성 검사 : ',
-          formData.name,
-          formData.nickname,
-          formData.curriculum
-        )
-        break
-      case 1: // 희망 직무
-        console.log('희망 직무 유효성 검사 : ', formData.jobInterest)
-        break
-      case 2: // 기술 스택
-        console.log('기술 스택 유효성 검사 : ', formData.techStack)
-        break
-      case 3: // 프로필 사진
-        console.log('프로필 사진 유효성 검사 : ', formData.profileImageUrl)
-        break
-      case 4: // 좌석 위치
-        console.log('좌석 위치 유효성 검사 : ', formData.seatPosition)
-        break
-      default:
-        break
+    const isValid = validateCurrentStep()
+
+    if (isValid) {
+      nextStep()
+    } else {
+      console.log(`${currentStep + 1} 단계 유효성 검사 실패:`, formErrors)
     }
-
-    console.log(formData)
-
-    swiper.slideNext()
   }
 
   const handleSubmit = async () => {

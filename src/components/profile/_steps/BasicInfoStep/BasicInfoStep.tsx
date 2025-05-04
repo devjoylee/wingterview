@@ -1,19 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import { ProfileCard } from '@components/profile'
-import { Dropdown } from '@components/common'
+import { Dropdown, ErrorMessage } from '@components/common'
 import styles from './styles.module.scss'
 import { useProfileStore } from '@/stores/profileStore'
 
 export const BasicInfoStep: React.FC = () => {
-  const { updateBasicInfo } = useProfileStore()
+  const { updateBasicInfo, formErrors } = useProfileStore()
 
   const [userValue, setUserValue] = useState({
-    name: '',
-    nickname: '',
-    curriculum: '',
-  })
-
-  const [formErrors, setFormErrors] = useState({
     name: '',
     nickname: '',
     curriculum: '',
@@ -27,24 +21,12 @@ export const BasicInfoStep: React.FC = () => {
       ...prev,
       [name]: value,
     }))
-
-    if (value) {
-      setFormErrors(prev => ({
-        ...prev,
-        [name]: '',
-      }))
-    }
   }
 
   const handleDropdownChange = (curriculum: string): void => {
     setUserValue(prev => ({
       ...prev,
       curriculum,
-    }))
-
-    setFormErrors(prev => ({
-      ...prev,
-      curriculum: '',
     }))
   }
 
@@ -70,7 +52,7 @@ export const BasicInfoStep: React.FC = () => {
             onChange={handleInputChange}
           />
           {formErrors.name && (
-            <p className={styles.errorText}>{formErrors.name}</p>
+            <ErrorMessage size="small" error={formErrors.name} />
           )}
         </div>
 
@@ -84,17 +66,21 @@ export const BasicInfoStep: React.FC = () => {
             onChange={handleInputChange}
           />
           {formErrors.nickname && (
-            <p className={styles.errorText}>{formErrors.nickname}</p>
+            <ErrorMessage size="small" error={formErrors.nickname} />
           )}
         </div>
 
-        <Dropdown
-          options={curriculum}
-          placeholder="과정명을 선택해주세요."
-          selectedOption={userValue.curriculum}
-          onChange={handleDropdownChange}
-          error={formErrors.curriculum}
-        />
+        <div className={styles.inputWrapper}>
+          <Dropdown
+            options={curriculum}
+            placeholder="과정명을 선택해주세요."
+            selectedOption={userValue.curriculum}
+            onChange={handleDropdownChange}
+          />
+          {formErrors.curriculum && (
+            <ErrorMessage size="small" error={formErrors.curriculum} />
+          )}
+        </div>
       </div>
     </ProfileCard>
   )

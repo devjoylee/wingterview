@@ -2,28 +2,31 @@ import { useState } from 'react'
 import { createPortal } from 'react-dom'
 import { ProfileCard } from '@components/profile'
 import { SeatMap } from '@/components/common'
-import styles from './styles.module.scss'
 import { useProfileStore } from '@/stores/profileStore'
+import styles from './styles.module.scss'
 
 export const SeatLocationStep = () => {
-  const { updateSeatPosition } = useProfileStore()
+  const { updateSeatPosition, selectedSeat, setSelectedSeat } =
+    useProfileStore()
 
-  const [selectedSeat, setSelectedSeat] = useState<Seat>({
-    section: '?',
-    line: '?',
-    seat: '?',
-  })
+  const { section, line, seat } = selectedSeat
 
   const [showSeatMap, setShowSeatMap] = useState(false)
 
   const openSeatMap = () => setShowSeatMap(true)
   const closeSeatMap = () => setShowSeatMap(false)
 
-  const handleSeatSelect = (seat: Seat) => {
-    setSelectedSeat(seat)
+  const seatName = {
+    L: '왼쪽',
+    M: '중간',
+    R: '오른쪽',
+  }[seat as string]
 
-    const row = parseInt(seat.line as string) || 0
-    const col = parseInt(seat.seat as string) || 0
+  const handleSeatSelect = (seatData: Seat) => {
+    setSelectedSeat(seatData)
+
+    const row = seatData.line || 1
+    const col = parseInt(seatData.seat as string) || 1
     updateSeatPosition([row, col])
   }
 
@@ -38,21 +41,21 @@ export const SeatLocationStep = () => {
         <div className={styles.seatInfoCard}>
           <div className={styles.wrapper}>
             <div className={styles.seatInfo}>
-              <span className={styles.value}>{selectedSeat.section}</span>
+              <span className={styles.value}>{section || '?'}</span>
               <span className={styles.label}>분단</span>
             </div>
 
             <div className={styles.divider}></div>
 
             <div className={styles.seatInfo}>
-              <span className={styles.value}>{selectedSeat.line}</span>
+              <span className={styles.value}>{line || '?'}</span>
               <span className={styles.label}>번째 줄</span>
             </div>
 
             <div className={styles.divider}></div>
 
             <div className={styles.seatInfo}>
-              <span className={styles.value}>{selectedSeat.seat}</span>
+              <span className={styles.value}>{seatName || '?'}</span>
               <span className={styles.label}>자리</span>
             </div>
           </div>

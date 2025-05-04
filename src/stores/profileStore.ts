@@ -1,20 +1,33 @@
 import { create } from 'zustand'
 import type { Swiper as SwiperType } from 'swiper'
+import {
+  validateBasicInfo,
+  validateJobInterest,
+  validateTechStack,
+  validateProfileImage,
+  validateSeatLocation,
+} from '@/utils/validators'
 
 interface ProfileState {
   formData: UserProfile
   currentStep: number
   swiper: SwiperType | null
+  selectedSeat: Seat
+  formErrors: Record<string, string>
 
   updateBasicInfo: (name: string, nickname: string, curriculum: string) => void
   updateJobInterest: (interests: string[]) => void
   updateTechStack: (stacks: string[]) => void
   updateProfileImageUrl: (url: string | null) => void
   updateSeatPosition: (seatPosition: [number, number]) => void
+  setSelectedSeat: (seat: Seat) => void
 
   nextStep: () => void
   prevStep: () => void
   setSwiper: (swiper: SwiperType | null) => void
+
+  validateCurrentStep: () => boolean
+  setFormErrors: (errors: Record<string, string>) => void
 }
 
 const initialFormData: UserProfile = {
@@ -24,13 +37,19 @@ const initialFormData: UserProfile = {
   jobInterest: [],
   techStack: [],
   profileImageUrl: null,
-  seatPosition: [0, 0],
+  seatPosition: [1, 1],
 }
 
 export const useProfileStore = create<ProfileState>()((set, get) => ({
   formData: initialFormData,
   currentStep: 1,
   swiper: null,
+  selectedSeat: {
+    section: null,
+    line: null,
+    seat: null,
+  },
+  formErrors: {},
 
   updateBasicInfo: (name, nickname, curriculum) =>
     set(state => ({
@@ -88,13 +107,36 @@ export const useProfileStore = create<ProfileState>()((set, get) => ({
 
   setSwiper: swiper => set({ swiper }),
 
-  submitForm: async () => {
-    try {
-      console.log('폼 제출 데이터:', get().formData)
-      return Promise.resolve()
-    } catch (error) {
-      console.error('폼 제출 오류:', error)
-      throw error
+  setSelectedSeat: seat => set({ selectedSeat: seat }),
+
+  validateCurrentStep: () => {
+    const { formData, currentStep } = get()
+    let validationResult = { isValid: true, errors: {} }
+
+    switch (currentStep) {
+      case 1:
+        validationResult = validateBasicInfo(formData)
+        break
+      case 2:
+        validationResult = validateJobInterest(formData)
+        break
+      case 3:
+        validationResult = validateTechStack(formData)
+        break
+      case 4:
+        validationResult = validateProfileImage(formData)
+        break
+      case 5:
+        validationResult = validateSeatLocation(formData)
+        break
+      default:
+        break
     }
+
+    set({ formErrors: validationResult.errors })
+
+    return validationResult.isValid
   },
+
+  setFormErrors: errors => set({ formErrors: errors }),
 }))

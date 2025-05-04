@@ -1,66 +1,81 @@
-// validators.ts
+export const validateBasicInfo = (formData: UserProfile) => {
+  const nameRegex = /^[가-힣]+$/ // 한글만 포함하는지 체크
+  const nicknameRegex = /^[a-zA-Z]+\.[a-zA-Z]+$/ // 닉네임 형식(영어이름.영어성) 체크
 
-interface FormErrors {
-  name: string
-  nickname: string
-  curriculum: string
-}
+  const errors: Record<string, string> = {}
 
-export const validateBasicInfo = (
-  formData: UserProfile
-): { isValid: boolean; errors: FormErrors } => {
-  const errors = {
-    name: '',
-    nickname: '',
-    curriculum: '',
-  }
-  let isValid = true
-
-  if (!formData.name?.trim()) {
+  if (!formData.name) {
     errors.name = '이름을 입력해주세요.'
-    isValid = false
   } else if (formData.name.length < 2 || formData.name.length > 50) {
     errors.name = '이름은 한글 최소 2자 최대 50자까지 입력 가능합니다.'
-    isValid = false
-  } else if (!/^[가-힣]+$/.test(formData.name)) {
+  } else if (!nameRegex.test(formData.name)) {
     errors.name = '이름은 한글만 입력 가능합니다.'
-    isValid = false
   }
 
-  if (!formData.nickname?.trim()) {
+  if (!formData.nickname) {
     errors.nickname = '닉네임을 입력해주세요.'
-    isValid = false
   } else if (formData.nickname.length < 2 || formData.nickname.length > 50) {
     errors.nickname = '닉네임은 최소 2자 최대 50자까지 입력 가능합니다.'
-    isValid = false
-  } else if (!/^[a-zA-Z]+\.[a-zA-Z]+$/.test(formData.nickname)) {
-    errors.nickname =
-      '닉네임은 (영어 이름) . (영어 성)의 형식으로 작성해주세요. 예) joy.lee'
-    isValid = false
+  } else if (!nicknameRegex.test(formData.nickname)) {
+    errors.nickname = '닉네임 형식을 확인해주세요. 예) joy.lee'
   }
 
   if (!formData.curriculum) {
     errors.curriculum = '교육 과정을 선택해주세요.'
-    isValid = false
   }
 
-  return { isValid, errors }
+  return {
+    isValid: Object.keys(errors).length === 0,
+    errors,
+  }
 }
 
-// 다른 단계의 유효성 검사 함수들도 여기에 추가
-// export const validateJobInterest = (formData) => { ... }
-// export const validateTechStack = (formData) => { ... }
+export const validateJobInterest = (formData: UserProfile) => {
+  const errors: Record<string, string> = {}
 
-export const validateStep = (
-  step: number,
-  formData: UserProfile
-): { isValid: boolean; errors: FormErrors } => {
-  switch (step) {
-    case 1:
-      return validateBasicInfo(formData)
-    // case 2:
-    //   return validateJobInterest(formData)
-    default:
-      return { isValid: true, errors: {} as FormErrors }
+  if (formData.jobInterest.length === 0) {
+    errors.jobInterest = '희망 직무를 최소 1개 이상 선택해주세요.'
+  }
+
+  return {
+    isValid: Object.keys(errors).length === 0,
+    errors,
+  }
+}
+
+export const validateTechStack = (formData: UserProfile) => {
+  const errors: Record<string, string> = {}
+
+  if (formData.techStack.length === 0) {
+    errors.techStack = '기술 스택을 최소 1개 이상 선택해주세요.'
+  }
+
+  return {
+    isValid: Object.keys(errors).length === 0,
+    errors,
+  }
+}
+
+export const validateProfileImage = (formData: UserProfile) => {
+  const errors: Record<string, string> = {}
+
+  if (formData.profileImageUrl) {
+    // 파일 확장자 검사
+    // 파일 크기 검사
+  }
+
+  return {
+    isValid: Object.keys(errors).length === 0,
+    errors,
+  }
+}
+
+export const validateSeatLocation = (formData: UserProfile) => {
+  const errors: Record<string, string> = {}
+  console.log(formData)
+
+  return {
+    isValid: Object.keys(errors).length === 0,
+    errors,
   }
 }
