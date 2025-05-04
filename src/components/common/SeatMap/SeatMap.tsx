@@ -21,44 +21,41 @@ export const SeatMap = ({
     }
   }
 
-  const handleSeatClick = (section: string, line: number, seat: string) => {
-    setSelectedSeat({ section, line, seat })
+  const handleSeatClick = (section: string, row: number, col: number) => {
+    setSelectedSeat({
+      section,
+      seat: [row + 1, col + 1],
+    })
   }
 
-  const seatNames = ['L', 'M', 'R']
+  console.log(selectedSeat)
 
   const renderSection = (sectionName: string) => {
-    const lines = 18
-    const seats = 3
+    const row = 18
+    const col = 3
 
     return (
       <section className={styles.section}>
         <h3 className={styles.sectionName}>{sectionName}</h3>
         <div className={styles.container}>
-          {Array.from({ length: lines }, (_, lineIndex) => (
-            <div
-              key={`${sectionName}-line-${lineIndex}`}
-              className={styles.line}
-            >
-              <div className={styles.index}>{lineIndex + 1}</div>
+          {Array.from({ length: row }, (_, rowIdx) => (
+            <div key={`${sectionName}-${rowIdx}`} className={styles.line}>
+              <div className={styles.index}>{rowIdx + 1}</div>
 
-              {Array.from({ length: seats }, (_, seatIndex) => {
-                const seatName = seatNames[seatIndex]
+              {Array.from({ length: col }, (_, colIdx) => {
                 const isSeleted =
                   selectedSeat?.section === sectionName &&
-                  selectedSeat?.line === lineIndex + 1 &&
-                  selectedSeat?.seat === seatName
+                  selectedSeat?.seat[0] === rowIdx + 1 &&
+                  selectedSeat?.seat[1] === colIdx + 1
                 return (
                   <div
-                    key={`${sectionName}-seat-${lineIndex}-${seatIndex}`}
+                    key={`${sectionName}-${rowIdx}-${colIdx}`}
                     className={`${styles.seat} ${
                       isSeleted ? styles.selected : ''
                     }`}
-                    onClick={() =>
-                      handleSeatClick(sectionName, lineIndex + 1, seatName)
-                    }
+                    onClick={() => handleSeatClick(sectionName, rowIdx, colIdx)}
                   >
-                    {seatName}
+                    {['L', 'M', 'R'][colIdx]}
                   </div>
                 )
               })}

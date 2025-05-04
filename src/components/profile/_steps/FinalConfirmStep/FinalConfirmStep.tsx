@@ -9,10 +9,14 @@ export const FinalConfirmStep = () => {
   const { formData, selectedSeat } = useProfileStore()
   useProfileStore()
 
-  const { section, line, seat } = selectedSeat
+  const {
+    section,
+    seat: [row, col],
+  } = selectedSeat
 
-  const lineToString = (line as number) <= 9 ? `0${line}` : line
-  const seatCode = `${section}-${lineToString}-${seat}`
+  const rowToString = (row as number) <= 9 ? `0${row}` : row
+  const colToString = ['L', 'M', 'R'][(col as number) - 1]
+  const seatCode = `${section}-${rowToString}-${colToString}`
 
   return (
     <ProfileCard name="최종 프로필 확인">

@@ -72,7 +72,15 @@ export const validateProfileImage = (formData: UserProfile) => {
 
 export const validateSeatLocation = (formData: UserProfile) => {
   const errors: Record<string, string> = {}
-  console.log(formData)
+
+  if (
+    !formData.seatPosition.section ||
+    !formData.seatPosition.seat[0] ||
+    !formData.seatPosition.seat[1]
+  ) {
+    errors.seatPosition = '자리가 지정되지 않았습니다.'
+  }
+  console.log(formData, errors)
 
   return {
     isValid: Object.keys(errors).length === 0,

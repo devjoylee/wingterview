@@ -1,38 +1,34 @@
 import { useState } from 'react'
 import { createPortal } from 'react-dom'
 import { ProfileCard } from '@components/profile'
-import { SeatMap } from '@/components/common'
+import { ErrorMessage, SeatMap } from '@/components/common'
 import { useProfileStore } from '@/stores/profileStore'
 import styles from './styles.module.scss'
 
 export const SeatLocationStep = () => {
-  const { updateSeatPosition, selectedSeat, setSelectedSeat } =
+  const { updateSeatPosition, selectedSeat, setSelectedSeat, formErrors } =
     useProfileStore()
 
-  const { section, line, seat } = selectedSeat
+  const { section, seat } = selectedSeat
 
   const [showSeatMap, setShowSeatMap] = useState(false)
 
   const openSeatMap = () => setShowSeatMap(true)
   const closeSeatMap = () => setShowSeatMap(false)
 
-  const seatName = {
-    L: '왼쪽',
-    M: '중간',
-    R: '오른쪽',
-  }[seat as string]
+  const seatName = ['왼쪽', '중간', '오른쪽'][(seat[1] as number) - 1]
 
   const handleSeatSelect = (seatData: Seat) => {
     setSelectedSeat(seatData)
-
-    const row = seatData.line || 1
-    const col = parseInt(seatData.seat as string) || 1
-    updateSeatPosition([row, col])
+    updateSeatPosition(seatData)
   }
 
   return (
     <ProfileCard name="현재 위치 설정">
       <div className={styles.container}>
+        {formErrors.seatPosition && (
+          <ErrorMessage error={formErrors.seatPosition} />
+        )}
         <span className={styles.instruction}>
           아래 좌석 배치도 보기 버튼을 눌러 <br />
           본인의 자리를 지정해주세요.
@@ -48,7 +44,7 @@ export const SeatLocationStep = () => {
             <div className={styles.divider}></div>
 
             <div className={styles.seatInfo}>
-              <span className={styles.value}>{line || '?'}</span>
+              <span className={styles.value}>{seat[0] || '?'}</span>
               <span className={styles.label}>번째 줄</span>
             </div>
 
