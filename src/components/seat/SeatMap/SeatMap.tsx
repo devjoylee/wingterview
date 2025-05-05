@@ -1,8 +1,8 @@
 import { useRef } from 'react'
 import { X } from 'lucide-react'
-import styles from './styles.module.scss'
-import { SeatMapSection } from '@components/seat'
+import { SeatInfoCard, SeatMapSection } from '@components/seat'
 import { useProfileStore } from '@/stores/profileStore'
+import styles from './styles.module.scss'
 
 interface SeatMapProps {
   closeSeatMap: () => void
@@ -23,6 +23,12 @@ export const SeatMap = ({ closeSeatMap }: SeatMapProps) => {
       section,
       seat: [row + 1, col + 1],
     })
+  }
+
+  const confirmMySeat = () => {
+    if (selectedSeat) {
+      closeSeatMap()
+    }
   }
 
   const isSeletedByMe = ({ section, row, col }: SeatParams) =>
@@ -50,6 +56,14 @@ export const SeatMap = ({ closeSeatMap }: SeatMapProps) => {
               />
             ))}
           </div>
+        </div>
+
+        <div className={styles.infoCardContainer}>
+          <SeatInfoCard
+            selectedSeat={selectedSeat}
+            handleClick={confirmMySeat}
+            buttonLabel="자리 선택 완료"
+          />
         </div>
       </div>
     </div>
