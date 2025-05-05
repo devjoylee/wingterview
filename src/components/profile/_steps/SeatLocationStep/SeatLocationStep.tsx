@@ -1,13 +1,13 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { createPortal } from 'react-dom'
 import { ProfileCard } from '@components/profile'
-import { ErrorMessage, SeatMap } from '@/components/common'
+import { ErrorMessage } from '@/components/common'
+import { SeatMap } from '@/components/seat'
 import { useProfileStore } from '@/stores/profileStore'
 import styles from './styles.module.scss'
 
 export const SeatLocationStep = () => {
-  const { updateSeatPosition, selectedSeat, setSelectedSeat, formErrors } =
-    useProfileStore()
+  const { updateSeatPosition, selectedSeat, formErrors } = useProfileStore()
 
   const { section, seat } = selectedSeat
 
@@ -18,10 +18,9 @@ export const SeatLocationStep = () => {
 
   const seatName = ['왼쪽', '중간', '오른쪽'][(seat[1] as number) - 1]
 
-  const handleSeatSelect = (seatData: Seat) => {
-    setSelectedSeat(seatData)
-    updateSeatPosition(seatData)
-  }
+  useEffect(() => {
+    updateSeatPosition(selectedSeat)
+  }, [selectedSeat, updateSeatPosition])
 
   return (
     <ProfileCard name="현재 위치 설정">
@@ -63,14 +62,7 @@ export const SeatLocationStep = () => {
       </div>
 
       {showSeatMap &&
-        createPortal(
-          <SeatMap
-            selectedSeat={selectedSeat}
-            setSelectedSeat={handleSeatSelect}
-            closeSeatMap={closeSeatMap}
-          />,
-          document.body
-        )}
+        createPortal(<SeatMap closeSeatMap={closeSeatMap} />, document.body)}
     </ProfileCard>
   )
 }

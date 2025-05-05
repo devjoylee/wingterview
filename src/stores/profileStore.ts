@@ -12,15 +12,15 @@ interface ProfileState {
   formData: UserProfile
   currentStep: number
   swiper: SwiperType | null
-  selectedSeat: Seat
+  selectedSeat: SeatData
   formErrors: Record<string, string>
 
   updateBasicInfo: (name: string, nickname: string, curriculum: string) => void
   updateJobInterest: (interests: string[]) => void
   updateTechStack: (stacks: string[]) => void
   updateProfileImageUrl: (url: string | null) => void
-  updateSeatPosition: (seatPosition: Seat) => void
-  setSelectedSeat: (seat: Seat) => void
+  updateSeatPosition: (seatPosition: SeatData) => void
+  setSelectedSeat: (seat: SeatData) => void
 
   nextStep: () => void
   prevStep: () => void
