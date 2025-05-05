@@ -2,6 +2,7 @@ import { useRef } from 'react'
 import { X } from 'lucide-react'
 import { SeatInfoCard, SeatMapSection } from '@components/seat'
 import { useProfileStore } from '@/stores/profileStore'
+import { useSeatMapData } from '@/hooks'
 import styles from './styles.module.scss'
 
 interface SeatMapProps {
@@ -11,6 +12,9 @@ interface SeatMapProps {
 export const SeatMap = ({ closeSeatMap }: SeatMapProps) => {
   const contentRef = useRef<HTMLDivElement>(null)
   const { selectedSeat, setSelectedSeat } = useProfileStore()
+  const { data: seatMapData } = useSeatMapData()
+
+  console.log(seatMapData ? seatMapData : 'seatMapData 로딩 실패')
 
   const handleOverlayClick = (e: React.MouseEvent<HTMLDivElement>) => {
     if (e.target === e.currentTarget) {
