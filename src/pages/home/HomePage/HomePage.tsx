@@ -1,21 +1,14 @@
-import { useState } from 'react'
 import defaultImage from '@assets/default-profile.png'
 import styles from './styles.module.scss'
 import { Logo, StaticTag } from '@/components/common'
+import { useMyProfile } from '@/hooks/useMyProfile'
 
 export const HomePage: React.FC = () => {
-  const [userInfo, setUserInfo] = useState<UserData>({
-    nickname: 'joy.lee',
-    name: '이주영',
-    curriculum: '풀스택',
-    seatCode: 'A-03-M',
-    jobInterest: ['프론트엔드 개발자', '백엔드 개발자', '풀스택 개발자'],
-    techStack: ['React', 'TypeScript', 'Python'],
-    interviewCnt: 4,
-    profileImage: undefined,
-  })
+  const { data: myProfileData } = useMyProfile()
+  const { name, nickname, curriculum, jobInterest, techStack, interviewCnt } =
+    myProfileData
 
-  console.log(setUserInfo)
+  console.log(myProfileData)
 
   return (
     <div className={styles.homePage}>
@@ -35,16 +28,16 @@ export const HomePage: React.FC = () => {
 
             <div className={styles.basicInfo}>
               <h3 className={styles.name}>
-                {userInfo.nickname} ({userInfo.name})
+                {nickname} ({name})
               </h3>
-              <p className={styles.curriculum}>{userInfo.curriculum}</p>
+              <p className={styles.curriculum}>{curriculum}</p>
             </div>
           </div>
 
           <div className={styles.tagSection}>
             <h4 className={styles.title}>희망 직무</h4>
             <div className={styles.tagList}>
-              {userInfo.jobInterest.map((job, idx) => (
+              {jobInterest.map((job, idx) => (
                 <StaticTag key={idx} label={job} />
               ))}
             </div>
@@ -53,7 +46,7 @@ export const HomePage: React.FC = () => {
           <div className={styles.tagSection}>
             <h4 className={styles.title}>기술 스택</h4>
             <div className={styles.tagList}>
-              {userInfo.techStack.map((tech, idx) => (
+              {techStack.map((tech, idx) => (
                 <StaticTag key={idx} label={tech} dark />
               ))}
             </div>
@@ -61,7 +54,7 @@ export const HomePage: React.FC = () => {
         </div>
         <button className={styles.matchButton}>1:1 매칭 시작하기</button>
         <p className={styles.applicantCount}>
-          현재 신청자 수 : {userInfo.interviewCnt}명
+          현재 신청자 수 : {interviewCnt}명
         </p>
       </div>
     </div>
