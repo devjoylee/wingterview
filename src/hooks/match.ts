@@ -1,5 +1,9 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { enqueueMatching, fetchApplicantCount } from '@/api/matchAPI'
+import {
+  enqueueMatching,
+  fetchApplicantCount,
+  fetchMatchingResult,
+} from '@/api/matchAPI'
 
 export const useMatchStart = () => {
   const queryClient = useQueryClient()
@@ -24,5 +28,15 @@ export const useApplicantCount = () => {
     initialData: 0,
     staleTime: 5000,
     refetchInterval: 5000, // 5초마다 데이터 갱신
+  })
+}
+
+export const useMatchResult = (isMatching: boolean) => {
+  return useQuery({
+    queryKey: ['matchingResult'],
+    queryFn: fetchMatchingResult,
+    enabled: isMatching,
+    staleTime: 3000,
+    refetchInterval: isMatching ? 3000 : false,
   })
 }

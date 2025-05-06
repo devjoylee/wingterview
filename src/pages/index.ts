@@ -5,3 +5,5 @@ export { LoginRedirectPage } from './auth/LoginRedirectPage/LoginRedirectPage'
 export { ProfileSetupPage } from './auth/ProfileSetupPage/ProfileSetupPage'
 
 export { ComingSoonPage } from './common/ComingSoonPage/ComingSoonPage'
+
+export { MatchResultPage } from './match/MatchResultPage/MatchResultPage'

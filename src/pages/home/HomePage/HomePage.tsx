@@ -1,3 +1,5 @@
+import { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import styles from './styles.module.scss'
 import {
   Button,
@@ -6,15 +8,19 @@ import {
   ProfileCard,
 } from '@/components/common'
 import { useMyProfile } from '@/hooks/useMyProfile'
-import { useApplicantCount, useMatchStart } from '@/hooks/match'
-import { useState } from 'react'
+import { useApplicantCount, useMatchResult, useMatchStart } from '@/hooks/match'
 
 export const HomePage: React.FC = () => {
   const { data: myProfileData } = useMyProfile()
   const { data: applicantCount } = useApplicantCount()
   const { mutate: mutateMatchStart, isPending } = useMatchStart()
 
-  const [isMatching, setIsMatching] = useState<boolean>()
+  const [isMatching, setIsMatching] = useState<boolean>(false)
+
+  const { data: matchResult } = useMatchResult(isMatching)
+  const isMatched = !!matchResult?.data
+
+  const navigate = useNavigate()
 
   const handleMatchStart = () => {
     if (isPending) {
@@ -24,6 +30,12 @@ export const HomePage: React.FC = () => {
     mutateMatchStart()
     setIsMatching(true)
   }
+
+  useEffect(() => {
+    if (isMatched) {
+      navigate('/match/result') // 매칭 완료 시 결과 페이지로 이동
+    }
+  }, [isMatched, navigate])
 
   return (
     <div className={styles.homePage}>
