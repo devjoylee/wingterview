@@ -6,9 +6,12 @@ interface BaseProfile {
   techStack: string[]
 }
 
-interface ProfileForm extends BaseProfile {
+interface ProfileFormData extends BaseProfile {
   profileImageUrl: string | null
-  seatPosition: [number, number]
+  seatPosition: {
+    section: string | null
+    seat: [number | null, number | null]
+  }
 }
 
 interface UserData extends BaseProfile {
