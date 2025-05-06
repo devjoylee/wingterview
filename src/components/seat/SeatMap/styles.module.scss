@@ -1,0 +1,97 @@
+@import '@/styles/variables';
+
+.seatMapOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.seatMapModal {
+  background-color: white;
+  border-radius: 8px;
+  width: 95%;
+  max-width: 850px;
+  max-height: 90vh;
+  padding: 20px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  position: relative;
+
+  @media (max-width: 1000px) {
+    width: 95%;
+    max-width: 95%;
+  }
+}
+
+.closeButton {
+  display: block;
+  margin-left: auto;
+  padding: 10px;
+  padding-right: 0;
+}
+
+.entrance {
+  font-size: 15px;
+  font-weight: 600;
+  background-color: #444;
+  margin-bottom: 16px;
+  padding: 4px 0;
+  color: white;
+  text-align: center;
+  border-radius: 4px;
+  letter-spacing: 3px;
+}
+
+.seatSections {
+  display: flex;
+}
+
+.scrollContainer {
+  overflow: auto;
+  width: 103%;
+  max-height: calc(90vh - 120px);
+
+  padding-bottom: 220px;
+
+  &::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 4px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 4px;
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    background: #555;
+  }
+}
+
+.infoCardContainer {
+  width: 100%;
+  padding: 0 30px 50px;
+
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  text-align: center;
+
+  .errorMessage {
+    display: inline-block;
+    background: #333;
+    border-radius: 12px;
+    padding: 2px 10px;
+  }
+}

@@ -1,6 +1,12 @@
-interface Seat {
+interface SeatData {
   section: string | null
   seat: [number | null, number | null]
+}
+
+interface SeatParams {
+  section: string
+  row: number
+  col: number
 }
 
 interface UserProfile {
@@ -10,7 +16,7 @@ interface UserProfile {
   jobInterest: string[]
   techStack: string[]
   profileImageUrl: string | null
-  seatPosition: Seat
+  seatPosition: SeatData
 }
 
 interface ApiResponse<T = null> {
