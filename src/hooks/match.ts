@@ -1,5 +1,5 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { enqueueMatching } from '@/api/matchAPI'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { enqueueMatching, fetchApplicantCount } from '@/api/matchAPI'
 
 export const useMatchStart = () => {
   const queryClient = useQueryClient()
@@ -14,5 +14,15 @@ export const useMatchStart = () => {
     onError: error => {
       console.error('매칭 신청 오류:', error)
     },
+  })
+}
+
+export const useApplicantCount = () => {
+  return useQuery<number>({
+    queryKey: ['applicantCount'],
+    queryFn: fetchApplicantCount,
+    initialData: 0,
+    staleTime: 5000,
+    refetchInterval: 5000, // 5초마다 데이터 갱신
   })
 }

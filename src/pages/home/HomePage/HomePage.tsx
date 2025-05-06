@@ -6,15 +6,15 @@ import {
   ProfileCard,
 } from '@/components/common'
 import { useMyProfile } from '@/hooks/useMyProfile'
-import { useMatchStart } from '@/hooks/match'
+import { useApplicantCount, useMatchStart } from '@/hooks/match'
 import { useState } from 'react'
 
 export const HomePage: React.FC = () => {
   const { data: myProfileData } = useMyProfile()
+  const { data: applicantCount } = useApplicantCount()
   const { mutate: mutateMatchStart, isPending } = useMatchStart()
-  const [isMatching, setIsMatching] = useState<boolean>()
 
-  const { interviewCnt } = myProfileData
+  const [isMatching, setIsMatching] = useState<boolean>()
 
   const handleMatchStart = () => {
     if (isPending) {
@@ -48,7 +48,7 @@ export const HomePage: React.FC = () => {
         </div>
 
         <p className={styles.applicantCount}>
-          현재 신청자 수 : {interviewCnt}명
+          현재 신청자 수 : {applicantCount}명
         </p>
       </div>
     </div>
