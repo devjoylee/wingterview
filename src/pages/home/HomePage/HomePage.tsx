@@ -1,20 +1,28 @@
 import styles from './styles.module.scss'
-import { Button, Logo, ProfileCard } from '@/components/common'
+import {
+  Button,
+  LoadingIndicator,
+  Logo,
+  ProfileCard,
+} from '@/components/common'
 import { useMyProfile } from '@/hooks/useMyProfile'
 import { useMatchStart } from '@/hooks/match'
+import { useState } from 'react'
 
 export const HomePage: React.FC = () => {
   const { data: myProfileData } = useMyProfile()
-  const { mutate: mutateMatchStart, isPending: isMatching } = useMatchStart()
+  const { mutate: mutateMatchStart, isPending } = useMatchStart()
+  const [isMatching, setIsMatching] = useState<boolean>()
 
   const { interviewCnt } = myProfileData
 
   const handleMatchStart = () => {
-    if (isMatching) {
+    if (isPending) {
       console.log('이미 매칭이 진행 중 입니다.')
       return // 중복 요청 방지
     }
     mutateMatchStart()
+    setIsMatching(true)
   }
 
   return (
@@ -31,11 +39,13 @@ export const HomePage: React.FC = () => {
       <div className={styles.pageContent}>
         <ProfileCard userData={myProfileData} />
 
-        <Button
-          onClick={handleMatchStart}
-          disabled={isMatching}
-          text="1:1 매칭 시작하기"
-        />
+        <div className={styles.matchingState}>
+          {isMatching ? (
+            <LoadingIndicator size={60} text="매칭 진행 중..." />
+          ) : (
+            <Button onClick={handleMatchStart} text="1:1 매칭 시작하기" />
+          )}
+        </div>
 
         <p className={styles.applicantCount}>
           현재 신청자 수 : {interviewCnt}명

@@ -52,8 +52,7 @@ export const LoginRedirectPage: React.FC = () => {
 
   return (
     <div className={styles.loginRedirectPage}>
-      <LoadingIndicator />
-      <p>로그인 중...</p>
+      <LoadingIndicator text="로그인 중..." />
     </div>
   )
 }
