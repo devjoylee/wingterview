@@ -10,3 +10,4 @@ export { ErrorMessage } from './_ui/ErrorMessage/ErrorMessage'
 export { Logo } from './_ui/Logo/Logo'
 
 export { Navbar } from './Navbar/Navbar'
+export { ProfileCard } from './ProfileCard/ProfileCard'

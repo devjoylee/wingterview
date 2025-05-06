@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { createPortal } from 'react-dom'
-import { ProfileCard } from '@components/profile'
+import { ProfileFormLayout } from '@components/profile'
 import { ErrorMessage } from '@/components/common'
 import { SeatMap, SeatInfoCard } from '@/components/seat'
 import { useProfileStore } from '@/stores/profileStore'
@@ -18,7 +18,7 @@ export const SeatLocationStep = () => {
   }, [selectedSeat, updateSeatPosition])
 
   return (
-    <ProfileCard name="현재 위치 설정">
+    <ProfileFormLayout name="현재 위치 설정">
       <div className={styles.container}>
         {formErrors.seatPosition && (
           <ErrorMessage error={formErrors.seatPosition} />
@@ -37,6 +37,6 @@ export const SeatLocationStep = () => {
 
       {showSeatMap &&
         createPortal(<SeatMap closeSeatMap={closeSeatMap} />, document.body)}
-    </ProfileCard>
+    </ProfileFormLayout>
   )
 }

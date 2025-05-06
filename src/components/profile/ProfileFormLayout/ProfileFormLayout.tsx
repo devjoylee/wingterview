@@ -1,13 +1,16 @@
 import styles from './styles.module.scss'
 
-interface ProfileCardProps {
+interface ProfileFormLayoutProps {
   name: string
   children: React.ReactNode
 }
 
-export const ProfileCard: React.FC<ProfileCardProps> = ({ name, children }) => {
+export const ProfileFormLayout: React.FC<ProfileFormLayoutProps> = ({
+  name,
+  children,
+}) => {
   return (
-    <div className={styles.profileCard}>
+    <div className={styles.profileLayout}>
       <div className={styles.container}>
         <h3 className={styles.name}>{name}</h3>
         {children}
