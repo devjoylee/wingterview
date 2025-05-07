@@ -1,0 +1,102 @@
+@import '@/styles/variables';
+
+.matchInfoCard {
+  width: 90%;
+  border-radius: 20px;
+  margin-top: -80px;
+  background: #fff;
+  border: 10px solid $primary;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.container {
+  display: flex;
+  padding: 20px 15px;
+}
+
+.profileImage {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  border: 1px solid #e1e1e1;
+}
+
+.profileData {
+  flex: 1;
+
+  .name {
+    font-weight: 600;
+    font-size: 15px;
+    margin: 0 6px 6px;
+  }
+}
+
+.myStacks {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+
+  & + & {
+    margin-top: 5px;
+  }
+
+  div {
+    margin: 0 5px;
+    height: 20px;
+    line-height: 1;
+  }
+
+  p {
+    flex: 1;
+    font-size: 13px;
+    word-break: keep-all;
+  }
+}
+
+.interviewerCard {
+  .profileImage {
+    margin-right: 10px;
+    margin-top: 10px;
+  }
+}
+
+.intervieweeCard {
+  background-color: $primary;
+  text-align: right;
+  color: #fff;
+
+  .profileImage {
+    margin-left: 10px;
+  }
+}
+
+.roleName {
+  display: flex;
+  justify-content: space-between;
+
+  div {
+    flex: 1;
+    text-align: center;
+    letter-spacing: 1px;
+    font-size: 15px;
+  }
+
+  p {
+    padding: 10px 0;
+  }
+
+  .interviewer {
+    background-color: $primary;
+    p {
+      border-bottom-right-radius: 25px;
+      background-color: #fff;
+    }
+  }
+
+  .interviewee {
+    border-top-left-radius: 25px;
+    background-color: $primary;
+    color: #fff;
+    position: relative;
+  }
+}

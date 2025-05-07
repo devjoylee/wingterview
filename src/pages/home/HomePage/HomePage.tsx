@@ -25,14 +25,17 @@ export const HomePage: React.FC = () => {
       console.log('이미 매칭이 진행 중 입니다.')
       return // 중복 요청 방지
     }
+
+    setTimeout(() => {
+      navigate('/match/result')
+    }, 3000)
+
     mutateMatchStart()
     setIsMatching(true)
   }
 
   useEffect(() => {
-    if (isMatched) {
-      navigate('/match/result') // 매칭 완료 시 결과 페이지로 이동
-    }
+    if (isMatched) navigate('/match/result') // 매칭 완료 시 결과 페이지로 이동
   }, [isMatched, navigate])
 
   return (
