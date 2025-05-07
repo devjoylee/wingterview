@@ -1,22 +1,31 @@
 import defaultImage from '@assets/default-profile.png'
 import styles from './styles.module.scss'
 import { StaticTag } from '@/components/common'
+import { MapPin } from 'lucide-react'
 
 interface MatchInfoCardProps {
-  interviewer: BaseProfile
-  interviewee: BaseProfile
+  interviewer: UserData
+  interviewee: UserData
 }
 
 export const MatchInfoCard: React.FC<MatchInfoCardProps> = ({
   interviewer,
   interviewee,
 }: MatchInfoCardProps) => {
-  console.log(interviewer, interviewee)
-
   return (
     <div className={styles.matchInfoCard}>
       <div className={`${styles.container} ${styles.interviewerCard}`}>
-        <img src={defaultImage} alt="profile" className={styles.profileImage} />
+        <div className={styles.imageWrapper}>
+          <img
+            src={defaultImage}
+            alt="profile"
+            className={styles.profileImage}
+          />
+          <span className={styles.seatCode}>
+            <MapPin />
+            {interviewer.seatCode}
+          </span>
+        </div>
         <div className={styles.profileData}>
           <h3 className={styles.name}>
             {`${interviewer.nickname} (${interviewer.name}) / ${interviewer.curriculum}`}

@@ -7,7 +7,9 @@ import {
   Logo,
   ProfileCard,
 } from '@/components/common'
-import { useApplicantCount, useMatchResult, useMatchStart } from '@/hooks/match'
+import { useApplicantCount, useMatchStart } from '@/hooks/match'
+import { useMatchStore } from '@/stores/matchStore'
+import { fetchMatchingResult } from '@/api/matchAPI'
 
 export const HomePage: React.FC = () => {
   const { data: applicantCount } = useApplicantCount()
@@ -15,28 +17,38 @@ export const HomePage: React.FC = () => {
 
   const [isMatching, setIsMatching] = useState<boolean>(false)
 
-  const { data: matchResult } = useMatchResult(isMatching)
-  const isMatched = !!matchResult?.data
+  // const { data: matchResult } = useMatchResult(isMatching)
+
+  const { matchResult, setMatchResult } = useMatchStore()
 
   const navigate = useNavigate()
 
-  const handleMatchStart = () => {
+  const handleMatchStart = async () => {
     if (isPending) {
       console.log('이미 매칭이 진행 중 입니다.')
       return // 중복 요청 방지
     }
 
-    setTimeout(() => {
-      navigate('/match/result')
-    }, 3000)
-
     mutateMatchStart()
     setIsMatching(true)
+
+    const { data: matched } = await fetchMatchingResult()
+
+    if (matched) {
+      setMatchResult(matched)
+      navigate('/match/result')
+    }
+
+    // setTimeout(() => {
+    //   navigate('/match/result')
+    // }, 3000)
   }
 
   useEffect(() => {
-    if (isMatched) navigate('/match/result') // 매칭 완료 시 결과 페이지로 이동
-  }, [isMatched, navigate])
+    if (matchResult) {
+      navigate('/match/result')
+    }
+  }, [navigate, matchResult])
 
   return (
     <div className={styles.homePage}>
