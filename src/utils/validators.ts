@@ -80,7 +80,6 @@ export const validateSeatLocation = (formData: ProfileFormData) => {
   ) {
     errors.seatPosition = '자리가 지정되지 않았습니다.'
   }
-  console.log(formData, errors)
 
   return {
     isValid: Object.keys(errors).length === 0,
