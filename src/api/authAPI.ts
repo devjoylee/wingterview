@@ -5,13 +5,13 @@ interface LoginData {
   isNewUser: boolean
 }
 
+const API_URL = import.meta.env.VITE_API_URL || ''
+
 // no interceptors
 export const kakaoLogin = async (authCode: string) => {
   try {
-    const API_URL = import.meta.env.VITE_API_URL || ''
-
     const response = await axios.post<ApiResponse<LoginData>>(
-      `${API_URL}/auth/oauth/kakao`,
+      `${API_URL}/api/auth/oauth/kakao`,
       {
         code: authCode,
       },
