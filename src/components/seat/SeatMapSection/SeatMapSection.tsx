@@ -24,31 +24,33 @@ export const SeatMapSection = ({
     <section className={styles.section}>
       <h3 className={styles.sectionName}>{section}</h3>
       <div className={styles.lineContainer}>
-        {Array.from({ length: 18 }, (_, row) => {
-          const ryan = ryans.find(
-            r => r.section === section && r.row === row + 1
-          )
+        {Array.from({ length: 18 }, (_, idx) => {
+          const row = idx + 1
+          const ryan = ryans.find(r => r.section === section && r.row === row)
 
           return (
             <div key={`${section}-${row}`} className={styles.line}>
               {section !== 'B' && (
-                <div className={styles.lineNumber}>{row + 1}</div>
+                <div className={styles.lineNumber}>{row}</div>
               )}
 
               <div className={styles.seatWrapper}>
-                {Array.from({ length: 3 }, (_, col) => (
-                  <div
-                    key={`${section}-${row}-${col}`}
-                    className={`${styles.seat} ${
-                      isSeletedByMe({ section, row, col })
-                        ? styles.selected
-                        : ''
-                    }`}
-                    onClick={() => handleSeatSelect({ section, row, col })}
-                  >
-                    {['L', 'M', 'R'][col]}
-                  </div>
-                ))}
+                {Array.from({ length: 3 }, (_, idx) => {
+                  const col = idx + 1
+                  return (
+                    <div
+                      key={`${section}-${row}-${col}`}
+                      className={`${styles.seat} ${
+                        isSeletedByMe({ section, row, col })
+                          ? styles.selected
+                          : ''
+                      }`}
+                      onClick={() => handleSeatSelect({ section, row, col })}
+                    >
+                      {['L', 'M', 'R'][col - 1]}
+                    </div>
+                  )
+                })}
               </div>
 
               {ryan ? (

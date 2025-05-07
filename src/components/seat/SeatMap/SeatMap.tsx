@@ -1,11 +1,11 @@
-import { useRef, useState } from 'react'
-import { X } from 'lucide-react'
+import { useEffect, useRef, useState } from 'react'
 import { SeatInfoCard, SeatMapSection } from '@components/seat'
 import { ErrorMessage } from '@/components/common'
-import { blockSeat, checkSeatOccupied } from '@/api/seatAPI'
+import { blockSeat } from '@/api/seatAPI'
 import { useProfileStore } from '@/stores/profileStore'
-import { useSeatMapData } from '@/hooks'
+import { useCheckSeatState, useSeatMapData } from '@/hooks/seat'
 import styles from './styles.module.scss'
+import { X } from 'lucide-react'
 
 interface SeatMapProps {
   closeSeatMap: () => void
@@ -17,15 +17,9 @@ export const SeatMap = ({ closeSeatMap }: SeatMapProps) => {
   const { data: seatMapData } = useSeatMapData()
 
   const [error, setError] = useState<string | null>(null)
+  const [seatId, setSeatId] = useState<string>('')
 
-  console.log(seatMapData ? seatMapData : 'seatMapData 로딩 실패')
-
-  const {
-    section,
-    seat: [row, col],
-  } = selectedSeat
-
-  const seatId = `${section}-${row}-${col}`
+  const { refetch: checkIfOccupied } = useCheckSeatState(seatId)
 
   const handleOverlayClick = (e: React.MouseEvent<HTMLDivElement>) => {
     if (e.target === e.currentTarget) {
@@ -34,19 +28,23 @@ export const SeatMap = ({ closeSeatMap }: SeatMapProps) => {
   }
 
   const handleSeatSelect = async ({ section, row, col }: SeatParams) => {
+    const clickedSeatId = `${section}-${row}-${col}`
+    if (seatId === clickedSeatId) return
+
     setSelectedSeat({
       section,
-      seat: [row + 1, col + 1],
+      seat: [row, col],
     })
 
+    setSeatId(clickedSeatId)
+
     try {
-      const isOccupiedByOther = await checkSeatOccupied(seatId)
+      const { data: isOccupiedByOther } = await checkIfOccupied()
 
       if (isOccupiedByOther) {
         setError('이미 다른 사람이 선택한 자리입니다.')
         return
       }
-
       setError(null)
     } catch (error) {
       console.error('자리 확인 중 오류 발생:', error)
@@ -62,8 +60,8 @@ export const SeatMap = ({ closeSeatMap }: SeatMapProps) => {
 
     try {
       await blockSeat(seatId)
-      setError(null)
       closeSeatMap()
+      setError(null)
     } catch (error) {
       console.error('자리 선택 중 오류 발생:', error)
       // setError('자리 선택 중 오류가 발생했습니다.')
@@ -72,8 +70,12 @@ export const SeatMap = ({ closeSeatMap }: SeatMapProps) => {
 
   const isSeletedByMe = ({ section, row, col }: SeatParams) =>
     selectedSeat.section === section &&
-    selectedSeat.seat[0] === row + 1 &&
-    selectedSeat.seat[1] === col + 1
+    selectedSeat.seat[0] === row &&
+    selectedSeat.seat[1] === col
+
+  useEffect(() => {
+    console.log(seatMapData ? seatMapData : 'seatMapData 로딩 실패')
+  }, [seatMapData])
 
   return (
     <div className={styles.seatMapOverlay} onClick={handleOverlayClick}>
