@@ -7,11 +7,9 @@ import {
   Logo,
   ProfileCard,
 } from '@/components/common'
-import { useMyProfile } from '@/hooks/useMyProfile'
 import { useApplicantCount, useMatchResult, useMatchStart } from '@/hooks/match'
 
 export const HomePage: React.FC = () => {
-  const { data: myProfileData } = useMyProfile()
   const { data: applicantCount } = useApplicantCount()
   const { mutate: mutateMatchStart, isPending } = useMatchStart()
 
@@ -49,7 +47,7 @@ export const HomePage: React.FC = () => {
       </div>
 
       <div className={styles.pageContent}>
-        <ProfileCard userData={myProfileData} />
+        <ProfileCard />
 
         <div className={styles.matchingState}>
           {isMatching ? (

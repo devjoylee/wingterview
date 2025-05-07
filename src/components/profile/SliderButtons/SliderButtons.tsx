@@ -3,15 +3,39 @@ import { useSwiper } from 'swiper/react'
 import { useState, useEffect } from 'react'
 import { useProfileStore } from '@/stores/profileStore'
 import { submitUserProfile } from '@/api/profileAPI'
+import { useNavigate } from 'react-router-dom'
 
 export const SliderButtons: React.FC = () => {
   const swiper = useSwiper()
-  const { formData, validateCurrentStep, formErrors, prevStep, nextStep } =
+  const { formData, validateCurrentStep, prevStep, nextStep } =
     useProfileStore()
 
   const [isBeginning, setIsBeginning] = useState(true)
   const [isEnd, setIsEnd] = useState(false)
   const [currentStep, setCurrentStep] = useState(0)
+
+  const navigate = useNavigate()
+
+  const isLastStep = currentStep === 5
+
+  const handlePrev = () => prevStep()
+
+  const handleNext = () => {
+    const isValid = validateCurrentStep()
+    if (isValid) nextStep()
+  }
+
+  const handleSubmit = async () => {
+    console.log('최종 제출 데이터: ', formData)
+    try {
+      await submitUserProfile(formData)
+      localStorage.setItem('myProfile', JSON.stringify(formData))
+      navigate('/')
+      console.log('제출 완료! 🎉')
+    } catch (error) {
+      console.error('제출 실패:', error)
+    }
+  }
 
   useEffect(() => {
     if (!swiper) return
@@ -34,30 +58,6 @@ export const SliderButtons: React.FC = () => {
       swiper.off('reachEnd', updateState)
     }
   }, [swiper])
-
-  const handlePrev = () => prevStep()
-  const handleNext = () => {
-    const isValid = validateCurrentStep()
-
-    if (isValid) {
-      nextStep()
-    } else {
-      console.log(`${currentStep + 1} 단계 유효성 검사 실패:`, formErrors)
-    }
-  }
-
-  const handleSubmit = async () => {
-    console.log('최종 제출 데이터: ', formData)
-    try {
-      await submitUserProfile(formData)
-      localStorage.setItem('form', JSON.stringify(formData))
-      console.log('제출 완료! 🎉')
-    } catch (error) {
-      console.error('제출 실패:', error)
-    }
-  }
-
-  const isLastStep = currentStep === 5
 
   return (
     <div className={styles.sliderBtns}>
