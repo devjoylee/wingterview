@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import styles from './styles.module.scss'
-import { ProfileCard } from '@components/profile'
+import { ProfileFormLayout } from '@components/profile'
 import { ClickableTag, ErrorMessage } from '@/components/common'
 import { useProfileStore } from '@/stores/profileStore'
 
@@ -35,7 +35,7 @@ export const JobInterestStep: React.FC = () => {
   }, [selected, updateJobInterest])
 
   return (
-    <ProfileCard name="희망 직무">
+    <ProfileFormLayout name="희망 직무">
       <div className={styles.container}>
         <div className={styles.instruction}>
           {formErrors.jobInterest ? (
@@ -56,6 +56,6 @@ export const JobInterestStep: React.FC = () => {
           ))}
         </div>
       </div>
-    </ProfileCard>
+    </ProfileFormLayout>
   )
 }

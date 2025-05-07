@@ -9,7 +9,7 @@ import {
 } from '@/utils/validators'
 
 interface ProfileState {
-  formData: UserProfile
+  formData: ProfileFormData
   currentStep: number
   swiper: SwiperType | null
   selectedSeat: SeatData
@@ -30,7 +30,7 @@ interface ProfileState {
   setFormErrors: (errors: Record<string, string>) => void
 }
 
-const initialFormData: UserProfile = {
+const initialFormData: ProfileFormData = {
   name: '',
   nickname: '',
   curriculum: '',

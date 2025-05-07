@@ -1,5 +1,5 @@
 import styles from './styles.module.scss'
-import { ProfileCard } from '@components/profile'
+import { ProfileFormLayout } from '@components/profile'
 import { StaticTag } from '@/components/common'
 import { MapPin } from 'lucide-react'
 import defaultImage from '@assets/default-profile.png'
@@ -19,7 +19,7 @@ export const FinalConfirmStep = () => {
   const seatCode = `${section}-${rowToString}-${colToString}`
 
   return (
-    <ProfileCard name="최종 프로필 확인">
+    <ProfileFormLayout name="최종 프로필 확인">
       <div className={styles.container}>
         <div className={styles.profileHeader}>
           <div className={styles.thumbnail}>
@@ -63,6 +63,6 @@ export const FinalConfirmStep = () => {
           </div>
         </div>
       </div>
-    </ProfileCard>
+    </ProfileFormLayout>
   )
 }

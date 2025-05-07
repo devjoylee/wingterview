@@ -1,6 +1,6 @@
 import apiClient from '@/api/apiClient'
 
-export const submitUserProfile = async (profileData: UserProfile) => {
+export const submitUserProfile = async (profileData: ProfileFormData) => {
   try {
     const response = await apiClient.put<ApiResponse<null>>(
       '/user',

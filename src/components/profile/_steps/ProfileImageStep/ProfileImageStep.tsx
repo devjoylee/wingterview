@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import styles from './styles.module.scss'
-import { ProfileCard } from '@components/profile'
+import { ProfileFormLayout } from '@components/profile'
 import { Pencil } from 'lucide-react'
 import defaultImage from '@assets/default-profile.png'
 import { useProfileStore } from '@/stores/profileStore'
@@ -25,7 +25,7 @@ export const ProfileImageStep = () => {
   }, [newImage, updateProfileImageUrl])
 
   return (
-    <ProfileCard name="프로필 사진">
+    <ProfileFormLayout name="프로필 사진">
       <div className={styles.container}>
         <div className={styles.imageWrapper}>
           <div className={styles.thumbnail}>
@@ -43,6 +43,6 @@ export const ProfileImageStep = () => {
           </label>
         </div>
       </div>
-    </ProfileCard>
+    </ProfileFormLayout>
   )
 }

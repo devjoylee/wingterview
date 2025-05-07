@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import styles from './styles.module.scss'
-import { ProfileCard } from '@components/profile'
+import { ProfileFormLayout } from '@components/profile'
 import { ClickableTag, ErrorMessage } from '@/components/common'
 import { useProfileStore } from '@/stores/profileStore'
 
@@ -37,7 +37,7 @@ export const TechStackStep: React.FC = () => {
   }, [selected, updateTechStack])
 
   return (
-    <ProfileCard name="기술 스택">
+    <ProfileFormLayout name="기술 스택">
       <div className={styles.container}>
         <div className={styles.instruction}>
           {formErrors.techStack ? (
@@ -58,6 +58,6 @@ export const TechStackStep: React.FC = () => {
           ))}
         </div>
       </div>
-    </ProfileCard>
+    </ProfileFormLayout>
   )
 }

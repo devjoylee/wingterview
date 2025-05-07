@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { ProfileCard } from '@components/profile'
+import { ProfileFormLayout } from '@components/profile'
 import { Dropdown, ErrorMessage } from '@components/common'
 import styles from './styles.module.scss'
 import { useProfileStore } from '@/stores/profileStore'
@@ -40,7 +40,7 @@ export const BasicInfoStep: React.FC = () => {
   ])
 
   return (
-    <ProfileCard name="기본 정보">
+    <ProfileFormLayout name="기본 정보">
       <div className={styles.container}>
         <div className={styles.inputWrapper}>
           <input
@@ -82,6 +82,6 @@ export const BasicInfoStep: React.FC = () => {
           )}
         </div>
       </div>
-    </ProfileCard>
+    </ProfileFormLayout>
   )
 }
