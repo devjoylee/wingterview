@@ -1,4 +1,4 @@
-export const validateBasicInfo = (formData: UserProfile) => {
+export const validateBasicInfo = (formData: ProfileFormData) => {
   const nameRegex = /^[가-힣]+$/ // 한글만 포함하는지 체크
   const nicknameRegex = /^[a-zA-Z]+\.[a-zA-Z]+$/ // 닉네임 형식(영어이름.영어성) 체크
 
@@ -30,7 +30,7 @@ export const validateBasicInfo = (formData: UserProfile) => {
   }
 }
 
-export const validateJobInterest = (formData: UserProfile) => {
+export const validateJobInterest = (formData: ProfileFormData) => {
   const errors: Record<string, string> = {}
 
   if (formData.jobInterest.length === 0) {
@@ -43,7 +43,7 @@ export const validateJobInterest = (formData: UserProfile) => {
   }
 }
 
-export const validateTechStack = (formData: UserProfile) => {
+export const validateTechStack = (formData: ProfileFormData) => {
   const errors: Record<string, string> = {}
 
   if (formData.techStack.length === 0) {
@@ -56,7 +56,7 @@ export const validateTechStack = (formData: UserProfile) => {
   }
 }
 
-export const validateProfileImage = (formData: UserProfile) => {
+export const validateProfileImage = (formData: ProfileFormData) => {
   const errors: Record<string, string> = {}
 
   if (formData.profileImageUrl) {
@@ -70,7 +70,7 @@ export const validateProfileImage = (formData: UserProfile) => {
   }
 }
 
-export const validateSeatLocation = (formData: UserProfile) => {
+export const validateSeatLocation = (formData: ProfileFormData) => {
   const errors: Record<string, string> = {}
 
   if (
