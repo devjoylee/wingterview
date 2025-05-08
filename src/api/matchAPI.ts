@@ -28,7 +28,7 @@ export const fetchApplicantCount = async () => {
 export const fetchMatchingResult = async () => {
   try {
     const response =
-      await apiClient.get<ApiResponse<UserData>>('/matching/result')
+      await apiClient.get<ApiResponse<MatchResultData>>('/matching/result')
     console.log('🎉 매칭 결과 조회 성공:', response.data)
     return response.data
   } catch (error) {
