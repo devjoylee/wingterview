@@ -33,7 +33,7 @@ export const MatchResultPage: React.FC = () => {
 
   const data = matchResult || dummyData
 
-  const iamInterviewer = me.nickname === data.interviewer.nickname
+  const iamInterviewer = matchResult?.isFirstInterviewer
 
   return (
     <div className={styles.matchResultPage}>

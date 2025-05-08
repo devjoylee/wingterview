@@ -7,9 +7,9 @@ import {
   Logo,
   ProfileCard,
 } from '@/components/common'
-import { useApplicantCount, useMatchStart } from '@/hooks/match'
-import { useMatchStore } from '@/stores/matchStore'
+import { useApplicantCount, useMatchResult, useMatchStart } from '@/hooks/match'
 import { fetchMatchingResult } from '@/api/matchAPI'
+import { useMatchStore } from '@/stores/matchStore'
 
 export const HomePage: React.FC = () => {
   const { data: applicantCount } = useApplicantCount()
@@ -17,9 +17,9 @@ export const HomePage: React.FC = () => {
 
   const [isMatching, setIsMatching] = useState<boolean>(false)
 
-  // const { data: matchResult } = useMatchResult(isMatching)
+  const { data: matchResult } = useMatchResult(isMatching)
 
-  const { matchResult, setMatchResult } = useMatchStore()
+  const { setMatchResult } = useMatchStore()
 
   const navigate = useNavigate()
 
