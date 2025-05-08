@@ -1,5 +1,10 @@
 import { RouteObject } from 'react-router-dom'
-import { RootLayout, ProtectedLayout, Page } from '@/components/common'
+import {
+  RootLayout,
+  ProtectedLayout,
+  Page,
+  InterviewLayout,
+} from '@/components/common'
 import * as P from '@/pages'
 
 const routes: RouteObject[] = [
@@ -19,6 +24,20 @@ const routes: RouteObject[] = [
               { index: true, element: <P.HomePage /> },
               { path: 'match/result', element: <P.MatchResultPage /> },
               { path: 'coming-soon', element: <P.ComingSoonPage /> },
+
+              {
+                path: 'interview',
+                element: <InterviewLayout />,
+                children: [
+                  { path: 'awaiting', element: <P.InterviewAwaitingPage /> },
+                  {
+                    path: 'question',
+                    element: <P.InterviewQuestionPage />,
+                  },
+                  { path: 'answer', element: <P.InterviewAnswerPage /> },
+                  { path: 'feedback', element: <P.InterviewFeedbackPage /> },
+                ],
+              },
             ],
           },
 
