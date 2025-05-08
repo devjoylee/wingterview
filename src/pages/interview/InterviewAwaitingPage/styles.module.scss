@@ -1,0 +1,51 @@
+@import '@/styles/variables';
+
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+}
+
+.awaitingScreen {
+  flex: 1;
+  text-align: center;
+
+  h2 {
+    font-size: 24px;
+    font-weight: 700;
+    margin-top: 80px;
+    margin-bottom: 50px;
+    color: #333;
+  }
+
+  button {
+    width: 100px;
+    height: 100px;
+    background-color: #333;
+    color: #fff;
+    border-radius: 50%;
+  }
+}
+
+.intervieweeCard {
+  border-top-left-radius: 25px;
+  border-top-right-radius: 25px;
+  background-color: #fff;
+  padding: 40px 20px;
+
+  h3 {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+}
+
+.cardInfoWrapper {
+  display: flex;
+  align-items: start;
+
+  img {
+    width: 70px;
+    margin-right: 20px;
+  }
+}

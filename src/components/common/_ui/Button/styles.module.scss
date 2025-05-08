@@ -2,8 +2,12 @@
 
 .button {
   font-size: 14px;
-  background: $primary;
+  background: #02467d;
   color: #fff;
   padding: 10px 20px;
   border-radius: 5px;
+
+  &:disabled {
+    opacity: 0.5;
+  }
 }

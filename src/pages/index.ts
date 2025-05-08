@@ -7,3 +7,8 @@ export { ProfileSetupPage } from './auth/ProfileSetupPage/ProfileSetupPage'
 export { ComingSoonPage } from './common/ComingSoonPage/ComingSoonPage'
 
 export { MatchResultPage } from './match/MatchResultPage/MatchResultPage'
+
+export { InterviewAwaitingPage } from './interview/InterviewAwaitingPage/InterviewAwaitingPage'
+export { InterviewQuestionPage } from './interview/InterviewQuestionPage/InterviewQuestionPage'
+export { InterviewAnswerPage } from './interview/InterviewAnswerPage/InterviewAnswerPage'
+export { InterviewFeedbackPage } from './interview/InterviewFeedbackPage/InterviewFeedbackPage'
