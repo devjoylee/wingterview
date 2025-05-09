@@ -10,6 +10,7 @@ export { ClickableTag } from './_ui/ClickableTag/ClickableTag'
 export { ErrorMessage } from './_ui/ErrorMessage/ErrorMessage'
 export { Logo } from './_ui/Logo/Logo'
 export { Button } from './_ui/Button/Button'
+export { Modal } from './_ui/Modal/Modal'
 
 export { Navbar } from './Navbar/Navbar'
 export { ProfileCard } from './ProfileCard/ProfileCard'
