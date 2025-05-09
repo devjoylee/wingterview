@@ -1,9 +1,10 @@
 import {
   generateQuestion,
+  getInterviewStatus,
   sendSelectedQuestion,
   updateInterviewStatus,
 } from '@/api/interviewAPI'
-import { useMutation } from '@tanstack/react-query'
+import { useMutation, useQuery } from '@tanstack/react-query'
 
 export const useUpdateInterviewStatus = (options?: {
   onSuccess?: (data: ApiResponse<InterviewStatusData>) => void
@@ -43,5 +44,14 @@ export const useSelectedQuestion = (options?: {
       sendSelectedQuestion(params.interviewId, params.selectedIdx),
     onSuccess: options?.onSuccess,
     onError: options?.onError,
+  })
+}
+
+export const useInterviewStatus = (interviewId: string) => {
+  return useQuery({
+    queryKey: ['interviewStatus', interviewId],
+    queryFn: getInterviewStatus,
+    enabled: !!interviewId,
+    staleTime: 1000 * 60 * 5,
   })
 }

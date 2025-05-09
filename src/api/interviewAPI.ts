@@ -28,3 +28,8 @@ export const sendSelectedQuestion = async (
   )
   return response.data
 }
+
+export const getInterviewStatus = async () => {
+  const response = await apiClient.get(`/interview/status`)
+  return response.data
+}

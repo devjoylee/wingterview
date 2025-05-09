@@ -4,12 +4,24 @@ import { Home, Zap, BookCheck, MessageSquare, User } from 'lucide-react'
 import styles from './styles.module.scss'
 
 export const Navbar: React.FC = () => {
-  const [activeTab, setActiveTab] = useState('home')
+  const [activeTab, setActiveTab] = useState('')
   const navigate = useNavigate()
   const location = useLocation()
 
   useEffect(() => {
-    if (location.pathname === '/') setActiveTab('home')
+    const path = location.pathname
+
+    if (path === '/') {
+      setActiveTab('home')
+    } else if (path.includes('interview')) {
+      setActiveTab('interview')
+    } else if (path.includes('quiz')) {
+      setActiveTab('quiz')
+    } else if (path.includes('chat')) {
+      setActiveTab('chat')
+    } else if (path.includes('mypage') || path.includes('profile')) {
+      setActiveTab('mypage')
+    }
   }, [location.pathname])
 
   const handleTabClick = (tab: string, path: string) => {

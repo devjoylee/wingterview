@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { RefreshCw } from 'lucide-react'
 import styles from './styles.module.scss'
-import { Button, LoadingIndicator } from '@/components/common'
+import { Button, LoadingIndicator, Modal } from '@/components/common'
 import { useInterviewStore } from '@/stores/interviewStore'
 import { useSelectedQuestion, useGenerateQuestion } from '@/hooks/interview'
 
@@ -121,6 +121,13 @@ export const InterviewQuestionPage: React.FC = () => {
         text="선택 완료"
         onClick={goToAnswerPage}
         disabled={selectedIdx === null}
+      />
+
+      <Modal
+        isOpen={isGenerating}
+        closeOnBgClick={false}
+        style="loading"
+        message={['새로운 질문을 생성하고 있습니다.', '잠시만 기다려주세요.']}
       />
     </div>
   )
