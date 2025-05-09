@@ -1,11 +1,13 @@
 import { create } from 'zustand'
 
 interface MatchResultState {
-  matchResult: MatchResultData | null
-  setMatchResult: (result: MatchResultData) => void
+  matchResultInStore: MatchResultData | null
+  setMatchResultInStore: (result: MatchResultData) => void
+  getInterviewee: () => BaseProfile | null
 }
 
-export const useMatchStore = create<MatchResultState>(set => ({
-  matchResult: null,
-  setMatchResult: result => set({ matchResult: result }),
+export const useMatchStore = create<MatchResultState>((set, get) => ({
+  matchResultInStore: null,
+  setMatchResultInStore: result => set({ matchResultInStore: result }),
+  getInterviewee: () => get().matchResultInStore?.interviewee ?? null,
 }))

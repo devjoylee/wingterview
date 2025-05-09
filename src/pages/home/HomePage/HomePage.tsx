@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
 import styles from './styles.module.scss'
 import {
@@ -8,47 +8,42 @@ import {
   ProfileCard,
 } from '@/components/common'
 import { useApplicantCount, useMatchResult, useMatchStart } from '@/hooks/match'
-import { fetchMatchingResult } from '@/api/matchAPI'
 import { useMatchStore } from '@/stores/matchStore'
 
 export const HomePage: React.FC = () => {
+  const navigate = useNavigate()
   const { data: applicantCount } = useApplicantCount()
-  const { mutate: mutateMatchStart, isPending } = useMatchStart()
+  const { mutate: startMatching, isPending: isButtonClicked } = useMatchStart()
+  const { setMatchResultInStore } = useMatchStore()
 
+  const [isPageMounted, setIsPageMounted] = useState<boolean>(true)
   const [isMatching, setIsMatching] = useState<boolean>(false)
 
-  const { data: matchResult } = useMatchResult(isMatching)
-
-  const { setMatchResult } = useMatchStore()
-
-  const navigate = useNavigate()
-
-  const handleMatchStart = async () => {
-    if (isPending) {
-      console.log('이미 매칭이 진행 중 입니다.')
-      return // 중복 요청 방지
-    }
-
-    mutateMatchStart()
-    setIsMatching(true)
-
-    const { data: matched } = await fetchMatchingResult()
-
-    if (matched) {
-      setMatchResult(matched)
-      navigate('/match/result')
-    }
-
-    // setTimeout(() => {
-    //   navigate('/match/result')
-    // }, 3000)
-  }
+  // 페이지 첫 마운트 됐을 때 & 매칭 중 일때 결과 조회
+  const { data: matchResult } = useMatchResult(isPageMounted || isMatching)
 
   useEffect(() => {
-    if (matchResult) {
-      navigate('/match/result')
+    if (matchResult?.data) {
+      setMatchResultInStore(matchResult.data)
+
+      setIsMatching(false)
+      setIsPageMounted(false)
+
+      navigate('/match/result', { state: { matchResult: matchResult.data } })
+    } else if (matchResult && !matchResult.data && isPageMounted) {
+      setIsPageMounted(false)
     }
-  }, [navigate, matchResult])
+  }, [isPageMounted, matchResult, navigate, setMatchResultInStore])
+
+  const handleMatchStart = useCallback(() => {
+    if (isButtonClicked) {
+      console.log('이미 매칭이 진행 중 입니다.')
+      return
+    }
+
+    startMatching()
+    setIsMatching(true)
+  }, [isButtonClicked, startMatching])
 
   return (
     <div className={styles.homePage}>

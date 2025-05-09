@@ -29,8 +29,9 @@ export const SliderButtons: React.FC = () => {
     console.log('최종 제출 데이터: ', formData)
     try {
       await submitUserProfile(formData)
-      localStorage.setItem('myProfile', JSON.stringify(formData))
-      navigate('/')
+      // localStorage.setItem('myProfile', JSON.stringify(formData))
+      localStorage.setItem('nickname', formData.nickname.split('.')[0])
+      navigate('/', { state: { myProfile: formData } })
       console.log('제출 완료! 🎉')
     } catch (error) {
       console.error('제출 실패:', error)
