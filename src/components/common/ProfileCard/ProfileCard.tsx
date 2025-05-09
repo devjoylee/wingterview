@@ -1,27 +1,28 @@
-import defaultImage from '@assets/default-profile.png'
-import styles from './styles.module.scss'
+import { useEffect, useState } from 'react'
+import { useLocation } from 'react-router-dom'
 import { useMyProfile } from '@/hooks/profile'
 import { StaticTag } from '@/components/common'
-import { useEffect, useState } from 'react'
+import defaultImage from '@assets/default-profile.png'
+import styles from './styles.module.scss'
 
 export const ProfileCard: React.FC = () => {
+  const location = useLocation()
   const { data: myData } = useMyProfile()
-  const [profile, setProfile] = useState<UserData>()
+  const [profile, setMyProfile] = useState<UserData>()
 
   useEffect(() => {
-    if (myData) {
-      setProfile(myData as UserData)
-    } else {
-      const temp = localStorage.getItem('myProfile')
-      if (temp) {
-        try {
-          setProfile(JSON.parse(temp) as UserData)
-        } catch (error) {
-          console.error('프로필 정보 조회 실패:', error)
-        }
-      }
+    // 1. navigate state 데이터 확인
+    if (location.state?.myProfile) {
+      setMyProfile(location.state.myProfile)
+      return
     }
-  }, [myData])
+
+    // 2. API 데이터 확인
+    if (myData) {
+      setMyProfile(myData)
+      return
+    }
+  }, [location.state, myData])
 
   return (
     <div className={styles.profileCard}>
