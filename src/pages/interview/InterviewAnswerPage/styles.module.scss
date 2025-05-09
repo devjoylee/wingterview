@@ -9,6 +9,7 @@
 
 .question {
   padding: 40px 20px;
+  min-height: 150px;
   color: #333;
 
   h2 {
@@ -41,17 +42,6 @@
   }
 }
 
-.prompt {
-  flex: 1;
-  margin-bottom: 16px;
-}
-
-.helperText {
-  font-size: 12px;
-  color: #999;
-  margin-bottom: 20px;
-}
-
 .textArea {
   width: 100%;
   min-height: 300px;
@@ -73,6 +63,12 @@
     outline: none;
     border-color: #666;
   }
+}
+
+.helperText {
+  font-size: 12px;
+  color: #999;
+  margin-bottom: 20px;
 }
 
 .buttons {

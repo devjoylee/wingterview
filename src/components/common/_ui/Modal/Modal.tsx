@@ -37,8 +37,10 @@ export const Modal: React.FC<ModalProps> = ({
         </div>
 
         <div className={styles.modalContent}>
-          {message.map(line => (
-            <p className={styles.modalMessage}>{line}</p>
+          {message.map((line, idx) => (
+            <p key={idx} className={styles.modalMessage}>
+              {line}
+            </p>
           ))}
           {children}
         </div>

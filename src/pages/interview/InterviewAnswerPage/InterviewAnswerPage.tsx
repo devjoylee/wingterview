@@ -1,19 +1,53 @@
 import { useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
-import { Button } from '@/components/common'
+import { Button, Modal } from '@/components/common'
 import { useInterviewStore } from '@/stores/interviewStore'
+import { useGenerateQuestion } from '@/hooks/interview'
 import styles from './styles.module.scss'
 
 export const InterviewAnswerPage: React.FC = () => {
   const location = useLocation()
   const navigate = useNavigate()
   const [keyword, setKeyword] = useState('')
+  const [isGenerating, setIsGenerating] = useState(false)
 
   const { currentQuestionIdx } = useInterviewStore()
   const currentQuestion = location.state?.question
+  const interviewId = localStorage.getItem('interviewId') as string
 
-  const generateNextQuestion = () => {
-    navigate('/interview/question')
+  const { mutate: generateQuestions, isPending } = useGenerateQuestion({
+    onSuccess: result => {
+      if (result.data && result.data.questions) {
+        setIsGenerating(false)
+        navigate('/interview/question', {
+          state: {
+            questions: result.data.questions,
+          },
+        })
+      }
+    },
+    onError: error => {
+      console.error('문제 생성 중 오류 발생:', error)
+      setIsGenerating(false)
+    },
+  })
+
+  const generateFollowUp = () => {
+    setIsGenerating(true)
+    generateQuestions({
+      interviewId,
+      questionData: {
+        question: currentQuestion,
+        keywords: keyword,
+      },
+    })
+  }
+
+  const generateNew = () => {
+    setIsGenerating(true)
+    generateQuestions({
+      interviewId,
+    })
   }
 
   return (
@@ -26,31 +60,41 @@ export const InterviewAnswerPage: React.FC = () => {
       <div className={styles.promptContainer}>
         <h3>Prompt</h3>
 
-        <div className={styles.prompt}>
-          <textarea
-            className={styles.textArea}
-            value={keyword}
-            onChange={e => setKeyword(e.target.value)}
-            placeholder="면접자 답변을 바탕으로 꼬리질문에 생성 키워드를 입력해보세요.
+        <textarea
+          className={styles.textArea}
+          value={keyword}
+          onChange={e => setKeyword(e.target.value)}
+          placeholder="면접자 답변을 바탕으로 꼬리질문에 생성 키워드를 입력해보세요.
 ex) 프로세스 → 한 단어로 꼬리질문 생성해보세요!"
-          />
-        </div>
+        />
 
         <span className={styles.helperText}>
           *꼬리질문은 1 - 200자 사이로 가능합니다.
         </span>
 
         <div className={styles.buttons}>
-          <Button text="꼬리 질문 만들기" onClick={generateNextQuestion} />
+          <Button
+            text="꼬리 질문 만들기"
+            onClick={generateFollowUp}
+            disabled={isPending || isGenerating}
+          />
 
           <button
             className={styles.regenerateButton}
-            onClick={generateNextQuestion}
+            onClick={generateNew}
+            disabled={isPending || isGenerating}
           >
             새로운 주제로 질문 만들기
           </button>
         </div>
       </div>
+
+      <Modal
+        isOpen={isPending || isGenerating}
+        closeOnBgClick={false}
+        style="loading"
+        message={['질문을 생성하고 있습니다.', '잠시만 기다려주세요.']}
+      />
     </div>
   )
 }

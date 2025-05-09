@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
-import { LoadingIndicator, StaticTag } from '@/components/common'
+import { LoadingIndicator, Modal, StaticTag } from '@/components/common'
 import { useMatchStore } from '@/stores/matchStore'
 import { useMatchResult } from '@/hooks/match'
 import {
@@ -36,23 +36,24 @@ export const InterviewAwaitingPage: React.FC = () => {
     },
   })
 
-  const { mutate: generateQuestions } = useGenerateQuestion({
-    onSuccess: result => {
-      if (interviewId) {
-        updateStatus(interviewId) /// 문제 만들어지면 면접 상태 PENDING -> PROGRESS
+  const { mutate: generateQuestions, isPending: isGenerating } =
+    useGenerateQuestion({
+      onSuccess: result => {
+        if (interviewId) {
+          updateStatus(interviewId) /// 문제 만들어지면 면접 상태 PENDING -> PROGRESS
 
-        navigate('/interview/question', {
-          state: {
-            questions: result.data.questions,
-          },
-        })
-      }
-    },
-    onError: error => {
-      console.error('문제 생성 중 오류 발생:', error)
-      setIsLoading(false)
-    },
-  })
+          navigate('/interview/question', {
+            state: {
+              questions: result.data.questions,
+            },
+          })
+        }
+      },
+      onError: error => {
+        console.error('문제 생성 중 오류 발생:', error)
+        setIsLoading(false)
+      },
+    })
 
   const handleStartInterview = () => {
     if (!interviewId) {
@@ -148,6 +149,13 @@ export const InterviewAwaitingPage: React.FC = () => {
           </div>
         )}
       </div>
+
+      <Modal
+        isOpen={isGenerating}
+        closeOnBgClick={false}
+        style="loading"
+        message={['면접 질문을 생성하고 있습니다.', '잠시만 기다려주세요.']}
+      />
     </div>
   )
 }
