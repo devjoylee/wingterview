@@ -3,6 +3,8 @@ import { useLocation, useNavigate } from 'react-router-dom'
 import { RefreshCw } from 'lucide-react'
 import styles from './styles.module.scss'
 import { Button } from '@/components/common'
+import { useInterviewStore } from '@/stores/interviewStore'
+import { useSelectedQuestion } from '@/hooks/interview'
 
 const dummyQuestions = [
   'CORS 에러는 언제 발생하며, 프론트엔드와 백엔드 각각에서 이를 어떻게 해결할 수 있을까요?',
@@ -16,20 +18,36 @@ export const InterviewQuestionPage: React.FC = () => {
   const location = useLocation()
 
   const questionsInRoute = location.state?.questions
+  const interviewId = localStorage.getItem('interviewId') as string
 
   const [questions, setQuestions] = useState<string[]>(dummyQuestions)
-
   const [selectedIdx, setSelectedIdx] = useState<number | null>(null)
+
+  const { addToHistory } = useInterviewStore()
+
+  const { mutate: sendSelectedQuestion } = useSelectedQuestion({
+    onSuccess: () => {
+      if (selectedIdx !== null) {
+        const selected = questions[selectedIdx]
+        addToHistory(selected)
+
+        navigate('/interview/answer', {
+          state: {
+            question: selected,
+          },
+        })
+      }
+    },
+    onError: error => {
+      console.error('질문 선택 전송 실패:', error)
+    },
+  })
 
   const handleSelect = (idx: number) => setSelectedIdx(idx)
 
   const goToAnswerPage = () => {
     if (selectedIdx !== null) {
-      navigate('/interview/answer', {
-        state: {
-          question: questions[selectedIdx],
-        },
-      })
+      sendSelectedQuestion({ interviewId, selectedIdx })
     }
   }
 

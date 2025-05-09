@@ -17,3 +17,14 @@ export const generateQuestion = async (
   )
   return response.data
 }
+
+export const sendSelectedQuestion = async (
+  interviewId: string,
+  selectedIdx: number
+) => {
+  const response = await apiClient.post<ApiResponse<null>>(
+    `/interview/${interviewId}/selection`,
+    { selectedIdx }
+  )
+  return response.data
+}
