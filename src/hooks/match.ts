@@ -36,7 +36,7 @@ export const useMatchResult = (isMatching: boolean) => {
     queryKey: ['matchingResult'],
     queryFn: fetchMatchingResult,
     enabled: isMatching,
-    staleTime: 3000,
+    staleTime: 0,
     refetchInterval: isMatching ? 3000 : false,
   })
 }

@@ -1,26 +1,26 @@
 import { useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
-import styles from './styles.module.scss'
 import { Button } from '@/components/common'
+import { useInterviewStore } from '@/stores/interviewStore'
+import styles from './styles.module.scss'
 
 export const InterviewAnswerPage: React.FC = () => {
   const location = useLocation()
   const navigate = useNavigate()
-  const { question } = location.state || {
-    question:
-      '스레드를 사용하였을 때 장단점을 서술하고 스레드의 생명주기에 대해 서술하시오.',
-  }
   const [keyword, setKeyword] = useState('')
 
-  const generateQuestion = () => {
+  const { currentQuestionIdx } = useInterviewStore()
+  const currentQuestion = location.state?.question
+
+  const generateNextQuestion = () => {
     navigate('/interview/question')
   }
 
   return (
     <div className={styles.container}>
       <div className={styles.question}>
-        <h2>Q1.</h2>
-        <p>{question}</p>
+        <h2>Q{currentQuestionIdx}.</h2>
+        <p>{currentQuestion}</p>
       </div>
 
       <div className={styles.promptContainer}>
@@ -41,11 +41,11 @@ ex) 프로세스 → 한 단어로 꼬리질문 생성해보세요!"
         </span>
 
         <div className={styles.buttons}>
-          <Button text="꼬리 질문 만들기" onClick={generateQuestion} />
+          <Button text="꼬리 질문 만들기" onClick={generateNextQuestion} />
 
           <button
             className={styles.regenerateButton}
-            onClick={generateQuestion}
+            onClick={generateNextQuestion}
           >
             새로운 주제로 질문 만들기
           </button>
