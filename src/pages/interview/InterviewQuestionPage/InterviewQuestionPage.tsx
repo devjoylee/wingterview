@@ -2,9 +2,9 @@ import { useEffect, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { RefreshCw } from 'lucide-react'
 import styles from './styles.module.scss'
-import { Button } from '@/components/common'
+import { Button, LoadingIndicator } from '@/components/common'
 import { useInterviewStore } from '@/stores/interviewStore'
-import { useSelectedQuestion } from '@/hooks/interview'
+import { useSelectedQuestion, useGenerateQuestion } from '@/hooks/interview'
 
 const dummyQuestions = [
   'CORS 에러는 언제 발생하며, 프론트엔드와 백엔드 각각에서 이를 어떻게 해결할 수 있을까요?',
@@ -22,6 +22,7 @@ export const InterviewQuestionPage: React.FC = () => {
 
   const [questions, setQuestions] = useState<string[]>(dummyQuestions)
   const [selectedIdx, setSelectedIdx] = useState<number | null>(null)
+  const [isRefreshing, setIsRefreshing] = useState<boolean>(false)
 
   const { addToHistory } = useInterviewStore()
 
@@ -43,12 +44,36 @@ export const InterviewQuestionPage: React.FC = () => {
     },
   })
 
+  const { mutate: generateQuestions, isPending: isGenerating } =
+    useGenerateQuestion({
+      onSuccess: result => {
+        if (result.data && result.data.questions) {
+          setQuestions(result.data.questions)
+          setSelectedIdx(null)
+          setIsRefreshing(false)
+        }
+      },
+      onError: error => {
+        console.error('문제 생성 중 오류 발생:', error)
+        setIsRefreshing(false)
+      },
+    })
+
   const handleSelect = (idx: number) => setSelectedIdx(idx)
 
   const goToAnswerPage = () => {
     if (selectedIdx !== null) {
       sendSelectedQuestion({ interviewId, selectedIdx })
     }
+  }
+
+  const handleRefresh = () => {
+    setIsRefreshing(true)
+    setSelectedIdx(null)
+
+    generateQuestions({
+      interviewId,
+    })
   }
 
   useEffect(() => {
@@ -59,25 +84,39 @@ export const InterviewQuestionPage: React.FC = () => {
     }
   }, [questionsInRoute])
 
+  const isLoading = isGenerating || isRefreshing
+
   return (
     <div className={styles.container}>
       <div className={styles.questionHeader}>
         <h2>원하는 질문지를 선택해주세요.</h2>
-        <button className={styles.resetButton}>
-          <RefreshCw />
+        <button
+          className={styles.resetButton}
+          onClick={handleRefresh}
+          disabled={isLoading}
+        >
+          {!isRefreshing && <RefreshCw />}
         </button>
       </div>
-      <div className={styles.questionList}>
-        {questions.map((question, idx) => (
-          <div
-            key={idx}
-            className={`${styles.questionCard} ${selectedIdx === idx ? styles.selected : ''}`}
-            onClick={() => handleSelect(idx)}
-          >
-            <p>{question}</p>
-          </div>
-        ))}
-      </div>
+
+      {isGenerating || isRefreshing ? (
+        <div className={styles.loadingContainer}>
+          <LoadingIndicator size={60} text="새로운 질문 생성 중..." />
+        </div>
+      ) : (
+        <div className={styles.questionList}>
+          {questions.map((question, idx) => (
+            <div
+              key={idx}
+              className={`${styles.questionCard} ${selectedIdx === idx ? styles.selected : ''}`}
+              onClick={() => handleSelect(idx)}
+            >
+              <p>{question}</p>
+            </div>
+          ))}
+        </div>
+      )}
+
       <Button
         text="선택 완료"
         onClick={goToAnswerPage}
