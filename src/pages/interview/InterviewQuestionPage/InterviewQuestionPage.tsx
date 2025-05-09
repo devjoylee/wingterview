@@ -1,10 +1,10 @@
-import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useEffect, useState } from 'react'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { RefreshCw } from 'lucide-react'
 import styles from './styles.module.scss'
 import { Button } from '@/components/common'
 
-const questions = [
+const dummyQuestions = [
   'CORS 에러는 언제 발생하며, 프론트엔드와 백엔드 각각에서 이를 어떻게 해결할 수 있을까요?',
   '스레드를 사용하였을 때 장단점을 서술하고 스레드의 생명주기에 대해 서술하시오.',
   '브라우저의 동작방식에 대해 설명하세요',
@@ -13,6 +13,12 @@ const questions = [
 
 export const InterviewQuestionPage: React.FC = () => {
   const navigate = useNavigate()
+  const location = useLocation()
+
+  const questionsInRoute = location.state?.questions
+
+  const [questions, setQuestions] = useState<string[]>(dummyQuestions)
+
   const [selectedIdx, setSelectedIdx] = useState<number | null>(null)
 
   const handleSelect = (idx: number) => setSelectedIdx(idx)
@@ -26,6 +32,14 @@ export const InterviewQuestionPage: React.FC = () => {
       })
     }
   }
+
+  useEffect(() => {
+    if (questionsInRoute) {
+      setQuestions(questionsInRoute)
+    } else {
+      console.warn('질문 데이터가 없습니다.')
+    }
+  }, [questionsInRoute])
 
   return (
     <div className={styles.container}>
