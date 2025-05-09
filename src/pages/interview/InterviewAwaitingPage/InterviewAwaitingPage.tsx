@@ -1,9 +1,12 @@
 import { useEffect, useState } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
-import { StaticTag } from '@/components/common'
+import { LoadingIndicator, StaticTag } from '@/components/common'
 import { useMatchStore } from '@/stores/matchStore'
 import { useMatchResult } from '@/hooks/match'
-import { useUpdateInterviewStatus } from '@/hooks/interview'
+import {
+  useUpdateInterviewStatus,
+  useGenerateQuestion,
+} from '@/hooks/interview'
 
 import defaultImage from '@assets/default-profile.png'
 import styles from './styles.module.scss'
@@ -17,22 +20,37 @@ export const InterviewAwaitingPage: React.FC = () => {
   const interviewId = localStorage.getItem('interviewId')
 
   const [interviewee, setInterviewee] = useState<BaseProfile | null>(null)
+  const [isLoading, setIsLoading] = useState(false)
 
   const requestFetch = !intervieweeInStore && !intervieweeInRoute
 
   const { data: matchResult } = useMatchResult(requestFetch)
 
   const { mutate: updateStatus } = useUpdateInterviewStatus({
-    onSuccess: result => {
-      const { currentRound, currentPhase } = result.data
-
-      navigate('/interview/question', {
-        state: { round: currentRound, phase: currentPhase },
-      })
+    onSuccess: () => {
+      setIsLoading(false)
     },
     onError: error => {
       console.error('면접 상태 업데이트 중 오류 발생:', error)
-      alert('면접 시작 중 오류가 발생했습니다. 다시 시도해주세요.')
+      setIsLoading(false)
+    },
+  })
+
+  const { mutate: generateQuestions } = useGenerateQuestion({
+    onSuccess: result => {
+      if (interviewId) {
+        updateStatus(interviewId) /// 문제 만들어지면 면접 상태 PENDING -> PROGRESS
+
+        navigate('/interview/question', {
+          state: {
+            questions: result.data.questions,
+          },
+        })
+      }
+    },
+    onError: error => {
+      console.error('문제 생성 중 오류 발생:', error)
+      setIsLoading(false)
     },
   })
 
@@ -42,7 +60,11 @@ export const InterviewAwaitingPage: React.FC = () => {
       return
     }
 
-    updateStatus(interviewId)
+    setIsLoading(true)
+
+    generateQuestions({
+      interviewId,
+    })
   }
 
   useEffect(() => {
@@ -82,9 +104,19 @@ export const InterviewAwaitingPage: React.FC = () => {
           아래 버튼을 눌러주세요.
         </h2>
 
-        <button className={styles.startButton} onClick={handleStartInterview}>
-          START
-        </button>
+        <div className={styles.buttonWrapper}>
+          {isLoading ? (
+            <LoadingIndicator size={60} text="면접 문제 생성 중..." />
+          ) : (
+            <button
+              className={styles.startButton}
+              onClick={handleStartInterview}
+              disabled={!interviewId}
+            >
+              START
+            </button>
+          )}
+        </div>
       </div>
 
       <div className={styles.intervieweeCard}>
