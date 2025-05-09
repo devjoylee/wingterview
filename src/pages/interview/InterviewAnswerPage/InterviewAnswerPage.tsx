@@ -2,7 +2,10 @@ import { useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { Button, Modal } from '@/components/common'
 import { useInterviewStore } from '@/stores/interviewStore'
-import { useGenerateQuestion } from '@/hooks/interview'
+import {
+  useGenerateQuestion,
+  useUpdateInterviewStatus,
+} from '@/hooks/interview'
 import styles from './styles.module.scss'
 
 export const InterviewAnswerPage: React.FC = () => {
@@ -32,6 +35,15 @@ export const InterviewAnswerPage: React.FC = () => {
     },
   })
 
+  const { mutate: updateStatus } = useUpdateInterviewStatus({
+    onSuccess: () => {
+      navigate('/interview/feedback')
+    },
+    onError: error => {
+      console.error('면접 상태 업데이트 중 오류 발생:', error)
+    },
+  })
+
   const generateFollowUp = () => {
     setIsGenerating(true)
     generateQuestions({
@@ -48,6 +60,15 @@ export const InterviewAnswerPage: React.FC = () => {
     generateQuestions({
       interviewId,
     })
+  }
+
+  const handleEndInterview = () => {
+    if (!interviewId) {
+      console.error('면접 ID를 찾을 수 없습니다.')
+      return
+    }
+
+    updateStatus(interviewId) // PROGRESS -> FEEDBACK
   }
 
   return (
@@ -85,6 +106,10 @@ ex) 프로세스 → 한 단어로 꼬리질문 생성해보세요!"
             disabled={isPending || isGenerating}
           >
             새로운 주제로 질문 만들기
+          </button>
+
+          <button className={styles.temp} onClick={handleEndInterview}>
+            면접 종료 (임시)
           </button>
         </div>
       </div>

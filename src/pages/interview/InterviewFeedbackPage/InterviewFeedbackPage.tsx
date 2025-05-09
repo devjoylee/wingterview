@@ -1,28 +1,49 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import defaultImage from '@assets/default-profile.png'
 import styles from './styles.module.scss'
 import { Send } from 'lucide-react'
-
-const interviewee = {
-  name: '이주영',
-  nickname: 'joy.lee',
-  curriculum: '풀스택',
-}
+import { useInterviewStatus, useUpdateInterviewStatus } from '@/hooks/interview'
 
 export const InterviewFeedbackPage: React.FC = () => {
   const navigate = useNavigate()
   const [feedback, setFeedback] = useState('')
+  const [partner, setPartner] = useState({
+    nickname: '',
+    name: '',
+    curriculum: '',
+    profileImageUrl: '',
+    jobInterest: [],
+    techStack: [],
+  })
 
-  const handleFinish = () => {
-    navigate('/')
-  }
+  const interviewId = localStorage.getItem('interviewId') as string
+
+  const { data } = useInterviewStatus(interviewId)
+  const { mutate: updateStatus } = useUpdateInterviewStatus({
+    onSuccess: () => {
+      navigate('/interview/awaiting')
+    },
+    onError: error => {
+      console.error('면접 상태 업데이트 중 오류 발생:', error)
+    },
+  })
 
   const handleSendFeedback = () => {
-    // 피드백 전송 로직
-    console.log('피드백 전송:', feedback)
-    handleFinish()
+    if (!interviewId) {
+      console.error('면접 ID를 찾을 수 없습니다.')
+      return
+    }
+
+    console.log('피드백:', feedback)
+    updateStatus(interviewId) // FEEDBACK -> PENDING
   }
+
+  useEffect(() => {
+    if (data) {
+      setPartner(data.data.partner)
+    }
+  }, [data])
 
   return (
     <div className={styles.container}>
@@ -36,7 +57,28 @@ export const InterviewFeedbackPage: React.FC = () => {
 
       <div className={styles.profileSection}>
         <img src={defaultImage} alt="profile" className={styles.profileImage} />
-        <p>{`${interviewee.nickname} (${interviewee.name}) / ${interviewee.curriculum}`}</p>
+        <p>{`${partner.nickname} (${partner.name}) / ${partner.curriculum}`}</p>
+
+        {partner.jobInterest && partner.jobInterest.length > 0 && (
+          <div className={styles.interestTags}>
+            {partner.jobInterest.map((interest, index) => (
+              <span key={index} className={styles.tag}>
+                {interest}
+              </span>
+            ))}
+          </div>
+        )}
+
+        {partner.techStack && partner.techStack.length > 0 && (
+          <div className={styles.techTags}>
+            {partner.techStack.map((tech, index) => (
+              <span key={index} className={styles.techTag}>
+                {tech}
+              </span>
+            ))}
+          </div>
+        )}
+
         <div className={styles.ratingStars}>
           <span>★</span>
           <span>★</span>
