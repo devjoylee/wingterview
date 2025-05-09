@@ -1,10 +1,12 @@
 import { useEffect, useState } from 'react'
-import { StaticTag } from '@/components/common'
-import styles from './styles.module.scss'
-import defaultImage from '@assets/default-profile.png'
 import { useNavigate, useLocation } from 'react-router-dom'
+import { StaticTag } from '@/components/common'
 import { useMatchStore } from '@/stores/matchStore'
 import { useMatchResult } from '@/hooks/match'
+import { useUpdateInterviewStatus } from '@/hooks/interview'
+
+import defaultImage from '@assets/default-profile.png'
+import styles from './styles.module.scss'
 
 export const InterviewAwaitingPage: React.FC = () => {
   const navigate = useNavigate()
@@ -12,16 +14,35 @@ export const InterviewAwaitingPage: React.FC = () => {
 
   const intervieweeInRoute = location.state?.interviewee
   const intervieweeInStore = useMatchStore(state => state.getInterviewee())
+  const interviewId = localStorage.getItem('interviewId')
 
   const [interviewee, setInterviewee] = useState<BaseProfile | null>(null)
-  const [interviewId, setInterviewId] = useState<string | null>(null)
 
   const requestFetch = !intervieweeInStore && !intervieweeInRoute
 
   const { data: matchResult } = useMatchResult(requestFetch)
 
+  const { mutate: updateStatus } = useUpdateInterviewStatus({
+    onSuccess: result => {
+      const { currentRound, currentPhase } = result.data
+
+      navigate('/interview/question', {
+        state: { round: currentRound, phase: currentPhase },
+      })
+    },
+    onError: error => {
+      console.error('면접 상태 업데이트 중 오류 발생:', error)
+      alert('면접 시작 중 오류가 발생했습니다. 다시 시도해주세요.')
+    },
+  })
+
   const handleStartInterview = () => {
-    navigate('/interview/question')
+    if (!interviewId) {
+      console.log('면접자 데이터를 찾을 수 없습니다.')
+      return
+    }
+
+    updateStatus(interviewId)
   }
 
   useEffect(() => {
@@ -52,13 +73,6 @@ export const InterviewAwaitingPage: React.FC = () => {
 
     getIntervieweeData()
   }, [navigate, intervieweeInRoute, intervieweeInStore, matchResult])
-
-  useEffect(() => {
-    const storedId = localStorage.getItem('interviewId')
-    if (storedId && !interviewId) {
-      setInterviewId(storedId)
-    }
-  }, [interviewId])
 
   return (
     <div className={styles.container}>
