@@ -28,7 +28,7 @@ export const Navbar: React.FC = () => {
       </div>
       <div
         className={`${styles.navItem} ${activeTab === 'interview' ? styles.active : ''}`}
-        onClick={() => handleTabClick('interview', '/coming-soon')}
+        onClick={() => handleTabClick('interview', '/interview/awaiting')}
       >
         <Zap />
         <span>면접실</span>

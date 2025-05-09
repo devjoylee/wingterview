@@ -1,0 +1,89 @@
+@import '@/styles/variables';
+
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+}
+
+.question {
+  padding: 40px 20px;
+  color: #333;
+
+  h2 {
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 10px;
+  }
+
+  p {
+    font-weight: 600;
+    line-height: 1.5;
+  }
+}
+
+.promptContainer {
+  background-color: #fff;
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+  padding: 20px;
+  color: #333;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+
+  h3 {
+    font-size: 16px;
+    font-weight: 600;
+    color: #666;
+    margin-bottom: 16px;
+  }
+}
+
+.prompt {
+  flex: 1;
+  margin-bottom: 16px;
+}
+
+.helperText {
+  font-size: 12px;
+  color: #999;
+  margin-bottom: 20px;
+}
+
+.textArea {
+  width: 100%;
+  min-height: 300px;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 14px;
+  resize: none;
+  margin-bottom: 10px;
+  background-color: #f9f9f9;
+
+  &::placeholder {
+    color: #999;
+    font-size: 12px;
+    line-height: 1.5;
+  }
+
+  &:focus {
+    outline: none;
+    border-color: #666;
+  }
+}
+
+.buttons {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+}
+
+.regenerateButton {
+  color: #666;
+  font-size: 13px;
+  margin-top: 10px;
+  cursor: pointer;
+}
