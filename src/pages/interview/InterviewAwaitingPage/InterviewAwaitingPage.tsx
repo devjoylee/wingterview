@@ -124,7 +124,7 @@ export const InterviewAwaitingPage: React.FC = () => {
         {interviewee && (
           <div className={styles.cardInfoWrapper}>
             <img
-              src={defaultImage}
+              src={interviewee.profileImageUrl || defaultImage}
               alt="profile"
               className={styles.profileImage}
             />

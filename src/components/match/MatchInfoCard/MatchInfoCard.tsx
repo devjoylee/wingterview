@@ -17,7 +17,7 @@ export const MatchInfoCard: React.FC<MatchInfoCardProps> = ({
       <div className={`${styles.container} ${styles.interviewerCard}`}>
         <div className={styles.imageWrapper}>
           <img
-            src={defaultImage}
+            src={interviewer.profileImageUrl || defaultImage}
             alt="profile"
             className={styles.profileImage}
           />
@@ -64,7 +64,11 @@ export const MatchInfoCard: React.FC<MatchInfoCardProps> = ({
             <StaticTag label="기술스택" dark />
           </div>
         </div>
-        <img src={defaultImage} alt="profile" className={styles.profileImage} />
+        <img
+          src={interviewee.profileImageUrl || defaultImage}
+          alt="profile"
+          className={styles.profileImage}
+        />
       </div>
     </div>
   )

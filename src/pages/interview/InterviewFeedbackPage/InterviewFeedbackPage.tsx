@@ -8,7 +8,7 @@ import { useInterviewStatus, useUpdateInterviewStatus } from '@/hooks/interview'
 export const InterviewFeedbackPage: React.FC = () => {
   const navigate = useNavigate()
   const [feedback, setFeedback] = useState('')
-  const [partner, setPartner] = useState({
+  const [interviewee, setInterviewee] = useState({
     nickname: '',
     name: '',
     curriculum: '',
@@ -42,7 +42,7 @@ export const InterviewFeedbackPage: React.FC = () => {
 
   useEffect(() => {
     if (data) {
-      setPartner(data?.data?.partner)
+      setInterviewee(data?.data?.interviewee)
     }
   }, [data])
 
@@ -56,18 +56,18 @@ export const InterviewFeedbackPage: React.FC = () => {
         </h2>
       </div>
 
-      {partner && (
+      {interviewee && (
         <div className={styles.profileSection}>
           <img
-            src={defaultImage}
+            src={interviewee.profileImageUrl || defaultImage}
             alt="profile"
             className={styles.profileImage}
           />
-          <p>{`${partner.nickname} (${partner.name}) / ${partner.curriculum}`}</p>
+          <p>{`${interviewee.nickname} (${interviewee.name}) / ${interviewee.curriculum}`}</p>
 
-          {partner.jobInterest && partner.jobInterest.length > 0 && (
+          {interviewee.jobInterest && interviewee.jobInterest.length > 0 && (
             <div className={styles.interestTags}>
-              {partner.jobInterest.map((interest, index) => (
+              {interviewee.jobInterest.map((interest, index) => (
                 <span key={index} className={styles.tag}>
                   {interest}
                 </span>
@@ -75,9 +75,9 @@ export const InterviewFeedbackPage: React.FC = () => {
             </div>
           )}
 
-          {partner.techStack && partner.techStack.length > 0 && (
+          {interviewee.techStack && interviewee.techStack.length > 0 && (
             <div className={styles.techTags}>
-              {partner.techStack.map((tech, index) => (
+              {interviewee.techStack.map((tech, index) => (
                 <span key={index} className={styles.techTag}>
                   {tech}
                 </span>

@@ -11,7 +11,7 @@ export const Logo: React.FC<LogoProps> = ({ width, color }) => (
   <img
     src={color === 'light' ? logoLight : logoDark}
     alt="logo"
-    className={styles.profileImage}
+    className={styles.logo}
     style={{ width: width }}
   />
 )
