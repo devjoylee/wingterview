@@ -18,7 +18,7 @@ interface ProfileState {
   updateBasicInfo: (name: string, nickname: string, curriculum: string) => void
   updateJobInterest: (interests: string[]) => void
   updateTechStack: (stacks: string[]) => void
-  updateProfileImage: (url: string) => void
+  updateProfileImage: (url: string | null) => void
   updateSeatPosition: (seatPosition: SeatData) => void
   setSelectedSeat: (seat: SeatData) => void
 
@@ -36,7 +36,7 @@ const initialFormData: ProfileFormData = {
   curriculum: '',
   jobInterest: [],
   techStack: [],
-  profileImageUrl: '',
+  profileImageUrl: null,
   seatPosition: {
     section: '',
     seat: [null, null],

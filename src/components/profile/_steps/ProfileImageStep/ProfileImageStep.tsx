@@ -8,7 +8,7 @@ import { ErrorMessage } from '@/components/common'
 
 export const ProfileImageStep = () => {
   const { updateProfileImage } = useProfileStore()
-  const [imageURL, setImageURL] = useState<string>(defaultImage)
+  const [imageURL, setImageURL] = useState<string | null>(null)
   const [error, setError] = useState<string>('')
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -52,7 +52,7 @@ export const ProfileImageStep = () => {
         </div>
         <div className={styles.imageWrapper}>
           <div className={styles.thumbnail}>
-            <img src={imageURL} alt="프로필 사진" />
+            <img src={imageURL || defaultImage} alt="프로필 사진" />
           </div>
           <label htmlFor="profile-upload" className={styles.editButton}>
             <Pencil size={20} color="white" />
