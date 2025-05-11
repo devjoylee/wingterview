@@ -1,9 +1,9 @@
 import apiClient from '@/api/apiClient'
+import { API } from './endpoints'
 
 export const enqueueMatching = async () => {
   try {
-    const response =
-      await apiClient.post<ApiResponse<null>>('/matching/enqueue')
+    const response = await apiClient.post<ApiResponse<null>>(API.MATCH.ENQUEUE)
     console.log('🎉 매칭 큐 진입 성공:', response.data)
     return response.data
   } catch (error) {
@@ -15,7 +15,7 @@ export const enqueueMatching = async () => {
 export const fetchApplicantCount = async () => {
   try {
     const response = await apiClient.get<ApiResponse<{ count: number }>>(
-      '/matching/statistics'
+      API.MATCH.STAT
     )
     console.log('🎉 매칭 신청자 수 조회 성공:', response.data.data.count)
     return response.data.data.count
@@ -27,8 +27,9 @@ export const fetchApplicantCount = async () => {
 
 export const fetchMatchingResult = async () => {
   try {
-    const response =
-      await apiClient.get<ApiResponse<MatchResultData>>('/matching/result')
+    const response = await apiClient.get<ApiResponse<MatchResultData>>(
+      API.MATCH.RESULT
+    )
     console.log('🎉 매칭 결과 조회 성공:', response.data)
     return response.data
   } catch (error) {
