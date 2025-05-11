@@ -24,11 +24,7 @@ export const FinalConfirmStep = () => {
         <div className={styles.profileHeader}>
           <div className={styles.thumbnail}>
             <img
-              src={
-                formData.profileImageUrl
-                  ? formData.profileImageUrl
-                  : defaultImage
-              }
+              src={formData.profileImageUrl || defaultImage}
               alt="프로필 사진"
             />
           </div>

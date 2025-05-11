@@ -27,7 +27,7 @@ export const ProfileCard: React.FC = () => {
   return (
     <div className={styles.profileCard}>
       <div className={styles.basicInfoWrapper}>
-        <img src={defaultImage} alt="profile" />
+        <img src={profile?.profileImageUrl || defaultImage} alt="profile" />
         <div className={styles.basicInfo}>
           <h3 className={styles.name}>
             {profile?.nickname} ({profile?.name})

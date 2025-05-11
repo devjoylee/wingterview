@@ -39,6 +39,7 @@
     "msw": "^2.8.2",
     "prettier": "^3.5.3",
     "sass": "^1.87.0",
+    "sass-embedded": "^1.88.0",
     "typescript": "^5.7.0",
     "typescript-eslint": "^8.15.0",
     "typescript-plugin-css-modules": "^5.1.0",

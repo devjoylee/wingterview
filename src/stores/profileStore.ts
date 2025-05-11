@@ -18,7 +18,7 @@ interface ProfileState {
   updateBasicInfo: (name: string, nickname: string, curriculum: string) => void
   updateJobInterest: (interests: string[]) => void
   updateTechStack: (stacks: string[]) => void
-  updateProfileImageUrl: (url: string | null) => void
+  updateProfileImage: (url: string) => void
   updateSeatPosition: (seatPosition: SeatData) => void
   setSelectedSeat: (seat: SeatData) => void
 
@@ -36,7 +36,7 @@ const initialFormData: ProfileFormData = {
   curriculum: '',
   jobInterest: [],
   techStack: [],
-  profileImageUrl: null,
+  profileImageUrl: '',
   seatPosition: {
     section: '',
     seat: [null, null],
@@ -81,7 +81,7 @@ export const useProfileStore = create<ProfileState>()((set, get) => ({
       formErrors: {},
     })),
 
-  updateProfileImageUrl: url =>
+  updateProfileImage: url =>
     set(state => ({
       formData: {
         ...state.formData,

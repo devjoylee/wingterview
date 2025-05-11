@@ -136,7 +136,7 @@ export const handlers = [
               nickname: 'eunice.song',
               name: '송동은',
               curriculum: '인공지능',
-              profileImage: 'https://example.com/profile1.jpg',
+              profileImageUrl: '',
               jobInterest: ['프론트엔드 개발자', '백엔드 개발자'],
               techStack: ['Java', 'Javascript'],
               seatCode: 'A-12-L',
@@ -145,7 +145,8 @@ export const handlers = [
               nickname: 'joy.lee',
               name: '이주영',
               curriculum: '풀스택',
-              profileImage: 'https://example.com/profile2.jpg',
+              profileImageUrl:
+                'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTzeiMOk4yAUOjDYIglZphMwDt3E1uO0a-2iw&s',
               jobInterest: ['프론트엔드 개발자', '백엔드 개발자'],
               techStack: ['Java', 'Javascript'],
             },
@@ -205,7 +206,8 @@ export const handlers = [
           nickname: 'joy.lee',
           name: '이주영',
           curriculum: '풀스택',
-          profileImageUrl: 's3 주소',
+          profileImageUrl:
+            'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTzeiMOk4yAUOjDYIglZphMwDt3E1uO0a-2iw&s',
           jobInterest: ['프론트엔드 개발자'],
           techStack: ['Typescript'],
         },

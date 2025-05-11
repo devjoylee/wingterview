@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
-import { LoadingIndicator, Modal, StaticTag } from '@/components/common'
+import { Modal, StaticTag } from '@/components/common'
 import { useMatchStore } from '@/stores/matchStore'
 import { useMatchResult } from '@/hooks/match'
 import {
@@ -20,46 +20,34 @@ export const InterviewAwaitingPage: React.FC = () => {
   const interviewId = localStorage.getItem('interviewId')
 
   const [interviewee, setInterviewee] = useState<BaseProfile | null>(null)
-  const [isLoading, setIsLoading] = useState(false)
 
   // const requestFetch = !intervieweeInStore && !intervieweeInRoute
 
   const { data: matchResult } = useMatchResult(false)
 
-  const { mutate: updateStatus } = useUpdateInterviewStatus({
-    onSuccess: () => {
-      setIsLoading(false)
-    },
-    onError: () => {
-      setIsLoading(false)
-    },
-  })
+  const { mutate: updateStatus } = useUpdateInterviewStatus({})
 
-  const { mutate: generateQuestions, isPending: isGenerating } =
-    useGenerateQuestion({
-      onSuccess: result => {
-        if (interviewId) {
-          updateStatus(interviewId) /// 문제 만들어지면 면접 상태 PENDING -> PROGRESS
+  const { mutate: generateQuestions, isSuccess } = useGenerateQuestion({
+    onSuccess: result => {
+      if (interviewId) {
+        updateStatus(interviewId) /// 문제 만들어지면 면접 상태 PENDING -> PROGRESS
 
+        setTimeout(() => {
           navigate('/interview/question', {
             state: {
               questions: result.data.questions,
             },
           })
-        }
-      },
-      onError: () => {
-        setIsLoading(false)
-      },
-    })
+        }, 1500)
+      }
+    },
+  })
 
   const handleStartInterview = () => {
     if (!interviewId) {
       console.log('면접자 데이터를 찾을 수 없습니다.')
       return
     }
-
-    setIsLoading(true)
 
     generateQuestions({
       interviewId,
@@ -104,17 +92,13 @@ export const InterviewAwaitingPage: React.FC = () => {
         </h2>
 
         <div className={styles.buttonWrapper}>
-          {isLoading ? (
-            <LoadingIndicator size={60} text="면접 문제 생성 중..." />
-          ) : (
-            <button
-              className={styles.startButton}
-              onClick={handleStartInterview}
-              disabled={!interviewId}
-            >
-              START
-            </button>
-          )}
+          <button
+            className={styles.startButton}
+            onClick={handleStartInterview}
+            disabled={!interviewId}
+          >
+            START
+          </button>
         </div>
       </div>
 
@@ -124,7 +108,7 @@ export const InterviewAwaitingPage: React.FC = () => {
         {interviewee && (
           <div className={styles.cardInfoWrapper}>
             <img
-              src={defaultImage}
+              src={interviewee.profileImageUrl || defaultImage}
               alt="profile"
               className={styles.profileImage}
             />
@@ -150,7 +134,7 @@ export const InterviewAwaitingPage: React.FC = () => {
       </div>
 
       <Modal
-        isOpen={isGenerating}
+        isOpen={isSuccess}
         closeOnBgClick={false}
         style="loading"
         message={['면접 질문을 생성하고 있습니다.', '잠시만 기다려주세요.']}

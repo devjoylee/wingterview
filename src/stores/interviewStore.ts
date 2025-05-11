@@ -7,39 +7,42 @@ interface SelectedQuestion {
 }
 
 interface InterviewState {
-  questionHistory: SelectedQuestion[]
-  currentQuestionIdx: number
+  history: SelectedQuestion[]
+  question: string
+  questionIdx: number
 
   addToHistory: (question: string) => void
-  getQuestionHistory: () => SelectedQuestion[]
+  getHistory: () => SelectedQuestion[]
   resetHistory: () => void
 }
 
 export const useInterviewStore = create<InterviewState>()(
   persist(
     (set, get) => ({
-      questionHistory: [],
-      currentQuestionIdx: 1,
+      history: [],
+      question: '',
+      questionIdx: 0,
 
       addToHistory: (question: string) =>
         set(state => {
           const newQuestion: SelectedQuestion = {
-            idx: state.currentQuestionIdx,
+            idx: state.questionIdx,
             question: question,
           }
 
           return {
-            questionHistory: [...state.questionHistory, newQuestion],
-            currentQuestionIdx: state.currentQuestionIdx + 1,
+            history: [...state.history, newQuestion],
+            questionIdx: state.questionIdx + 1,
+            question: question,
           }
         }),
 
-      getQuestionHistory: () => get().questionHistory,
+      getHistory: () => get().history,
 
       resetHistory: () =>
         set({
-          questionHistory: [],
-          currentQuestionIdx: 1,
+          history: [],
+          questionIdx: 1,
         }),
     }),
     {

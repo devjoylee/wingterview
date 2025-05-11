@@ -47,9 +47,10 @@ export const MatchResultPage: React.FC = () => {
       if (matchResultFromApi?.data) {
         setResult(matchResultFromApi.data)
         setMatchResultInStore(matchResultFromApi.data)
-      } else if (!isLoading && matchResultFromApi === null) {
-        // navigate('/match/awaiting') // 데이터가 없으면 대기 화면으로 이동
+        return
       }
+
+      navigate('/') // 결과 데이터 없으면 redirect
     } catch (error) {
       console.error('매칭 결과 조회 중 오류:', error)
     }

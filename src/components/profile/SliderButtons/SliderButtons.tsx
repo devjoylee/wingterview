@@ -1,27 +1,17 @@
 import { useState, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
 import { useSwiper } from 'swiper/react'
 import { useProfileStore } from '@/stores/profileStore'
-import { useSubmitProfile } from '@/hooks/profile'
 import styles from './styles.module.scss'
 
-export const SliderButtons: React.FC = () => {
+export const SliderButtons: React.FC<{ onSubmit: () => void }> = ({
+  onSubmit,
+}) => {
   const swiper = useSwiper()
-  const { formData, validateCurrentStep, prevStep, nextStep } =
-    useProfileStore()
-
-  const { mutate: submitProfile } = useSubmitProfile({
-    onSuccess: () => {
-      localStorage.setItem('nickname', formData.nickname.split('.')[0])
-      navigate('/', { state: { myProfile: formData } })
-    },
-  })
+  const { validateCurrentStep, prevStep, nextStep } = useProfileStore()
 
   const [isBeginning, setIsBeginning] = useState(true)
   const [isEnd, setIsEnd] = useState(false)
   const [currentStep, setCurrentStep] = useState(0)
-
-  const navigate = useNavigate()
 
   const isLastStep = currentStep === 5
 
@@ -30,10 +20,6 @@ export const SliderButtons: React.FC = () => {
   const handleNext = () => {
     const isValid = validateCurrentStep()
     if (isValid) nextStep()
-  }
-
-  const handleSubmit = () => {
-    submitProfile(formData)
   }
 
   useEffect(() => {
@@ -69,7 +55,7 @@ export const SliderButtons: React.FC = () => {
           다음
         </button>
       ) : (
-        <button className={styles.active} onClick={handleSubmit}>
+        <button className={styles.active} onClick={onSubmit}>
           제출하기
         </button>
       )}

@@ -14,7 +14,7 @@ export const InterviewAnswerPage: React.FC = () => {
   const [keyword, setKeyword] = useState('')
   const [isGenerating, setIsGenerating] = useState(false)
 
-  const { currentQuestionIdx } = useInterviewStore()
+  const { questionIdx } = useInterviewStore()
   const currentQuestion = location.state?.question
   const interviewId = localStorage.getItem('interviewId') as string
 
@@ -53,9 +53,11 @@ export const InterviewAnswerPage: React.FC = () => {
 
   const generateNew = () => {
     setIsGenerating(true)
-    generateQuestions({
-      interviewId,
-    })
+    setTimeout(() => {
+      generateQuestions({
+        interviewId,
+      })
+    }, 1500)
   }
 
   const handleEndInterview = () => {
@@ -70,7 +72,7 @@ export const InterviewAnswerPage: React.FC = () => {
   return (
     <div className={styles.container}>
       <div className={styles.question}>
-        <h2>Q{currentQuestionIdx}.</h2>
+        <h2>Q{questionIdx}.</h2>
         <p>{currentQuestion}</p>
       </div>
 

@@ -1,4 +1,4 @@
-@import '@/styles/variables';
+@use '@/styles/variables' as *;
 
 .matchInfoCard {
   width: 90%;
@@ -19,6 +19,7 @@
   height: 70px;
   border-radius: 50%;
   border: 1px solid #e1e1e1;
+  object-fit: cover;
 }
 
 .profileData {
