@@ -10,11 +10,9 @@ export const useSeatMapData = () => {
 }
 
 export const useCheckSeatState = (seatId: string) => {
-  console.log(seatId)
   return useQuery<boolean>({
     queryKey: ['seatOccupied', seatId],
     queryFn: () => checkSeatOccupied(seatId),
-    initialData: false,
     staleTime: 1000 * 60 * 1,
     enabled: !!seatId,
   })

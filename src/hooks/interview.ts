@@ -28,7 +28,7 @@ export const useGenerateQuestion = (options?: {
     }) =>
       generateQuestion(
         params.interviewId,
-        params.questionData || { question: null, keywords: null }
+        params.questionData || { question: '', keywords: '' }
       ),
     onSuccess: options?.onSuccess,
     onError: options?.onError,
@@ -51,7 +51,5 @@ export const useInterviewStatus = (interviewId: string) => {
   return useQuery({
     queryKey: ['interviewStatus', interviewId],
     queryFn: getInterviewStatus,
-    enabled: !!interviewId,
-    staleTime: 1000 * 60 * 5,
   })
 }
