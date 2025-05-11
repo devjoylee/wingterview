@@ -14,8 +14,8 @@ export const MatchResultPage: React.FC = () => {
   const matchResultInRoute = location.state?.matchResult
   const { matchResultInStore, setMatchResultInStore } = useMatchStore()
 
-  const requestFetch = !matchResultInRoute && !matchResultInStore
-  const { data: matchResultFromApi, isLoading } = useMatchResult(requestFetch)
+  // const requestFetch = !matchResultInRoute && !matchResultInStore
+  const { data: matchResultFromApi, isLoading } = useMatchResult(false)
 
   const myNickname = localStorage.getItem('nickname')
   const iamInterviewer = result?.isFirstInterviewer

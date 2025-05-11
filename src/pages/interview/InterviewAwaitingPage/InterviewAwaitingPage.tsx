@@ -22,16 +22,15 @@ export const InterviewAwaitingPage: React.FC = () => {
   const [interviewee, setInterviewee] = useState<BaseProfile | null>(null)
   const [isLoading, setIsLoading] = useState(false)
 
-  const requestFetch = !intervieweeInStore && !intervieweeInRoute
+  // const requestFetch = !intervieweeInStore && !intervieweeInRoute
 
-  const { data: matchResult } = useMatchResult(requestFetch)
+  const { data: matchResult } = useMatchResult(false)
 
   const { mutate: updateStatus } = useUpdateInterviewStatus({
     onSuccess: () => {
       setIsLoading(false)
     },
-    onError: error => {
-      console.error('면접 상태 업데이트 중 오류 발생:', error)
+    onError: () => {
       setIsLoading(false)
     },
   })
@@ -49,8 +48,7 @@ export const InterviewAwaitingPage: React.FC = () => {
           })
         }
       },
-      onError: error => {
-        console.error('문제 생성 중 오류 발생:', error)
+      onError: () => {
         setIsLoading(false)
       },
     })
@@ -131,15 +129,16 @@ export const InterviewAwaitingPage: React.FC = () => {
               className={styles.profileImage}
             />
             <ul className={styles.profileData}>
-              <li>이름 : {`${interviewee.nickname} (${interviewee.name})`}</li>
-              <li>과정 : {interviewee.curriculum}</li>
-              <li>
+              <li
+                className={styles.name}
+              >{`${interviewee.nickname} (${interviewee.name}) / ${interviewee.curriculum}`}</li>
+              <li className={styles.tagLine}>
                 희망직무 :
                 {interviewee.jobInterest.map((job, idx) => (
                   <StaticTag key={idx} label={job} />
                 ))}
               </li>
-              <li>
+              <li className={styles.tagLine}>
                 기술스택 :
                 {interviewee.techStack.map((tech, idx) => (
                   <StaticTag key={idx} label={tech} dark />

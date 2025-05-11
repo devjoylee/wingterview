@@ -16,24 +16,17 @@ export const HomePage: React.FC = () => {
   const { mutate: startMatching, isPending: isButtonClicked } = useMatchStart()
   const { setMatchResultInStore } = useMatchStore()
 
-  const [isPageMounted, setIsPageMounted] = useState<boolean>(true)
   const [isMatching, setIsMatching] = useState<boolean>(false)
 
-  // 페이지 첫 마운트 됐을 때 & 매칭 중 일때 결과 조회
-  const { data: matchResult } = useMatchResult(isPageMounted || isMatching)
+  const { data: matchResult } = useMatchResult(isMatching)
 
   useEffect(() => {
     if (matchResult?.data) {
       setMatchResultInStore(matchResult.data)
-
       setIsMatching(false)
-      setIsPageMounted(false)
-
       navigate('/match/result', { state: { matchResult: matchResult.data } })
-    } else if (matchResult && !matchResult.data && isPageMounted) {
-      setIsPageMounted(false)
     }
-  }, [isPageMounted, matchResult, navigate, setMatchResultInStore])
+  }, [matchResult, navigate, setMatchResultInStore])
 
   const handleMatchStart = useCallback(() => {
     if (isButtonClicked) {
