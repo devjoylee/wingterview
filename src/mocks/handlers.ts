@@ -123,7 +123,7 @@ export const handlers = [
 
   // 매칭 결과 조회
   http.get(API.MATCH.RESULT, () => {
-    const isMatched = false
+    const isMatched = true
 
     if (isMatched)
       return HttpResponse.json(
