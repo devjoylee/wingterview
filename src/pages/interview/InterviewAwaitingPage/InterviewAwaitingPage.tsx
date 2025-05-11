@@ -10,6 +10,7 @@ import {
 
 import defaultImage from '@assets/default-profile.png'
 import styles from './styles.module.scss'
+import { useInterviewStore } from '@/stores/interviewStore'
 
 export const InterviewAwaitingPage: React.FC = () => {
   const navigate = useNavigate()
@@ -23,6 +24,7 @@ export const InterviewAwaitingPage: React.FC = () => {
 
   // const requestFetch = !intervieweeInStore && !intervieweeInRoute
 
+  const { resetHistory } = useInterviewStore()
   const { data: matchResult } = useMatchResult(false)
 
   const { mutate: updateStatus } = useUpdateInterviewStatus({})
@@ -82,6 +84,10 @@ export const InterviewAwaitingPage: React.FC = () => {
 
     getIntervieweeData()
   }, [navigate, intervieweeInRoute, intervieweeInStore, matchResult])
+
+  useEffect(() => {
+    resetHistory()
+  }, [resetHistory])
 
   return (
     <div className={styles.container}>

@@ -33,7 +33,6 @@ export const ProfileImageStep = () => {
       reader.onload = event => {
         const imageUrl = event.target?.result as string
         setImageURL(imageUrl)
-        console.log('이미지 업로드 성공', file, imageUrl)
       }
       reader.readAsDataURL(file)
       setError('')

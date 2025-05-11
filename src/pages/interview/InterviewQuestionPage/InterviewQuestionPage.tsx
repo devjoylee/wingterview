@@ -22,7 +22,7 @@ export const InterviewQuestionPage: React.FC = () => {
   const { mutate: sendSelectedQuestion } = useSelectedQuestion({
     onSuccess: () => {
       if (selectedIdx !== null) {
-        const selected = questions[selectedIdx]
+        const selected = questions[selectedIdx - 1]
         addToHistory(selected)
 
         navigate('/interview/answer', {
@@ -49,7 +49,9 @@ export const InterviewQuestionPage: React.FC = () => {
       },
     })
 
-  const handleSelect = (idx: number) => setSelectedIdx(idx)
+  const handleSelect = (idx: number) => {
+    setSelectedIdx(idx + 1)
+  }
 
   const goToAnswerPage = () => {
     if (selectedIdx !== null) {
@@ -100,7 +102,7 @@ export const InterviewQuestionPage: React.FC = () => {
         {questions.map((question, idx) => (
           <div
             key={idx}
-            className={`${styles.questionCard} ${selectedIdx === idx ? styles.selected : ''}`}
+            className={`${styles.questionCard} ${selectedIdx === idx + 1 ? styles.selected : ''}`}
             onClick={() => handleSelect(idx)}
           >
             <p>{question}</p>
