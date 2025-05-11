@@ -42,11 +42,11 @@ export const useInterviewStore = create<InterviewState>()(
       resetHistory: () =>
         set({
           history: [],
-          questionIdx: 1,
+          questionIdx: 0,
         }),
     }),
     {
-      name: 'interview-storage', // 로컬 스토리지에 저장될 키 이름
+      name: 'interview-storage',
     }
   )
 )

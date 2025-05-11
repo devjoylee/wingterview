@@ -35,14 +35,12 @@ export const InterviewFeedbackPage: React.FC = () => {
       console.error('면접 ID를 찾을 수 없습니다.')
       return
     }
-
-    console.log('피드백:', feedback)
     updateStatus(interviewId) // FEEDBACK -> PENDING
   }
 
   useEffect(() => {
     if (data) {
-      setInterviewee(data?.data?.interviewee)
+      setInterviewee(data?.data?.partner)
     }
   }, [data])
 

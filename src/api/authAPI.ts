@@ -14,7 +14,7 @@ export const kakaoLogin = async (authCode: string) => {
         code: authCode,
       }
     )
-    console.log('🎉 카카오 로그인 성공:', response.data.data)
+    console.log('🎉 카카오 로그인 성공')
     return response.data.data
   } catch (error) {
     console.error('카카오 로그인 에러:', error)
