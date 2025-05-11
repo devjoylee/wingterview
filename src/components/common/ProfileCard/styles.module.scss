@@ -26,12 +26,15 @@
     margin-left: 20px;
 
     .name {
-      font-size: 18px;
+      font-size: 17px;
       font-weight: 600;
       color: #333;
+      word-break: keep-all;
+      line-height: 1.2;
     }
 
     .curriculum {
+      margin-top: 4px;
       font-size: 15px;
       color: #888;
     }

@@ -1,14 +1,21 @@
-import styles from './styles.module.scss'
-import { useSwiper } from 'swiper/react'
 import { useState, useEffect } from 'react'
-import { useProfileStore } from '@/stores/profileStore'
-import { submitUserProfile } from '@/api/profileAPI'
 import { useNavigate } from 'react-router-dom'
+import { useSwiper } from 'swiper/react'
+import { useProfileStore } from '@/stores/profileStore'
+import { useSubmitProfile } from '@/hooks/profile'
+import styles from './styles.module.scss'
 
 export const SliderButtons: React.FC = () => {
   const swiper = useSwiper()
   const { formData, validateCurrentStep, prevStep, nextStep } =
     useProfileStore()
+
+  const { mutate: submitProfile } = useSubmitProfile({
+    onSuccess: () => {
+      localStorage.setItem('nickname', formData.nickname.split('.')[0])
+      navigate('/', { state: { myProfile: formData } })
+    },
+  })
 
   const [isBeginning, setIsBeginning] = useState(true)
   const [isEnd, setIsEnd] = useState(false)
@@ -25,17 +32,8 @@ export const SliderButtons: React.FC = () => {
     if (isValid) nextStep()
   }
 
-  const handleSubmit = async () => {
-    console.log('최종 제출 데이터: ', formData)
-    try {
-      await submitUserProfile(formData)
-      // localStorage.setItem('myProfile', JSON.stringify(formData))
-      localStorage.setItem('nickname', formData.nickname.split('.')[0])
-      navigate('/', { state: { myProfile: formData } })
-      console.log('제출 완료! 🎉')
-    } catch (error) {
-      console.error('제출 실패:', error)
-    }
+  const handleSubmit = () => {
+    submitProfile(formData)
   }
 
   useEffect(() => {

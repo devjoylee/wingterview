@@ -1,5 +1,5 @@
-import { fetchMyProfile } from '@/api/userAPI'
-import { useQuery } from '@tanstack/react-query'
+import { submitUserProfile, fetchMyProfile } from '@/api/profileAPI'
+import { useMutation, useQuery } from '@tanstack/react-query'
 
 export const useMyProfile = () => {
   return useQuery<UserData>({
@@ -7,5 +7,16 @@ export const useMyProfile = () => {
     queryFn: fetchMyProfile,
     staleTime: 1000 * 60 * 5,
     refetchOnWindowFocus: false,
+  })
+}
+
+export const useSubmitProfile = (options?: {
+  onSuccess?: (data: ApiResponse<null>) => void
+  onError?: (error: unknown) => void
+}) => {
+  return useMutation({
+    mutationFn: submitUserProfile,
+    onSuccess: options?.onSuccess,
+    onError: options?.onError,
   })
 }

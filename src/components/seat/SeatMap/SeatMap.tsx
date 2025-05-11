@@ -38,18 +38,13 @@ export const SeatMap = ({ closeSeatMap }: SeatMapProps) => {
 
     setSeatId(clickedSeatId)
 
-    try {
-      const { data: isOccupiedByOther } = await checkIfOccupied()
+    const { data: isOccupiedByOther } = await checkIfOccupied()
 
-      if (isOccupiedByOther) {
-        setError('이미 다른 사람이 선택한 자리입니다.')
-        return
-      }
-      setError(null)
-    } catch (error) {
-      console.error('자리 확인 중 오류 발생:', error)
-      // setError('자리 확인 중 오류가 발생했습니다.')
+    if (isOccupiedByOther) {
+      setError('이미 다른 사람이 선택한 자리입니다.')
+      return
     }
+    setError(null)
   }
 
   const confirmMySeat = async () => {
@@ -58,14 +53,9 @@ export const SeatMap = ({ closeSeatMap }: SeatMapProps) => {
       return
     }
 
-    try {
-      await blockSeat(seatId)
-      closeSeatMap()
-      setError(null)
-    } catch (error) {
-      console.error('자리 선택 중 오류 발생:', error)
-      // setError('자리 선택 중 오류가 발생했습니다.')
-    }
+    await blockSeat(seatId)
+    closeSeatMap()
+    setError(null)
   }
 
   const isSeletedByMe = ({ section, row, col }: SeatParams) =>
@@ -74,7 +64,7 @@ export const SeatMap = ({ closeSeatMap }: SeatMapProps) => {
     selectedSeat.seat[1] === col
 
   useEffect(() => {
-    console.log(seatMapData ? seatMapData : 'seatMapData 로딩 실패')
+    console.log(seatMapData ? seatMapData : 'seatMapData 로딩 중')
   }, [seatMapData])
 
   return (

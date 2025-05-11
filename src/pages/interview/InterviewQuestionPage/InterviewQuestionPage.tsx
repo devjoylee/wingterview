@@ -39,9 +39,6 @@ export const InterviewQuestionPage: React.FC = () => {
         })
       }
     },
-    onError: error => {
-      console.error('질문 선택 전송 실패:', error)
-    },
   })
 
   const { mutate: generateQuestions, isPending: isGenerating } =
@@ -53,8 +50,7 @@ export const InterviewQuestionPage: React.FC = () => {
           setIsRefreshing(false)
         }
       },
-      onError: error => {
-        console.error('문제 생성 중 오류 발생:', error)
+      onError: () => {
         setIsRefreshing(false)
       },
     })

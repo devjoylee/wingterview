@@ -31,12 +31,11 @@ export const useApplicantCount = () => {
   })
 }
 
-export const useMatchResult = (isMatching: boolean) => {
+export const useMatchResult = (isPolling: boolean) => {
   return useQuery({
     queryKey: ['matchingResult'],
     queryFn: fetchMatchingResult,
-    enabled: isMatching,
+    refetchInterval: isPolling ? 3000 : false,
     staleTime: 0,
-    refetchInterval: isMatching ? 3000 : false,
   })
 }

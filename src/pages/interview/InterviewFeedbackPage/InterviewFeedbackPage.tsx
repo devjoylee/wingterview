@@ -20,6 +20,7 @@ export const InterviewFeedbackPage: React.FC = () => {
   const interviewId = localStorage.getItem('interviewId') as string
 
   const { data } = useInterviewStatus(interviewId)
+
   const { mutate: updateStatus } = useUpdateInterviewStatus({
     onSuccess: () => {
       navigate('/interview/awaiting')
@@ -41,7 +42,7 @@ export const InterviewFeedbackPage: React.FC = () => {
 
   useEffect(() => {
     if (data) {
-      setPartner(data.data.partner)
+      setPartner(data?.data?.partner)
     }
   }, [data])
 
@@ -55,38 +56,44 @@ export const InterviewFeedbackPage: React.FC = () => {
         </h2>
       </div>
 
-      <div className={styles.profileSection}>
-        <img src={defaultImage} alt="profile" className={styles.profileImage} />
-        <p>{`${partner.nickname} (${partner.name}) / ${partner.curriculum}`}</p>
+      {partner && (
+        <div className={styles.profileSection}>
+          <img
+            src={defaultImage}
+            alt="profile"
+            className={styles.profileImage}
+          />
+          <p>{`${partner.nickname} (${partner.name}) / ${partner.curriculum}`}</p>
 
-        {partner.jobInterest && partner.jobInterest.length > 0 && (
-          <div className={styles.interestTags}>
-            {partner.jobInterest.map((interest, index) => (
-              <span key={index} className={styles.tag}>
-                {interest}
-              </span>
-            ))}
+          {partner.jobInterest && partner.jobInterest.length > 0 && (
+            <div className={styles.interestTags}>
+              {partner.jobInterest.map((interest, index) => (
+                <span key={index} className={styles.tag}>
+                  {interest}
+                </span>
+              ))}
+            </div>
+          )}
+
+          {partner.techStack && partner.techStack.length > 0 && (
+            <div className={styles.techTags}>
+              {partner.techStack.map((tech, index) => (
+                <span key={index} className={styles.techTag}>
+                  {tech}
+                </span>
+              ))}
+            </div>
+          )}
+
+          <div className={styles.ratingStars}>
+            <span>★</span>
+            <span>★</span>
+            <span>★</span>
+            <span>★</span>
+            <span>★</span>
           </div>
-        )}
-
-        {partner.techStack && partner.techStack.length > 0 && (
-          <div className={styles.techTags}>
-            {partner.techStack.map((tech, index) => (
-              <span key={index} className={styles.techTag}>
-                {tech}
-              </span>
-            ))}
-          </div>
-        )}
-
-        <div className={styles.ratingStars}>
-          <span>★</span>
-          <span>★</span>
-          <span>★</span>
-          <span>★</span>
-          <span>★</span>
         </div>
-      </div>
+      )}
 
       <div className={styles.feedbackCard}>
         <h3>한줄 피드백</h3>

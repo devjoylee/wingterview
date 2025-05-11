@@ -29,8 +29,7 @@ export const InterviewAnswerPage: React.FC = () => {
         })
       }
     },
-    onError: error => {
-      console.error('문제 생성 중 오류 발생:', error)
+    onError: () => {
       setIsGenerating(false)
     },
   })
@@ -38,9 +37,6 @@ export const InterviewAnswerPage: React.FC = () => {
   const { mutate: updateStatus } = useUpdateInterviewStatus({
     onSuccess: () => {
       navigate('/interview/feedback')
-    },
-    onError: error => {
-      console.error('면접 상태 업데이트 중 오류 발생:', error)
     },
   })
 

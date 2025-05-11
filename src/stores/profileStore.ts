@@ -69,6 +69,7 @@ export const useProfileStore = create<ProfileState>()((set, get) => ({
         ...state.formData,
         jobInterest: interests,
       },
+      formErrors: {},
     })),
 
   updateTechStack: stacks =>
@@ -77,6 +78,7 @@ export const useProfileStore = create<ProfileState>()((set, get) => ({
         ...state.formData,
         techStack: stacks,
       },
+      formErrors: {},
     })),
 
   updateProfileImageUrl: url =>
@@ -93,6 +95,7 @@ export const useProfileStore = create<ProfileState>()((set, get) => ({
         ...state.formData,
         seatPosition: seat,
       },
+      formErrors: {},
     })),
 
   nextStep: () => {
