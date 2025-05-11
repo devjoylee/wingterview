@@ -34,8 +34,10 @@ export const HomePage: React.FC = () => {
       return
     }
 
-    startMatching()
     setIsMatching(true)
+    setTimeout(() => {
+      startMatching()
+    }, 1500)
   }, [isButtonClicked, startMatching])
 
   return (

@@ -9,7 +9,9 @@ import 'swiper/css'
 import 'swiper/css/navigation'
 import 'swiper/css/pagination'
 
-export const ProfileSlider: React.FC = () => {
+export const ProfileSlider: React.FC<{ onSubmit: () => void }> = ({
+  onSubmit,
+}) => {
   const { setSwiper, currentStep } = useProfileStore()
 
   const slides = [
@@ -54,7 +56,7 @@ export const ProfileSlider: React.FC = () => {
         {slides.map(slide => (
           <SwiperSlide key={slide.id}>{slide.component}</SwiperSlide>
         ))}
-        <SliderButtons />
+        <SliderButtons onSubmit={onSubmit} />
       </Swiper>
     </div>
   )
