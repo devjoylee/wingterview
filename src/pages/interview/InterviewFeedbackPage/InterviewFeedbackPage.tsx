@@ -19,7 +19,7 @@ export const InterviewFeedbackPage: React.FC = () => {
 
   const interviewId = localStorage.getItem('interviewId') as string
 
-  const { data } = useInterviewStatus(interviewId)
+  const { data: interviewStatus } = useInterviewStatus(interviewId)
 
   const { mutate: updateStatus } = useUpdateInterviewStatus({
     onSuccess: () => {
@@ -41,10 +41,10 @@ export const InterviewFeedbackPage: React.FC = () => {
   }
 
   useEffect(() => {
-    if (data) {
-      setInterviewee(data?.data?.interviewee)
+    if (interviewStatus) {
+      setInterviewee(interviewStatus?.data?.partner)
     }
-  }, [data])
+  }, [interviewStatus])
 
   return (
     <div className={styles.container}>

@@ -1,20 +1,26 @@
-import apiClient from './apiClient'
-import { API } from './endpoints'
+import axios from 'axios'
 
 interface LoginData {
   accessToken: string
   isNewUser: boolean
 }
 
+const API_URL = import.meta.env.VITE_API_URL || ''
+
 export const kakaoLogin = async (authCode: string) => {
   try {
-    const response = await apiClient.post<ApiResponse<LoginData>>(
-      API.LOGIN.KAKAO,
+    const response = await axios.post<ApiResponse<LoginData>>(
+      `${API_URL}/api/auth/oauth/kakao`,
       {
         code: authCode,
+      },
+      {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        withCredentials: true,
       }
     )
-    console.log('🎉 카카오 로그인 성공:', response.data.data)
     return response.data.data
   } catch (error) {
     console.error('카카오 로그인 에러:', error)
