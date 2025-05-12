@@ -91,7 +91,8 @@ export const InterviewFeedbackPage: React.FC = () => {
             className={styles.textarea}
             value={feedback}
             onChange={e => setFeedback(e.target.value)}
-            placeholder="면접자에게 피드백을 남겨주세요"
+            placeholder="면접자에게 피드백을 남겨주세요 (최대 200자)"
+            maxLength={200}
           />
           <button
             className={`${styles.sendButton} ${feedback && styles.active}`}
