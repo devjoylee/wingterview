@@ -39,11 +39,13 @@ export const useInterviewStore = create<InterviewState>()(
 
       getHistory: () => get().history,
 
-      resetHistory: () =>
+      resetHistory: () => {
         set({
           history: [],
           questionIdx: 0,
-        }),
+        })
+        localStorage.removeItem('interview-storage')
+      },
     }),
     {
       name: 'interview-storage',

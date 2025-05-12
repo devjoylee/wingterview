@@ -1,5 +1,6 @@
 import { Outlet } from 'react-router-dom'
 import { Logo } from '@/components/common'
+import { Timer } from '@/components/interview'
 import styles from './styles.module.scss'
 
 export const InterviewLayout: React.FC = () => {
@@ -9,7 +10,7 @@ export const InterviewLayout: React.FC = () => {
         <div className={styles.logoWrapper}>
           <Logo width={60} color="light" />
         </div>
-        <div className={styles.timer}>00:00:00</div>
+        <Timer />
       </div>
       <div className={styles.pageContent}>
         <Outlet />
