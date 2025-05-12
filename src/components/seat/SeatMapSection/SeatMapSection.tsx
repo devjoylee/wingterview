@@ -2,13 +2,15 @@ import styles from './styles.module.scss'
 
 interface SeatMapSectionProps {
   section: string
-  isSeletedByMe: ({ section, row, col }: SeatParams) => boolean
+  isSelectedByMe: ({ section, row, col }: SeatParams) => boolean
+  isHighlighted: ({ section, row, col }: SeatParams) => boolean
   handleSeatSelect: ({ section, row, col }: SeatParams) => void
 }
 
 export const SeatMapSection = ({
   section,
-  isSeletedByMe,
+  isSelectedByMe,
+  isHighlighted,
   handleSeatSelect,
 }: SeatMapSectionProps) => {
   const ryans = [
@@ -41,8 +43,12 @@ export const SeatMapSection = ({
                     <div
                       key={`${section}-${row}-${col}`}
                       className={`${styles.seat} ${
-                        isSeletedByMe({ section, row, col })
+                        isSelectedByMe({ section, row, col })
                           ? styles.selected
+                          : ''
+                      } ${
+                        isHighlighted({ section, row, col })
+                          ? styles.highlighted
                           : ''
                       }`}
                       onClick={() => handleSeatSelect({ section, row, col })}

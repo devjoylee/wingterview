@@ -57,7 +57,9 @@
   width: 103%;
   max-height: calc(90vh - 120px);
 
-  padding-bottom: 220px;
+  .padding {
+    padding-bottom: 220px;
+  }
 
   &::-webkit-scrollbar {
     width: 8px;

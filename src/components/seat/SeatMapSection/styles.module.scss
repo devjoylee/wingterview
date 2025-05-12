@@ -55,13 +55,15 @@
   border: 1px solid #ddd;
   transition: all 0.1s ease-in-out;
 
-  &:hover {
-    background-color: #e0e0e0;
-  }
-
   &.selected {
     background-color: $secondary;
     border-color: $secondary;
+    color: white;
+  }
+
+  &.highlighted {
+    background-color: #c71a1a;
+    border-color: #c71a1a;
     color: white;
   }
 }
