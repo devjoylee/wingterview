@@ -5,7 +5,7 @@ import styles from './styles.module.scss'
 import { Send } from 'lucide-react'
 import { useInterviewStatus, useUpdateInterviewStatus } from '@/hooks/interview'
 import { useInterviewStore } from '@/stores/interviewStore'
-import { CurrentRound } from '@/components/interview'
+import { CurrentRound, StarRating } from '@/components/interview'
 import { Modal } from '@/components/common'
 
 export const InterviewFeedbackPage: React.FC = () => {
@@ -25,6 +25,7 @@ export const InterviewFeedbackPage: React.FC = () => {
       console.error('면접 ID를 찾을 수 없습니다.')
       return
     }
+
     updateStatus(interviewId) // FEEDBACK -> PENDING
   }
 
@@ -78,11 +79,7 @@ export const InterviewFeedbackPage: React.FC = () => {
           )}
 
           <div className={styles.ratingStars}>
-            <span>★</span>
-            <span>★</span>
-            <span>★</span>
-            <span>★</span>
-            <span>★</span>
+            <StarRating />
           </div>
         </div>
       )}
