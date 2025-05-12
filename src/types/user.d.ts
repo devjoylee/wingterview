@@ -4,7 +4,7 @@ interface BaseProfile {
   curriculum: string
   jobInterest: string[]
   techStack: string[]
-  profileImageUrl?: string | null
+  profileImageUrl?: string
 }
 
 interface ProfileFormData extends BaseProfile {

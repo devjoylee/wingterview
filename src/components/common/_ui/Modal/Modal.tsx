@@ -36,14 +36,13 @@ export const Modal: React.FC<ModalProps> = ({
           {style === 'failed' && <img src={failedEmoji} alt="failed icon" />}
         </div>
 
-        <div className={styles.modalContent}>
+        <div className={styles.modalMessage}>
           {message.map((line, idx) => (
-            <p key={idx} className={styles.modalMessage}>
-              {line}
-            </p>
+            <p key={idx}>{line}</p>
           ))}
-          {children}
         </div>
+
+        {children}
       </div>
     </div>
   )
