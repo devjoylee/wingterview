@@ -8,7 +8,7 @@ import { ErrorMessage } from '@/components/common'
 
 export const ProfileImageStep = () => {
   const { updateProfileImage } = useProfileStore()
-  const [imageURL, setImageURL] = useState<string>('')
+  const [imageURL, setImageURL] = useState<string | null>(null)
   const [error, setError] = useState<string>('')
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {

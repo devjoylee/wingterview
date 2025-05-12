@@ -42,7 +42,9 @@ export const SeatMapSection = ({
                 {Array.from({ length: 3 }, (_, idx) => {
                   const col = idx + 1
                   const isOccupied =
-                    seatMapData?.seats[section]?.[row - 1]?.[col - 1]
+                    seatMapData?.seats[section.toLowerCase()]?.[row - 1]?.[
+                      col - 1
+                    ]
 
                   let classname = styles.seat
                   if (isOccupied) classname += ` ${styles.occupied}`
