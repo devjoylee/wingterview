@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
-import { Modal, StaticTag } from '@/components/common'
+import { Button, Modal, StaticTag } from '@/components/common'
 import { useMatchStore } from '@/stores/matchStore'
 import { useMatchResult } from '@/hooks/match'
 import {
@@ -32,21 +32,22 @@ export const InterviewAwaitingPage: React.FC = () => {
 
   const { mutate: updateStatus } = useUpdateInterviewStatus({})
 
-  const { mutate: generateQuestions, isSuccess } = useGenerateQuestion({
-    onSuccess: result => {
-      if (interviewId) {
-        setTimeout(() => {
-          navigate('/interview/question', {
-            state: {
-              questions: result.data.questions,
-            },
-          })
-        }, 1500)
+  const { mutate: generateQuestions, isSuccess: isGenerated } =
+    useGenerateQuestion({
+      onSuccess: result => {
+        if (interviewId) {
+          setTimeout(() => {
+            navigate('/interview/question', {
+              state: {
+                questions: result.data.questions,
+              },
+            })
+          }, 1500)
 
-        setTimeout(() => startTimer(), 500)
-      }
-    },
-  })
+          setTimeout(() => startTimer(), 500)
+        }
+      },
+    })
 
   const handleStartInterview = () => {
     if (!interviewId) {
@@ -145,11 +146,23 @@ export const InterviewAwaitingPage: React.FC = () => {
       </div>
 
       <Modal
-        isOpen={isSuccess}
+        isOpen={isGenerated}
         closeOnBgClick={false}
         style="loading"
         message={['면접 질문을 생성하고 있습니다.', '잠시만 기다려주세요.']}
       />
+
+      <Modal
+        isOpen={!interviewee}
+        closeOnBgClick={false}
+        style="failed"
+        message={[
+          '면접 상대가 정해지지 않았습니다.',
+          '1:1 매칭을 먼저 진행해주세요.',
+        ]}
+      >
+        <Button text="홈으로 이동" onClick={() => navigate('/')} />
+      </Modal>
     </div>
   )
 }

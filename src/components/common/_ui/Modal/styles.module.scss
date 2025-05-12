@@ -31,7 +31,10 @@
 }
 
 .modalMessage {
-  font-size: 17px;
-  line-height: 1.5;
-  font-weight: 600;
+  margin-bottom: 20px;
+  p {
+    font-size: 17px;
+    line-height: 1.5;
+    font-weight: 600;
+  }
 }

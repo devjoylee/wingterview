@@ -10,7 +10,9 @@ export const InterviewLayout: React.FC = () => {
         <div className={styles.logoWrapper}>
           <Logo width={60} color="light" />
         </div>
-        <Timer />
+        <div className={styles.timerWrapper}>
+          <Timer />
+        </div>
       </div>
       <div className={styles.pageContent}>
         <Outlet />
