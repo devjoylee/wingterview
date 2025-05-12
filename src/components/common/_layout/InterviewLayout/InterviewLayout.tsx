@@ -6,10 +6,15 @@ import { useInterviewStore } from '@/stores/interviewStore'
 import { useEffect } from 'react'
 
 export const InterviewLayout: React.FC = () => {
-  const { currentPhase } = useInterviewStore()
+  const { isInterviewer, currentPhase } = useInterviewStore()
   const navigate = useNavigate()
 
   useEffect(() => {
+    if (!isInterviewer) {
+      navigate('/interview/awaiting')
+      return
+    }
+
     switch (currentPhase) {
       case 'PENDING':
         navigate('/interview/awaiting')
@@ -26,7 +31,7 @@ export const InterviewLayout: React.FC = () => {
       default:
         break
     }
-  }, [currentPhase, navigate])
+  }, [currentPhase, navigate, isInterviewer])
 
   return (
     <div className={styles.interviewLayout}>

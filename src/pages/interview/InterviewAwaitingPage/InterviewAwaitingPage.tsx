@@ -11,6 +11,7 @@ import {
 } from '@/hooks/interview'
 
 import defaultImage from '@assets/default-profile.png'
+import waitImage from '@assets/wait.png'
 import { useInterviewStore } from '@/stores/interviewStore'
 import { useTimerStore } from '@/stores/timerStore'
 import styles from './styles.module.scss'
@@ -20,15 +21,13 @@ export const InterviewAwaitingPage: React.FC = () => {
   const location = useLocation()
 
   const intervieweeInRoute = location.state?.interviewee
-  const intervieweeInStore = useMatchStore(state => state.getInterviewee())
   const interviewId = localStorage.getItem('interviewId') as string
 
   const [interviewee, setInterviewee] = useState<BaseProfile | null>(null)
 
-  // const requestFetch = !intervieweeInStore && !intervieweeInRoute
-
   const { startTimer, resetTimer } = useTimerStore()
-  const { currentRound, setInterviewData } = useInterviewStore()
+  const { isInterviewer, currentRound, setInterviewData } = useInterviewStore()
+  const { getOddInterviewee, getEvenInterviewee } = useMatchStore()
 
   const { data: matchResult } = useMatchResult(false)
   const { data: currentStatus } = useInterviewStatus(interviewId)
@@ -61,7 +60,7 @@ export const InterviewAwaitingPage: React.FC = () => {
       return
     }
 
-    updateStatus(interviewId) /// 문제 만들어지면 면접 상태 PENDING -> PROGRESS
+    updateStatus(interviewId) // 면접 상태 PENDING -> PROGRESS
     generateQuestions({
       interviewId,
     })
@@ -77,6 +76,9 @@ export const InterviewAwaitingPage: React.FC = () => {
         }
 
         // 2. store 데이터 확인
+        const intervieweeInStore =
+          currentRound % 2 === 1 ? getOddInterviewee() : getEvenInterviewee()
+
         if (intervieweeInStore) {
           setInterviewee(intervieweeInStore)
           return
@@ -84,9 +86,11 @@ export const InterviewAwaitingPage: React.FC = () => {
 
         // 3. 데이터(1,2) 없으면 API로 데이터 가져오기
         if (matchResult) {
-          setInterviewee(matchResult.data.interviewee)
-        } else {
-          // navigate('/')
+          const interviewee =
+            currentRound % 2 === 1
+              ? matchResult.data.interviewee
+              : matchResult.data.interviewer
+          setInterviewee(interviewee)
         }
       } catch (error) {
         console.error('면접자 정보 조회 중 오류:', error)
@@ -94,7 +98,13 @@ export const InterviewAwaitingPage: React.FC = () => {
     }
 
     getIntervieweeData()
-  }, [navigate, intervieweeInRoute, intervieweeInStore, matchResult])
+  }, [
+    intervieweeInRoute,
+    currentRound,
+    matchResult,
+    getOddInterviewee,
+    getEvenInterviewee,
+  ])
 
   useEffect(() => {
     resetTimer()
@@ -107,22 +117,32 @@ export const InterviewAwaitingPage: React.FC = () => {
     <div className={styles.container}>
       <CurrentRound currentRound={currentRound} />
 
-      <div className={styles.awaitingScreen}>
-        <h2>
-          면접을 시작하려면 <br />
-          아래 버튼을 눌러주세요.
-        </h2>
+      {isInterviewer ? (
+        <div className={styles.awaitingScreen}>
+          <h2>
+            면접을 시작하려면 <br />
+            아래 버튼을 눌러주세요.
+          </h2>
 
-        <div className={styles.buttonWrapper}>
-          <button
-            className={styles.startButton}
-            onClick={handleStartInterview}
-            disabled={!interviewId}
-          >
-            START
-          </button>
+          <div className={styles.buttonWrapper}>
+            <button
+              className={styles.startButton}
+              onClick={handleStartInterview}
+              disabled={!interviewId}
+            >
+              START
+            </button>
+          </div>
         </div>
-      </div>
+      ) : (
+        <div className={styles.awaitingScreen}>
+          <h2>
+            면접이 곧 시작됩니다. <br />
+            면접관의 지시를 따라주세요. <br />
+          </h2>
+          <img src={waitImage} alt="wait" />
+        </div>
+      )}
 
       <div className={styles.intervieweeCard}>
         <h3>{currentRound} ROUND 면접자</h3>
