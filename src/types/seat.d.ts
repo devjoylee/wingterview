@@ -13,5 +13,5 @@ interface SeatMapData {
   seats: {
     [section: string]: boolean[][]
   }
-  mySeatPosition: SeatData | null
+  mySeatPosition?: SeatData | null
 }

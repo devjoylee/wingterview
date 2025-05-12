@@ -5,11 +5,13 @@ import { Button, Logo } from '@/components/common'
 import { useMatchStore } from '@/stores/matchStore'
 import { useMatchResult } from '@/hooks/match'
 import styles from './styles.module.scss'
+import { SeatMap } from '@/components/seat'
 
 export const MatchResultPage: React.FC = () => {
   const navigate = useNavigate()
   const location = useLocation()
   const [result, setResult] = useState<MatchResultData | null>(null)
+  const [showSeatMap, setShowSeatMap] = useState(false)
 
   const matchResultInRoute = location.state?.matchResult
   const { matchResultInStore, setMatchResultInStore } = useMatchStore()
@@ -27,6 +29,9 @@ export const MatchResultPage: React.FC = () => {
       },
     })
   }
+
+  const openSeatMap = () => setShowSeatMap(true)
+  const closeSeatMap = () => setShowSeatMap(false)
 
   useEffect(() => {
     try {
@@ -103,13 +108,18 @@ export const MatchResultPage: React.FC = () => {
               <br />
               면접관의 자리로 이동해주세요.
             </p>
-            <Button
-              text="면접관 자리 보기"
-              onClick={() => console.log('면접관 자리 보기 클릭')}
-            />
+            <Button text="면접관 자리 보기" onClick={openSeatMap} />
           </div>
         )}
       </div>
+
+      {showSeatMap && (
+        <SeatMap
+          closeSeatMap={closeSeatMap}
+          isEditable={false}
+          seatCode={result?.interviewer.seatCode}
+        />
+      )}
     </div>
   )
 }

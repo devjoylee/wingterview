@@ -3,9 +3,9 @@ import { API } from './endpoints'
 
 export const fetchSeatMapData = async () => {
   try {
-    const response = await apiClient.get<ApiResponse>(API.SEAT.ALL)
+    const response = await apiClient.get<ApiResponse<SeatMapData>>(API.SEAT.ALL)
     console.log('🎉 전체 자리배치도 조회 성공:', response.data)
-    return response.data
+    return response.data.data
   } catch (error) {
     console.error('전체 자리배치도 조회 실패:', error)
     throw error

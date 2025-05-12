@@ -2,13 +2,17 @@ import styles from './styles.module.scss'
 
 interface SeatMapSectionProps {
   section: string
-  isSeletedByMe: ({ section, row, col }: SeatParams) => boolean
+  seatMapData: SeatMapData | undefined
+  isSelectedByMe: ({ section, row, col }: SeatParams) => boolean
+  isHighlighted: ({ section, row, col }: SeatParams) => boolean
   handleSeatSelect: ({ section, row, col }: SeatParams) => void
 }
 
 export const SeatMapSection = ({
   section,
-  isSeletedByMe,
+  seatMapData,
+  isSelectedByMe,
+  isHighlighted,
   handleSeatSelect,
 }: SeatMapSectionProps) => {
   const ryans = [
@@ -37,18 +41,31 @@ export const SeatMapSection = ({
               <div className={styles.seatWrapper}>
                 {Array.from({ length: 3 }, (_, idx) => {
                   const col = idx + 1
+                  const isOccupied =
+                    seatMapData?.seats[section]?.[row - 1]?.[col - 1]
+
+                  let classname = styles.seat
+                  if (isOccupied) classname += ` ${styles.occupied}`
+                  if (isSelectedByMe({ section, row, col }))
+                    classname += ` ${styles.selected}`
+                  if (isHighlighted({ section, row, col }))
+                    classname += ` ${styles.highlighted}`
+                  if (!seatMapData) classname += ` ${styles.noData}`
+
+                  console.log(
+                    section,
+                    row,
+                    col,
+                    isHighlighted({ section, row, col })
+                  )
                   return (
                     <div
                       key={`${section}-${row}-${col}`}
-                      className={`${styles.seat} ${
-                        isSeletedByMe({ section, row, col })
-                          ? styles.selected
-                          : ''
-                      }`}
-                      onClick={() => handleSeatSelect({ section, row, col })}
-                    >
-                      {['L', 'M', 'R'][col - 1]}
-                    </div>
+                      className={classname}
+                      onClick={() =>
+                        !isOccupied && handleSeatSelect({ section, row, col })
+                      }
+                    ></div>
                   )
                 })}
               </div>

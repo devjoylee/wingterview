@@ -36,7 +36,10 @@ export const SeatLocationStep = () => {
       </div>
 
       {showSeatMap &&
-        createPortal(<SeatMap closeSeatMap={closeSeatMap} />, document.body)}
+        createPortal(
+          <SeatMap closeSeatMap={closeSeatMap} isEditable={true} />,
+          document.body
+        )}
     </ProfileFormLayout>
   )
 }

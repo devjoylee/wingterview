@@ -2,7 +2,7 @@ import { useQuery } from '@tanstack/react-query'
 import { checkSeatOccupied, fetchSeatMapData } from '@/api/seatAPI'
 
 export const useSeatMapData = () => {
-  return useQuery({
+  return useQuery<SeatMapData>({
     queryKey: ['seats'],
     queryFn: fetchSeatMapData,
     staleTime: 1000 * 60 * 1,
