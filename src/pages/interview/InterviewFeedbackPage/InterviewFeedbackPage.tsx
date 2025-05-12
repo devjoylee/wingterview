@@ -8,14 +8,7 @@ import { useInterviewStatus, useUpdateInterviewStatus } from '@/hooks/interview'
 export const InterviewFeedbackPage: React.FC = () => {
   const navigate = useNavigate()
   const [feedback, setFeedback] = useState('')
-  const [interviewee, setInterviewee] = useState({
-    nickname: '',
-    name: '',
-    curriculum: '',
-    profileImageUrl: '',
-    jobInterest: [],
-    techStack: [],
-  })
+  const [interviewee, setInterviewee] = useState<BaseProfile>()
 
   const interviewId = localStorage.getItem('interviewId') as string
 
