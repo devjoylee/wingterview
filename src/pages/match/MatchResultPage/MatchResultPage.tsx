@@ -11,7 +11,7 @@ export const MatchResultPage: React.FC = () => {
   const navigate = useNavigate()
   const location = useLocation()
   const [result, setResult] = useState<MatchResultData | null>(null)
-  const [showSeatMap, setShowSeatMap] = useState(true)
+  const [showSeatMap, setShowSeatMap] = useState(false)
 
   const matchResultInRoute = location.state?.matchResult
   const { matchResultInStore, setMatchResultInStore } = useMatchStore()
