@@ -11,6 +11,7 @@ import {
 import defaultImage from '@assets/default-profile.png'
 import styles from './styles.module.scss'
 import { useInterviewStore } from '@/stores/interviewStore'
+import { useTimerStore } from '@/stores/timerStore'
 
 export const InterviewAwaitingPage: React.FC = () => {
   const navigate = useNavigate()
@@ -24,7 +25,9 @@ export const InterviewAwaitingPage: React.FC = () => {
 
   // const requestFetch = !intervieweeInStore && !intervieweeInRoute
 
+  const { resetTimer } = useTimerStore()
   const { resetHistory } = useInterviewStore()
+  const { startTimer } = useTimerStore()
   const { data: matchResult } = useMatchResult(false)
 
   const { mutate: updateStatus } = useUpdateInterviewStatus({})
@@ -41,6 +44,8 @@ export const InterviewAwaitingPage: React.FC = () => {
             },
           })
         }, 1500)
+
+        setTimeout(() => startTimer(), 500)
       }
     },
   })
@@ -87,7 +92,8 @@ export const InterviewAwaitingPage: React.FC = () => {
 
   useEffect(() => {
     resetHistory()
-  }, [resetHistory])
+    resetTimer()
+  }, [resetHistory, resetTimer])
 
   return (
     <div className={styles.container}>

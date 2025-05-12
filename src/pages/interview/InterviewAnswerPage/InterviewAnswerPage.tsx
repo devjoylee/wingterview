@@ -7,6 +7,7 @@ import {
   useUpdateInterviewStatus,
 } from '@/hooks/interview'
 import styles from './styles.module.scss'
+import { useTimerStore } from '@/stores/timerStore'
 
 export const InterviewAnswerPage: React.FC = () => {
   const location = useLocation()
@@ -17,6 +18,8 @@ export const InterviewAnswerPage: React.FC = () => {
   const { questionIdx } = useInterviewStore()
   const currentQuestion = location.state?.question
   const interviewId = localStorage.getItem('interviewId') as string
+
+  const { resetTimer } = useTimerStore()
 
   const { mutate: generateQuestions, isPending } = useGenerateQuestion({
     onSuccess: result => {
@@ -67,6 +70,7 @@ export const InterviewAnswerPage: React.FC = () => {
     }
 
     updateStatus(interviewId) // PROGRESS -> FEEDBACK
+    resetTimer({ minutes: 0, seconds: 0 })
   }
 
   return (
