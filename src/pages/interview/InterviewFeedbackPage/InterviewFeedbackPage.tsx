@@ -6,6 +6,7 @@ import { Send } from 'lucide-react'
 import { useInterviewStatus, useUpdateInterviewStatus } from '@/hooks/interview'
 import { useInterviewStore } from '@/stores/interviewStore'
 import { CurrentRound } from '@/components/interview'
+import { Modal } from '@/components/common'
 
 export const InterviewFeedbackPage: React.FC = () => {
   const navigate = useNavigate()
@@ -17,23 +18,17 @@ export const InterviewFeedbackPage: React.FC = () => {
   const { data } = useInterviewStatus(interviewId)
   const { currentRound } = useInterviewStore()
 
-  const { mutate: updateStatus } = useUpdateInterviewStatus({
-    onSuccess: () => {
-      navigate('/interview/awaiting')
-    },
-    onError: error => {
-      console.error('면접 상태 업데이트 중 오류 발생:', error)
-    },
-  })
+  const { mutate: updateStatus, isSuccess } = useUpdateInterviewStatus()
 
   const handleSendFeedback = () => {
     if (!interviewId) {
       console.error('면접 ID를 찾을 수 없습니다.')
       return
     }
-
     updateStatus(interviewId) // FEEDBACK -> PENDING
   }
+
+  const goToNextRound = () => navigate('/interview/awaiting')
 
   useEffect(() => {
     if (data) {
@@ -109,6 +104,15 @@ export const InterviewFeedbackPage: React.FC = () => {
           </button>
         </div>
       </div>
+
+      <Modal
+        isOpen={isSuccess}
+        closeOnBgClick
+        hasYesNo
+        onYesClick={goToNextRound}
+        style="congrats"
+        message={['피드백이 제출되었습니다!', '다음 라운드를 계속 진행할까요?']}
+      />
     </div>
   )
 }
