@@ -21,13 +21,12 @@ export const LoginRedirectPage: React.FC = () => {
       try {
         const authCode = new URLSearchParams(location.search).get('code')
 
-        console.log(authCode)
-
         if (!authCode) {
           throw new Error('인가 코드를 찾을 수 없습니다.')
         }
 
         const { accessToken, isNewUser } = await kakaoLogin(authCode)
+        const nickname = localStorage.getItem('nickname')
 
         // const accessToken = 'temp-accessToken-dfioasdvnkcvl'
         // const isNewUser = true
@@ -36,12 +35,12 @@ export const LoginRedirectPage: React.FC = () => {
         setIsNewUser(isNewUser)
 
         setTimeout(() => {
-          if (isNewUser) {
+          if (!nickname || isNewUser) {
             navigate('/profile-setup', { replace: true })
           } else {
             navigate('/', { replace: true })
           }
-        }, 2000)
+        }, 1500)
       } catch (err) {
         console.error('로그인 처리 중 오류 발생:', err)
         navigate('/login', { replace: true })
