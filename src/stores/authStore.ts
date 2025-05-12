@@ -1,5 +1,5 @@
 import { create } from 'zustand'
-import { persist } from 'zustand/middleware'
+import { persist, StorageValue } from 'zustand/middleware'
 
 interface AuthState {
   accessToken: string | null
@@ -23,11 +23,25 @@ export const useAuthStore = create<AuthState>()(
         }),
 
       isLoggedIn: () => {
-        return !!get().accessToken
+        const nickname = localStorage.getItem('nickname')
+        const token = get().accessToken
+        return !!(nickname && token)
       },
     }),
     {
       name: 'auth-storage',
+      storage: {
+        getItem: key => {
+          const value = sessionStorage.getItem(key)
+          return value ? (JSON.parse(value) as StorageValue<AuthState>) : null
+        },
+        setItem: (key, value) => {
+          sessionStorage.setItem(key, JSON.stringify(value))
+        },
+        removeItem: key => {
+          sessionStorage.removeItem(key)
+        },
+      },
     }
   )
 )

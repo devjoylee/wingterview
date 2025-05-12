@@ -61,7 +61,7 @@ export const handlers = [
       message: 'seat_fetch_done',
       data: {
         seats: {
-          A: [
+          a: [
             [false, false, false],
             [false, false, true],
             [true, true, true],
@@ -81,7 +81,7 @@ export const handlers = [
             [true, true, true],
             [true, true, true],
           ],
-          B: [
+          b: [
             [true, true, true],
             [false, false, true],
             [true, true, true],
@@ -101,7 +101,7 @@ export const handlers = [
             [true, true, true],
             [true, true, true],
           ],
-          C: [
+          c: [
             [true, true, true],
             [false, false, true],
             [true, true, true],
