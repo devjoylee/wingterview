@@ -35,8 +35,6 @@ export const InterviewAwaitingPage: React.FC = () => {
   const { mutate: generateQuestions, isSuccess } = useGenerateQuestion({
     onSuccess: result => {
       if (interviewId) {
-        updateStatus(interviewId) /// 문제 만들어지면 면접 상태 PENDING -> PROGRESS
-
         setTimeout(() => {
           navigate('/interview/question', {
             state: {
@@ -56,6 +54,7 @@ export const InterviewAwaitingPage: React.FC = () => {
       return
     }
 
+    updateStatus(interviewId) /// 문제 만들어지면 면접 상태 PENDING -> PROGRESS
     generateQuestions({
       interviewId,
     })
