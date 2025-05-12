@@ -84,10 +84,6 @@ export const SeatMap = ({
     highlightedSeat?.col === col
 
   useEffect(() => {
-    console.log(seatMapData ? seatMapData : 'seatMapData 로딩 중')
-  }, [seatMapData])
-
-  useEffect(() => {
     if (seatCode) {
       const parsedSeat = parseSeatCode(seatCode)
       if (parsedSeat) {
@@ -115,6 +111,7 @@ export const SeatMap = ({
               <SeatMapSection
                 key={section}
                 section={section}
+                seatMapData={isEditable ? seatMapData : undefined}
                 isSelectedByMe={isSelectedByMe}
                 isHighlighted={isHighlighted}
                 handleSeatSelect={handleSeatSelect}
