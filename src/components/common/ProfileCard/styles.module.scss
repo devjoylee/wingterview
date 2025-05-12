@@ -1,0 +1,74 @@
+@use '@/styles/variables' as *;
+
+.profileCard {
+  width: 90%;
+  padding: 22px 30px 25px;
+  border-radius: 20px;
+  margin-top: -80px;
+  background: #fff;
+  border: 10px solid $primary;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+
+  .basicInfoWrapper {
+    display: flex;
+
+    img {
+      width: 70px;
+      border-radius: 50%;
+      border: 1px solid #e1e1e1;
+    }
+  }
+
+  .basicInfo {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-left: 20px;
+
+    .name {
+      font-size: 17px;
+      font-weight: 600;
+      color: #333;
+      word-break: keep-all;
+      line-height: 1.2;
+    }
+
+    .curriculum {
+      margin-top: 4px;
+      font-size: 15px;
+      color: #888;
+    }
+  }
+
+  .tagSection {
+    margin-top: 10px;
+
+    .title {
+      font-size: 14px;
+      font-weight: 500;
+      color: #333;
+      margin-bottom: 3px;
+    }
+
+    .tagList {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-start;
+      gap: 8px;
+
+      .tag {
+        background: #e9ecef;
+        color: #333;
+        padding: 5px 10px;
+        border-radius: 20px;
+        font-size: 12px;
+        text-align: center;
+
+        &.dark {
+          background: #333;
+          color: #fff;
+        }
+      }
+    }
+  }
+}

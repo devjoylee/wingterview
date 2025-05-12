@@ -1,0 +1,23 @@
+@use '@/styles/variables' as *;
+
+.sliderBtns {
+  display: flex;
+  justify-content: space-evenly;
+  margin-top: 30px;
+
+  button {
+    width: 100px;
+    height: 45px;
+    border-radius: 50px;
+    background-color: $primary;
+    color: #fff;
+    font-size: 0.9rem;
+    font-weight: 700;
+    z-index: 10;
+    cursor: pointer;
+
+    &:disabled {
+      background-color: #cdcdcd;
+    }
+  }
+}

@@ -1,11 +1,16 @@
-import './styles/_main.scss'
+import { RouterProvider, createBrowserRouter } from 'react-router-dom'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import routes from './routes'
+import './styles/global.scss'
 
 function App() {
+  const router = createBrowserRouter(routes)
+  const queryClient = new QueryClient()
+
   return (
-    <div>
-      <h1>Winterview</h1>
-      <p>윙터뷰, 면접에 날개를 달자! 🪽</p>
-    </div>
+    <QueryClientProvider client={queryClient}>
+      <RouterProvider router={router} />
+    </QueryClientProvider>
   )
 }
 

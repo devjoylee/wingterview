@@ -1,0 +1,64 @@
+import styles from './styles.module.scss'
+import { ProfileFormLayout } from '@components/profile'
+import { StaticTag } from '@/components/common'
+import { MapPin } from 'lucide-react'
+import defaultImage from '@assets/default-profile.png'
+import { useProfileStore } from '@/stores/profileStore'
+
+export const FinalConfirmStep = () => {
+  const { formData, selectedSeat } = useProfileStore()
+  useProfileStore()
+
+  const {
+    section,
+    seat: [row, col],
+  } = selectedSeat
+
+  const rowToString = (row as number) <= 9 ? `0${row}` : row
+  const colToString = ['L', 'M', 'R'][(col as number) - 1]
+  const seatCode = `${section}-${rowToString}-${colToString}`
+
+  return (
+    <ProfileFormLayout name="최종 프로필 확인">
+      <div className={styles.container}>
+        <div className={styles.profileHeader}>
+          <div className={styles.thumbnail}>
+            <img
+              src={formData.profileImageUrl || defaultImage}
+              alt="프로필 사진"
+            />
+          </div>
+
+          <h2 className={styles.name}>
+            {formData.nickname} ({formData.name}) / {formData.curriculum}
+          </h2>
+
+          <div className={styles.seat}>
+            <MapPin size={16} />
+            <span>{seatCode}</span>
+          </div>
+        </div>
+
+        <div className={styles.profileBody}>
+          <div className={styles.section}>
+            <h3 className={styles.title}>희망 직무</h3>
+            <div className={styles.tagList}>
+              {formData.jobInterest.map((job, index) => (
+                <StaticTag key={index} label={job} />
+              ))}
+            </div>
+          </div>
+
+          <div className={styles.section}>
+            <h3 className={styles.title}>기술 스택</h3>
+            <div className={styles.tagList}>
+              {formData.techStack.map((tech, index) => (
+                <StaticTag key={index} label={tech} dark />
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    </ProfileFormLayout>
+  )
+}

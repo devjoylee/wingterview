@@ -1,0 +1,41 @@
+@use '@/styles/variables' as *;
+
+.tag {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 14px;
+  border-radius: 9999px;
+  background-color: #fff;
+  opacity: 0.9;
+  color: #444;
+  font-size: 14px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s;
+
+  &.selected {
+    background-color: #02467d;
+    color: #fff;
+    opacity: 1;
+
+    .icon svg {
+      color: #fff;
+    }
+  }
+
+  &.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  .icon {
+    margin-left: 3px;
+    font-weight: bold;
+
+    svg {
+      color: #444;
+      width: 15px;
+    }
+  }
+}
