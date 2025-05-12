@@ -17,14 +17,17 @@ export const InterviewQuestionPage: React.FC = () => {
   const [selectedIdx, setSelectedIdx] = useState<number | null>(null)
   const [isRefreshDisabled, setIsRefreshDisabled] = useState<boolean>(false)
 
-  const { addToHistory, question: prevQuestion } = useInterviewStore()
+  const {
+    questionOption,
+    selectedQuestion: prevQuestion,
+    saveSelectedQuestion,
+  } = useInterviewStore()
 
   const { mutate: sendSelectedQuestion } = useSelectedQuestion({
     onSuccess: () => {
       if (selectedIdx !== null) {
         const selected = questions[selectedIdx - 1]
-        addToHistory(selected)
-
+        saveSelectedQuestion(selected)
         navigate('/interview/answer', {
           state: {
             question: selected,
@@ -64,9 +67,7 @@ export const InterviewQuestionPage: React.FC = () => {
     setSelectedIdx(null)
 
     if (!prevQuestion) {
-      generateQuestions({
-        interviewId,
-      })
+      generateQuestions({ interviewId })
     } else {
       generateQuestions({
         interviewId,
@@ -78,10 +79,12 @@ export const InterviewQuestionPage: React.FC = () => {
   useEffect(() => {
     if (questionsInRoute) {
       setQuestions(questionsInRoute)
+    } else if (questionOption) {
+      setQuestions(questionOption)
     } else {
-      console.warn('질문 데이터가 없습니다.')
+      generateQuestions({ interviewId })
     }
-  }, [questionsInRoute])
+  }, [questionsInRoute, questionOption, generateQuestions, interviewId])
 
   const isLoading = isGenerating || isRefreshDisabled
 

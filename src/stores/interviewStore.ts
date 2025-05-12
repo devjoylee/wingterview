@@ -12,7 +12,8 @@ interface InterviewState {
   questionOption: string[]
   timeRemain: number
 
-  setInterviewData: (data: InterviewData) => void
+  setInterviewData: (data: Partial<InterviewData>) => void
+  saveSelectedQuestion: (q: string) => void
 }
 
 export const useInterviewStore = create<InterviewState>(set => ({
@@ -31,5 +32,11 @@ export const useInterviewStore = create<InterviewState>(set => ({
     set(state => ({
       ...state,
       ...data,
+    })),
+
+  saveSelectedQuestion: (selected: string) =>
+    set(state => ({
+      selectedQuestion: selected,
+      questionIdx: state.questionIdx + 1,
     })),
 }))

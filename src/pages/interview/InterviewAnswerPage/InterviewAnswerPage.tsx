@@ -15,11 +15,10 @@ export const InterviewAnswerPage: React.FC = () => {
   const [keyword, setKeyword] = useState('')
   const [isGenerating, setIsGenerating] = useState(false)
 
-  const { questionIdx } = useInterviewStore()
+  const { resetTimer } = useTimerStore()
+  const { questionIdx, setInterviewData } = useInterviewStore()
   const currentQuestion = location.state?.question
   const interviewId = localStorage.getItem('interviewId') as string
-
-  const { resetTimer } = useTimerStore()
 
   const { mutate: generateQuestions, isPending } = useGenerateQuestion({
     onSuccess: result => {
@@ -70,6 +69,7 @@ export const InterviewAnswerPage: React.FC = () => {
     }
 
     updateStatus(interviewId) // PROGRESS -> FEEDBACK
+    setInterviewData({ currentPhase: 'FEEDBACK' })
     resetTimer({ minutes: 0, seconds: 0 })
   }
 

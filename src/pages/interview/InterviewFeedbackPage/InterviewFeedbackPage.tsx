@@ -4,6 +4,8 @@ import defaultImage from '@assets/default-profile.png'
 import styles from './styles.module.scss'
 import { Send } from 'lucide-react'
 import { useInterviewStatus, useUpdateInterviewStatus } from '@/hooks/interview'
+import { useInterviewStore } from '@/stores/interviewStore'
+import { CurrentRound } from '@/components/interview'
 
 export const InterviewFeedbackPage: React.FC = () => {
   const navigate = useNavigate()
@@ -13,6 +15,7 @@ export const InterviewFeedbackPage: React.FC = () => {
   const interviewId = localStorage.getItem('interviewId') as string
 
   const { data } = useInterviewStatus(interviewId)
+  const { currentRound } = useInterviewStore()
 
   const { mutate: updateStatus } = useUpdateInterviewStatus({
     onSuccess: () => {
@@ -28,6 +31,7 @@ export const InterviewFeedbackPage: React.FC = () => {
       console.error('면접 ID를 찾을 수 없습니다.')
       return
     }
+
     updateStatus(interviewId) // FEEDBACK -> PENDING
   }
 
@@ -39,11 +43,13 @@ export const InterviewFeedbackPage: React.FC = () => {
 
   return (
     <div className={styles.container}>
+      <CurrentRound currentRound={currentRound} />
+
       <div className={styles.feedbackHeader}>
         <h2>
           면접이 종료되었습니다.
           <br />
-          수고하셨습니다!
+          피드백을 남겨주세요.
         </h2>
       </div>
 
@@ -95,7 +101,10 @@ export const InterviewFeedbackPage: React.FC = () => {
             onChange={e => setFeedback(e.target.value)}
             placeholder="면접자에게 피드백을 남겨주세요"
           />
-          <button className={styles.sendButton} onClick={handleSendFeedback}>
+          <button
+            className={`${styles.sendButton} ${feedback && styles.active}`}
+            onClick={handleSendFeedback}
+          >
             <Send size={24} />
           </button>
         </div>
