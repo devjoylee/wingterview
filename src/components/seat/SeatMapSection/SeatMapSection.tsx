@@ -46,18 +46,12 @@ export const SeatMapSection = ({
 
                   let classname = styles.seat
                   if (isOccupied) classname += ` ${styles.occupied}`
-                  if (isSelectedByMe({ section, row, col }))
+                  if (seatMapData && isSelectedByMe({ section, row, col }))
                     classname += ` ${styles.selected}`
                   if (isHighlighted({ section, row, col }))
                     classname += ` ${styles.highlighted}`
                   if (!seatMapData) classname += ` ${styles.noData}`
 
-                  console.log(
-                    section,
-                    row,
-                    col,
-                    isHighlighted({ section, row, col })
-                  )
                   return (
                     <div
                       key={`${section}-${row}-${col}`}

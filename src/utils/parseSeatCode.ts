@@ -10,7 +10,6 @@ export const parseSeatCode = (seatCode: string) => {
     R: 3,
   }
 
-  console.log(section, parseInt(row, 10), col[colPosition])
   return {
     section,
     row: parseInt(row, 10),
