@@ -9,15 +9,19 @@
     width: 100px;
     height: 45px;
     border-radius: 50px;
-    background-color: $primary;
-    color: #fff;
+    background-color: $blue-1;
+    color: $white;
     font-size: 0.9rem;
     font-weight: 700;
     z-index: 10;
     cursor: pointer;
 
     &:disabled {
-      background-color: #cdcdcd;
+      background-color: $gray-4;
+    }
+
+    &.submit {
+      background-color: $orange;
     }
   }
 }

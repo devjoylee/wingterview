@@ -10,7 +10,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #fff;
+  background-color: $white;
   margin-top: 5px;
   height: 50px;
 
@@ -25,11 +25,11 @@
   justify-content: center;
   border-top-left-radius: 25px;
   border-top-right-radius: 25px;
-  background-color: $secondary;
+  background-color: $blue-2;
 }
 
 .timerWrapper {
-  background: $secondary;
+  background: $blue-2;
 }
 
 .pageContent {
@@ -37,6 +37,6 @@
   display: flex;
   flex-direction: column;
   overflow-y: auto;
-  background-color: $secondary;
+  background-color: $blue-2;
   border-top-right-radius: 25px;
 }
