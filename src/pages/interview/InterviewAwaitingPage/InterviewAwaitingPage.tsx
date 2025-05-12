@@ -1,17 +1,19 @@
 import { useEffect, useState } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { Button, Modal, StaticTag } from '@/components/common'
+import { CurrentRound } from '@/components/interview'
 import { useMatchStore } from '@/stores/matchStore'
 import { useMatchResult } from '@/hooks/match'
 import {
   useUpdateInterviewStatus,
   useGenerateQuestion,
+  useInterviewStatus,
 } from '@/hooks/interview'
 
 import defaultImage from '@assets/default-profile.png'
-import styles from './styles.module.scss'
 import { useInterviewStore } from '@/stores/interviewStore'
 import { useTimerStore } from '@/stores/timerStore'
+import styles from './styles.module.scss'
 
 export const InterviewAwaitingPage: React.FC = () => {
   const navigate = useNavigate()
@@ -19,17 +21,17 @@ export const InterviewAwaitingPage: React.FC = () => {
 
   const intervieweeInRoute = location.state?.interviewee
   const intervieweeInStore = useMatchStore(state => state.getInterviewee())
-  const interviewId = localStorage.getItem('interviewId')
+  const interviewId = localStorage.getItem('interviewId') as string
 
   const [interviewee, setInterviewee] = useState<BaseProfile | null>(null)
 
   // const requestFetch = !intervieweeInStore && !intervieweeInRoute
 
-  const { resetTimer } = useTimerStore()
-  const { resetHistory } = useInterviewStore()
-  const { startTimer } = useTimerStore()
-  const { data: matchResult } = useMatchResult(false)
+  const { startTimer, resetTimer } = useTimerStore()
+  const { currentRound, setInterviewData } = useInterviewStore()
 
+  const { data: matchResult } = useMatchResult(false)
+  const { data: currentStatus } = useInterviewStatus(interviewId)
   const { mutate: updateStatus } = useUpdateInterviewStatus({})
 
   const { mutate: generateQuestions, isSuccess: isGenerated } =
@@ -37,6 +39,10 @@ export const InterviewAwaitingPage: React.FC = () => {
       onSuccess: result => {
         if (interviewId) {
           setTimeout(() => {
+            setInterviewData({
+              questionOption: result.data.questions,
+              currentPhase: 'PROGRESS',
+            })
             navigate('/interview/question', {
               state: {
                 questions: result.data.questions,
@@ -91,12 +97,16 @@ export const InterviewAwaitingPage: React.FC = () => {
   }, [navigate, intervieweeInRoute, intervieweeInStore, matchResult])
 
   useEffect(() => {
-    resetHistory()
     resetTimer()
-  }, [resetHistory, resetTimer])
+    if (currentStatus) {
+      setInterviewData(currentStatus.data)
+    }
+  }, [resetTimer, setInterviewData, currentStatus])
 
   return (
     <div className={styles.container}>
+      <CurrentRound currentRound={currentRound} />
+
       <div className={styles.awaitingScreen}>
         <h2>
           면접을 시작하려면 <br />
@@ -115,7 +125,7 @@ export const InterviewAwaitingPage: React.FC = () => {
       </div>
 
       <div className={styles.intervieweeCard}>
-        <h3>오늘의 면접자</h3>
+        <h3>{currentRound} ROUND 면접자</h3>
 
         {interviewee && (
           <div className={styles.cardInfoWrapper}>
