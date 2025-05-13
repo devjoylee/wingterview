@@ -1,5 +1,6 @@
 import apiClient from '@/api/apiClient'
 import { API } from './endpoints'
+import axios from 'axios'
 
 export const enqueueMatching = async () => {
   try {
@@ -27,13 +28,16 @@ export const fetchApplicantCount = async () => {
 
 export const fetchMatchingResult = async () => {
   try {
-    const response = await apiClient.get<ApiResponse<MatchResultData>>(
+    const response = await apiClient.get<ApiResponse<MatchResultData | null>>(
       API.MATCH.RESULT
     )
     console.log('🎉 매칭 결과 조회 성공:', response.data)
     return response.data
   } catch (error) {
-    console.error('매칭 결과 조회 실패:', error)
-    throw error
+    if (axios.isAxiosError(error)) {
+      if (error.response) {
+        if (error.response.data.message !== 'INVALID_USER') throw error
+      }
+    }
   }
 }
