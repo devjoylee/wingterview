@@ -57,8 +57,7 @@ export const HomePage: React.FC = () => {
         // 이미 매칭되서 결과가 있으면
         setMatchResultInStore(matchResult.data)
         setIsMatching(false)
-        console.log(matchResult.data, 'dfdfds')
-        // navigate('/match/result', { state: { matchResult: matchResult.data } }) // 결과 페이지로 .
+        navigate('/match/result', { state: { matchResult: matchResult.data } }) // 결과 페이지로 .
       }
     }
   }, [matchResult, navigate, setMatchResultInStore, setIsMatching])

@@ -111,7 +111,8 @@ export const InterviewAwaitingPage: React.FC = () => {
     if (currentStatus) {
       setInterviewData(currentStatus.data)
     }
-  }, [resetTimer, setInterviewData, currentStatus])
+    refetch()
+  }, [refetch, resetTimer, setInterviewData, currentStatus])
 
   return (
     <div className={styles.container}>
@@ -141,7 +142,7 @@ export const InterviewAwaitingPage: React.FC = () => {
             면접관의 지시를 따라주세요. <br />
           </h2>
           <img src={waitImage} alt="wait" />
-          <button onClick={() => refetch} className={styles.refetchButton}>
+          <button onClick={() => refetch()} className={styles.refetchButton}>
             면접관 화면 가기 (임시) <br />
           </button>
         </div>
