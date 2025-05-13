@@ -1,0 +1,19 @@
+@use '@/styles/variables' as *;
+
+.round {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+
+  img {
+    width: 30px;
+  }
+
+  span {
+    margin-top: 15px;
+    padding: 0 5px;
+    font-size: 22px;
+    font-weight: 700;
+  }
+}

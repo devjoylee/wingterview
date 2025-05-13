@@ -15,11 +15,10 @@ export const InterviewAnswerPage: React.FC = () => {
   const [keyword, setKeyword] = useState('')
   const [isGenerating, setIsGenerating] = useState(false)
 
-  const { questionIdx } = useInterviewStore()
+  const { resetTimer } = useTimerStore()
+  const { questionIdx, setInterviewData } = useInterviewStore()
   const currentQuestion = location.state?.question
   const interviewId = localStorage.getItem('interviewId') as string
-
-  const { resetTimer } = useTimerStore()
 
   const { mutate: generateQuestions, isPending } = useGenerateQuestion({
     onSuccess: result => {
@@ -70,6 +69,7 @@ export const InterviewAnswerPage: React.FC = () => {
     }
 
     updateStatus(interviewId) // PROGRESS -> FEEDBACK
+    setInterviewData({ currentPhase: 'FEEDBACK' })
     resetTimer({ minutes: 0, seconds: 0 })
   }
 
@@ -87,12 +87,14 @@ export const InterviewAnswerPage: React.FC = () => {
           className={styles.textArea}
           value={keyword}
           onChange={e => setKeyword(e.target.value)}
-          placeholder="면접자 답변을 바탕으로 꼬리질문에 생성 키워드를 입력해보세요.
-ex) 프로세스 → 한 단어로 꼬리질문 생성해보세요!"
+          placeholder="면접자의 답변 중 꼬리질문을 만들 수 있는 주요 단어를 입력해보세요.
+
+ex) staleTime, 캐싱, 상태관리"
+          maxLength={200}
         />
 
         <span className={styles.helperText}>
-          *꼬리질문은 1 - 200자 사이로 가능합니다.
+          *프롬프트는 최대 200자까지 입력 가능합니다.
         </span>
 
         <div className={styles.buttons}>

@@ -5,9 +5,8 @@
   align-items: center;
   justify-content: space-between;
   padding: 6px 14px;
-  border-radius: 9999px;
+  border-radius: 25px;
   background-color: #fff;
-  opacity: 0.9;
   color: #444;
   font-size: 14px;
   border: none;
@@ -15,7 +14,7 @@
   transition: background-color 0.2s;
 
   &.selected {
-    background-color: #02467d;
+    background-color: #333;
     color: #fff;
     opacity: 1;
 

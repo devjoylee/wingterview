@@ -1,12 +1,7 @@
 import { useEffect, useState, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
 import styles from './styles.module.scss'
-import {
-  Button,
-  LoadingIndicator,
-  Logo,
-  ProfileCard,
-} from '@/components/common'
+import { Button, Logo, Modal, ProfileCard } from '@/components/common'
 import { useApplicantCount, useMatchResult, useMatchStart } from '@/hooks/match'
 import { useMatchStore } from '@/stores/matchStore'
 
@@ -55,17 +50,20 @@ export const HomePage: React.FC = () => {
         <ProfileCard />
 
         <div className={styles.matchingState}>
-          {isMatching ? (
-            <LoadingIndicator size={60} text="매칭 진행 중..." />
-          ) : (
-            <Button onClick={handleMatchStart} text="1:1 매칭 시작하기" />
-          )}
+          <Button onClick={handleMatchStart} text="1:1 매칭 시작하기" />
         </div>
 
         <p className={styles.applicantCount}>
           현재 신청자 수 : {applicantCount}명
         </p>
       </div>
+
+      <Modal
+        isOpen={isMatching}
+        closeOnBgClick={false}
+        style="loading"
+        message={['모의 면접 매칭을 진행 중 입니다.', '잠시만 기다려주세요.']}
+      />
     </div>
   )
 }
