@@ -30,7 +30,7 @@ export const InterviewAwaitingPage: React.FC = () => {
   const { getOddInterviewee, getEvenInterviewee } = useMatchStore()
 
   const { data: matchResult } = useMatchResult(false)
-  const { data: currentStatus } = useInterviewStatus(interviewId)
+  const { data: currentStatus, refetch } = useInterviewStatus(interviewId)
   const { mutate: updateStatus } = useUpdateInterviewStatus({})
 
   const { mutate: generateQuestions, isSuccess: isGenerated } =
@@ -85,7 +85,7 @@ export const InterviewAwaitingPage: React.FC = () => {
         }
 
         // 3. 데이터(1,2) 없으면 API로 데이터 가져오기
-        if (matchResult) {
+        if (matchResult?.data) {
           const interviewee =
             currentRound % 2 === 1
               ? matchResult.data.interviewee
@@ -141,6 +141,9 @@ export const InterviewAwaitingPage: React.FC = () => {
             면접관의 지시를 따라주세요. <br />
           </h2>
           <img src={waitImage} alt="wait" />
+          <button onClick={() => refetch} className={styles.refetchButton}>
+            면접관 화면 가기 (임시) <br />
+          </button>
         </div>
       )}
 
