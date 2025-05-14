@@ -6,7 +6,7 @@ import { Send } from 'lucide-react'
 import { useInterviewStatus, useUpdateInterviewStatus } from '@/hooks/interview'
 import { useInterviewStore } from '@/stores/interviewStore'
 import { CurrentRound, StarRating } from '@/components/interview'
-import { Modal } from '@/components/common'
+import { Button, Modal } from '@/components/common'
 
 export const InterviewFeedbackPage: React.FC = () => {
   const navigate = useNavigate()
@@ -17,6 +17,7 @@ export const InterviewFeedbackPage: React.FC = () => {
 
   const { data } = useInterviewStatus(interviewId)
   const { currentRound } = useInterviewStore()
+  const isLastRound = currentRound === 4
 
   const { mutate: updateStatus, isSuccess } = useUpdateInterviewStatus()
 
@@ -103,14 +104,28 @@ export const InterviewFeedbackPage: React.FC = () => {
         </div>
       </div>
 
-      <Modal
-        isOpen={isSuccess}
-        closeOnBgClick
-        hasYesNo
-        onYesClick={goToNextRound}
-        style="congrats"
-        message={['피드백이 제출되었습니다!', '다음 라운드를 계속 진행할까요?']}
-      />
+      {isLastRound ? (
+        <Modal
+          isOpen={isSuccess}
+          closeOnBgClick={true}
+          style="congrats"
+          message={['피드백이 제출되었습니다!', '수고하셨습니다.']}
+        >
+          <Button text="홈으로 이동" onClick={() => navigate('/')} />
+        </Modal>
+      ) : (
+        <Modal
+          isOpen={isSuccess}
+          closeOnBgClick={true}
+          hasYesNo
+          onYesClick={goToNextRound}
+          style="congrats"
+          message={[
+            '피드백이 제출되었습니다!',
+            '다음 라운드를 계속 진행할까요?',
+          ]}
+        />
+      )}
     </div>
   )
 }

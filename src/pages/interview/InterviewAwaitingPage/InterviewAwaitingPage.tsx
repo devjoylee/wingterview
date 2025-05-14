@@ -33,6 +33,8 @@ export const InterviewAwaitingPage: React.FC = () => {
   const { data: currentStatus, refetch } = useInterviewStatus(interviewId)
   const { mutate: updateStatus } = useUpdateInterviewStatus({})
 
+  const isLastRoundDone = currentStatus?.data.currentPhase === 'COMPLETE'
+
   const { mutate: generateQuestions, isSuccess: isGenerated } =
     useGenerateQuestion({
       onSuccess: result => {
@@ -194,6 +196,15 @@ export const InterviewAwaitingPage: React.FC = () => {
           '면접 상대가 정해지지 않았습니다.',
           '1:1 매칭을 먼저 진행해주세요.',
         ]}
+      >
+        <Button text="홈으로 이동" onClick={() => navigate('/')} />
+      </Modal>
+
+      <Modal
+        isOpen={isLastRoundDone}
+        closeOnBgClick={false}
+        style="congrats"
+        message={['오늘의 면접이 모두 종료되었습니다', '수고하셨습니다.']}
       >
         <Button text="홈으로 이동" onClick={() => navigate('/')} />
       </Modal>
