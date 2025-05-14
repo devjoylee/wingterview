@@ -76,7 +76,7 @@ export const InterviewAnswerPage: React.FC = () => {
   return (
     <div className={styles.container}>
       <div className={styles.question}>
-        <h2>Q{questionIdx}.</h2>
+        <h2>Q{questionIdx + 1}.</h2>
         <p>{currentQuestion}</p>
       </div>
 
