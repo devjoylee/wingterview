@@ -24,7 +24,7 @@ export const useInterviewStore = create<InterviewState>(set => ({
   isAiInterview: false,
   partner: null,
   timeRemain: 0,
-  questionIdx: 0,
+  questionIdx: 1,
   selectedQuestion: '',
   questionOption: [],
 

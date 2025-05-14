@@ -9,9 +9,9 @@ import { LoadingIndicator } from '@/components/common'
 export const LoginRedirectPage: React.FC = () => {
   const navigate = useNavigate()
   const location = useLocation()
-  const setTokens = useAuthStore(state => state.setTokens)
-  const setIsNewUser = useAuthStore(state => state.setIsNewUser)
   const isProcessing = useRef(false)
+
+  const { setIsNewUser, setAccessToken, hasProfile } = useAuthStore()
 
   useEffect(() => {
     const handleKakaoLogin = async () => {
@@ -26,28 +26,27 @@ export const LoginRedirectPage: React.FC = () => {
         }
 
         const { accessToken, isNewUser } = await kakaoLogin(authCode)
-        const nickname = localStorage.getItem('nickname')
 
         // const accessToken = 'temp-accessToken-dfioasdvnkcvl'
         // const isNewUser = true
 
-        setTokens(accessToken)
+        setAccessToken(accessToken)
         setIsNewUser(isNewUser)
 
         setTimeout(() => {
-          if (!nickname || isNewUser) {
+          if (!hasProfile() || isNewUser) {
             navigate('/profile-setup', { replace: true })
           } else {
             navigate('/', { replace: true })
           }
-        }, 1500)
+        }, 1200)
       } catch (err) {
         console.error('로그인 처리 중 오류 발생:', err)
         navigate('/login', { replace: true })
       }
     }
     handleKakaoLogin()
-  }, [navigate, location.search, setTokens, setIsNewUser])
+  }, [navigate, location, setAccessToken, setIsNewUser, hasProfile])
 
   return (
     <div className={styles.loginRedirectPage}>
