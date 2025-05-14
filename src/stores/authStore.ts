@@ -2,31 +2,27 @@ import { create } from 'zustand'
 import { persist, StorageValue } from 'zustand/middleware'
 
 interface AuthState {
-  accessToken: string | null
+  accessToken: string
   isNewUser: boolean
-
-  setTokens: (accessToken: string) => void
-  setIsNewUser: (isNewUser: boolean) => void
   isLoggedIn: () => boolean
+  hasProfile: () => boolean
+  isValidUser: () => boolean
+
+  setAccessToken: (accessToken: string) => void
+  setIsNewUser: (isNewUser: boolean) => void
 }
 
 export const useAuthStore = create<AuthState>()(
   persist(
     (set, get) => ({
-      accessToken: null,
+      accessToken: '',
       isNewUser: false,
 
       setIsNewUser: (isNewUser: boolean) => set({ isNewUser }),
-      setTokens: (accessToken: string) =>
-        set({
-          accessToken,
-        }),
-
-      isLoggedIn: () => {
-        const nickname = localStorage.getItem('nickname')
-        const token = get().accessToken
-        return !!(nickname && token)
-      },
+      setAccessToken: (accessToken: string) => set({ accessToken }),
+      isLoggedIn: () => !!get().accessToken,
+      hasProfile: () => !!localStorage.getItem('nickname'),
+      isValidUser: () => get().isLoggedIn() && get().hasProfile(),
     }),
     {
       name: 'auth-storage',
