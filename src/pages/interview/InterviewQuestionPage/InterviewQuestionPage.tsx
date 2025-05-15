@@ -6,21 +6,42 @@ import { Button, Modal, Notice } from '@/components/common'
 import { useInterviewStore } from '@/stores/interviewStore'
 import { useSelectedQuestion, useGenerateQuestion } from '@/hooks/interview'
 
+/**
+ *   면접 질문 페이지 flow
+ *
+ *   페이지 렌더링 시,
+ *   1. 면접 질문 캐싱 확인 (route, store)
+ *      데이터 없으면 generateQuestions 문재 생성 재요청
+ *
+ *   질문 선택 후 선택완료 클릭 시,
+ *   1. 선택한 질문 API 로 보내기 (sendSelectedQuestion)
+ *   2. 선택한 질문 store에 저장 (saveSelectedQuestion)
+ *   3. questionIdx 업데이트
+ *      첫 질문 선택 인경우 (questionIdx -1 상태), questionIdx = 1
+ *      두번째 질문 부터는, questionIdx = questionIdx + 1
+ *
+ *   새로고침 클릭 시,
+ *   1. prevQuestion이 있으면, prevQuestion 관련 질문 4개 재요청
+ *      prevQuestion이 없으면, 새로운 질문 4개 요청
+ *   2. 질문 생성 (generateQuestions) 성공 시, 문제 목록 questionOption store에 저장
+ */
+
 export const InterviewQuestionPage: React.FC = () => {
   const navigate = useNavigate()
   const location = useLocation()
 
   const questionsInRoute = location.state?.questions
-  const interviewId = localStorage.getItem('interviewId') as string
 
   const [questions, setQuestions] = useState<string[]>([])
   const [selectedIdx, setSelectedIdx] = useState<number | null>(null)
   const [isRefreshDisabled, setIsRefreshDisabled] = useState<boolean>(false)
 
   const {
+    interviewId,
     questionOption,
     selectedQuestion: prevQuestion,
     saveSelectedQuestion,
+    setInterviewData,
   } = useInterviewStore()
 
   const { mutate: sendSelectedQuestion } = useSelectedQuestion({
@@ -42,6 +63,7 @@ export const InterviewQuestionPage: React.FC = () => {
       onSuccess: result => {
         if (result.data && result.data.questions) {
           setQuestions(result.data.questions)
+          setInterviewData({ questionOption: result.data.questions })
           setSelectedIdx(null)
         }
 

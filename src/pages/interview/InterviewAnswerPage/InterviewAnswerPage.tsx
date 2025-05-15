@@ -9,6 +9,23 @@ import {
 import styles from './styles.module.scss'
 import { useTimerStore } from '@/stores/timerStore'
 
+/**
+ *   면접 답변 페이지 flow
+ *
+ *   페이지 렌더링 시,
+ *   선택한 질문 캐싱 확인 (route, store)
+ *
+ *   꼬리질문 만들기 클릭 시,
+ *   현재 질문 + 키워드를 문제 생성 API로 전달
+ *   questionData: { question: currentQuestion, keywords: keyword }
+ *
+ *   새로운 질문 만들기 클릭 시,
+ *   questionData 전달 X (기본값으로 넘어감)
+ *
+ *   면접 종료 클릭 시,
+ *   상태 업데이트 PROGRESS -> FEEDBACK
+ */
+
 export const InterviewAnswerPage: React.FC = () => {
   const location = useLocation()
   const navigate = useNavigate()
@@ -16,14 +33,14 @@ export const InterviewAnswerPage: React.FC = () => {
   const [isGenerating, setIsGenerating] = useState(false)
 
   const { resetTimer } = useTimerStore()
-  const { questionIdx, setInterviewData } = useInterviewStore()
+  const { interviewId, questionIdx, setInterviewData } = useInterviewStore()
   const currentQuestion = location.state?.question
-  const interviewId = localStorage.getItem('interviewId') as string
 
   const { mutate: generateQuestions, isPending } = useGenerateQuestion({
     onSuccess: result => {
       if (result.data && result.data.questions) {
         setIsGenerating(false)
+        setInterviewData({ questionOption: result.data.questions })
         navigate('/interview/question', {
           state: {
             questions: result.data.questions,
@@ -100,7 +117,7 @@ export const InterviewAnswerPage: React.FC = () => {
       </div>
 
       <div className={styles.question}>
-        <h2>Q{questionIdx + 1}.</h2>
+        <h2>Q{questionIdx}.</h2>
         <p>{currentQuestion}</p>
       </div>
 

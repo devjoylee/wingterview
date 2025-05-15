@@ -8,18 +8,26 @@ import { useInterviewStore } from '@/stores/interviewStore'
 import { CurrentRound, StarRating } from '@/components/interview'
 import { Button, Modal, Notice } from '@/components/common'
 
+/**
+ *   면접 피드백 페이지 flow
+ *
+ *   페이지 렌더링 시,
+ *   면접자 데이터 가져오기
+ *
+ *   면접 종료 클릭 시,
+ *   상태 업데이트 PROGRESS -> FEEDBACK
+ */
+
 export const InterviewFeedbackPage: React.FC = () => {
   const navigate = useNavigate()
   const [feedback, setFeedback] = useState('')
   const [interviewee, setInterviewee] = useState<BaseProfile>()
 
-  const interviewId = localStorage.getItem('interviewId') as string
-
-  const { data } = useInterviewStatus(interviewId)
-  const { currentRound } = useInterviewStore()
-  const isLastRound = currentRound === 4
-
+  const { interviewId, currentRound, setInterviewData } = useInterviewStore()
+  const { data: interviewData } = useInterviewStatus(interviewId)
   const { mutate: updateStatus, isSuccess } = useUpdateInterviewStatus()
+
+  const isLastRound = currentRound === 4
 
   const handleSendFeedback = () => {
     if (!interviewId) {
@@ -28,15 +36,16 @@ export const InterviewFeedbackPage: React.FC = () => {
     }
 
     updateStatus(interviewId) // FEEDBACK -> PENDING
+    setInterviewData({ currentPhase: 'PENDING' })
   }
 
   const goToNextRound = () => navigate('/interview/awaiting')
 
   useEffect(() => {
-    if (data) {
-      setInterviewee(data?.data?.partner)
+    if (interviewData) {
+      setInterviewee(interviewData?.data?.partner)
     }
-  }, [data])
+  }, [interviewData])
 
   return (
     <div className={styles.container}>
