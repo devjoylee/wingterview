@@ -36,7 +36,16 @@ export const fetchMatchingResult = async () => {
   } catch (error) {
     if (axios.isAxiosError(error)) {
       if (error.response) {
-        if (error.response.data.message !== 'INVALID_USER') throw error
+        if (error.response.data.message === 'INVALID_USER') {
+          return {
+            success: true,
+            message: '매칭 큐에 진입하지 않은 사용자',
+            data: null,
+          }
+        } else {
+          console.error('매칭 결과 조회 실패:', error)
+          throw error
+        }
       }
     }
   }
