@@ -24,7 +24,7 @@ export const ProfileSlider: React.FC<{ onSubmit: () => void }> = ({
   ]
 
   const pagination = {
-    clickable: true,
+    clickable: false,
     renderBullet: (idx: number) => {
       return `<span class='swiper-pagination-bullet'>${idx + 1}</span>`
     },

@@ -5,7 +5,7 @@
   border-radius: 20px;
   margin-top: -80px;
   background: #fff;
-  border: 10px solid $primary;
+  border: 10px solid $blue-2;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
 }
 
@@ -78,7 +78,7 @@
 }
 
 .intervieweeCard {
-  background-color: $primary;
+  background-color: $blue-2;
   text-align: right;
   color: #fff;
 
@@ -103,7 +103,7 @@
   }
 
   .interviewer {
-    background-color: $primary;
+    background-color: $blue-2;
     p {
       border-bottom-right-radius: 25px;
       background-color: #fff;
@@ -112,7 +112,7 @@
 
   .interviewee {
     border-top-left-radius: 25px;
-    background-color: $primary;
+    background-color: $blue-2;
     color: #fff;
     position: relative;
   }

@@ -1,54 +1,42 @@
 import { create } from 'zustand'
-import { persist } from 'zustand/middleware'
-
-interface SelectedQuestion {
-  idx: number
-  question: string
-}
 
 interface InterviewState {
-  history: SelectedQuestion[]
-  question: string
+  interviewId: string
+  currentRound: number
+  currentPhase: string
+  isInterviewer: boolean
+  partner: BaseProfile | null
   questionIdx: number
+  selectedQuestion: string
+  isAiInterview: boolean
+  questionOption: string[]
+  timeRemain: number
 
-  addToHistory: (question: string) => void
-  getHistory: () => SelectedQuestion[]
-  resetHistory: () => void
+  setInterviewData: (data: Partial<InterviewData>) => void
+  saveSelectedQuestion: (q: string) => void
 }
 
-export const useInterviewStore = create<InterviewState>()(
-  persist(
-    (set, get) => ({
-      history: [],
-      question: '',
-      questionIdx: 0,
+export const useInterviewStore = create<InterviewState>(set => ({
+  interviewId: '',
+  currentRound: 1,
+  currentPhase: 'PENDING',
+  isInterviewer: false,
+  isAiInterview: false,
+  partner: null,
+  timeRemain: 0,
+  questionIdx: 1,
+  selectedQuestion: '',
+  questionOption: [],
 
-      addToHistory: (question: string) =>
-        set(state => {
-          const newQuestion: SelectedQuestion = {
-            idx: state.questionIdx,
-            question: question,
-          }
+  setInterviewData: data =>
+    set(state => ({
+      ...state,
+      ...data,
+    })),
 
-          return {
-            history: [...state.history, newQuestion],
-            questionIdx: state.questionIdx + 1,
-            question: question,
-          }
-        }),
-
-      getHistory: () => get().history,
-
-      resetHistory: () => {
-        set({
-          history: [],
-          questionIdx: 0,
-        })
-        localStorage.removeItem('interview-storage')
-      },
-    }),
-    {
-      name: 'interview-storage',
-    }
-  )
-)
+  saveSelectedQuestion: (selected: string) =>
+    set(state => ({
+      selectedQuestion: selected,
+      questionIdx: state.questionIdx + 1,
+    })),
+}))

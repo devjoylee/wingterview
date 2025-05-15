@@ -55,7 +55,7 @@ export const SliderButtons: React.FC<{ onSubmit: () => void }> = ({
           다음
         </button>
       ) : (
-        <button className={styles.active} onClick={onSubmit}>
+        <button className={styles.submit} onClick={onSubmit}>
           제출하기
         </button>
       )}

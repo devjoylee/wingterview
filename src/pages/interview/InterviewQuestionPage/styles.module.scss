@@ -5,10 +5,16 @@
   flex-direction: column;
   justify-content: space-between;
   height: 100%;
-  padding: 40px 20px;
+  padding: 0 20px 30px;
+  overflow-y: auto;
+
+  div + button {
+    background-color: $blue-5;
+  }
 }
 
 .questionHeader {
+  margin-top: 20px;
   margin-bottom: 20px;
   position: relative;
 
@@ -16,6 +22,7 @@
     font-size: 18px;
     font-weight: 600;
     text-align: center;
+    color: #fff;
   }
 }
 
@@ -24,6 +31,7 @@
   margin-right: 20px;
   right: 0;
   top: 0;
+  color: #fff;
 
   &:disabled {
     opacity: 0.5;
@@ -58,7 +66,7 @@
   }
 
   &.selected {
-    background-color: #000;
+    background-color: $orange;
     p {
       color: #fff;
     }

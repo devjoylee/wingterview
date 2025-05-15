@@ -16,7 +16,9 @@ export const updateInterviewStatus = async (interviewId: string) => {
 
 export const getInterviewStatus = async () => {
   try {
-    const response = await apiClient.get(API.INTERVIEW.STATUS)
+    const response = await apiClient.get<ApiResponse<InterviewData>>(
+      API.INTERVIEW.STATUS
+    )
     console.log('🎉 면접 상태 불러오기 성공:', response.data)
     return response.data
   } catch (error) {

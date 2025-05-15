@@ -9,9 +9,9 @@ import { LoadingIndicator } from '@/components/common'
 export const LoginRedirectPage: React.FC = () => {
   const navigate = useNavigate()
   const location = useLocation()
-  const setTokens = useAuthStore(state => state.setTokens)
-  const setIsNewUser = useAuthStore(state => state.setIsNewUser)
   const isProcessing = useRef(false)
+
+  const { setIsNewUser, setAccessToken, hasProfile } = useAuthStore()
 
   useEffect(() => {
     const handleKakaoLogin = async () => {
@@ -20,8 +20,6 @@ export const LoginRedirectPage: React.FC = () => {
 
       try {
         const authCode = new URLSearchParams(location.search).get('code')
-
-        console.log(authCode)
 
         if (!authCode) {
           throw new Error('인가 코드를 찾을 수 없습니다.')
@@ -32,23 +30,23 @@ export const LoginRedirectPage: React.FC = () => {
         // const accessToken = 'temp-accessToken-dfioasdvnkcvl'
         // const isNewUser = true
 
-        setTokens(accessToken)
+        setAccessToken(accessToken)
         setIsNewUser(isNewUser)
 
         setTimeout(() => {
-          if (isNewUser) {
+          if (!hasProfile() || isNewUser) {
             navigate('/profile-setup', { replace: true })
           } else {
             navigate('/', { replace: true })
           }
-        }, 2000)
+        }, 1200)
       } catch (err) {
         console.error('로그인 처리 중 오류 발생:', err)
         navigate('/login', { replace: true })
       }
     }
     handleKakaoLogin()
-  }, [navigate, location.search, setTokens, setIsNewUser])
+  }, [navigate, location, setAccessToken, setIsNewUser, hasProfile])
 
   return (
     <div className={styles.loginRedirectPage}>

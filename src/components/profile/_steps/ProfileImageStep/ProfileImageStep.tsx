@@ -40,7 +40,7 @@ export const ProfileImageStep = () => {
   }
 
   useEffect(() => {
-    updateProfileImage(imageURL)
+    updateProfileImage(null)
   }, [imageURL, updateProfileImage])
 
   return (

@@ -13,7 +13,7 @@ export const BasicInfoStep: React.FC = () => {
     curriculum: '',
   })
 
-  const curriculum: string[] = ['풀스택 과정', '클라우드 과정', '인공지능 과정']
+  const curriculum: string[] = ['풀스택', '클라우드', '인공지능']
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     const { name, value } = e.target

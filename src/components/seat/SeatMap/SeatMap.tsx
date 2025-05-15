@@ -51,7 +51,7 @@ export const SeatMap = ({
       seat: [row, col],
     })
 
-    setSeatId(clickedSeatId)
+    await setSeatId(clickedSeatId)
 
     const { data: isOccupiedByOther } = await checkIfOccupied()
 

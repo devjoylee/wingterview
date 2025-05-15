@@ -48,7 +48,7 @@ export const useSelectedQuestion = (options?: {
 }
 
 export const useInterviewStatus = (interviewId: string) => {
-  return useQuery({
+  return useQuery<ApiResponse<InterviewData>>({
     queryKey: ['interviewStatus', interviewId],
     queryFn: getInterviewStatus,
   })

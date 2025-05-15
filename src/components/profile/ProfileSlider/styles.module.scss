@@ -18,6 +18,7 @@
   align-items: center;
   height: 40px;
   top: 0 !important;
+  cursor: default;
 }
 
 :global .swiper-pagination-bullet {
@@ -37,5 +38,5 @@
 :global .swiper-pagination-bullet-active {
   padding: 15px;
   color: #fff;
-  background: $primary !important;
+  background: $orange !important;
 }
