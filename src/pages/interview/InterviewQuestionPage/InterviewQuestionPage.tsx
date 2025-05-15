@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { RefreshCw } from 'lucide-react'
 import styles from './styles.module.scss'
-import { Button, Modal } from '@/components/common'
+import { Button, Modal, Notice } from '@/components/common'
 import { useInterviewStore } from '@/stores/interviewStore'
 import { useSelectedQuestion, useGenerateQuestion } from '@/hooks/interview'
 
@@ -90,6 +90,15 @@ export const InterviewQuestionPage: React.FC = () => {
 
   return (
     <div className={styles.container}>
+      <div className={styles.notice}>
+        <Notice>
+          <p>
+            마음에 드는 질문이 없는 경우 오른쪽 상단의 refresh 아이콘을 클릭하면
+            새로운 질문 목록을 가져옵니다. 원하는 질문을 골랐다면 '선택완료'
+            버튼을 눌러주세요.
+          </p>
+        </Notice>
+      </div>
       <div className={styles.questionHeader}>
         <h2>원하는 질문지를 선택해주세요.</h2>
         <button

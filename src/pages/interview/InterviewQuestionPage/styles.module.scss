@@ -5,7 +5,8 @@
   flex-direction: column;
   justify-content: space-between;
   height: 100%;
-  padding: 40px 20px;
+  padding: 0 20px 30px;
+  overflow-y: auto;
 
   div + button {
     background-color: $blue-5;
@@ -13,6 +14,7 @@
 }
 
 .questionHeader {
+  margin-top: 20px;
   margin-bottom: 20px;
   position: relative;
 
