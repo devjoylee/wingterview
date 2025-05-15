@@ -42,4 +42,21 @@
   background-color: $orange;
   color: #fff;
   border-radius: 7px;
+  margin-top: 10px;
+}
+
+.qa {
+  padding: 30px 20px 0;
+  font-size: 14px;
+  color: #888;
+  text-align: center;
+
+  p {
+    margin-bottom: 10px;
+  }
+  a {
+    font-weight: 700;
+    color: $orange !important;
+    text-decoration: underline !important;
+  }
 }
