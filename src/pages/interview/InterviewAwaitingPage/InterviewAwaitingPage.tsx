@@ -134,10 +134,8 @@ export const InterviewAwaitingPage: React.FC = () => {
               <span>면접관이 피드백 작성을 모두 마치면</span> <br />
               아래 '역할 변경' 버튼을 눌러 주세요. <br />
             </p>
-            <button onClick={() => refetch()} className={styles.refetchButton}>
-              면접관으로 역할 변경 (임시)
-            </button>
             <p>
+              <br />
               해당 버튼은 1차 MVP 기간에만 유효하며 <br />
               이후에는 자동으로 역할이 변경됩니다 <br />
             </p>
@@ -170,6 +168,11 @@ export const InterviewAwaitingPage: React.FC = () => {
             면접이 곧 시작됩니다. <br />
             면접관의 지시를 따라주세요. <br />
           </h2>
+
+          <button onClick={() => refetch()} className={styles.refetchButton}>
+            현재 라운드 종료 후 <br />
+            면접관으로 역할 변경 (임시)
+          </button>
         </div>
       )}
 
