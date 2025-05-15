@@ -10,7 +10,7 @@ interface InterviewState {
   questionIdx: number
   selectedQuestion: string
   isAiInterview: boolean
-  questionOption: string[]
+  questionOption: string[] | null
   timeRemain: number
 
   setInterviewData: (data: Partial<InterviewData>) => void

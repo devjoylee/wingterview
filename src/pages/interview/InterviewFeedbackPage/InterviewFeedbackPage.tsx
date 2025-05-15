@@ -36,14 +36,14 @@ export const InterviewFeedbackPage: React.FC = () => {
     }
 
     updateStatus(interviewId) // FEEDBACK -> PENDING
-    setInterviewData({ currentPhase: 'PENDING' })
+    setInterviewData({ currentPhase: isLastRound ? 'COMPLETE' : 'PENDING' })
   }
 
   const goToNextRound = () => navigate('/interview/awaiting')
 
   useEffect(() => {
-    if (interviewData) {
-      setInterviewee(interviewData?.data?.partner)
+    if (interviewData && interviewData.data) {
+      setInterviewee(interviewData.data.partner)
     }
   }, [interviewData])
 

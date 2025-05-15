@@ -1,9 +1,16 @@
-export const getInterviewRouteByPhase = (phase: string): string => {
+export const getInterviewRouteByPhase = (
+  phase: string,
+  questionOption?: string[] | null,
+  selectedQuestion?: string
+): string => {
+  const isFirstQuestion = !selectedQuestion && !questionOption
+
   switch (phase.toUpperCase()) {
     case 'PENDING':
       return '/interview/awaiting'
     case 'PROGRESS':
-      return '/interview/question'
+      if (isFirstQuestion) return '/interview/question'
+      return questionOption ? '/interview/question' : '/interview/answer'
     case 'FEEDBACK':
       return '/interview/feedback'
     case 'COMPLETE':

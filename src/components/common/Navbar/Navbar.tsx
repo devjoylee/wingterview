@@ -1,12 +1,15 @@
 import { useState, useEffect } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { Home, Zap, BookCheck, MessageSquare, User } from 'lucide-react'
+import { getInterviewRouteByPhase } from '@/utils'
+import { useInterviewStore } from '@/stores/interviewStore'
 import styles from './styles.module.scss'
 
 export const Navbar: React.FC = () => {
   const [activeTab, setActiveTab] = useState('')
   const navigate = useNavigate()
   const location = useLocation()
+  const { currentPhase, questionOption, selectedQuestion } = useInterviewStore()
 
   useEffect(() => {
     const path = location.pathname
@@ -29,6 +32,15 @@ export const Navbar: React.FC = () => {
     navigate(path)
   }
 
+  const handleInterviewTabClick = () => {
+    const interviewPath = getInterviewRouteByPhase(
+      currentPhase,
+      questionOption,
+      selectedQuestion
+    )
+    handleTabClick('interview', interviewPath)
+  }
+
   return (
     <div className={styles.navbar}>
       <div
@@ -40,7 +52,7 @@ export const Navbar: React.FC = () => {
       </div>
       <div
         className={`${styles.navItem} ${activeTab === 'interview' ? styles.active : ''}`}
-        onClick={() => handleTabClick('interview', '/interview/awaiting')}
+        onClick={handleInterviewTabClick}
       >
         <Zap />
         <span>면접실</span>

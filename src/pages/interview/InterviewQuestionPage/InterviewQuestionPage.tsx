@@ -49,6 +49,7 @@ export const InterviewQuestionPage: React.FC = () => {
       if (selectedIdx !== null) {
         const selected = questions[selectedIdx - 1]
         saveSelectedQuestion(selected)
+        setInterviewData({ questionOption: null })
         navigate('/interview/answer', {
           state: {
             question: selected,
@@ -103,10 +104,8 @@ export const InterviewQuestionPage: React.FC = () => {
       setQuestions(questionsInRoute)
     } else if (questionOption) {
       setQuestions(questionOption)
-    } else {
-      generateQuestions({ interviewId })
     }
-  }, [questionsInRoute, questionOption, generateQuestions, interviewId])
+  }, [questionsInRoute, questionOption, interviewId])
 
   const isLoading = isGenerating || isRefreshDisabled
 
@@ -115,9 +114,10 @@ export const InterviewQuestionPage: React.FC = () => {
       <div className={styles.notice}>
         <Notice>
           <p>
-            마음에 드는 질문이 없는 경우 오른쪽 상단의 refresh 아이콘을 클릭하면
-            새로운 질문 목록을 가져옵니다. 원하는 질문을 골랐다면 '선택완료'
-            버튼을 눌러주세요.
+            질문하고 싶은 선택지를 골라주세요. <br />
+            원하는 질문이 없을 때는 refresh 아이콘을 누르면 5초 단위로 질문
+            목록을 새로고침 할 수 있습니다.
+            <br /> 질문 선택이 끝나면 '선택완료' 버튼을 눌러주세요.
           </p>
         </Notice>
       </div>
