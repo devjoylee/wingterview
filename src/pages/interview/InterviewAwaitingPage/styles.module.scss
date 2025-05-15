@@ -4,8 +4,11 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  padding-top: 80px;
   height: 100%;
+}
+
+.notice {
+  margin: 0 20px;
 }
 
 .awaitingScreen {
@@ -19,27 +22,24 @@
   }
 
   img {
-    width: 260px;
-    margin: 30px auto 0;
+    width: 200px;
+    margin: 20px auto 0;
     border-radius: 10px;
     border: 7px solid #eee;
   }
 }
 
 .buttonWrapper {
-  margin-top: 70px;
+  margin-top: 30px;
 
   .startButton {
-    width: 130px;
-    height: 130px;
-    background-color: #222;
+    padding: 15px 40px;
+    border-radius: 40px;
+    background-color: $orange;
     color: #fff;
-    border-radius: 50%;
-    border: 5px solid #fff;
     font-size: 20px;
     letter-spacing: 3px;
     font-weight: 600;
-    opacity: 0.9;
     box-shadow: rgba(99, 99, 99, 0.5) 0px 2px 8px 0px;
   }
 
@@ -112,13 +112,4 @@
   li + li {
     margin-top: 5px;
   }
-}
-
-.refetchButton {
-  padding: 10px 20px;
-  color: #fff;
-  font-size: 14px;
-  background-color: $blue-4;
-  border-radius: 10px;
-  margin-top: 20px;
 }

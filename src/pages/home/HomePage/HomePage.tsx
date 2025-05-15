@@ -81,7 +81,9 @@ export const HomePage: React.FC = () => {
         </div>
 
         <p className={styles.applicantCount}>
-          현재 신청자 수 : {applicantCount}명
+          현재 매칭 신청자 수는 <span>{applicantCount}</span> 명입니다.
+          <br />
+          매칭 신청을 통해 오늘의 면접 상대를 만나보세요!
         </p>
       </div>
 

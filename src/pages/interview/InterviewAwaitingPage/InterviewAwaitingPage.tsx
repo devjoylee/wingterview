@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
-import { Button, Modal, StaticTag } from '@/components/common'
+import { Button, Modal, Notice, StaticTag } from '@/components/common'
 import { CurrentRound } from '@/components/interview'
 import { useMatchStore } from '@/stores/matchStore'
 import { useMatchResult } from '@/hooks/match'
@@ -11,7 +11,6 @@ import {
 } from '@/hooks/interview'
 
 import defaultImage from '@assets/default-profile.png'
-import waitImage from '@assets/wait.png'
 import { useInterviewStore } from '@/stores/interviewStore'
 import { useTimerStore } from '@/stores/timerStore'
 import styles from './styles.module.scss'
@@ -26,14 +25,15 @@ export const InterviewAwaitingPage: React.FC = () => {
   const [interviewee, setInterviewee] = useState<BaseProfile | null>(null)
 
   const { startTimer, resetTimer } = useTimerStore()
-  const { isInterviewer, currentRound, setInterviewData } = useInterviewStore()
+  const { isInterviewer, currentRound, currentPhase, setInterviewData } =
+    useInterviewStore()
   const { getOddInterviewee, getEvenInterviewee } = useMatchStore()
 
   const { data: matchResult } = useMatchResult(false)
   const { data: currentStatus, refetch } = useInterviewStatus(interviewId)
   const { mutate: updateStatus } = useUpdateInterviewStatus({})
 
-  const isLastRoundDone = currentStatus?.data.currentPhase === 'COMPLETE'
+  const isLastRoundDone = currentPhase === 'COMPLETE'
 
   const { mutate: generateQuestions, isSuccess: isGenerated } =
     useGenerateQuestion({
@@ -118,13 +118,40 @@ export const InterviewAwaitingPage: React.FC = () => {
 
   return (
     <div className={styles.container}>
+      <div className={styles.notice}>
+        {isInterviewer ? (
+          <Notice>
+            <p>
+              면접자가 면접관의 자리로 이동 중입니다.
+              <br />
+              면접자가 도착한 이후 면접을 시작해주세요.
+            </p>
+          </Notice>
+        ) : (
+          <Notice>
+            <p>
+              현재 라운드 종료 후 <br />
+              <span>면접관이 피드백 작성을 모두 마치면</span> <br />
+              아래 '역할 변경' 버튼을 눌러 주세요. <br />
+            </p>
+            <button onClick={() => refetch()} className={styles.refetchButton}>
+              면접관으로 역할 변경 (임시)
+            </button>
+            <p>
+              해당 버튼은 1차 MVP 기간에만 유효하며 <br />
+              이후에는 자동으로 역할이 변경됩니다 <br />
+            </p>
+          </Notice>
+        )}
+      </div>
+
       <CurrentRound currentRound={currentRound} />
 
       {isInterviewer ? (
         <div className={styles.awaitingScreen}>
           <h2>
             면접을 시작하려면 <br />
-            아래 버튼을 눌러주세요.
+            START 버튼을 눌러주세요.
           </h2>
 
           <div className={styles.buttonWrapper}>
@@ -143,10 +170,6 @@ export const InterviewAwaitingPage: React.FC = () => {
             면접이 곧 시작됩니다. <br />
             면접관의 지시를 따라주세요. <br />
           </h2>
-          <img src={waitImage} alt="wait" />
-          <button onClick={() => refetch()} className={styles.refetchButton}>
-            면접관 화면 가기 (임시) <br />
-          </button>
         </div>
       )}
 

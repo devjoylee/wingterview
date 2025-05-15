@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
-import { Button, Modal } from '@/components/common'
+import { Button, Modal, Notice } from '@/components/common'
 import { useInterviewStore } from '@/stores/interviewStore'
 import {
   useGenerateQuestion,
@@ -75,8 +75,32 @@ export const InterviewAnswerPage: React.FC = () => {
 
   return (
     <div className={styles.container}>
+      <div className={styles.notice}>
+        <Notice>
+          <p>
+            <b>• </b>prompt 작성은 <b>필수가 아닙니다.</b> prompt는 꼬리질문을
+            하고 싶은 토픽이 있는 경우 작성해보세요!
+          </p>
+          <p>
+            <b> • 꼬리질문 만들기</b>는 현재 질문과 관련된 질문,
+            <br />
+            <b>새로운 주제로 질문 만들기</b>는 다른 주제로 질문 생성
+          </p>
+          <p>
+            <b>• </b>면접 종료 버튼을 눌러 다음 flow로 넘어가보세요.
+          </p>
+          <button className={styles.temp} onClick={handleEndInterview}>
+            면접 종료 (임시)
+          </button>
+          <p>
+            해당 버튼은 1차 MVP 기간에만 유효하며 <br />
+            이후에는 타이머 20분이 끝나면 면접이 종료됩니다
+          </p>
+        </Notice>
+      </div>
+
       <div className={styles.question}>
-        <h2>Q{questionIdx}.</h2>
+        <h2>Q{questionIdx + 1}.</h2>
         <p>{currentQuestion}</p>
       </div>
 
@@ -87,9 +111,8 @@ export const InterviewAnswerPage: React.FC = () => {
           className={styles.textArea}
           value={keyword}
           onChange={e => setKeyword(e.target.value)}
-          placeholder="면접자의 답변 중 꼬리질문을 만들 수 있는 주요 단어를 입력해보세요.
-
-ex) staleTime, 캐싱, 상태관리"
+          placeholder="면접자의 답변 중 꼬리질문을 하고싶은 주제의 키워드를 입력하면
+꼬리질문을 생성합니다.    예) staleTime, 캐싱, 상태관리"
           maxLength={200}
         />
 
@@ -110,10 +133,6 @@ ex) staleTime, 캐싱, 상태관리"
             disabled={isPending || isGenerating}
           >
             새로운 주제로 질문 만들기
-          </button>
-
-          <button className={styles.temp} onClick={handleEndInterview}>
-            면접 종료 (임시)
           </button>
         </div>
       </div>

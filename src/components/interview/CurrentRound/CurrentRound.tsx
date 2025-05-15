@@ -9,7 +9,7 @@ interface CurrentRoundProps {
 export const CurrentRound: React.FC<CurrentRoundProps> = ({ currentRound }) => (
   <div className={styles.round}>
     <img src={wingL} alt="wing" />
-    <span>{currentRound} ROUND</span>
+    <span>{currentRound !== 4 ? currentRound : 'FINAL'} ROUND</span>
     <img src={wingR} alt="wing" />
   </div>
 )
