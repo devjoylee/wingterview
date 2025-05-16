@@ -6,21 +6,42 @@ import { Button, Modal, Notice } from '@/components/common'
 import { useInterviewStore } from '@/stores/interviewStore'
 import { useSelectedQuestion, useGenerateQuestion } from '@/hooks/interview'
 
+/**
+ *   면접 질문 페이지 flow
+ *
+ *   페이지 렌더링 시,
+ *   1. 면접 질문 캐싱 확인 (route, store)
+ *      데이터 없으면 generateQuestions 문재 생성 재요청
+ *
+ *   질문 선택 후 선택완료 클릭 시,
+ *   1. 선택한 질문 API 로 보내기 (sendSelectedQuestion)
+ *   2. 선택한 질문 store에 저장 (saveSelectedQuestion)
+ *   3. questionIdx 업데이트
+ *      첫 질문 선택 인경우 (questionIdx -1 상태), questionIdx = 1
+ *      두번째 질문 부터는, questionIdx = questionIdx + 1
+ *
+ *   새로고침 클릭 시,
+ *   1. prevQuestion이 있으면, prevQuestion 관련 질문 4개 재요청
+ *      prevQuestion이 없으면, 새로운 질문 4개 요청
+ *   2. 질문 생성 (generateQuestions) 성공 시, 문제 목록 questionOption store에 저장
+ */
+
 export const InterviewQuestionPage: React.FC = () => {
   const navigate = useNavigate()
   const location = useLocation()
 
   const questionsInRoute = location.state?.questions
-  const interviewId = localStorage.getItem('interviewId') as string
 
   const [questions, setQuestions] = useState<string[]>([])
   const [selectedIdx, setSelectedIdx] = useState<number | null>(null)
   const [isRefreshDisabled, setIsRefreshDisabled] = useState<boolean>(false)
 
   const {
+    interviewId,
     questionOption,
     selectedQuestion: prevQuestion,
     saveSelectedQuestion,
+    setInterviewData,
   } = useInterviewStore()
 
   const { mutate: sendSelectedQuestion } = useSelectedQuestion({
@@ -28,6 +49,7 @@ export const InterviewQuestionPage: React.FC = () => {
       if (selectedIdx !== null) {
         const selected = questions[selectedIdx - 1]
         saveSelectedQuestion(selected)
+        setInterviewData({ questionOption: null })
         navigate('/interview/answer', {
           state: {
             question: selected,
@@ -42,6 +64,7 @@ export const InterviewQuestionPage: React.FC = () => {
       onSuccess: result => {
         if (result.data && result.data.questions) {
           setQuestions(result.data.questions)
+          setInterviewData({ questionOption: result.data.questions })
           setSelectedIdx(null)
         }
 
@@ -81,10 +104,8 @@ export const InterviewQuestionPage: React.FC = () => {
       setQuestions(questionsInRoute)
     } else if (questionOption) {
       setQuestions(questionOption)
-    } else {
-      generateQuestions({ interviewId })
     }
-  }, [questionsInRoute, questionOption, generateQuestions, interviewId])
+  }, [questionsInRoute, questionOption, interviewId])
 
   const isLoading = isGenerating || isRefreshDisabled
 
@@ -93,9 +114,10 @@ export const InterviewQuestionPage: React.FC = () => {
       <div className={styles.notice}>
         <Notice>
           <p>
-            마음에 드는 질문이 없는 경우 오른쪽 상단의 refresh 아이콘을 클릭하면
-            새로운 질문 목록을 가져옵니다. 원하는 질문을 골랐다면 '선택완료'
-            버튼을 눌러주세요.
+            질문하고 싶은 선택지를 골라주세요. <br />
+            원하는 질문이 없을 때는 refresh 아이콘을 누르면 5초 단위로 질문
+            목록을 새로고침 할 수 있습니다.
+            <br /> 질문 선택이 끝나면 '선택완료' 버튼을 눌러주세요.
           </p>
         </Notice>
       </div>

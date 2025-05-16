@@ -9,6 +9,23 @@ import {
 import styles from './styles.module.scss'
 import { useTimerStore } from '@/stores/timerStore'
 
+/**
+ *   면접 답변 페이지 flow
+ *
+ *   페이지 렌더링 시,
+ *   선택한 질문 캐싱 확인 (route, store)
+ *
+ *   꼬리질문 만들기 클릭 시,
+ *   현재 질문 + 키워드를 문제 생성 API로 전달
+ *   questionData: { question: currentQuestion, keywords: keyword }
+ *
+ *   새로운 질문 만들기 클릭 시,
+ *   questionData 전달 X (기본값으로 넘어감)
+ *
+ *   면접 종료 클릭 시,
+ *   상태 업데이트 PROGRESS -> FEEDBACK
+ */
+
 export const InterviewAnswerPage: React.FC = () => {
   const location = useLocation()
   const navigate = useNavigate()
@@ -16,14 +33,16 @@ export const InterviewAnswerPage: React.FC = () => {
   const [isGenerating, setIsGenerating] = useState(false)
 
   const { resetTimer } = useTimerStore()
-  const { questionIdx, setInterviewData } = useInterviewStore()
-  const currentQuestion = location.state?.question
-  const interviewId = localStorage.getItem('interviewId') as string
+  const { interviewId, questionIdx, selectedQuestion, setInterviewData } =
+    useInterviewStore()
+
+  const currentQuestion = location.state?.question || selectedQuestion
 
   const { mutate: generateQuestions, isPending } = useGenerateQuestion({
     onSuccess: result => {
       if (result.data && result.data.questions) {
         setIsGenerating(false)
+        setInterviewData({ questionOption: result.data.questions })
         navigate('/interview/question', {
           state: {
             questions: result.data.questions,
@@ -73,13 +92,19 @@ export const InterviewAnswerPage: React.FC = () => {
     resetTimer({ minutes: 0, seconds: 0 })
   }
 
+  console.log('앤쌀')
+
   return (
     <div className={styles.container}>
       <div className={styles.notice}>
         <Notice>
           <p>
-            <b>• </b>prompt 작성은 <b>필수가 아닙니다.</b> prompt는 꼬리질문을
-            하고 싶은 토픽이 있는 경우 작성해보세요!
+            <b>1. </b> 선택한 질문을 면접자에게 질문해주세요.
+            <br />
+            <b>2. </b> 면접자의 답변 중 꼬리질문을 하고 싶은 내용이 있다면
+            prompt에 주요 키워드를 입력해보세요. <br />
+            (prompt 작성은 선택사항입니다.)
+            <br />
           </p>
           <p>
             <b> • 꼬리질문 만들기</b>는 현재 질문과 관련된 질문,
@@ -89,18 +114,11 @@ export const InterviewAnswerPage: React.FC = () => {
           <p>
             <b>• </b>면접 종료 버튼을 눌러 다음 flow로 넘어가보세요.
           </p>
-          <button className={styles.temp} onClick={handleEndInterview}>
-            면접 종료 (임시)
-          </button>
-          <p>
-            해당 버튼은 1차 MVP 기간에만 유효하며 <br />
-            이후에는 타이머 20분이 끝나면 면접이 종료됩니다
-          </p>
         </Notice>
       </div>
 
       <div className={styles.question}>
-        <h2>Q{questionIdx + 1}.</h2>
+        <h2>Q{questionIdx}.</h2>
         <p>{currentQuestion}</p>
       </div>
 
@@ -133,6 +151,10 @@ export const InterviewAnswerPage: React.FC = () => {
             disabled={isPending || isGenerating}
           >
             새로운 주제로 질문 만들기
+          </button>
+
+          <button className={styles.temp} onClick={handleEndInterview}>
+            면접 종료 (임시)
           </button>
         </div>
       </div>

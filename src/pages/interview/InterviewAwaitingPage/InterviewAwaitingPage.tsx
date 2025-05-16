@@ -15,35 +15,65 @@ import { useInterviewStore } from '@/stores/interviewStore'
 import { useTimerStore } from '@/stores/timerStore'
 import styles from './styles.module.scss'
 
+/**
+ *   면접 대기 페이지 flow
+ *
+ *   페이지 렌더링 시,
+ *   1. 면접 현재 상태 API 요청 -> setInterviewData로 스토리지에 캐싱
+ *   2. 면접자 데이터 캐싱 확인 (route, store), 없으면 matchResult에서 가져옴
+ *      matchResult는 1라운드 기준이므로
+ *      matchResult에서 '면접자'는 1/3 라운드 면접자로 설정 (OddInterviewee)
+ *      matchResult에서 '면접관'은 2/4 라운드 면접자로 설정 (EvenInterviewee)
+ *
+ *      -> 해당 부분은 현재 상태 isInterviewer 조건으로 수정해야겠다.
+ *         isInterviewer true, 면접자 데이터 = partner 데이터
+ *         isInterviewer false, 면접자 데이터 = 내 정보 데이터 (useMyProfile)
+ *
+ *   면접 시작 버튼 클릭하면
+ *   1. updateStatus : 상태 PENDING -> PROGRESS
+ *   2. generateQuestions : 문제 생성 요청
+ *      문제 생성 되면 문제 목록 questionOption store에 저장
+ *   3. navigate('/interview/question')
+ *   4. 타이머 시작 (3번과 동시에)
+ */
+
 export const InterviewAwaitingPage: React.FC = () => {
   const navigate = useNavigate()
   const location = useLocation()
 
   const intervieweeInRoute = location.state?.interviewee
-  const interviewId = localStorage.getItem('interviewId') as string
 
   const [interviewee, setInterviewee] = useState<BaseProfile | null>(null)
 
   const { startTimer, resetTimer } = useTimerStore()
-  const { isInterviewer, currentRound, currentPhase, setInterviewData } =
-    useInterviewStore()
   const { getOddInterviewee, getEvenInterviewee } = useMatchStore()
+  const {
+    interviewId,
+    isInterviewer,
+    currentRound,
+    currentPhase,
+    setInterviewData,
+  } = useInterviewStore()
+
+  const isLastRoundDone = currentPhase.toUpperCase() === 'COMPLETE'
 
   const { data: matchResult } = useMatchResult(false)
   const { data: currentStatus, refetch } = useInterviewStatus(interviewId)
-  const { mutate: updateStatus } = useUpdateInterviewStatus({})
-
-  const isLastRoundDone = currentPhase === 'COMPLETE'
+  const { mutate: updateStatus } = useUpdateInterviewStatus({
+    onSuccess: () => {
+      generateQuestions({ interviewId })
+      setInterviewData({ currentPhase: 'PROGRESS' })
+    },
+  })
 
   const { mutate: generateQuestions, isSuccess: isGenerated } =
     useGenerateQuestion({
       onSuccess: result => {
         if (interviewId) {
           setTimeout(() => {
-            setInterviewData({
-              questionOption: result.data.questions,
-              currentPhase: 'PROGRESS',
-            })
+            setInterviewData({ questionOption: result.data.questions })
+
+            // 문제 생성 완료 시 질문 페이지로
             navigate('/interview/question', {
               state: {
                 questions: result.data.questions,
@@ -63,9 +93,6 @@ export const InterviewAwaitingPage: React.FC = () => {
     }
 
     updateStatus(interviewId) // 면접 상태 PENDING -> PROGRESS
-    generateQuestions({
-      interviewId,
-    })
   }
 
   useEffect(() => {
