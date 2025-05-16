@@ -62,7 +62,6 @@ export const InterviewAwaitingPage: React.FC = () => {
   const { mutate: updateStatus } = useUpdateInterviewStatus({
     onSuccess: () => {
       generateQuestions({ interviewId })
-      setInterviewData({ currentPhase: 'PROGRESS' })
     },
   })
 
@@ -71,7 +70,10 @@ export const InterviewAwaitingPage: React.FC = () => {
       onSuccess: result => {
         if (interviewId) {
           setTimeout(() => {
-            setInterviewData({ questionOption: result.data.questions })
+            setInterviewData({
+              questionOption: result.data.questions,
+              currentPhase: 'PROGRESS',
+            })
 
             // 문제 생성 완료 시 질문 페이지로
             navigate('/interview/question', {

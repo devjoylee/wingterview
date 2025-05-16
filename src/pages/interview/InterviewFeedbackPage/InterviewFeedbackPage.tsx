@@ -23,7 +23,7 @@ export const InterviewFeedbackPage: React.FC = () => {
   const [feedback, setFeedback] = useState('')
   const [interviewee, setInterviewee] = useState<BaseProfile>()
 
-  const { interviewId, currentRound, setInterviewData } = useInterviewStore()
+  const { interviewId, currentRound } = useInterviewStore()
   const { data: interviewData } = useInterviewStatus(interviewId)
   const { mutate: updateStatus, isSuccess } = useUpdateInterviewStatus()
 
@@ -36,7 +36,6 @@ export const InterviewFeedbackPage: React.FC = () => {
     }
 
     updateStatus(interviewId) // FEEDBACK -> PENDING
-    setInterviewData({ currentPhase: isLastRound ? 'COMPLETE' : 'PENDING' })
   }
 
   const goToNextRound = () => navigate('/interview/awaiting')

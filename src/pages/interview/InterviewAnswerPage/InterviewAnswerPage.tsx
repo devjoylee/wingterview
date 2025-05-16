@@ -78,6 +78,7 @@ export const InterviewAnswerPage: React.FC = () => {
       generateQuestions({
         interviewId,
       })
+      setInterviewData({ selectedQuestion: '' })
     }, 1500)
   }
 
@@ -91,8 +92,6 @@ export const InterviewAnswerPage: React.FC = () => {
     setInterviewData({ currentPhase: 'FEEDBACK' })
     resetTimer({ minutes: 0, seconds: 0 })
   }
-
-  console.log('앤쌀')
 
   return (
     <div className={styles.container}>
