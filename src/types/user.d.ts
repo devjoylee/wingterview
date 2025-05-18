@@ -7,15 +7,21 @@ interface BaseProfile {
   profileImageUrl?: string | null
 }
 
+interface MyProfileData extends BaseProfile {
+  email: string
+  seatCode: string | null
+  interviewCnt: number
+}
+
+interface InterviewerData extends BaseProfile {
+  seatCode: string
+}
+
+type IntervieweeData = BaseProfile
+
 interface ProfileFormData extends BaseProfile {
   seatPosition: {
     section: string | null
     seat: [number | null, number | null]
   }
-}
-
-interface UserData extends BaseProfile {
-  email?: string
-  seatCode?: string
-  interviewCnt?: number
 }

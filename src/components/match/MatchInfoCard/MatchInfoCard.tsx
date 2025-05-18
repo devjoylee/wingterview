@@ -4,8 +4,8 @@ import { StaticTag } from '@/components/common'
 import { MapPin } from 'lucide-react'
 
 interface MatchInfoCardProps {
-  interviewer: UserData
-  interviewee: UserData
+  interviewer: InterviewerData
+  interviewee: IntervieweeData
 }
 
 export const MatchInfoCard: React.FC<MatchInfoCardProps> = ({

@@ -10,7 +10,7 @@ export const HomePage: React.FC = () => {
   const location = useLocation()
   const navigate = useNavigate()
 
-  const [profile, setMyProfile] = useState<UserData>()
+  const [profile, setMyProfile] = useState<MyProfileData>()
   const { isMatching, setIsMatching, setMatchResultInStore } = useMatchStore()
 
   const { data: myData } = useMyProfile()

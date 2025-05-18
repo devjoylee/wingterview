@@ -1,7 +1,7 @@
 interface MatchResultData {
   isFirstInterviewer: boolean
   isAiInterview: boolean
-  interviewer: UserData
-  interviewee: UserData
+  interviewer: InterviewerData
+  interviewee: IntervieweeData
   interviewId: string
 }

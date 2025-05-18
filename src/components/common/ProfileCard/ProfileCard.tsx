@@ -3,7 +3,7 @@ import defaultImage from '@assets/default-profile.png'
 import styles from './styles.module.scss'
 
 interface ProfileCardProps {
-  profile: UserData
+  profile: MyProfileData
 }
 
 export const ProfileCard: React.FC<ProfileCardProps> = ({ profile }) => {
