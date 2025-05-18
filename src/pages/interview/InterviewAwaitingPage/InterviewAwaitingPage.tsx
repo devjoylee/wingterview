@@ -50,7 +50,10 @@ export const InterviewAwaitingPage: React.FC = () => {
   const { interviewId, isInterviewer, currentRound, setInterviewData } =
     useInterviewStore()
 
-  const { data: matchResult } = useMatchResult(false)
+  const { data: matchResult } = useMatchResult({
+    enablePolling: false,
+    isInQueue: true,
+  })
   const { data: currentStatus, refetch } = useInterviewStatus(interviewId)
   const { mutate: updateStatus } = useUpdateInterviewStatus({
     onSuccess: () => {

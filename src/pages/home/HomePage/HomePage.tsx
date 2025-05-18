@@ -15,7 +15,10 @@ export const HomePage: React.FC = () => {
 
   const { data: myData } = useMyProfile()
   const { data: applicantCount } = useApplicantCount()
-  const { data: matchResult } = useMatchResult(isMatching)
+  const { data: matchResult } = useMatchResult({
+    enablePolling: isMatching,
+    isInQueue: myData && myData.isInQueue,
+  })
   const { mutate: startMatching, isPending: isButtonClicked } = useMatchStart()
 
   const handleMatchStart = useCallback(() => {
@@ -49,7 +52,7 @@ export const HomePage: React.FC = () => {
   }, [location.state, myData])
 
   useEffect(() => {
-    if (matchResult) {
+    if (myData && myData.isInQueue && matchResult) {
       if (matchResult.data === null) {
         // 매칭 중
         setIsMatching(true)
@@ -57,10 +60,12 @@ export const HomePage: React.FC = () => {
         // 이미 매칭되서 결과가 있으면
         setMatchResultInStore(matchResult.data)
         setIsMatching(false)
-        navigate('/match/result', { state: { matchResult: matchResult.data } }) // 결과 페이지로 .
+        navigate('/match/result', {
+          state: { matchResult: matchResult.data },
+        })
       }
     }
-  }, [matchResult, navigate, setMatchResultInStore, setIsMatching])
+  }, [myData, matchResult, navigate, setMatchResultInStore, setIsMatching])
 
   return (
     <div className={styles.homePage}>
