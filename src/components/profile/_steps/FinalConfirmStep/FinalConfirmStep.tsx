@@ -6,7 +6,7 @@ import defaultImage from '@assets/default-profile.png'
 import { useProfileStore } from '@/stores/profileStore'
 
 export const FinalConfirmStep = () => {
-  const { formData, selectedSeat } = useProfileStore()
+  const { formData, selectedSeat, imageURL } = useProfileStore()
   useProfileStore()
 
   const {
@@ -23,10 +23,7 @@ export const FinalConfirmStep = () => {
       <div className={styles.container}>
         <div className={styles.profileHeader}>
           <div className={styles.thumbnail}>
-            <img
-              src={formData.profileImageUrl || defaultImage}
-              alt="프로필 사진"
-            />
+            <img src={imageURL || defaultImage} alt="프로필 사진" />
           </div>
 
           <h2 className={styles.name}>
