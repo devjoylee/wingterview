@@ -35,6 +35,7 @@ export const InterviewQuestionPage: React.FC = () => {
   const [questions, setQuestions] = useState<string[]>([])
   const [selectedIdx, setSelectedIdx] = useState<number | null>(null)
   const [isRefreshDisabled, setIsRefreshDisabled] = useState<boolean>(false)
+  const [isGenerating, setIsGenerating] = useState<boolean>(false)
 
   const {
     interviewId,
@@ -59,21 +60,28 @@ export const InterviewQuestionPage: React.FC = () => {
     },
   })
 
-  const { mutate: generateQuestions, isPending: isGenerating } =
-    useGenerateQuestion({
-      onSuccess: result => {
-        if (result.data && result.data.questions) {
-          setQuestions(result.data.questions)
-          setInterviewData({ questionOption: result.data.questions })
-          setSelectedIdx(null)
-        }
+  // 새로 고침 눌렀을 때
+  const { mutate: generateQuestions } = useGenerateQuestion({
+    onMutate: () => setIsGenerating(true),
 
-        // 5초 후 새로고침 버튼 활성화
-        setTimeout(() => {
-          setIsRefreshDisabled(false)
-        }, 5000)
-      },
-    })
+    onSuccess: async result => {
+      const delay = new Promise(resolve => setTimeout(resolve, 1500))
+
+      await delay // 로딩 모달 창을 위한 1.5초 지연
+
+      if (result.data && result.data.questions) {
+        setQuestions(result.data.questions)
+        setInterviewData({ questionOption: result.data.questions })
+        setSelectedIdx(null)
+        setIsGenerating(false)
+      }
+
+      // 5초 후 새로고침 버튼 활성화
+      setTimeout(() => {
+        setIsRefreshDisabled(false)
+      }, 5000)
+    },
+  })
 
   const handleSelect = (idx: number) => {
     setSelectedIdx(idx + 1)
@@ -107,8 +115,6 @@ export const InterviewQuestionPage: React.FC = () => {
     }
   }, [questionsInRoute, questionOption, interviewId])
 
-  const isLoading = isGenerating || isRefreshDisabled
-
   return (
     <div className={styles.container}>
       <div className={styles.notice}>
@@ -126,7 +132,7 @@ export const InterviewQuestionPage: React.FC = () => {
         <button
           className={styles.resetButton}
           onClick={handleRefresh}
-          disabled={isLoading}
+          disabled={isRefreshDisabled}
         >
           <RefreshCw />
         </button>

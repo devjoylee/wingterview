@@ -18,6 +18,7 @@ export const useUpdateInterviewStatus = (options?: {
 }
 
 export const useGenerateQuestion = (options?: {
+  onMutate?: () => void
   onSuccess?: (data: ApiResponse<QuestionListData>) => void
   onError?: (error: unknown) => void
 }) => {
@@ -30,6 +31,7 @@ export const useGenerateQuestion = (options?: {
         params.interviewId,
         params.questionData || { question: '', keywords: '' }
       ),
+    onMutate: options?.onMutate,
     onSuccess: options?.onSuccess,
     onError: options?.onError,
   })

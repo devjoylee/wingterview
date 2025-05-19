@@ -44,6 +44,7 @@ export const InterviewAwaitingPage: React.FC = () => {
   const intervieweeInRoute = location.state?.interviewee
 
   const [interviewee, setInterviewee] = useState<BaseProfile | null>(null)
+  const [isGenerating, setIsGenerating] = useState(false)
 
   const { startTimer, resetTimer } = useTimerStore()
   const { getOddInterviewee, getEvenInterviewee } = useMatchStore()
@@ -61,28 +62,34 @@ export const InterviewAwaitingPage: React.FC = () => {
     },
   })
 
-  const { mutate: generateQuestions, isSuccess: isGenerated } =
-    useGenerateQuestion({
-      onSuccess: result => {
-        if (interviewId) {
-          setTimeout(() => {
-            setInterviewData({
-              questionOption: result.data.questions,
-              currentPhase: 'PROGRESS',
-            })
+  // START 버튼 눌렀을 때
+  const { mutate: generateQuestions } = useGenerateQuestion({
+    onMutate: () => setIsGenerating(true),
 
-            // 문제 생성 완료 시 질문 페이지로
-            navigate('/interview/question', {
-              state: {
-                questions: result.data.questions,
-              },
-            })
-          }, 1500)
+    onSuccess: async result => {
+      if (interviewId) {
+        const delay = new Promise(resolve => setTimeout(resolve, 1500))
 
-          setTimeout(() => startTimer(), 500)
+        await delay // 로딩 모달 창을 위한 1.5초 지연
+
+        if (result.data && result.data.questions) {
+          setInterviewData({
+            questionOption: result.data.questions,
+            currentPhase: 'PROGRESS',
+          })
+
+          // 문제 생성 완료 시 질문 페이지로
+          navigate('/interview/question', {
+            state: {
+              questions: result.data.questions,
+            },
+          })
+
+          startTimer()
         }
-      },
-    })
+      }
+    },
+  })
 
   const handleStartInterview = () => {
     if (!interviewId) {
@@ -233,7 +240,7 @@ export const InterviewAwaitingPage: React.FC = () => {
       </div>
 
       <Modal
-        isOpen={isGenerated}
+        isOpen={isGenerating}
         closeOnBgClick={false}
         style="loading"
         message={['면접 질문을 생성하고 있습니다.', '잠시만 기다려주세요.']}

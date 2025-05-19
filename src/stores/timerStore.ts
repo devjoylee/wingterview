@@ -11,7 +11,7 @@ export const useTimerStore = create<TimerState>(set => ({
   isActive: false,
   time: { minutes: 20, seconds: 0 },
 
-  startTimer: () => set({ isActive: true }),
+  startTimer: () => set({ isActive: true, time: { minutes: 19, seconds: 59 } }),
   resetTimer: (init = { minutes: 20, seconds: 0 }) =>
     set({ isActive: false, time: init }),
 }))
