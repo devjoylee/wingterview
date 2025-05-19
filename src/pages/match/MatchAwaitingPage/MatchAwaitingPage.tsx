@@ -1,12 +1,12 @@
 import { useEffect, useState, useCallback } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
-import styles from './styles.module.scss'
 import { Button, Logo, Modal, ProfileCard } from '@/components/common'
 import { useApplicantCount, useMatchResult, useMatchStart } from '@/hooks/match'
 import { useMatchStore } from '@/stores/matchStore'
 import { useMyProfile } from '@/hooks/profile'
+import styles from './styles.module.scss'
 
-export const HomePage: React.FC = () => {
+export const MatchAwaitingPage: React.FC = () => {
   const location = useLocation()
   const navigate = useNavigate()
 
@@ -68,7 +68,7 @@ export const HomePage: React.FC = () => {
   }, [myData, matchResult, navigate, setMatchResultInStore, setIsMatching])
 
   return (
-    <div className={styles.homePage}>
+    <div className={styles.matchAwaitingPage}>
       <div className={styles.pageHeader}>
         <Logo width={60} color="light" />
         <h1>

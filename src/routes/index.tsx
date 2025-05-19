@@ -22,7 +22,7 @@ const routes: RouteObject[] = [
           {
             element: <Page hasNavbar={true} />,
             children: [
-              { index: true, element: <P.HomePage /> },
+              { index: true, element: <P.MatchAwaitingPage /> },
               { path: 'match/result', element: <P.MatchResultPage /> },
               { path: 'coming-soon', element: <P.ComingSoonPage /> },
 
