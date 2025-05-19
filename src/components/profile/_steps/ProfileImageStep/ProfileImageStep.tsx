@@ -5,13 +5,15 @@ import { Pencil } from 'lucide-react'
 import defaultImage from '@assets/default-profile.png'
 import { useProfileStore } from '@/stores/profileStore'
 import { ErrorMessage } from '@/components/common'
+import { getPresignedURL, uploadImageToS3 } from '@/api/presignedAPI'
+import { parseFileName } from '@/utils/parseFilename'
 
 export const ProfileImageStep = () => {
-  const { updateProfileImage } = useProfileStore()
-  const [imageURL, setImageURL] = useState<string | null>(null)
+  const { updateProfileImage, imageURL, setImageURL } = useProfileStore()
+  const [imageName, setImageName] = useState<string>('')
   const [error, setError] = useState<string>('')
 
-  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       const reader = new FileReader()
       const file = e.target.files[0]
@@ -29,19 +31,33 @@ export const ProfileImageStep = () => {
         }
       }
 
-      // 유효성 검사 통과 시 File을 Url로 변환
+      uploadImage(file) // 유효성 검사 통과 시 File을 S3로 전송
+
       reader.onload = event => {
-        const imageUrl = event.target?.result as string
-        setImageURL(imageUrl)
+        const url = event.target?.result as string
+        setImageURL(url)
       }
       reader.readAsDataURL(file)
       setError('')
     }
   }
 
+  const uploadImage = async (file: File) => {
+    const filename = parseFileName(file)
+
+    try {
+      const presignedUrl = await getPresignedURL(filename) // 1. presigned url 요청
+      await uploadImageToS3(presignedUrl, file) // 2.전달받은 url에 file 전송
+      setImageName(filename) // 3.업로드한 file명 저장
+    } catch (error) {
+      setError('파일 업로드에 실패했습니다. 다시 시도해주세요.')
+      console.error('업로드 실패:', error)
+    }
+  }
+
   useEffect(() => {
-    updateProfileImage(null)
-  }, [imageURL, updateProfileImage])
+    updateProfileImage(imageName) // formData에는 image 파일명을 저장
+  }, [imageName, updateProfileImage])
 
   return (
     <ProfileFormLayout name="프로필 사진">
