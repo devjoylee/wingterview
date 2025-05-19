@@ -31,11 +31,19 @@ export const useApplicantCount = () => {
   })
 }
 
-export const useMatchResult = (isPolling: boolean) => {
+export const useMatchResult = (
+  options: {
+    enablePolling?: boolean
+    isInQueue?: boolean
+  } = {}
+) => {
+  const { enablePolling = false, isInQueue = false } = options
+
   return useQuery({
     queryKey: ['matchingResult'],
     queryFn: fetchMatchingResult,
-    refetchInterval: isPolling ? 3000 : false,
+    refetchInterval: enablePolling ? 3000 : false,
+    enabled: !!isInQueue,
     staleTime: 0,
   })
 }

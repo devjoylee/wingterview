@@ -23,7 +23,7 @@ export const InterviewFeedbackPage: React.FC = () => {
   const [feedback, setFeedback] = useState('')
   const [interviewee, setInterviewee] = useState<BaseProfile>()
 
-  const { interviewId, currentRound } = useInterviewStore()
+  const { interviewId, currentRound, setInterviewData } = useInterviewStore()
   const { data: interviewData } = useInterviewStatus(interviewId)
   const { mutate: updateStatus, isSuccess } = useUpdateInterviewStatus()
 
@@ -38,7 +38,10 @@ export const InterviewFeedbackPage: React.FC = () => {
     updateStatus(interviewId) // FEEDBACK -> PENDING
   }
 
-  const goToNextRound = () => navigate('/interview/awaiting')
+  const handleNextRound = () => {
+    navigate(isLastRound ? '/' : '/interview/awaiting')
+    setInterviewData({ currentPhase: isLastRound ? 'COMPLETE' : 'PENDING' })
+  }
 
   useEffect(() => {
     if (interviewData && interviewData.data) {
@@ -126,13 +129,13 @@ export const InterviewFeedbackPage: React.FC = () => {
           style="congrats"
           message={['피드백이 제출되었습니다!', '수고하셨습니다.']}
         >
-          <Button text="홈으로 이동" onClick={() => navigate('/')} />
+          <Button text="홈으로 이동" onClick={handleNextRound} />
         </Modal>
       ) : (
         <Modal
           isOpen={isSuccess}
           closeOnBgClick={false}
-          onYesClick={goToNextRound}
+          onYesClick={handleNextRound}
           style="congrats"
           message={[
             '피드백이 제출되었습니다!',

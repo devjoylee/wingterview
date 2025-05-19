@@ -2,7 +2,7 @@ import { submitUserProfile, fetchMyProfile } from '@/api/profileAPI'
 import { useMutation, useQuery } from '@tanstack/react-query'
 
 export const useMyProfile = () => {
-  return useQuery<UserData>({
+  return useQuery<MyProfileData>({
     queryKey: ['myProfile'],
     queryFn: fetchMyProfile,
   })

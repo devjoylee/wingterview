@@ -31,6 +31,7 @@ export const InterviewAnswerPage: React.FC = () => {
   const navigate = useNavigate()
   const [keyword, setKeyword] = useState('')
   const [isGenerating, setIsGenerating] = useState(false)
+  const [isNewQuestion, setIsNewQuestion] = useState(false)
 
   const { resetTimer } = useTimerStore()
   const { interviewId, questionIdx, selectedQuestion, setInterviewData } =
@@ -38,11 +39,23 @@ export const InterviewAnswerPage: React.FC = () => {
 
   const currentQuestion = location.state?.question || selectedQuestion
 
-  const { mutate: generateQuestions, isPending } = useGenerateQuestion({
-    onSuccess: result => {
+  // 질문 생성 버튼 눌렀을 때
+  const { mutate: generateQuestions } = useGenerateQuestion({
+    onMutate: () => setIsGenerating(true),
+
+    onSuccess: async result => {
+      const delay = new Promise(resolve => setTimeout(resolve, 1500))
+
+      await delay // 로딩 모달 창을 위한 1.5초 지연
+
       if (result.data && result.data.questions) {
-        setIsGenerating(false)
+        // 새로운 주제로 질문 만들기일 때 selectedQuestion을 초기화
+        if (isNewQuestion) setInterviewData({ selectedQuestion: '' })
+
         setInterviewData({ questionOption: result.data.questions })
+        setIsGenerating(false)
+        setIsNewQuestion(false)
+
         navigate('/interview/question', {
           state: {
             questions: result.data.questions,
@@ -62,7 +75,6 @@ export const InterviewAnswerPage: React.FC = () => {
   })
 
   const generateFollowUp = () => {
-    setIsGenerating(true)
     generateQuestions({
       interviewId,
       questionData: {
@@ -73,13 +85,8 @@ export const InterviewAnswerPage: React.FC = () => {
   }
 
   const generateNew = () => {
-    setIsGenerating(true)
-    setTimeout(() => {
-      generateQuestions({
-        interviewId,
-      })
-      setInterviewData({ selectedQuestion: '' })
-    }, 1500)
+    setIsNewQuestion(true)
+    generateQuestions({ interviewId })
   }
 
   const handleEndInterview = () => {
@@ -141,13 +148,13 @@ export const InterviewAnswerPage: React.FC = () => {
           <Button
             text="꼬리 질문 만들기"
             onClick={generateFollowUp}
-            disabled={isPending || isGenerating}
+            disabled={isGenerating}
           />
 
           <button
             className={styles.regenerateButton}
             onClick={generateNew}
-            disabled={isPending || isGenerating}
+            disabled={isGenerating}
           >
             새로운 주제로 질문 만들기
           </button>
@@ -159,7 +166,7 @@ export const InterviewAnswerPage: React.FC = () => {
       </div>
 
       <Modal
-        isOpen={isPending || isGenerating}
+        isOpen={isGenerating}
         closeOnBgClick={false}
         style="loading"
         message={['질문을 생성하고 있습니다.', '잠시만 기다려주세요.']}
