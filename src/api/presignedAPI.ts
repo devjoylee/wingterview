@@ -33,14 +33,14 @@ export const uploadImageToS3 = async (presignedUrl: string, file: File) => {
 // 서버에 presignt url 을 요청하는 함수
 export const getPresignedURL = async (filename?: string) => {
   try {
-    const response = await apiClient.get<ApiResponse<string>>(
+    const response = await apiClient.get<ApiResponse<{ url: string }>>(
       API.PRESIGNED_URL(filename)
     )
     console.log(
       `🎉 ${filename ? '이미지' : 'Presigned'} URL 조회 성공:`,
       response.data.data
     )
-    return response.data.data
+    return response.data.data.url
   } catch (error) {
     console.error(`${filename ? '이미지' : 'Presigned'} URL 조회 실패:`, error)
     throw error

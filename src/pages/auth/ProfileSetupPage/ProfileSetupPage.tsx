@@ -10,14 +10,14 @@ export const ProfileSetupPage: React.FC = () => {
   const navigate = useNavigate()
   const [showModal, setShowModal] = useState(false)
 
-  const { formData } = useProfileStore()
+  const { formData, imageURL } = useProfileStore()
 
   const { mutate: submitProfile } = useSubmitProfile({
     onSuccess: () => {
       localStorage.setItem('nickname', formData.nickname.split('.')[0])
       setTimeout(() => {
         setShowModal(false)
-        navigate('/', { state: { myProfile: formData } })
+        navigate('/', { state: { myProfile: formData, imageURL: imageURL } })
       }, 2000)
     },
   })
