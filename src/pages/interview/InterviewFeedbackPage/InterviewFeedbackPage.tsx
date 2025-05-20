@@ -6,7 +6,7 @@ import { Send } from 'lucide-react'
 import { useInterviewStatus, useUpdateInterviewStatus } from '@/hooks/interview'
 import { useInterviewStore } from '@/stores/interviewStore'
 import { CurrentRound, StarRating } from '@/components/interview'
-import { Button, Modal, Notice } from '@/components/common'
+import { Button, Modal, GuideBox } from '@/components/common'
 
 /**
  *   면접 피드백 페이지 flow
@@ -36,10 +36,12 @@ export const InterviewFeedbackPage: React.FC = () => {
     }
 
     updateStatus(interviewId) // FEEDBACK -> PENDING
-    setInterviewData({ currentPhase: isLastRound ? 'COMPLETE' : 'PENDING' })
   }
 
-  const goToNextRound = () => navigate('/interview/awaiting')
+  const handleNextRound = () => {
+    navigate(isLastRound ? '/' : '/interview/awaiting')
+    setInterviewData({ currentPhase: isLastRound ? 'COMPLETE' : 'PENDING' })
+  }
 
   useEffect(() => {
     if (interviewData && interviewData.data) {
@@ -50,11 +52,12 @@ export const InterviewFeedbackPage: React.FC = () => {
   return (
     <div className={styles.container}>
       <div className={styles.notice}>
-        <Notice>
+        <GuideBox>
           <p>
-            피드백을 작성 후 전송 버튼을 누르면 다음 라운드 대기실로 이동합니다.
+            피드백 작성 후 전송 버튼을 누르면 <br />
+            다음 라운드 대기실로 이동합니다.
           </p>
-        </Notice>
+        </GuideBox>
       </div>
       <CurrentRound currentRound={currentRound} />
 
@@ -127,13 +130,13 @@ export const InterviewFeedbackPage: React.FC = () => {
           style="congrats"
           message={['피드백이 제출되었습니다!', '수고하셨습니다.']}
         >
-          <Button text="홈으로 이동" onClick={() => navigate('/')} />
+          <Button text="홈으로 이동" onClick={handleNextRound} />
         </Modal>
       ) : (
         <Modal
           isOpen={isSuccess}
           closeOnBgClick={false}
-          onYesClick={goToNextRound}
+          onYesClick={handleNextRound}
           style="congrats"
           message={[
             '피드백이 제출되었습니다!',

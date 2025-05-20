@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { RefreshCw } from 'lucide-react'
 import styles from './styles.module.scss'
-import { Button, Modal, Notice } from '@/components/common'
+import { Button, Modal, GuideBox } from '@/components/common'
 import { useInterviewStore } from '@/stores/interviewStore'
 import { useSelectedQuestion, useGenerateQuestion } from '@/hooks/interview'
 
@@ -35,6 +35,7 @@ export const InterviewQuestionPage: React.FC = () => {
   const [questions, setQuestions] = useState<string[]>([])
   const [selectedIdx, setSelectedIdx] = useState<number | null>(null)
   const [isRefreshDisabled, setIsRefreshDisabled] = useState<boolean>(false)
+  const [isGenerating, setIsGenerating] = useState<boolean>(false)
 
   const {
     interviewId,
@@ -59,21 +60,28 @@ export const InterviewQuestionPage: React.FC = () => {
     },
   })
 
-  const { mutate: generateQuestions, isPending: isGenerating } =
-    useGenerateQuestion({
-      onSuccess: result => {
-        if (result.data && result.data.questions) {
-          setQuestions(result.data.questions)
-          setInterviewData({ questionOption: result.data.questions })
-          setSelectedIdx(null)
-        }
+  // 새로 고침 눌렀을 때
+  const { mutate: generateQuestions } = useGenerateQuestion({
+    onMutate: () => setIsGenerating(true),
 
-        // 5초 후 새로고침 버튼 활성화
-        setTimeout(() => {
-          setIsRefreshDisabled(false)
-        }, 5000)
-      },
-    })
+    onSuccess: async result => {
+      const delay = new Promise(resolve => setTimeout(resolve, 1500))
+
+      await delay // 로딩 모달 창을 위한 1.5초 지연
+
+      if (result.data && result.data.questions) {
+        setQuestions(result.data.questions)
+        setInterviewData({ questionOption: result.data.questions })
+        setSelectedIdx(null)
+        setIsGenerating(false)
+      }
+
+      // 5초 후 새로고침 버튼 활성화
+      setTimeout(() => {
+        setIsRefreshDisabled(false)
+      }, 5000)
+    },
+  })
 
   const handleSelect = (idx: number) => {
     setSelectedIdx(idx + 1)
@@ -107,26 +115,24 @@ export const InterviewQuestionPage: React.FC = () => {
     }
   }, [questionsInRoute, questionOption, interviewId])
 
-  const isLoading = isGenerating || isRefreshDisabled
-
   return (
     <div className={styles.container}>
       <div className={styles.notice}>
-        <Notice>
+        <GuideBox>
           <p>
             질문하고 싶은 선택지를 골라주세요. <br />
-            원하는 질문이 없을 때는 refresh 아이콘을 누르면 5초 단위로 질문
-            목록을 새로고침 할 수 있습니다.
+            원하는 질문이 없을 때는 refresh 아이콘을 누르면 <br />
+            5초 단위로 질문 목록을 새로고침 할 수 있습니다.
             <br /> 질문 선택이 끝나면 '선택완료' 버튼을 눌러주세요.
           </p>
-        </Notice>
+        </GuideBox>
       </div>
       <div className={styles.questionHeader}>
         <h2>원하는 질문지를 선택해주세요.</h2>
         <button
           className={styles.resetButton}
           onClick={handleRefresh}
-          disabled={isLoading}
+          disabled={isRefreshDisabled}
         >
           <RefreshCw />
         </button>

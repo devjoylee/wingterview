@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
-import { Button, Modal, Notice } from '@/components/common'
+import { Button, Modal, GuideBox } from '@/components/common'
 import { useInterviewStore } from '@/stores/interviewStore'
 import {
   useGenerateQuestion,
@@ -31,6 +31,7 @@ export const InterviewAnswerPage: React.FC = () => {
   const navigate = useNavigate()
   const [keyword, setKeyword] = useState('')
   const [isGenerating, setIsGenerating] = useState(false)
+  const [isNewQuestion, setIsNewQuestion] = useState(false)
 
   const { resetTimer } = useTimerStore()
   const { interviewId, questionIdx, selectedQuestion, setInterviewData } =
@@ -38,11 +39,23 @@ export const InterviewAnswerPage: React.FC = () => {
 
   const currentQuestion = location.state?.question || selectedQuestion
 
-  const { mutate: generateQuestions, isPending } = useGenerateQuestion({
-    onSuccess: result => {
+  // 질문 생성 버튼 눌렀을 때
+  const { mutate: generateQuestions } = useGenerateQuestion({
+    onMutate: () => setIsGenerating(true),
+
+    onSuccess: async result => {
+      const delay = new Promise(resolve => setTimeout(resolve, 1500))
+
+      await delay // 로딩 모달 창을 위한 1.5초 지연
+
       if (result.data && result.data.questions) {
-        setIsGenerating(false)
+        // 새로운 주제로 질문 만들기일 때 selectedQuestion을 초기화
+        if (isNewQuestion) setInterviewData({ selectedQuestion: '' })
+
         setInterviewData({ questionOption: result.data.questions })
+        setIsGenerating(false)
+        setIsNewQuestion(false)
+
         navigate('/interview/question', {
           state: {
             questions: result.data.questions,
@@ -62,7 +75,6 @@ export const InterviewAnswerPage: React.FC = () => {
   })
 
   const generateFollowUp = () => {
-    setIsGenerating(true)
     generateQuestions({
       interviewId,
       questionData: {
@@ -73,12 +85,8 @@ export const InterviewAnswerPage: React.FC = () => {
   }
 
   const generateNew = () => {
-    setIsGenerating(true)
-    setTimeout(() => {
-      generateQuestions({
-        interviewId,
-      })
-    }, 1500)
+    setIsNewQuestion(true)
+    generateQuestions({ interviewId })
   }
 
   const handleEndInterview = () => {
@@ -92,12 +100,10 @@ export const InterviewAnswerPage: React.FC = () => {
     resetTimer({ minutes: 0, seconds: 0 })
   }
 
-  console.log('앤쌀')
-
   return (
     <div className={styles.container}>
       <div className={styles.notice}>
-        <Notice>
+        <GuideBox>
           <p>
             <b>1. </b> 선택한 질문을 면접자에게 질문해주세요.
             <br />
@@ -114,7 +120,7 @@ export const InterviewAnswerPage: React.FC = () => {
           <p>
             <b>• </b>면접 종료 버튼을 눌러 다음 flow로 넘어가보세요.
           </p>
-        </Notice>
+        </GuideBox>
       </div>
 
       <div className={styles.question}>
@@ -142,13 +148,13 @@ export const InterviewAnswerPage: React.FC = () => {
           <Button
             text="꼬리 질문 만들기"
             onClick={generateFollowUp}
-            disabled={isPending || isGenerating}
+            disabled={isGenerating}
           />
 
           <button
             className={styles.regenerateButton}
             onClick={generateNew}
-            disabled={isPending || isGenerating}
+            disabled={isGenerating}
           >
             새로운 주제로 질문 만들기
           </button>
@@ -160,7 +166,7 @@ export const InterviewAnswerPage: React.FC = () => {
       </div>
 
       <Modal
-        isOpen={isPending || isGenerating}
+        isOpen={isGenerating}
         closeOnBgClick={false}
         style="loading"
         message={['질문을 생성하고 있습니다.', '잠시만 기다려주세요.']}

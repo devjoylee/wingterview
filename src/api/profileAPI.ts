@@ -17,7 +17,7 @@ export const submitUserProfile = async (profileData: ProfileFormData) => {
 
 export const fetchMyProfile = async () => {
   try {
-    const response = await apiClient.get<ApiResponse<UserData>>(
+    const response = await apiClient.get<ApiResponse<MyProfileData>>(
       API.PROFILE.MY_PROFILE
     )
     console.log('🎉 사용자 정보 조회 성공:', response.data.data)

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
-import { Button, Modal, Notice, StaticTag } from '@/components/common'
+import { Button, Modal, GuideBox, StaticTag } from '@/components/common'
 import { CurrentRound } from '@/components/interview'
 import { useMatchStore } from '@/stores/matchStore'
 import { useMatchResult } from '@/hooks/match'
@@ -44,47 +44,52 @@ export const InterviewAwaitingPage: React.FC = () => {
   const intervieweeInRoute = location.state?.interviewee
 
   const [interviewee, setInterviewee] = useState<BaseProfile | null>(null)
+  const [isGenerating, setIsGenerating] = useState(false)
 
   const { startTimer, resetTimer } = useTimerStore()
   const { getOddInterviewee, getEvenInterviewee } = useMatchStore()
-  const {
-    interviewId,
-    isInterviewer,
-    currentRound,
-    currentPhase,
-    setInterviewData,
-  } = useInterviewStore()
+  const { interviewId, isInterviewer, currentRound, setInterviewData } =
+    useInterviewStore()
 
-  const isLastRoundDone = currentPhase.toUpperCase() === 'COMPLETE'
-
-  const { data: matchResult } = useMatchResult(false)
+  const { data: matchResult } = useMatchResult({
+    enablePolling: false,
+    isInQueue: true,
+  })
   const { data: currentStatus, refetch } = useInterviewStatus(interviewId)
   const { mutate: updateStatus } = useUpdateInterviewStatus({
     onSuccess: () => {
       generateQuestions({ interviewId })
-      setInterviewData({ currentPhase: 'PROGRESS' })
     },
   })
 
-  const { mutate: generateQuestions, isSuccess: isGenerated } =
-    useGenerateQuestion({
-      onSuccess: result => {
-        if (interviewId) {
-          setTimeout(() => {
-            setInterviewData({ questionOption: result.data.questions })
+  // START 버튼 눌렀을 때
+  const { mutate: generateQuestions } = useGenerateQuestion({
+    onMutate: () => setIsGenerating(true),
 
-            // 문제 생성 완료 시 질문 페이지로
-            navigate('/interview/question', {
-              state: {
-                questions: result.data.questions,
-              },
-            })
-          }, 1500)
+    onSuccess: async result => {
+      if (interviewId) {
+        const delay = new Promise(resolve => setTimeout(resolve, 1500))
 
-          setTimeout(() => startTimer(), 500)
+        await delay // 로딩 모달 창을 위한 1.5초 지연
+
+        if (result.data && result.data.questions) {
+          setInterviewData({
+            questionOption: result.data.questions,
+            currentPhase: 'PROGRESS',
+          })
+
+          // 문제 생성 완료 시 질문 페이지로
+          navigate('/interview/question', {
+            state: {
+              questions: result.data.questions,
+            },
+          })
+
+          startTimer()
         }
-      },
-    })
+      }
+    },
+  })
 
   const handleStartInterview = () => {
     if (!interviewId) {
@@ -147,26 +152,21 @@ export const InterviewAwaitingPage: React.FC = () => {
     <div className={styles.container}>
       <div className={styles.notice}>
         {isInterviewer ? (
-          <Notice>
+          <GuideBox>
             <p>
               면접자가 면접관의 자리로 이동 중입니다.
               <br />
               면접자가 도착한 이후 면접을 시작해주세요.
             </p>
-          </Notice>
+          </GuideBox>
         ) : (
-          <Notice>
+          <GuideBox>
             <p>
               현재 라운드 종료 후 <br />
               <span>면접관이 피드백 작성을 모두 마치면</span> <br />
               아래 '역할 변경' 버튼을 눌러 주세요. <br />
             </p>
-            <p>
-              <br />
-              해당 버튼은 1차 MVP 기간에만 유효하며 <br />
-              이후에는 자동으로 역할이 변경됩니다 <br />
-            </p>
-          </Notice>
+          </GuideBox>
         )}
       </div>
 
@@ -235,7 +235,7 @@ export const InterviewAwaitingPage: React.FC = () => {
       </div>
 
       <Modal
-        isOpen={isGenerated}
+        isOpen={isGenerating}
         closeOnBgClick={false}
         style="loading"
         message={['면접 질문을 생성하고 있습니다.', '잠시만 기다려주세요.']}
@@ -249,15 +249,6 @@ export const InterviewAwaitingPage: React.FC = () => {
           '면접 상대가 정해지지 않았습니다.',
           '1:1 매칭을 먼저 진행해주세요.',
         ]}
-      >
-        <Button text="홈으로 이동" onClick={() => navigate('/')} />
-      </Modal>
-
-      <Modal
-        isOpen={isLastRoundDone}
-        closeOnBgClick={false}
-        style="congrats"
-        message={['오늘의 면접이 모두 종료되었습니다', '수고하셨습니다.']}
       >
         <Button text="홈으로 이동" onClick={() => navigate('/')} />
       </Modal>

@@ -14,6 +14,7 @@ interface ProfileState {
   swiper: SwiperType | null
   selectedSeat: SeatData
   formErrors: Record<string, string>
+  imageURL: string
 
   updateBasicInfo: (name: string, nickname: string, curriculum: string) => void
   updateJobInterest: (interests: string[]) => void
@@ -28,6 +29,7 @@ interface ProfileState {
 
   validateCurrentStep: () => boolean
   setFormErrors: (errors: Record<string, string>) => void
+  setImageURL: (url: string) => void
 }
 
 const initialFormData: ProfileFormData = {
@@ -52,6 +54,7 @@ export const useProfileStore = create<ProfileState>()((set, get) => ({
     seat: [null, null],
   },
   formErrors: {},
+  imageURL: '',
 
   updateBasicInfo: (name, nickname, curriculum) =>
     set(state => ({
@@ -81,11 +84,11 @@ export const useProfileStore = create<ProfileState>()((set, get) => ({
       formErrors: {},
     })),
 
-  updateProfileImage: url =>
+  updateProfileImage: name =>
     set(state => ({
       formData: {
         ...state.formData,
-        profileImageUrl: url,
+        profileImageUrl: name,
       },
     })),
 
@@ -97,6 +100,8 @@ export const useProfileStore = create<ProfileState>()((set, get) => ({
       },
       formErrors: {},
     })),
+
+  setImageURL: (url: string) => set(() => ({ imageURL: url })),
 
   nextStep: () => {
     const { swiper, currentStep } = get()

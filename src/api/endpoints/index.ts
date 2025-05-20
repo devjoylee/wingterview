@@ -24,4 +24,6 @@ export const API = {
     PICK_QUESTION: (interviewId: string) =>
       `/interview/${interviewId}/selection`,
   },
+  PRESIGNED_URL: (filename?: string) =>
+    `/s3/presigned-url?filename=${filename}`,
 }
