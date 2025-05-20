@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { RefreshCw } from 'lucide-react'
 import styles from './styles.module.scss'
-import { Button, Modal, Notice } from '@/components/common'
+import { Button, Modal, GuideBox } from '@/components/common'
 import { useInterviewStore } from '@/stores/interviewStore'
 import { useSelectedQuestion, useGenerateQuestion } from '@/hooks/interview'
 
@@ -118,14 +118,14 @@ export const InterviewQuestionPage: React.FC = () => {
   return (
     <div className={styles.container}>
       <div className={styles.notice}>
-        <Notice>
+        <GuideBox>
           <p>
             질문하고 싶은 선택지를 골라주세요. <br />
-            원하는 질문이 없을 때는 refresh 아이콘을 누르면 5초 단위로 질문
-            목록을 새로고침 할 수 있습니다.
+            원하는 질문이 없을 때는 refresh 아이콘을 누르면 <br />
+            5초 단위로 질문 목록을 새로고침 할 수 있습니다.
             <br /> 질문 선택이 끝나면 '선택완료' 버튼을 눌러주세요.
           </p>
-        </Notice>
+        </GuideBox>
       </div>
       <div className={styles.questionHeader}>
         <h2>원하는 질문지를 선택해주세요.</h2>

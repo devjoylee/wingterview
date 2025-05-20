@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
-import { Button, Modal, Notice } from '@/components/common'
+import { Button, Modal, GuideBox } from '@/components/common'
 import { useInterviewStore } from '@/stores/interviewStore'
 import {
   useGenerateQuestion,
@@ -103,7 +103,7 @@ export const InterviewAnswerPage: React.FC = () => {
   return (
     <div className={styles.container}>
       <div className={styles.notice}>
-        <Notice>
+        <GuideBox>
           <p>
             <b>1. </b> 선택한 질문을 면접자에게 질문해주세요.
             <br />
@@ -120,7 +120,7 @@ export const InterviewAnswerPage: React.FC = () => {
           <p>
             <b>• </b>면접 종료 버튼을 눌러 다음 flow로 넘어가보세요.
           </p>
-        </Notice>
+        </GuideBox>
       </div>
 
       <div className={styles.question}>

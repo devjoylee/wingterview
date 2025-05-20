@@ -6,7 +6,7 @@ import { Send } from 'lucide-react'
 import { useInterviewStatus, useUpdateInterviewStatus } from '@/hooks/interview'
 import { useInterviewStore } from '@/stores/interviewStore'
 import { CurrentRound, StarRating } from '@/components/interview'
-import { Button, Modal, Notice } from '@/components/common'
+import { Button, Modal, GuideBox } from '@/components/common'
 
 /**
  *   면접 피드백 페이지 flow
@@ -52,11 +52,12 @@ export const InterviewFeedbackPage: React.FC = () => {
   return (
     <div className={styles.container}>
       <div className={styles.notice}>
-        <Notice>
+        <GuideBox>
           <p>
-            피드백을 작성 후 전송 버튼을 누르면 다음 라운드 대기실로 이동합니다.
+            피드백 작성 후 전송 버튼을 누르면 <br />
+            다음 라운드 대기실로 이동합니다.
           </p>
-        </Notice>
+        </GuideBox>
       </div>
       <CurrentRound currentRound={currentRound} />
 
