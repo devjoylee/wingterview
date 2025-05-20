@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
-import { Button, Modal, Notice, StaticTag } from '@/components/common'
+import { Button, Modal, GuideBox, StaticTag } from '@/components/common'
 import { CurrentRound } from '@/components/interview'
 import { useMatchStore } from '@/stores/matchStore'
 import { useMatchResult } from '@/hooks/match'
@@ -152,26 +152,21 @@ export const InterviewAwaitingPage: React.FC = () => {
     <div className={styles.container}>
       <div className={styles.notice}>
         {isInterviewer ? (
-          <Notice>
+          <GuideBox>
             <p>
               면접자가 면접관의 자리로 이동 중입니다.
               <br />
               면접자가 도착한 이후 면접을 시작해주세요.
             </p>
-          </Notice>
+          </GuideBox>
         ) : (
-          <Notice>
+          <GuideBox>
             <p>
               현재 라운드 종료 후 <br />
               <span>면접관이 피드백 작성을 모두 마치면</span> <br />
               아래 '역할 변경' 버튼을 눌러 주세요. <br />
             </p>
-            <p>
-              <br />
-              해당 버튼은 1차 MVP 기간에만 유효하며 <br />
-              이후에는 자동으로 역할이 변경됩니다 <br />
-            </p>
-          </Notice>
+          </GuideBox>
         )}
       </div>
 

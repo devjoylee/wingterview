@@ -1,46 +1,63 @@
 import { useEffect, useState, useCallback } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
-import styles from './styles.module.scss'
 import { Button, Logo, Modal, ProfileCard } from '@/components/common'
 import { useApplicantCount, useMatchResult, useMatchStart } from '@/hooks/match'
 import { useMatchStore } from '@/stores/matchStore'
 import { useMyProfile } from '@/hooks/profile'
+import styles from './styles.module.scss'
 
-export const HomePage: React.FC = () => {
+export const MatchAwaitingPage: React.FC = () => {
   const location = useLocation()
   const navigate = useNavigate()
 
   const [profile, setMyProfile] = useState<MyProfileData>()
+  const [isInQueue, setIsInQueue] = useState<boolean>(false)
   const { isMatching, setIsMatching, setMatchResultInStore } = useMatchStore()
 
   const { data: myData } = useMyProfile()
   const { data: applicantCount } = useApplicantCount()
   const { data: matchResult } = useMatchResult({
     enablePolling: isMatching,
-    isInQueue: myData && myData.isInQueue,
+    isInQueue: isInQueue,
   })
-  const { mutate: startMatching, isPending: isButtonClicked } = useMatchStart()
+
+  const { mutate: startMatching } = useMatchStart({
+    onMutate: () => {
+      setIsMatching(true)
+      setIsInQueue(true)
+    },
+
+    onSuccess: async () => {
+      const delay = new Promise(resolve => setTimeout(resolve, 1500))
+
+      await delay // 로딩 창을 위한 1.5초 지연
+
+      // matchResult == 400 error 매칭전
+      // matchResult == null 매칭중
+      // matchResult == data 매칭완료
+
+      if (matchResult && matchResult.data) {
+        setMatchResultInStore(matchResult.data)
+        setIsMatching(false)
+        navigate('/match/result', {
+          state: { matchResult: matchResult.data },
+        })
+      }
+    },
+  })
 
   const handleMatchStart = useCallback(() => {
-    if (isButtonClicked) {
-      console.log('이미 매칭이 진행 중 입니다.')
-      return
-    }
-
-    // matchResult == 400 error 매칭전
-    // matchResult == null 매칭중
-    // matchResult == data 매칭완료
-
-    setIsMatching(true)
-    setTimeout(() => {
-      startMatching()
-    }, 1500)
-  }, [isButtonClicked, startMatching, setIsMatching])
+    startMatching()
+  }, [startMatching])
 
   useEffect(() => {
     // 1. navigate state 데이터 확인
-    if (location.state?.myProfile) {
-      setMyProfile(location.state.myProfile)
+    if (location.state) {
+      const { myProfile, imageURL } = location.state
+      setMyProfile({
+        ...myProfile,
+        profileImageUrl: imageURL,
+      })
       return
     }
 
@@ -52,23 +69,11 @@ export const HomePage: React.FC = () => {
   }, [location.state, myData])
 
   useEffect(() => {
-    if (myData && myData.isInQueue && matchResult) {
-      if (matchResult.data === null) {
-        // 매칭 중
-        setIsMatching(true)
-      } else {
-        // 이미 매칭되서 결과가 있으면
-        setMatchResultInStore(matchResult.data)
-        setIsMatching(false)
-        navigate('/match/result', {
-          state: { matchResult: matchResult.data },
-        })
-      }
-    }
-  }, [myData, matchResult, navigate, setMatchResultInStore, setIsMatching])
+    if (myData) setIsInQueue(myData.isInQueue)
+  }, [myData])
 
   return (
-    <div className={styles.homePage}>
+    <div className={styles.matchAwaitingPage}>
       <div className={styles.pageHeader}>
         <Logo width={60} color="light" />
         <h1>

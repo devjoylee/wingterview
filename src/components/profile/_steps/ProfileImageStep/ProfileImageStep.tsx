@@ -6,7 +6,7 @@ import defaultImage from '@assets/default-profile.png'
 import { useProfileStore } from '@/stores/profileStore'
 import { ErrorMessage } from '@/components/common'
 import { getPresignedURL, uploadImageToS3 } from '@/api/presignedAPI'
-import { parseFileName } from '@/utils/parseFilename'
+import { parseFileName } from '@/utils/parseFileName'
 
 export const ProfileImageStep = () => {
   const { updateProfileImage, imageURL, setImageURL } = useProfileStore()
