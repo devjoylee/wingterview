@@ -22,27 +22,13 @@ export const MatchAwaitingPage: React.FC = () => {
   })
 
   const { mutate: startMatching } = useMatchStart({
-    onMutate: () => {
-      setIsMatching(true)
-      setIsInQueue(true)
-    },
-
     onSuccess: async () => {
-      const delay = new Promise(resolve => setTimeout(resolve, 1500))
+      const delay = new Promise(resolve => setTimeout(resolve, 3000))
 
       await delay // 로딩 창을 위한 1.5초 지연
 
-      // matchResult == 400 error 매칭전
-      // matchResult == null 매칭중
-      // matchResult == data 매칭완료
-
-      if (matchResult && matchResult.data) {
-        setMatchResultInStore(matchResult.data)
-        setIsMatching(false)
-        navigate('/match/result', {
-          state: { matchResult: matchResult.data },
-        })
-      }
+      setIsMatching(true)
+      setIsInQueue(true)
     },
   })
 
@@ -71,6 +57,16 @@ export const MatchAwaitingPage: React.FC = () => {
   useEffect(() => {
     if (myData) setIsInQueue(myData.isInQueue)
   }, [myData])
+
+  useEffect(() => {
+    if (matchResult && matchResult.data) {
+      setMatchResultInStore(matchResult.data)
+      setIsMatching(false)
+      navigate('/match/result', {
+        state: { matchResult: matchResult.data },
+      })
+    }
+  }, [matchResult, navigate, setMatchResultInStore, setIsMatching])
 
   return (
     <div className={styles.matchAwaitingPage}>
