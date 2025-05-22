@@ -33,7 +33,13 @@ export const ProfileSetupPage: React.FC = () => {
 
   useEffect(() => {
     const handleTabKey = (e: KeyboardEvent) => {
-      if (e.key === 'Tab') {
+      const element = document.activeElement
+
+      const tabAllowed =
+        element?.getAttribute('name') === 'name' ||
+        element?.getAttribute('name') === 'nickname'
+
+      if (e.key === 'Tab' && !tabAllowed) {
         e.preventDefault()
       }
     }
