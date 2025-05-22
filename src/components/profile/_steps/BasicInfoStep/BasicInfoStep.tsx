@@ -3,9 +3,11 @@ import { ProfileFormLayout } from '@components/profile'
 import { Dropdown, ErrorMessage } from '@components/common'
 import styles from './styles.module.scss'
 import { useProfileStore } from '@/stores/profileStore'
+import { validateBasicInfo } from '@/utils/validators'
 
 export const BasicInfoStep: React.FC = React.memo(() => {
-  const { updateBasicInfo, formErrors, formData } = useProfileStore()
+  const { updateBasicInfo, formErrors, formData, setFormErrors } =
+    useProfileStore()
 
   const [userValue, setUserValue] = useState({
     name: formData.name,
@@ -15,12 +17,23 @@ export const BasicInfoStep: React.FC = React.memo(() => {
 
   const curriculum: string[] = ['풀스택', '클라우드', '인공지능']
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target
+
     setUserValue(prev => ({
       ...prev,
       [name]: value,
     }))
+
+    const validate = validateBasicInfo({
+      ...formData,
+      [name]: value,
+    })
+
+    setFormErrors({
+      ...formErrors,
+      [name]: validate.errors[name],
+    })
   }
 
   const handleDropdownChange = (curriculum: string): void => {
@@ -28,6 +41,11 @@ export const BasicInfoStep: React.FC = React.memo(() => {
       ...prev,
       curriculum,
     }))
+
+    setFormErrors({
+      ...formErrors,
+      curriculum: '',
+    })
   }
 
   useEffect(() => {
