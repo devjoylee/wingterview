@@ -1,12 +1,12 @@
-import { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import styles from './styles.module.scss'
 import { ProfileFormLayout } from '@components/profile'
 import { ClickableTag, ErrorMessage } from '@/components/common'
 import { useProfileStore } from '@/stores/profileStore'
 
-export const JobInterestStep: React.FC = () => {
-  const { updateJobInterest, formErrors } = useProfileStore()
-  const [selected, setSelected] = useState<string[]>([])
+export const JobInterestStep: React.FC = React.memo(() => {
+  const { updateJobInterest, formErrors, formData } = useProfileStore()
+  const [selected, setSelected] = useState<string[]>(formData.jobInterest)
 
   const taglist: string[] = [
     '백엔드 개발자',
@@ -58,4 +58,4 @@ export const JobInterestStep: React.FC = () => {
       </div>
     </ProfileFormLayout>
   )
-}
+})

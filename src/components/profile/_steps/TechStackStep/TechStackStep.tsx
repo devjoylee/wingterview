@@ -1,12 +1,12 @@
-import { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import styles from './styles.module.scss'
 import { ProfileFormLayout } from '@components/profile'
 import { ClickableTag, ErrorMessage } from '@/components/common'
 import { useProfileStore } from '@/stores/profileStore'
 
-export const TechStackStep: React.FC = () => {
-  const { updateTechStack, formErrors } = useProfileStore()
-  const [selected, setSelected] = useState<string[]>([])
+export const TechStackStep: React.FC = React.memo(() => {
+  const { updateTechStack, formErrors, formData } = useProfileStore()
+  const [selected, setSelected] = useState<string[]>(formData.techStack)
 
   const taglist: string[] = [
     'Typescript',
@@ -60,4 +60,4 @@ export const TechStackStep: React.FC = () => {
       </div>
     </ProfileFormLayout>
   )
-}
+})

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import styles from './styles.module.scss'
 import { ProfileFormLayout } from '@components/profile'
 import { Pencil } from 'lucide-react'
@@ -8,9 +8,12 @@ import { ErrorMessage } from '@/components/common'
 import { getPresignedURL, uploadImageToS3 } from '@/api/presignedAPI'
 import { parseFileName } from '@/utils/parseFileName'
 
-export const ProfileImageStep = () => {
-  const { updateProfileImage, imageURL, setImageURL } = useProfileStore()
-  const [imageName, setImageName] = useState<string>('')
+export const ProfileImageStep = React.memo(() => {
+  const { updateProfileImage, imageURL, setImageURL, formData } =
+    useProfileStore()
+  const [imageName, setImageName] = useState<string>(
+    formData.profileImageUrl || ''
+  )
   const [error, setError] = useState<string>('')
 
   const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -83,4 +86,4 @@ export const ProfileImageStep = () => {
       </div>
     </ProfileFormLayout>
   )
-}
+})

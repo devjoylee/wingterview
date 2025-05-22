@@ -4,13 +4,13 @@ import { Dropdown, ErrorMessage } from '@components/common'
 import styles from './styles.module.scss'
 import { useProfileStore } from '@/stores/profileStore'
 
-export const BasicInfoStep: React.FC = () => {
-  const { updateBasicInfo, formErrors } = useProfileStore()
+export const BasicInfoStep: React.FC = React.memo(() => {
+  const { updateBasicInfo, formErrors, formData } = useProfileStore()
 
   const [userValue, setUserValue] = useState({
-    name: '',
-    nickname: '',
-    curriculum: '',
+    name: formData.name,
+    nickname: formData.nickname,
+    curriculum: formData.curriculum,
   })
 
   const curriculum: string[] = ['풀스택', '클라우드', '인공지능']
@@ -84,4 +84,4 @@ export const BasicInfoStep: React.FC = () => {
       </div>
     </ProfileFormLayout>
   )
-}
+})

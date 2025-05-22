@@ -1,3 +1,4 @@
+import React from 'react'
 import styles from './styles.module.scss'
 import { ProfileFormLayout } from '@components/profile'
 import { StaticTag } from '@/components/common'
@@ -5,9 +6,8 @@ import { MapPin } from 'lucide-react'
 import defaultImage from '@assets/default-profile.png'
 import { useProfileStore } from '@/stores/profileStore'
 
-export const FinalConfirmStep = () => {
+export const FinalConfirmStep = React.memo(() => {
   const { formData, selectedSeat, imageURL } = useProfileStore()
-  useProfileStore()
 
   const {
     section,
@@ -58,4 +58,4 @@ export const FinalConfirmStep = () => {
       </div>
     </ProfileFormLayout>
   )
-}
+})
