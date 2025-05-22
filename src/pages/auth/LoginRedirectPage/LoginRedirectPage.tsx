@@ -11,7 +11,7 @@ export const LoginRedirectPage: React.FC = () => {
   const location = useLocation()
   const isProcessing = useRef(false)
 
-  const { setIsNewUser, setAccessToken, hasProfile } = useAuthStore()
+  const { setLoginState } = useAuthStore()
 
   useEffect(() => {
     const handleKakaoLogin = async () => {
@@ -30,15 +30,10 @@ export const LoginRedirectPage: React.FC = () => {
         // const accessToken = 'temp-accessToken-dfioasdvnkcvl'
         // const isNewUser = true
 
-        setAccessToken(accessToken)
-        setIsNewUser(isNewUser)
+        setLoginState(accessToken, isNewUser)
 
         setTimeout(() => {
-          if (!hasProfile() || isNewUser) {
-            navigate('/profile-setup', { replace: true })
-          } else {
-            navigate('/', { replace: true })
-          }
+          navigate(isNewUser ? '/profile-setup' : '/', { replace: true })
         }, 1200)
       } catch (err) {
         console.error('로그인 처리 중 오류 발생:', err)
@@ -46,7 +41,7 @@ export const LoginRedirectPage: React.FC = () => {
       }
     }
     handleKakaoLogin()
-  }, [navigate, location, setAccessToken, setIsNewUser, hasProfile])
+  }, [navigate, location, setLoginState])
 
   return (
     <div className={styles.loginRedirectPage}>
