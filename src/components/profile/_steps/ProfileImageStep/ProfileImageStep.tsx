@@ -2,9 +2,8 @@ import React, { useState, useEffect } from 'react'
 import styles from './styles.module.scss'
 import { ProfileFormLayout } from '@components/profile'
 import { Pencil } from 'lucide-react'
-import defaultImage from '@assets/default-profile.png'
 import { useProfileStore } from '@/stores/profileStore'
-import { ErrorMessage } from '@/components/common'
+import { ErrorMessage, ProfileImage } from '@/components/common'
 import { getPresignedURL, uploadImageToS3 } from '@/api/presignedAPI'
 import { parseFileName } from '@/utils/parseFileName'
 
@@ -70,7 +69,7 @@ export const ProfileImageStep = React.memo(() => {
         </div>
         <div className={styles.imageWrapper}>
           <div className={styles.thumbnail}>
-            <img src={imageURL || defaultImage} alt="프로필 사진" />
+            <ProfileImage url={imageURL} size={180} />
           </div>
           <label htmlFor="profile-upload" className={styles.editButton}>
             <Pencil size={20} color="white" />

@@ -21,6 +21,7 @@ interface InterviewerData extends BaseProfile {
 type IntervieweeData = BaseProfile
 
 interface ProfileFormData extends BaseProfile {
+  profileImageName: string | null
   seatPosition: {
     section: string | null
     seat: [number | null, number | null]

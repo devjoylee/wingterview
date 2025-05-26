@@ -1,12 +1,11 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import defaultImage from '@assets/default-profile.png'
 import styles from './styles.module.scss'
 import { Send } from 'lucide-react'
 import { useInterviewStatus, useUpdateInterviewStatus } from '@/hooks/interview'
 import { useInterviewStore } from '@/stores/interviewStore'
 import { CurrentRound, StarRating } from '@/components/interview'
-import { Button, Modal, GuideBox } from '@/components/common'
+import { Button, Modal, GuideBox, ProfileImage } from '@/components/common'
 
 /**
  *   면접 피드백 페이지 flow
@@ -71,11 +70,7 @@ export const InterviewFeedbackPage: React.FC = () => {
 
       {interviewee && (
         <div className={styles.profileSection}>
-          <img
-            src={interviewee.profileImageUrl || defaultImage}
-            alt="profile"
-            className={styles.profileImage}
-          />
+          <ProfileImage url={interviewee.profileImageUrl} />
           <p>{`${interviewee.nickname} (${interviewee.name}) / ${interviewee.curriculum}`}</p>
 
           {interviewee.jobInterest && interviewee.jobInterest.length > 0 && (

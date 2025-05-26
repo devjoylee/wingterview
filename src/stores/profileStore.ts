@@ -36,7 +36,7 @@ const initialFormData: ProfileFormData = {
   curriculum: '',
   jobInterest: [],
   techStack: [],
-  profileImageUrl: null,
+  profileImageName: null,
   seatPosition: {
     section: '',
     seat: [null, null],
@@ -88,7 +88,7 @@ export const useProfileStore = create<ProfileState>()(
         set(state => ({
           formData: {
             ...state.formData,
-            profileImageUrl: name,
+            profileImageName: name,
           },
         })),
 
