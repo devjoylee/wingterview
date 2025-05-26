@@ -1,5 +1,4 @@
-import { StaticTag } from '@/components/common'
-import defaultImage from '@assets/default-profile.png'
+import { ProfileImage, StaticTag } from '@/components/common'
 import styles from './styles.module.scss'
 
 interface ProfileCardProps {
@@ -10,7 +9,7 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({ profile }) => {
   return (
     <div className={styles.profileCard}>
       <div className={styles.basicInfoWrapper}>
-        <img src={profile.profileImageUrl || defaultImage} alt="profile" />
+        <ProfileImage url={profile.profileImageUrl} />
         <div className={styles.basicInfo}>
           <h3 className={styles.name}>
             {profile.nickname} ({profile.name})
@@ -39,3 +38,9 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({ profile }) => {
     </div>
   )
 }
+
+// 통용적인 기술이 아니라서
+// 공부할게 많아서
+// p2p 클라이언트끼리
+// 어설프게 할바엔 추천하지않음
+// 서버비용..

@@ -1,7 +1,6 @@
-import defaultImage from '@assets/default-profile.png'
-import styles from './styles.module.scss'
-import { StaticTag } from '@/components/common'
+import { ProfileImage, StaticTag } from '@/components/common'
 import { MapPin } from 'lucide-react'
+import styles from './styles.module.scss'
 
 interface MatchInfoCardProps {
   interviewer: InterviewerData
@@ -16,11 +15,7 @@ export const MatchInfoCard: React.FC<MatchInfoCardProps> = ({
     <div className={styles.matchInfoCard}>
       <div className={`${styles.container} ${styles.interviewerCard}`}>
         <div className={styles.imageWrapper}>
-          <img
-            src={interviewer.profileImageUrl || defaultImage}
-            alt="profile"
-            className={styles.profileImage}
-          />
+          <ProfileImage url={interviewer.profileImageUrl} />
           <span className={styles.seatCode}>
             <MapPin />
             {interviewer.seatCode}
@@ -64,11 +59,7 @@ export const MatchInfoCard: React.FC<MatchInfoCardProps> = ({
             <StaticTag label="기술스택" dark />
           </div>
         </div>
-        <img
-          src={interviewee.profileImageUrl || defaultImage}
-          alt="profile"
-          className={styles.profileImage}
-        />
+        <ProfileImage url={interviewee.profileImageUrl} />
       </div>
     </div>
   )

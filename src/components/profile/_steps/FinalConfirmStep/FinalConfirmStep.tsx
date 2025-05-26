@@ -1,13 +1,12 @@
+import React from 'react'
 import styles from './styles.module.scss'
 import { ProfileFormLayout } from '@components/profile'
-import { StaticTag } from '@/components/common'
+import { ProfileImage, StaticTag } from '@/components/common'
 import { MapPin } from 'lucide-react'
-import defaultImage from '@assets/default-profile.png'
 import { useProfileStore } from '@/stores/profileStore'
 
-export const FinalConfirmStep = () => {
+export const FinalConfirmStep = React.memo(() => {
   const { formData, selectedSeat, imageURL } = useProfileStore()
-  useProfileStore()
 
   const {
     section,
@@ -23,7 +22,7 @@ export const FinalConfirmStep = () => {
       <div className={styles.container}>
         <div className={styles.profileHeader}>
           <div className={styles.thumbnail}>
-            <img src={imageURL || defaultImage} alt="프로필 사진" />
+            <ProfileImage url={imageURL} size={70} />
           </div>
 
           <h2 className={styles.name}>
@@ -58,4 +57,4 @@ export const FinalConfirmStep = () => {
       </div>
     </ProfileFormLayout>
   )
-}
+})

@@ -12,6 +12,7 @@ export { Logo } from './_ui/Logo/Logo'
 export { Button } from './_ui/Button/Button'
 export { Modal } from './_ui/Modal/Modal'
 export { GuideBox } from './_ui/GuideBox/GuideBox'
+export { ProfileImage } from './_ui/ProfileImage/ProfileImage'
 
 export { Navbar } from './Navbar/Navbar'
 export { ProfileCard } from './ProfileCard/ProfileCard'

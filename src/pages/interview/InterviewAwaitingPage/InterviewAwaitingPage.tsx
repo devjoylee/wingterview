@@ -1,6 +1,12 @@
 import { useEffect, useState } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
-import { Button, Modal, GuideBox, StaticTag } from '@/components/common'
+import {
+  Button,
+  Modal,
+  GuideBox,
+  StaticTag,
+  ProfileImage,
+} from '@/components/common'
 import { CurrentRound } from '@/components/interview'
 import { useMatchStore } from '@/stores/matchStore'
 import { useMatchResult } from '@/hooks/match'
@@ -10,7 +16,6 @@ import {
   useInterviewStatus,
 } from '@/hooks/interview'
 
-import defaultImage from '@assets/default-profile.png'
 import { useInterviewStore } from '@/stores/interviewStore'
 import { useTimerStore } from '@/stores/timerStore'
 import styles from './styles.module.scss'
@@ -208,11 +213,7 @@ export const InterviewAwaitingPage: React.FC = () => {
 
         {interviewee && (
           <div className={styles.cardInfoWrapper}>
-            <img
-              src={interviewee.profileImageUrl || defaultImage}
-              alt="profile"
-              className={styles.profileImage}
-            />
+            <ProfileImage url={interviewee.profileImageUrl} size={80} />
             <ul className={styles.profileData}>
               <li
                 className={styles.name}

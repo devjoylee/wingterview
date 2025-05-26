@@ -14,7 +14,6 @@ const routes: RouteObject[] = [
     children: [
       { path: 'login', element: <P.LoginPage /> },
       { path: 'auth/kakao', element: <P.LoginRedirectPage /> },
-      { path: 'profile-setup', element: <P.ProfileSetupPage /> },
 
       {
         element: <ProtectedLayout />,
@@ -41,11 +40,12 @@ const routes: RouteObject[] = [
               },
             ],
           },
-
-          // {
-          //   element: <Page hasNavbar={false} />,
-          //   children: [],
-          // },
+          {
+            element: <Page hasNavbar={false} />,
+            children: [
+              { path: 'profile-setup', element: <P.ProfileSetupPage /> },
+            ],
+          },
         ],
       },
     ],

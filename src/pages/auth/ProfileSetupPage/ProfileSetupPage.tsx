@@ -1,20 +1,24 @@
 import { useState, useEffect } from 'react'
-import { Modal } from '@/components/common'
-import { ProfileSlider } from '@/components/profile'
-import { useSubmitProfile } from '@/hooks/profile'
-import { useProfileStore } from '@/stores/profileStore'
 import { useNavigate } from 'react-router-dom'
+import { Modal } from '@/components/common'
+import { ProfileSlider, SliderButtons } from '@/components/profile'
+import { useSubmitProfile } from '@/hooks/profile'
+import { useProfileStore } from '@/stores'
+import type { Swiper as SwiperType } from 'swiper'
 import styles from './styles.module.scss'
 
 export const ProfileSetupPage: React.FC = () => {
   const navigate = useNavigate()
   const [showModal, setShowModal] = useState(false)
+  const [swiper, setSwiper] = useState<SwiperType>()
 
   const { formData, imageURL } = useProfileStore()
 
   const { mutate: submitProfile } = useSubmitProfile({
     onSuccess: () => {
       localStorage.setItem('nickname', formData.nickname.split('.')[0])
+      sessionStorage.removeItem('profile-storage')
+
       setTimeout(() => {
         setShowModal(false)
         navigate('/', { state: { myProfile: formData, imageURL: imageURL } })
@@ -29,7 +33,13 @@ export const ProfileSetupPage: React.FC = () => {
 
   useEffect(() => {
     const handleTabKey = (e: KeyboardEvent) => {
-      if (e.key === 'Tab') {
+      const element = document.activeElement
+
+      const tabAllowed =
+        element?.getAttribute('name') === 'name' ||
+        element?.getAttribute('name') === 'nickname'
+
+      if (e.key === 'Tab' && !tabAllowed) {
         e.preventDefault()
       }
     }
@@ -48,7 +58,8 @@ export const ProfileSetupPage: React.FC = () => {
         정보를 입력해주세요.
       </h2>
 
-      <ProfileSlider onSubmit={handleSubmit} />
+      <ProfileSlider setSwiper={setSwiper} />
+      <SliderButtons swiper={swiper} handleSubmit={handleSubmit} />
 
       {showModal && (
         <Modal

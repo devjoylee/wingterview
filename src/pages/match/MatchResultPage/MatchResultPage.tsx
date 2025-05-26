@@ -6,6 +6,7 @@ import { useMatchStore } from '@/stores/matchStore'
 import { useMatchResult } from '@/hooks/match'
 import styles from './styles.module.scss'
 import { SeatMap } from '@/components/seat'
+import { useProfileStore } from '@/stores/profileStore'
 
 export const MatchResultPage: React.FC = () => {
   const navigate = useNavigate()
@@ -14,6 +15,8 @@ export const MatchResultPage: React.FC = () => {
   const [showSeatMap, setShowSeatMap] = useState(false)
 
   const matchResultInRoute = location.state?.matchResult
+  const myNickname =
+    useProfileStore(state => state.nickname) || localStorage.getItem('nickname')
   const { matchResultInStore, setMatchResultInStore } = useMatchStore()
 
   const { data: matchResultFromApi } = useMatchResult({
@@ -21,7 +24,6 @@ export const MatchResultPage: React.FC = () => {
     isInQueue: true,
   })
 
-  const myNickname = localStorage.getItem('nickname')
   const iamInterviewer = result?.isFirstInterviewer
 
   const goToInterview = () => {
