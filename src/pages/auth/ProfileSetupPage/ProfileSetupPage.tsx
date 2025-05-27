@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Modal } from '@/components/common'
 import { ProfileSlider, SliderButtons } from '@/components/profile'
-import { useSubmitProfile } from '@/hooks/profile'
+import { useProfile } from '@/hooks/profile'
 import { useProfileStore } from '@/stores'
 import type { Swiper as SwiperType } from 'swiper'
 import styles from './styles.module.scss'
@@ -12,23 +12,25 @@ export const ProfileSetupPage: React.FC = () => {
   const [showModal, setShowModal] = useState(false)
   const [swiper, setSwiper] = useState<SwiperType>()
 
-  const { formData, imageURL } = useProfileStore()
+  const imageURL = useProfileStore(state => state.imageURL)
+  const formData = useProfileStore(state => state.formData)
 
-  const { mutate: submitProfile } = useSubmitProfile({
-    onSuccess: () => {
+  const { mutateAsync: submitProfile } = useProfile('create')
+
+  const handleSubmit = async () => {
+    setShowModal(true)
+
+    await submitProfile()
+
+    if (formData) {
       localStorage.setItem('nickname', formData.nickname.split('.')[0])
       sessionStorage.removeItem('profile-storage')
+    }
 
-      setTimeout(() => {
-        setShowModal(false)
-        navigate('/', { state: { myProfile: formData, imageURL: imageURL } })
-      }, 2000)
-    },
-  })
-
-  const handleSubmit = () => {
-    setShowModal(true)
-    submitProfile(formData)
+    setTimeout(() => {
+      setShowModal(false)
+      navigate('/', { state: { myProfile: formData, imageURL: imageURL } })
+    }, 2000)
   }
 
   useEffect(() => {

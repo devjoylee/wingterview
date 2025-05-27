@@ -4,9 +4,8 @@ import { MatchInfoCard } from '@/components/match'
 import { Button, Logo } from '@/components/common'
 import { useMatchStore } from '@/stores/matchStore'
 import { useMatchResult } from '@/hooks/match'
-import styles from './styles.module.scss'
 import { SeatMap } from '@/components/seat'
-import { useProfileStore } from '@/stores/profileStore'
+import styles from './styles.module.scss'
 
 export const MatchResultPage: React.FC = () => {
   const navigate = useNavigate()
@@ -15,8 +14,7 @@ export const MatchResultPage: React.FC = () => {
   const [showSeatMap, setShowSeatMap] = useState(false)
 
   const matchResultInRoute = location.state?.matchResult
-  const myNickname =
-    useProfileStore(state => state.nickname) || localStorage.getItem('nickname')
+  const myNickname = localStorage.getItem('nickname')
   const { matchResultInStore, setMatchResultInStore } = useMatchStore()
 
   const { data: matchResultFromApi } = useMatchResult({
