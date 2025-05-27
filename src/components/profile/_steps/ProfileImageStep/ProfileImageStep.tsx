@@ -4,11 +4,10 @@ import { ProfileFormLayout } from '@components/profile'
 import { Pencil } from 'lucide-react'
 import { useProfileStore } from '@/stores/profileStore'
 import { ErrorMessage, ProfileImage } from '@/components/common'
-import { getPresignedURL, uploadImageToS3 } from '@/api/presignedAPI'
 import { parseFileName } from '@/utils/parseFileName'
 
 export const ProfileImageStep = React.memo(() => {
-  const { updateProfileImage, imageURL, setImageURL, formData } =
+  const { updateProfileImage, imageURL, setImageURL, formData, setImageFile } =
     useProfileStore()
   const [imageName, setImageName] = useState<string>(
     formData.profileImageUrl || ''
@@ -19,8 +18,8 @@ export const ProfileImageStep = React.memo(() => {
     if (e.target.files && e.target.files[0]) {
       const reader = new FileReader()
       const file = e.target.files[0]
+      const filename = parseFileName(file)
 
-      // 유효성 검사는 File 타입으로 진행
       if (file) {
         if (file.size > 5 * 1024 * 1024) {
           setError('5MB 이하의 파일만 업로드가 가능합니다.')
@@ -33,7 +32,8 @@ export const ProfileImageStep = React.memo(() => {
         }
       }
 
-      uploadImage(file) // 유효성 검사 통과 시 File을 S3로 전송
+      setImageFile(file)
+      setImageName(filename)
 
       reader.onload = event => {
         const url = event.target?.result as string
@@ -44,21 +44,8 @@ export const ProfileImageStep = React.memo(() => {
     }
   }
 
-  const uploadImage = async (file: File) => {
-    const filename = parseFileName(file)
-
-    try {
-      const presignedUrl = await getPresignedURL(filename) // 1. presigned url 요청
-      await uploadImageToS3(presignedUrl, file) // 2.전달받은 url에 file 전송
-      setImageName(filename) // 3.업로드한 file명 저장
-    } catch (error) {
-      setError('파일 업로드에 실패했습니다. 다시 시도해주세요.')
-      console.error('업로드 실패:', error)
-    }
-  }
-
   useEffect(() => {
-    updateProfileImage(imageName) // formData에는 image 파일명을 저장
+    updateProfileImage(imageName)
   }, [imageName, updateProfileImage])
 
   return (
