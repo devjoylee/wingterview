@@ -3,7 +3,7 @@ import { useLocation, useNavigate } from 'react-router-dom'
 import { Button, Logo, Modal, ProfileCard } from '@/components/common'
 import { useApplicantCount, useMatchResult, useMatchStart } from '@/hooks/match'
 import { useMatchStore } from '@/stores/matchStore'
-import { useMyProfile } from '@/hooks/profile'
+import { useProfile } from '@/hooks/profile'
 import styles from './styles.module.scss'
 
 export const MatchAwaitingPage: React.FC = () => {
@@ -14,7 +14,7 @@ export const MatchAwaitingPage: React.FC = () => {
   const [isInQueue, setIsInQueue] = useState<boolean>(false)
   const { isMatching, setIsMatching, setMatchResultInStore } = useMatchStore()
 
-  const { data: myData } = useMyProfile()
+  const { profileData: myData } = useProfile('get')
   const { data: applicantCount } = useApplicantCount()
   const { data: matchResult } = useMatchResult({
     enablePolling: isMatching,

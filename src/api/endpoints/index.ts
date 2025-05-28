@@ -4,7 +4,7 @@ export const API = {
   },
   PROFILE: {
     SUBMIT: '/user',
-    MY_PROFILE: '/user/me',
+    ME: '/user/me',
   },
   SEAT: {
     ALL: '/user/seats',

@@ -13,6 +13,7 @@ interface ProfileState {
   selectedSeat: SeatData
   formErrors: Record<string, string>
   imageURL: string
+  imageFile: File | null
   nickname: string
   currentStep: number
 
@@ -27,6 +28,7 @@ interface ProfileState {
   setFormErrors: (errors: Record<string, string>) => void
   setSelectedSeat: (seat: SeatData) => void
   setImageURL: (url: string) => void
+  setImageFile: (file: File) => void
   setCurrentStep: (currentStep: number) => void
 }
 
@@ -53,6 +55,7 @@ export const useProfileStore = create<ProfileState>()(
       },
       formErrors: {},
       imageURL: '',
+      imageFile: null,
       nickname: initialFormData.nickname,
       currentStep: 0,
 
@@ -102,7 +105,7 @@ export const useProfileStore = create<ProfileState>()(
         })),
 
       setImageURL: (url: string) => set(() => ({ imageURL: url })),
-
+      setImageFile: (file: File) => set(() => ({ imageFile: file })),
       setSelectedSeat: seat => set({ selectedSeat: seat }),
 
       validateCurrentStep: currentStep => {
