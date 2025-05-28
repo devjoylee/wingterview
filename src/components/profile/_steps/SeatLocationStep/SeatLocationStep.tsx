@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { createPortal } from 'react-dom'
 import { ProfileFormLayout } from '@components/profile'
 import { ErrorMessage } from '@/components/common'
@@ -6,7 +6,7 @@ import { SeatMap, SeatInfoCard } from '@/components/seat'
 import { useProfileStore } from '@/stores/profileStore'
 import styles from './styles.module.scss'
 
-export const SeatLocationStep = () => {
+export const SeatLocationStep = React.memo(() => {
   const { updateSeatPosition, selectedSeat, formErrors } = useProfileStore()
   const [showSeatMap, setShowSeatMap] = useState(false)
 
@@ -42,4 +42,4 @@ export const SeatLocationStep = () => {
         )}
     </ProfileFormLayout>
   )
-}
+})

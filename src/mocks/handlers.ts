@@ -35,7 +35,7 @@ export const handlers = [
   }),
 
   // 내 정보 조회
-  http.get(API.PROFILE.MY_PROFILE, () => {
+  http.get(API.PROFILE.ME, () => {
     return HttpResponse.json(
       {
         message: 'userinfo_fetch_done',

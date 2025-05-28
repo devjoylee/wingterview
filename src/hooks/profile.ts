@@ -1,20 +1,52 @@
-import { submitUserProfile, fetchMyProfile } from '@/api/profileAPI'
-import { useMutation, useQuery } from '@tanstack/react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { fetchMyProfile, submitProfile } from '@/api/profileAPI'
+import { useProfileStore } from '@/stores'
+import { useImageUpload } from './presigned'
 
-export const useMyProfile = () => {
-  return useQuery<MyProfileData>({
-    queryKey: ['myProfile'],
+type ProfileAction = 'create' | 'get' | 'edit'
+
+export const useProfile = (
+  action: ProfileAction,
+  options?: {
+    onSuccess?: () => void
+    onError?: (error: unknown) => void
+  }
+) => {
+  const queryClient = useQueryClient()
+  const { uploadImage } = useImageUpload()
+  const { formData, imageFile } = useProfileStore()
+
+  const profileQuery = useQuery<MyProfileData>({
+    queryKey: ['userProfile'],
     queryFn: fetchMyProfile,
+    enabled: action !== 'create',
   })
-}
 
-export const useSubmitProfile = (options?: {
-  onSuccess?: (data: ApiResponse<null>) => void
-  onError?: (error: unknown) => void
-}) => {
-  return useMutation({
-    mutationFn: submitUserProfile,
-    onSuccess: options?.onSuccess,
+  const mutation = useMutation({
+    mutationFn: async () => {
+      console.log(imageFile, formData.profileImageName, '되나용')
+      if (imageFile && formData.profileImageName) {
+        await uploadImage(imageFile, formData.profileImageName)
+      }
+
+      if (action === 'create') {
+        return await submitProfile(formData)
+      }
+    },
+
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['userProfile'] })
+
+      if (options?.onSuccess) {
+        options.onSuccess()
+      }
+    },
     onError: options?.onError,
   })
+
+  return {
+    ...mutation,
+    profileData: profileQuery.data,
+    isLoading: profileQuery.isLoading,
+  }
 }

@@ -1,7 +1,7 @@
 import apiClient from '@/api/apiClient'
 import { API } from './endpoints'
 
-export const submitUserProfile = async (profileData: ProfileFormData) => {
+export const submitProfile = async (profileData: ProfileFormData) => {
   try {
     const response = await apiClient.put<ApiResponse<null>>(
       API.PROFILE.SUBMIT,
@@ -18,7 +18,7 @@ export const submitUserProfile = async (profileData: ProfileFormData) => {
 export const fetchMyProfile = async () => {
   try {
     const response = await apiClient.get<ApiResponse<MyProfileData>>(
-      API.PROFILE.MY_PROFILE
+      API.PROFILE.ME
     )
     console.log('🎉 사용자 정보 조회 성공:', response.data.data)
     return response.data.data

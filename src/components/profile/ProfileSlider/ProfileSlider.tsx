@@ -1,7 +1,9 @@
+import { useCallback } from 'react'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { EffectCoverflow, Pagination, Navigation } from 'swiper/modules'
-import { useProfileStore } from '@/stores/profileStore'
-import { SliderButtons } from '@components/profile'
+import { useProfileStore } from '@/stores'
+import type { Swiper as SwiperType } from 'swiper'
+
 import * as S from '@components/profile/_steps'
 import styles from './styles.module.scss'
 
@@ -9,10 +11,17 @@ import 'swiper/css'
 import 'swiper/css/navigation'
 import 'swiper/css/pagination'
 
-export const ProfileSlider: React.FC<{ onSubmit: () => void }> = ({
-  onSubmit,
-}) => {
-  const { setSwiper, currentStep } = useProfileStore()
+export const ProfileSlider: React.FC<{
+  setSwiper: (swiper: SwiperType) => void
+}> = ({ setSwiper }) => {
+  const { currentStep, setCurrentStep } = useProfileStore()
+
+  const handleSlideChange = useCallback(
+    (swiper: SwiperType) => {
+      setCurrentStep(swiper.activeIndex)
+    },
+    [setCurrentStep]
+  )
 
   const slides = [
     { id: 1, component: <S.BasicInfoStep /> },
@@ -46,17 +55,18 @@ export const ProfileSlider: React.FC<{ onSubmit: () => void }> = ({
         allowTouchMove={false}
         modules={[EffectCoverflow, Pagination, Navigation]}
         className="swiper_container"
+        onSlideChange={handleSlideChange}
         onSwiper={swiper => {
           setSwiper(swiper)
-          if (currentStep > 1) {
-            swiper.slideTo(currentStep - 1, 0)
-          }
+          swiper.slideTo(currentStep, 0)
         }}
       >
-        {slides.map(slide => (
-          <SwiperSlide key={slide.id}>{slide.component}</SwiperSlide>
+        {slides.map((slide, idx) => (
+          <SwiperSlide key={slide.id}>
+            {/* prev, current, next 단계만 렌더링 */}
+            {Math.abs(currentStep - idx) <= 1 ? slide.component : <div></div>}
+          </SwiperSlide>
         ))}
-        <SliderButtons onSubmit={onSubmit} />
       </Swiper>
     </div>
   )

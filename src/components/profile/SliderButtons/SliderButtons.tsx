@@ -1,25 +1,31 @@
 import { useState, useEffect } from 'react'
-import { useSwiper } from 'swiper/react'
-import { useProfileStore } from '@/stores/profileStore'
+import { useProfileStore } from '@/stores'
+import type { Swiper as SwiperType } from 'swiper'
 import styles from './styles.module.scss'
 
-export const SliderButtons: React.FC<{ onSubmit: () => void }> = ({
-  onSubmit,
-}) => {
-  const swiper = useSwiper()
-  const { validateCurrentStep, prevStep, nextStep } = useProfileStore()
+interface SliderButtonProps {
+  handleSubmit: () => void
+  swiper: SwiperType | undefined
+}
 
+export const SliderButtons: React.FC<SliderButtonProps> = ({
+  handleSubmit,
+  swiper,
+}) => {
   const [isBeginning, setIsBeginning] = useState(true)
   const [isEnd, setIsEnd] = useState(false)
-  const [currentStep, setCurrentStep] = useState(0)
+
+  const { validateCurrentStep, currentStep } = useProfileStore()
 
   const isLastStep = currentStep === 5
 
-  const handlePrev = () => prevStep()
+  const handlePrev = () => {
+    if (swiper) swiper.slidePrev()
+  }
 
   const handleNext = () => {
-    const isValid = validateCurrentStep()
-    if (isValid) nextStep()
+    const isValid = validateCurrentStep(currentStep)
+    if (isValid && swiper) swiper.slideNext()
   }
 
   useEffect(() => {
@@ -28,7 +34,6 @@ export const SliderButtons: React.FC<{ onSubmit: () => void }> = ({
     const updateState = () => {
       setIsBeginning(swiper.isBeginning)
       setIsEnd(swiper.isEnd)
-      setCurrentStep(swiper.activeIndex)
     }
 
     updateState()
@@ -42,7 +47,7 @@ export const SliderButtons: React.FC<{ onSubmit: () => void }> = ({
       swiper.off('reachBeginning', updateState)
       swiper.off('reachEnd', updateState)
     }
-  }, [swiper])
+  }, [swiper, currentStep])
 
   return (
     <div className={styles.sliderBtns}>
@@ -55,7 +60,7 @@ export const SliderButtons: React.FC<{ onSubmit: () => void }> = ({
           다음
         </button>
       ) : (
-        <button className={styles.submit} onClick={onSubmit}>
+        <button className={styles.submit} onClick={handleSubmit}>
           제출하기
         </button>
       )}

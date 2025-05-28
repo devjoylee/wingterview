@@ -20,13 +20,6 @@
     font-size: 24px;
     font-weight: 700;
   }
-
-  img {
-    width: 200px;
-    margin: 20px auto 0;
-    border-radius: 10px;
-    border: 7px solid #eee;
-  }
 }
 
 .buttonWrapper {
@@ -84,18 +77,11 @@
 .cardInfoWrapper {
   display: flex;
   align-items: start;
-
-  .profileImage {
-    width: 70px;
-    height: 70px;
-    margin-right: 20px;
-    border-radius: 50%;
-    border: 1px solid #e1e1e1;
-    object-fit: cover;
-  }
 }
 
 .profileData {
+  margin-left: 15px;
+
   .name {
     font-size: 18px;
     font-weight: 600;
