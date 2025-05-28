@@ -39,8 +39,3 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({ profile }) => {
   )
 }
 
-// 통용적인 기술이 아니라서
-// 공부할게 많아서
-// p2p 클라이언트끼리
-// 어설프게 할바엔 추천하지않음
-// 서버비용..
