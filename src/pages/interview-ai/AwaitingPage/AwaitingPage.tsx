@@ -1,34 +1,49 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Modal } from '@/components/common'
 import { InterviewStartButton } from '@/components/interview'
-
-import { useInterviewStore } from '@/stores/interviewStore'
 import { useTimerStore } from '@/stores/timerStore'
 import mrWing from '@/assets/mrwing.png'
 import styles from './styles.module.scss'
+import { useInterviewId, useStartInterview } from '@/hooks'
+import { useAIInterviewStore } from '@/stores'
 
 export const AwaitingPage: React.FC = () => {
   const navigate = useNavigate()
-  const [isGenerating, setIsGenerating] = useState(false)
-  const [selectedTime, setSelectedTime] = useState<number | null>(null)
+  const [selectedTime, setSelectedTime] = useState<number>(0)
+  const [error, setError] = useState(false)
 
+  const { data: interviewId } = useInterviewId()
+
+  const { startInterview, loading } = useStartInterview()
   const { startTimer } = useTimerStore()
-  const { interviewId } = useInterviewStore()
 
-  const handleStartInterview = () => {
-    if (!interviewId) return
-    setIsGenerating(true)
+  const setInterviewId = useAIInterviewStore(state => state.setInterviewId)
+  const setCurrentPhase = useAIInterviewStore(state => state.setCurrentPhase)
 
-    setTimeout(() => {
-      startTimer()
+  const handleStartInterview = async () => {
+    if (!interviewId) {
+      setError(true)
+      return
+    }
+
+    try {
+      await startInterview(interviewId, selectedTime)
+
+      startTimer(selectedTime)
+      setCurrentPhase('PROGRESS')
       navigate('/interview-ai/question')
-    }, 2500)
+    } catch (error) {
+      setError(true)
+      console.error('면접 시작에 실패 했습니다', error)
+    }
   }
 
-  const handleTimeSelect = (time: number) => {
-    setSelectedTime(time)
-  }
+  useEffect(() => {
+    if (interviewId) {
+      setInterviewId(interviewId)
+    }
+  }, [interviewId, setInterviewId])
 
   return (
     <div className={styles.awaitingPage}>
@@ -52,7 +67,7 @@ export const AwaitingPage: React.FC = () => {
                 <li
                   key={time}
                   className={time === selectedTime ? styles.active : ''}
-                  onClick={() => handleTimeSelect(time)}
+                  onClick={() => setSelectedTime(time)}
                 >
                   {time}분
                 </li>
@@ -70,10 +85,17 @@ export const AwaitingPage: React.FC = () => {
       </div>
 
       <Modal
-        isOpen={isGenerating}
+        isOpen={loading && !error}
         closeOnBgClick={false}
         style="loading"
         message={['면접 질문을 준비하고 있습니다.', '잠시만 기다려주세요.']}
+      />
+
+      <Modal
+        isOpen={error}
+        closeOnBgClick={true}
+        style="failed"
+        message={['면접 질문 생성에 실패했습니다.', '다시 시도해주세요.']}
       />
     </div>
   )

@@ -88,7 +88,7 @@ export const InterviewAwaitingPage: React.FC = () => {
             },
           })
 
-          startTimer()
+          startTimer(20)
         }
       }
     },

@@ -1,32 +1,38 @@
 import { Modal, ProfileImage } from '@/components/common'
 import { useState } from 'react'
-import { useInterviewStore, useTimerStore } from '@/stores'
+import { useAIInterviewStore, useTimerStore } from '@/stores'
 import mrWingMic from '@/assets/mrwing-mic.png'
 import styles from './styles.module.scss'
 import { useProfile } from '@/hooks/profile'
 import { useNavigate } from 'react-router-dom'
+import { useNextQuestion } from '@/hooks'
 
 export const QuestionPage: React.FC = () => {
   const navigate = useNavigate()
-  const [isGenerating, setIsGenerating] = useState(false)
-  const { interviewId, selectedQuestion } = useInterviewStore()
+  const [keyword, setKeyword] = useState('')
+  const { interviewId, question, setCurrentPhase } = useAIInterviewStore()
   const { resetTimer } = useTimerStore()
   const { myData } = useProfile('get')
 
-  const handleNextQuestion = () => {
-    if (!interviewId) {
-      console.error('면접 ID를 찾을 수 없습니다.')
-      return
+  const { nextQuestion, loading } = useNextQuestion()
+
+  const handleNextQuestion = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    if (!interviewId) return
+
+    if (e.currentTarget.id === 'new') {
+      await nextQuestion(interviewId)
     }
 
-    setIsGenerating(true)
-
-    setTimeout(() => {
-      setIsGenerating(false)
-    }, 2500)
+    if (e.currentTarget.id === 'followup') {
+      await nextQuestion(interviewId, {
+        question: question,
+        keywords: keyword,
+      })
+    }
   }
 
   const handleEndInterview = () => {
+    setCurrentPhase('COMPLETE')
     resetTimer({ minutes: 0, seconds: 0 })
     navigate('/interview-ai/end')
   }
@@ -39,31 +45,47 @@ export const QuestionPage: React.FC = () => {
           <p></p>
         </div>
 
-        <h2 className={styles.question}>
-          {selectedQuestion}
-          선점형 스케줄링과 비선점형 스케줄링의 차이는 무엇인가요?
-        </h2>
+        <h2 className={styles.question}>{question}</h2>
       </div>
 
       <div className={styles.interviewee}>
-        <div className={styles.myImage}>
-          {myData && <ProfileImage url={myData.profileImageUrl} size={80} />}
+        <div className={styles.recordingBox}>
+          <div className={styles.myImage}>
+            {myData && <ProfileImage url={myData.profileImageUrl} size={80} />}
+          </div>
+          <div className={styles.recording}>녹음 중..</div>
         </div>
-        <div className={styles.recording}>녹음 중..</div>
 
-        <p className={styles.helper}>답변이 끝나면 아래 버튼을 눌러주세요!</p>
+        <textarea
+          className={styles.textArea}
+          value={keyword}
+          onChange={e => setKeyword(e.target.value)}
+          placeholder="답변을 간략히 요약해보세요 (최대 200자까지 입력 가능)"
+          maxLength={200}
+        />
 
-        <button onClick={handleNextQuestion} className={styles.nextButton}>
-          다음 질문 넘어가기
-        </button>
+        <p className={styles.helper}>
+          답변이 끝나면 아래 버튼 중 하나를 선택해주세요!
+        </p>
 
-        <button onClick={handleEndInterview} className={styles.endButton}>
-          면접 종료 (임시)
+        <div className={styles.buttons}>
+          <button id="followup" onClick={handleNextQuestion}>
+            꼬리 질문을 <br />
+            해주세요
+          </button>
+          <button id="new" onClick={handleNextQuestion}>
+            새로운 질문을 <br />
+            해주세요
+          </button>
+        </div>
+
+        <button className={styles.endButton} onClick={handleEndInterview}>
+          면접 종료
         </button>
       </div>
 
       <Modal
-        isOpen={isGenerating}
+        isOpen={loading}
         closeOnBgClick={false}
         style="loading"
         message={['다음 질문을 준비 중 입니다.', '잠시만 기다려주세요.']}
