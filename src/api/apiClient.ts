@@ -23,7 +23,6 @@ apiClient.interceptors.request.use(config => {
 apiClient.interceptors.response.use(
   response => response,
   async error => {
-    console.error('API 통신 에러:', error)
     return Promise.reject(error)
   }
 )
