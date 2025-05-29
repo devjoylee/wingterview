@@ -69,12 +69,6 @@ export const MatchResultPage: React.FC = () => {
     matchResultFromApi,
   ])
 
-  useEffect(() => {
-    if (result?.interviewId) {
-      localStorage.setItem('interviewId', result.interviewId)
-    }
-  }, [result])
-
   return (
     <div className={styles.matchResultPage}>
       <div className={styles.pageHeader}>

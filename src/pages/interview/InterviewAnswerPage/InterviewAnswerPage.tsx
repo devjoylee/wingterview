@@ -1,13 +1,12 @@
 import { useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { Button, Modal, GuideBox } from '@/components/common'
-import { useInterviewStore } from '@/stores/interviewStore'
+import { useInterviewStore, useTimerStore } from '@/stores'
 import {
   useGenerateQuestion,
   useUpdateInterviewStatus,
 } from '@/hooks/interview'
 import styles from './styles.module.scss'
-import { useTimerStore } from '@/stores/timerStore'
 
 /**
  *   면접 답변 페이지 flow
