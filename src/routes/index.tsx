@@ -2,8 +2,9 @@ import { RouteObject } from 'react-router-dom'
 import {
   RootLayout,
   ProtectedLayout,
-  Page,
   InterviewLayout,
+  AIInterviewLayout,
+  Page,
 } from '@/components/common'
 import * as P from '@/pages'
 
@@ -36,6 +37,16 @@ const routes: RouteObject[] = [
                   },
                   { path: 'answer', element: <P.InterviewAnswerPage /> },
                   { path: 'feedback', element: <P.InterviewFeedbackPage /> },
+                ],
+              },
+
+              {
+                path: 'interview-ai',
+                element: <AIInterviewLayout />,
+                children: [
+                  { path: 'awaiting', element: <P.AwaitingPage /> },
+                  { path: 'question', element: <P.QuestionPage /> },
+                  { path: 'end', element: <P.EndingPage /> },
                 ],
               },
             ],

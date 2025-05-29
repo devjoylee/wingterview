@@ -1,3 +1,5 @@
 export { Timer } from './Timer/Timer'
 export { CurrentRound } from './CurrentRound/CurrentRound'
 export { StarRating } from './StarRating/StarRating'
+export { GuidelineBox } from './GuidelineBox/GuidelineBox'
+export { InterviewStartButton } from './InterviewStartButton/InterviewStartButton'

@@ -1,0 +1,55 @@
+@use '@/styles/variables' as *;
+
+.endingPage {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 100px 20px;
+}
+
+.closingText {
+  text-align: center;
+  margin-bottom: 50px;
+
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 50px;
+  color: #fff;
+
+  p {
+    font-size: 18px;
+  }
+}
+
+.mrwing {
+  width: 200px;
+  margin: 0 auto;
+}
+
+.feedbackText {
+  text-align: center;
+  color: #fff;
+  margin-top: 50px;
+
+  p:first-child {
+    font-size: 20px;
+    font-weight: bold;
+  }
+}
+
+.buttons {
+  margin-top: 50px;
+
+  button {
+    display: block;
+    background-color: #fff;
+    font-weight: 600;
+    padding: 10px 20px;
+    border-radius: 20px;
+    margin: 0 auto;
+  }
+
+  button + button {
+    margin-top: 10px;
+  }
+}

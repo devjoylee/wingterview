@@ -1,6 +1,7 @@
 export { RootLayout } from './_layout/RootLayout/RootLayout'
 export { ProtectedLayout } from './_layout/ProtectedLayout/ProtectedLayout'
 export { InterviewLayout } from './_layout/InterviewLayout/InterviewLayout'
+export { AIInterviewLayout } from './_layout/AIInterviewLayout/AIInterviewLayout'
 export { Page } from './_layout/Page/Page'
 
 export { LoadingIndicator } from './_ui/LoadingIndicator/LoadingIndicator'

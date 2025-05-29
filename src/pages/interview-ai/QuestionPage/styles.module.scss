@@ -1,0 +1,82 @@
+@use '@/styles/variables' as *;
+
+.questionPage {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+}
+
+.interviewer {
+  padding: 50px 20px 40px;
+  color: #fff;
+
+  .question {
+    display: flex;
+    align-items: center;
+    min-height: 100px;
+    font-size: 22px;
+    font-weight: 600;
+    line-height: 1.5;
+    margin-top: 15px;
+  }
+
+  .mrwingProfile {
+    display: flex;
+    align-items: center;
+
+    img {
+      width: 80px;
+      height: 80px;
+      background-color: #fff;
+      border: 5px solid $blue-6;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+
+    p {
+      font-size: 18px;
+      font-weight: 600;
+    }
+  }
+}
+
+.interviewee {
+  padding: 50px 20px 40px;
+
+  background-color: #fff;
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+  text-align: center;
+  color: #333;
+  flex: 1;
+
+  .myImage > div {
+    border: 5px solid $blue-2;
+    padding: 0;
+    // margin-left: auto;
+  }
+
+  .recording {
+    min-height: 100px;
+  }
+}
+
+.nextButton {
+  font-weight: 600;
+  background: $orange;
+  color: #fff;
+  padding: 10px 50px;
+  border-radius: 10px;
+  margin-top: 20px;
+}
+
+.endButton {
+  display: block;
+  margin: 20px auto;
+}
+
+.helper {
+  text-align: center;
+  font-size: 14px;
+}
