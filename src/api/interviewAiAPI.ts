@@ -29,7 +29,9 @@ export const setInterviewTime = async (
   selectedTime: number
 ) => {
   try {
-    await apiClient.put(API.AI_INTERVIEW.TIME(interviewId), selectedTime)
+    await apiClient.put(API.AI_INTERVIEW.TIME(interviewId), {
+      time: selectedTime,
+    })
     console.log('🎉 면접 시간 설정 성공')
   } catch (error) {
     console.error('면접 시간 설정 실패:', error)
@@ -47,7 +49,7 @@ export const generateQuestion = async (
       questionData || { question: '', keywords: '' } // 기본값은 메인 질문 생성
     )
     console.log('🎉 면접 질문 생성 성공:', response.data)
-    return response.data
+    return response.data.data
   } catch (error) {
     console.error('면접 질문 생성 실패:', error)
     throw error

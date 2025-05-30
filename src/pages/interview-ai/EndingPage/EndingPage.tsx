@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom'
 import mrWing from '@/assets/mrwing.png'
 import styles from './styles.module.scss'
-import { updateInterviewStatus } from '@/api/interviewAPI'
+import { endInterview } from '@/api/interviewAiAPI'
 import { useAIInterviewStore, useRecordingStore } from '@/stores'
 
 export const EndingPage: React.FC = () => {
@@ -10,7 +10,7 @@ export const EndingPage: React.FC = () => {
   const recordedBlob = useRecordingStore(state => state.recordedBlob)
 
   const returnToAwaitingPage = async () => {
-    await updateInterviewStatus(interviewId)
+    await endInterview(interviewId)
     navigate('/interview-ai/awaiting')
   }
 

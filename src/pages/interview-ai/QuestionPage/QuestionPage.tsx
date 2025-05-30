@@ -21,9 +21,7 @@ export const QuestionPage: React.FC = () => {
 
     if (e.currentTarget.id === 'new') {
       await nextQuestion(interviewId)
-    }
-
-    if (e.currentTarget.id === 'followup') {
+    } else if (e.currentTarget.id === 'followup') {
       await nextQuestion(interviewId, {
         question: question,
         keywords: keyword,

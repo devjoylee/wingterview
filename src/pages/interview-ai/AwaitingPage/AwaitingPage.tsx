@@ -14,14 +14,15 @@ export const AwaitingPage: React.FC = () => {
   const [selectedTime, setSelectedTime] = useState<number>(0)
   const [error, setError] = useState(false)
 
-  const { data: interviewId } = useInterviewId()
-
   const { setMediaRecorder, clearChunks } = useRecordingStore()
   const { startInterview, loading } = useStartInterview()
   const { startTimer } = useTimerStore()
 
+  const myInterviewId = useAIInterviewStore(state => state.interviewId)
   const setInterviewId = useAIInterviewStore(state => state.setInterviewId)
   const setCurrentPhase = useAIInterviewStore(state => state.setCurrentPhase)
+
+  const { data: interviewId } = useInterviewId(myInterviewId)
 
   const handleStartInterview = async () => {
     if (!interviewId) {

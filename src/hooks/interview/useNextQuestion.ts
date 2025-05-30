@@ -16,7 +16,7 @@ export const useNextQuestion = () => {
     const delay = new Promise(resolve => setTimeout(resolve, 1500))
 
     const response = await generateQuestion(interviewId, questionData)
-    const question = response.data?.question
+    const question = response?.question
 
     if (question) setQuestion(question)
 
