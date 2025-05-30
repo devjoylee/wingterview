@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { getPresignedURL, uploadFileToS3 } from '@/api/presignedAPI'
+import { confirmUploadingFile } from '@/api/interviewAiAPI'
 
 export const useImageUpload = () => {
   const [errorMessage, setErrorMessage] = useState<string>('')
@@ -26,6 +27,7 @@ export const useAudioUpload = () => {
       const file = new File([audioBlob], filename, { type: 'audio/webm' })
       const presignedUrl = await getPresignedURL(filename)
       await uploadFileToS3(presignedUrl, file)
+      await confirmUploadingFile(filename)
     } catch (error) {
       console.error('녹음 파일 업로드 실패:', error)
       throw error

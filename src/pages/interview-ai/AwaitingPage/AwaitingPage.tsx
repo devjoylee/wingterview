@@ -7,6 +7,7 @@ import mrWing from '@/assets/mrwing.png'
 import styles from './styles.module.scss'
 import { useInterviewId, useStartInterview } from '@/hooks'
 import { useAIInterviewStore } from '@/stores'
+import { useRecordingStore } from '@/stores/recordingStore'
 
 export const AwaitingPage: React.FC = () => {
   const navigate = useNavigate()
@@ -15,6 +16,7 @@ export const AwaitingPage: React.FC = () => {
 
   const { data: interviewId } = useInterviewId()
 
+  const { setMediaRecorder, clearChunks } = useRecordingStore()
   const { startInterview, loading } = useStartInterview()
   const { startTimer } = useTimerStore()
 
@@ -28,6 +30,27 @@ export const AwaitingPage: React.FC = () => {
     }
 
     try {
+      const permission = await navigator.permissions.query({
+        name: 'microphone' as PermissionName,
+      })
+
+      if (permission.state === 'denied') {
+        alert(
+          '마이크 권한이 차단되어 있습니다. 브라우저 설정에서 마이크 권한을 허용해주세요.'
+        )
+        setError(true)
+        return
+      }
+
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true })
+      const recorder = new MediaRecorder(stream)
+
+      clearChunks()
+
+      recorder.start(1000)
+
+      setMediaRecorder(recorder)
+
       await startInterview(interviewId, selectedTime)
 
       startTimer(selectedTime)

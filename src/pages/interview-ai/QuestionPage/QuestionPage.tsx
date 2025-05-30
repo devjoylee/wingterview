@@ -1,20 +1,20 @@
 import { Modal, ProfileImage } from '@/components/common'
 import { useState } from 'react'
-import { useAIInterviewStore, useTimerStore } from '@/stores'
+import { useAIInterviewStore } from '@/stores'
 import mrWingMic from '@/assets/mrwing-mic.png'
 import styles from './styles.module.scss'
 import { useProfile } from '@/hooks/profile'
-import { useNavigate } from 'react-router-dom'
-import { useNextQuestion } from '@/hooks'
+import { useFinishInterview, useNextQuestion } from '@/hooks'
+import { VoiceRecorder } from '@/components/interview'
 
 export const QuestionPage: React.FC = () => {
-  const navigate = useNavigate()
   const [keyword, setKeyword] = useState('')
-  const { interviewId, question, setCurrentPhase } = useAIInterviewStore()
-  const { resetTimer } = useTimerStore()
-  const { myData } = useProfile('get')
 
+  const { interviewId, question } = useAIInterviewStore()
+
+  const { myData } = useProfile('get')
   const { nextQuestion, loading } = useNextQuestion()
+  const { finishInterview, loading: isEnding } = useFinishInterview()
 
   const handleNextQuestion = async (e: React.MouseEvent<HTMLButtonElement>) => {
     if (!interviewId) return
@@ -31,10 +31,9 @@ export const QuestionPage: React.FC = () => {
     }
   }
 
-  const handleEndInterview = () => {
-    setCurrentPhase('COMPLETE')
-    resetTimer({ minutes: 0, seconds: 0 })
-    navigate('/interview-ai/end')
+  const handleEndInterview = async () => {
+    if (!interviewId) return
+    await finishInterview(interviewId)
   }
 
   return (
@@ -42,7 +41,6 @@ export const QuestionPage: React.FC = () => {
       <div className={styles.interviewer}>
         <div className={styles.mrwingProfile}>
           <img src={mrWingMic} alt="mr wing" />
-          <p></p>
         </div>
 
         <h2 className={styles.question}>{question}</h2>
@@ -53,7 +51,9 @@ export const QuestionPage: React.FC = () => {
           <div className={styles.myImage}>
             {myData && <ProfileImage url={myData.profileImageUrl} size={80} />}
           </div>
-          <div className={styles.recording}>녹음 중..</div>
+          <div className={styles.recording}>
+            <VoiceRecorder />
+          </div>
         </div>
 
         <textarea
@@ -89,6 +89,13 @@ export const QuestionPage: React.FC = () => {
         closeOnBgClick={false}
         style="loading"
         message={['다음 질문을 준비 중 입니다.', '잠시만 기다려주세요.']}
+      />
+
+      <Modal
+        isOpen={isEnding}
+        closeOnBgClick={false}
+        style="loading"
+        message={['녹음 파일을 전송 중입니다.', '잠시만 기다려주세요.']}
       />
     </div>
   )

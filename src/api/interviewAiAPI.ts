@@ -53,3 +53,14 @@ export const generateQuestion = async (
     throw error
   }
 }
+
+export const confirmUploadingFile = async (filename?: string) => {
+  try {
+    await apiClient.post<ApiResponse<null>>(
+      API.AI_INTERVIEW.SAVE_RECODING(filename)
+    )
+  } catch (error) {
+    console.error(`${filename ? '파일' : 'Presigned'} URL 전송 실패:`, error)
+    throw error
+  }
+}

@@ -2,9 +2,15 @@
 
 .endingPage {
   display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 20px;
+  flex: 1;
+}
+
+.container {
+  display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  padding: 100px 20px;
 }
 
 .closingText {
@@ -22,14 +28,14 @@
 }
 
 .mrwing {
-  width: 200px;
+  width: 180px;
   margin: 0 auto;
 }
 
 .feedbackText {
   text-align: center;
   color: #fff;
-  margin-top: 50px;
+  margin-top: 20px;
 
   p:first-child {
     font-size: 20px;
@@ -52,4 +58,9 @@
   button + button {
     margin-top: 10px;
   }
+}
+
+.download {
+  margin: 0 auto;
+  color: #fff;
 }
