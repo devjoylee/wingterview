@@ -24,6 +24,14 @@ export const API = {
     PICK_QUESTION: (interviewId: string) =>
       `/interview/${interviewId}/selection`,
   },
+  AI_INTERVIEW: {
+    ID: `/interview/ai`,
+    TIME: (interviewId: string) => `/interview/ai/${interviewId}/time`,
+    END: (interviewId: string) => `/interview/${interviewId}`,
+    QUESTION: (interviewId: string) => `/interview/${interviewId}/question`,
+    SAVE_RECODING: (filename?: string) =>
+      `/s3/presigned-url/recording?filename=${filename}`,
+  },
   PRESIGNED_URL: (filename?: string) =>
     `/s3/presigned-url?filename=${filename}`,
 }

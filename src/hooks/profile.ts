@@ -46,7 +46,7 @@ export const useProfile = (
 
   return {
     ...mutation,
-    profileData: profileQuery.data,
+    myData: profileQuery.data,
     isLoading: profileQuery.isLoading,
   }
 }

@@ -8,7 +8,7 @@ import {
   ProfileImage,
 } from '@/components/common'
 import { CurrentRound } from '@/components/interview'
-import { useMatchStore } from '@/stores/matchStore'
+import { useMatchStore, useInterviewStore, useTimerStore } from '@/stores'
 import { useMatchResult } from '@/hooks/match'
 import {
   useUpdateInterviewStatus,
@@ -16,8 +16,6 @@ import {
   useInterviewStatus,
 } from '@/hooks/interview'
 
-import { useInterviewStore } from '@/stores/interviewStore'
-import { useTimerStore } from '@/stores/timerStore'
 import styles from './styles.module.scss'
 
 /**
@@ -90,7 +88,7 @@ export const InterviewAwaitingPage: React.FC = () => {
             },
           })
 
-          startTimer()
+          startTimer(20)
         }
       }
     },

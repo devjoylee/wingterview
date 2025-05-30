@@ -13,7 +13,14 @@ export const ProfileImage: React.FC<ProfileImageProps> = ({
 }) => {
   return (
     <div className={styles.profileImage} style={{ width: size, height: size }}>
-      <img src={url || defaultImage} alt="profile" />
+      <img
+        src={url || defaultImage}
+        alt="profile"
+        onError={e => {
+          const target = e.target as HTMLImageElement
+          target.src = defaultImage
+        }}
+      />
     </div>
   )
 }

@@ -14,7 +14,7 @@ export const MatchAwaitingPage: React.FC = () => {
   const [isInQueue, setIsInQueue] = useState<boolean>(false)
   const { isMatching, setIsMatching, setMatchResultInStore } = useMatchStore()
 
-  const { profileData: myData } = useProfile('get')
+  const { myData } = useProfile('get')
   const { data: applicantCount } = useApplicantCount()
   const { data: matchResult } = useMatchResult({
     enablePolling: isMatching,

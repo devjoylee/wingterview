@@ -11,3 +11,7 @@ export { InterviewAwaitingPage } from './interview/InterviewAwaitingPage/Intervi
 export { InterviewQuestionPage } from './interview/InterviewQuestionPage/InterviewQuestionPage'
 export { InterviewAnswerPage } from './interview/InterviewAnswerPage/InterviewAnswerPage'
 export { InterviewFeedbackPage } from './interview/InterviewFeedbackPage/InterviewFeedbackPage'
+
+export { AwaitingPage } from './interview-ai/AwaitingPage/AwaitingPage'
+export { QuestionPage } from './interview-ai/QuestionPage/QuestionPage'
+export { EndingPage } from './interview-ai/EndingPage/EndingPage'
