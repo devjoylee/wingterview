@@ -1,5 +1,5 @@
 import { create } from 'zustand'
-import { persist } from 'zustand/middleware'
+import { persist, StorageValue } from 'zustand/middleware'
 
 interface InterviewState {
   interviewId: string
@@ -21,7 +21,7 @@ export const useAIInterviewStore = create<InterviewState>()(
       currentPhase: 'PENDING',
       timeRemain: 0,
       questionIdx: 1,
-      question: '선점형 스케줄링과 비선점형 스케줄링의 차이는 무엇인가요?',
+      question: '',
 
       setInterviewId: interviewId => set({ interviewId }),
       setQuestion: question => set({ question }),
@@ -34,7 +34,21 @@ export const useAIInterviewStore = create<InterviewState>()(
         })),
     }),
     {
-      name: 'interview-storage',
+      name: 'ai-interview-storage',
+      storage: {
+        getItem: key => {
+          const value = sessionStorage.getItem(key)
+          return value
+            ? (JSON.parse(value) as StorageValue<InterviewState>)
+            : null
+        },
+        setItem: (key, value) => {
+          sessionStorage.setItem(key, JSON.stringify(value))
+        },
+        removeItem: key => {
+          sessionStorage.removeItem(key)
+        },
+      },
     }
   )
 )
