@@ -12,7 +12,8 @@ import { useRecordingStore } from '@/stores/recordingStore'
 export const AwaitingPage: React.FC = () => {
   const navigate = useNavigate()
   const [selectedTime, setSelectedTime] = useState<number>(0)
-  const [error, setError] = useState(false)
+  const [toggleModal, setToggleModal] = useState(false)
+  const [error, setError] = useState<string[]>([])
 
   const { setMediaRecorder, clearChunks } = useRecordingStore()
   const { startInterview, loading } = useStartInterview()
@@ -26,23 +27,28 @@ export const AwaitingPage: React.FC = () => {
 
   const handleStartInterview = async () => {
     if (!interviewId) {
-      setError(true)
+      setError([
+        '면접 질문 생성에 실패했습니다.',
+        '새로고침 후 다시 시도해주세요.',
+      ])
+      setToggleModal(true)
+      return
+    }
+
+    const permission = await navigator.permissions.query({
+      name: 'microphone' as PermissionName,
+    })
+
+    if (permission.state === 'denied') {
+      setError([
+        '마이크 권한이 차단되어 있습니다.',
+        '브라우저 설정에서 마이크 권한을 허용해주세요.',
+      ])
+      setToggleModal(true)
       return
     }
 
     try {
-      const permission = await navigator.permissions.query({
-        name: 'microphone' as PermissionName,
-      })
-
-      if (permission.state === 'denied') {
-        alert(
-          '마이크 권한이 차단되어 있습니다. 브라우저 설정에서 마이크 권한을 허용해주세요.'
-        )
-        setError(true)
-        return
-      }
-
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true })
       const recorder = new MediaRecorder(stream)
 
@@ -58,8 +64,12 @@ export const AwaitingPage: React.FC = () => {
       setCurrentPhase('PROGRESS')
       navigate('/interview-ai/question')
     } catch (error) {
-      setError(true)
-      console.error('면접 시작에 실패 했습니다', error)
+      console.error('면접 질문 생성 실패', error)
+      setError([
+        '면접 질문 생성에 실패했습니다.',
+        '새로고침 후 다시 시도해주세요.',
+      ])
+      setToggleModal(true)
     }
   }
 
@@ -110,16 +120,16 @@ export const AwaitingPage: React.FC = () => {
 
       <Modal
         isOpen={loading && !error}
-        closeOnBgClick={false}
         style="loading"
         message={['면접 질문을 준비하고 있습니다.', '잠시만 기다려주세요.']}
       />
 
       <Modal
-        isOpen={error}
-        closeOnBgClick={true}
+        isOpen={toggleModal}
         style="failed"
-        message={['면접 질문 생성에 실패했습니다.', '다시 시도해주세요.']}
+        message={error}
+        closable
+        toggleModal={() => setToggleModal(!toggleModal)}
       />
     </div>
   )
