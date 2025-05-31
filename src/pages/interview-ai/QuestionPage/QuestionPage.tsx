@@ -84,14 +84,12 @@ export const QuestionPage: React.FC = () => {
 
       <Modal
         isOpen={loading}
-        closeOnBgClick={false}
         style="loading"
         message={['다음 질문을 준비 중 입니다.', '잠시만 기다려주세요.']}
       />
 
       <Modal
         isOpen={isEnding}
-        closeOnBgClick={false}
         style="loading"
         message={['녹음 파일을 전송 중입니다.', '잠시만 기다려주세요.']}
       />

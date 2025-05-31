@@ -158,7 +158,6 @@ export const InterviewQuestionPage: React.FC = () => {
 
       <Modal
         isOpen={isGenerating}
-        closeOnBgClick={false}
         style="loading"
         message={['새로운 질문을 생성하고 있습니다.', '잠시만 기다려주세요.']}
       />

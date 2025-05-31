@@ -1,6 +1,6 @@
-import React, { useState, ReactNode } from 'react'
+import { ReactNode } from 'react'
 import { LoadingIndicator } from '@/components/common'
-import { PartyPopper } from 'lucide-react'
+import { PartyPopper, X } from 'lucide-react'
 import failedEmoji from '@assets/sad.png'
 import styles from './styles.module.scss'
 
@@ -9,9 +9,8 @@ interface ModalProps {
   children?: ReactNode
   message: string[]
   style: 'loading' | 'failed' | 'congrats'
-  closeOnBgClick?: boolean
-  hasYesNo?: boolean
-  onYesClick?: () => void
+  closable?: boolean
+  toggleModal?: () => void
 }
 
 export const Modal: React.FC<ModalProps> = ({
@@ -19,23 +18,25 @@ export const Modal: React.FC<ModalProps> = ({
   children,
   message,
   style,
-  closeOnBgClick = true,
-  hasYesNo = false,
-  onYesClick,
+  closable,
+  toggleModal,
 }) => {
-  const [closeModal, setCloseModal] = useState(false)
-
   const handleOverlayClick = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (closeOnBgClick && e.target === e.currentTarget) {
-      setCloseModal(true)
+    if (closable && toggleModal && e.target === e.currentTarget) {
+      toggleModal()
     }
   }
 
-  if (!isOpen || closeModal) return null
+  if (!isOpen) return null
 
   return (
     <div className={styles.modalOverlay} onClick={handleOverlayClick}>
       <div className={`${styles.modal} ${styles[style]}`}>
+        {closable && (
+          <button className={styles.closeButton} onClick={toggleModal}>
+            <X size={20} />
+          </button>
+        )}
         <div className={styles.modalHeader}>
           {style === 'loading' && <LoadingIndicator size={60} />}
           {style === 'failed' && <img src={failedEmoji} alt="failed icon" />}
@@ -49,13 +50,6 @@ export const Modal: React.FC<ModalProps> = ({
         </div>
 
         {children}
-
-        {hasYesNo && (
-          <div className={styles.modalButtons}>
-            <button onClick={onYesClick}>YES</button>
-            <button onClick={() => setCloseModal(true)}>NO</button>
-          </div>
-        )}
       </div>
     </div>
   )

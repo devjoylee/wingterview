@@ -66,7 +66,6 @@ export const ProfileSetupPage: React.FC = () => {
       {showModal && (
         <Modal
           isOpen={showModal}
-          closeOnBgClick={false}
           style="loading"
           message={['프로필을 생성하고 있습니다.', '잠시만 기다려주세요.']}
         />

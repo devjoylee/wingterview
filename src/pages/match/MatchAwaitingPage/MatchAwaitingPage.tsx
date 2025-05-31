@@ -95,7 +95,6 @@ export const MatchAwaitingPage: React.FC = () => {
 
       <Modal
         isOpen={isMatching}
-        closeOnBgClick={false}
         style="loading"
         message={['모의 면접 매칭을 진행 중 입니다.', '잠시만 기다려주세요.']}
       />
