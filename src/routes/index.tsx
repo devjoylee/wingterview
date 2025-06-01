@@ -22,10 +22,18 @@ const routes: RouteObject[] = [
           {
             element: <Page hasNavbar={true} />,
             children: [
-              { index: true, element: <P.MatchAwaitingPage /> },
-              { path: 'match/result', element: <P.MatchResultPage /> },
+              { index: true, element: <P.HomePage /> },
               { path: 'coming-soon', element: <P.ComingSoonPage /> },
 
+              {
+                path: 'interview-ai',
+                element: <AIInterviewLayout />,
+                children: [
+                  { path: 'awaiting', element: <P.AwaitingPage /> },
+                  { path: 'question', element: <P.QuestionPage /> },
+                  { path: 'end', element: <P.EndingPage /> },
+                ],
+              },
               {
                 path: 'interview',
                 element: <InterviewLayout />,
@@ -39,14 +47,11 @@ const routes: RouteObject[] = [
                   { path: 'feedback', element: <P.InterviewFeedbackPage /> },
                 ],
               },
-
               {
-                path: 'interview-ai',
-                element: <AIInterviewLayout />,
+                path: 'match',
                 children: [
-                  { path: 'awaiting', element: <P.AwaitingPage /> },
-                  { path: 'question', element: <P.QuestionPage /> },
-                  { path: 'end', element: <P.EndingPage /> },
+                  { path: 'awaiting', element: <P.MatchAwaitingPage /> },
+                  { path: 'result', element: <P.MatchResultPage /> },
                 ],
               },
             ],

@@ -15,3 +15,5 @@ export { InterviewFeedbackPage } from './interview/InterviewFeedbackPage/Intervi
 export { AwaitingPage } from './interview-ai/AwaitingPage/AwaitingPage'
 export { QuestionPage } from './interview-ai/QuestionPage/QuestionPage'
 export { EndingPage } from './interview-ai/EndingPage/EndingPage'
+
+export { HomePage } from './home/HomePage'
