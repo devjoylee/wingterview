@@ -53,7 +53,7 @@ export const Navbar: React.FC = () => {
         onClick={() => handleTabClick('home', '/')}
       >
         <Home />
-        <span>매칭 홈</span>
+        <span>홈</span>
       </div>
       <div
         className={`${styles.navItem} ${activeTab === 'interview' ? styles.active : ''}`}
@@ -74,7 +74,7 @@ export const Navbar: React.FC = () => {
         onClick={() => handleTabClick('chat', '/coming-soon')}
       >
         <MessageSquare />
-        <span>채팅</span>
+        <span>게시판</span>
       </div>
       <div
         className={`${styles.navItem} ${activeTab === 'mypage' ? styles.active : ''}`}

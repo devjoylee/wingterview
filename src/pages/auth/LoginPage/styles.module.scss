@@ -5,20 +5,25 @@
   align-items: center;
   height: 100%;
 
-  .introContent {
-    margin-bottom: 70px;
+  .container {
+    margin-bottom: 50px;
 
     img {
-      width: 270px;
       margin: 0 auto;
+    }
+
+    .introImage {
+      width: 270px;
+      margin-top: 40px;
     }
 
     .greeting {
       margin-top: 70px;
-      text-align: center;
+      font-size: 15px;
       font-weight: 600;
-      color: #333;
+      text-align: center;
       position: relative;
+      color: #444;
     }
 
     .greeting::before {

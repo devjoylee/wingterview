@@ -1,0 +1,112 @@
+@use '@/styles/variables' as *;
+
+.profileCard {
+  position: relative;
+  width: 100%;
+  min-height: 118px;
+  padding: 15px 20px;
+  border-radius: 20px;
+  background: #fff;
+  border: 10px solid $blue-2;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+
+  &.blurred {
+    .container {
+      filter: blur(4px);
+      pointer-events: none;
+    }
+  }
+}
+
+.container {
+  display: flex;
+  flex-wrap: nowrap;
+}
+
+.myProfileData {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-left: 15px;
+
+  .name {
+    font-size: 15px;
+    font-weight: 600;
+    color: #333;
+    word-break: keep-all;
+    line-height: 1.2;
+    margin-bottom: 10px;
+  }
+
+  .curriculum {
+    margin-top: 4px;
+    font-size: 15px;
+    color: #888;
+  }
+}
+
+.stackRow {
+  display: flex;
+  align-items: flex-start;
+  margin-left: -5px;
+
+  & + & {
+    margin-top: 2px;
+  }
+
+  .rowName {
+    font-size: 10px;
+    font-weight: 600;
+    padding: 2px 10px;
+    background: #000;
+    border-radius: 15px;
+    color: #fff;
+    flex-shrink: 0;
+  }
+
+  .list {
+    line-height: 1;
+    margin-left: 5px;
+
+    span {
+      color: #333;
+      font-size: 12px;
+      word-break: keep-all;
+
+      &:not(:last-child)::after {
+        content: ' | ';
+        color: #888;
+      }
+    }
+  }
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 20px;
+  background: url('/src/assets/blurred.png') center/cover no-repeat;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.loginButton {
+  padding: 12px 24px;
+  background: #000;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+  border-radius: 30px;
+  transition: all 0.2s ease;
+  cursor: pointer;
+
+  &:hover {
+    background: $orange;
+  }
+}

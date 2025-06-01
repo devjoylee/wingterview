@@ -1,6 +1,6 @@
 import React from 'react'
 import { Outlet } from 'react-router-dom'
-import wingImage from '@assets/wing.png'
+import logo from '@assets/logo.png'
 import styles from './styles.module.scss'
 
 export const RootLayout: React.FC = () => {
@@ -8,9 +8,8 @@ export const RootLayout: React.FC = () => {
     <div className={styles.appContainer}>
       <div className={styles.desktopView}>
         <div className={styles.container}>
-          <img src={wingImage} alt="img" />
-          <h1>WINGTERVIEW</h1>
-          <p>윙터뷰, 면접에 날개를 달자!</p>
+          <img className={styles.logo} src={logo} alt="img" />
+          <p className={styles.slogan}>윙터뷰, 면접에 날개를 달자!</p>
         </div>
       </div>
       <main className={styles.mobileView}>

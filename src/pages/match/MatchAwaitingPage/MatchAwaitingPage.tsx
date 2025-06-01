@@ -71,7 +71,7 @@ export const MatchAwaitingPage: React.FC = () => {
   return (
     <div className={styles.matchAwaitingPage}>
       <div className={styles.pageHeader}>
-        <Logo width={60} color="light" />
+        <Logo white />
         <h1>
           모의 면접 D-day,
           <br />

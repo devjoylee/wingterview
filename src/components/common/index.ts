@@ -1,4 +1,5 @@
 export { RootLayout } from './_layout/RootLayout/RootLayout'
+export { AuthLayout } from './_layout/AuthLayout/AuthLayout'
 export { ProtectedLayout } from './_layout/ProtectedLayout/ProtectedLayout'
 export { InterviewLayout } from './_layout/InterviewLayout/InterviewLayout'
 export { AIInterviewLayout } from './_layout/AIInterviewLayout/AIInterviewLayout'

@@ -4,6 +4,7 @@
   display: flex;
   width: 100%;
   height: 100vh;
+  height: 100dvh;
   max-width: 1200px;
   margin: 0 auto;
 }
@@ -14,21 +15,21 @@
   display: none;
 
   .container {
-    img {
-      width: 150px;
+    .logo {
+      width: 400px;
       margin: 0 auto;
     }
-    h1 {
-      font-size: 50px;
-      font-weight: 900;
-      letter-spacing: 5px;
-      color: $blue-1;
-    }
-    p {
-      color: #777;
-      font-size: 1.3rem;
+
+    .slogan {
+      margin-top: 12px;
+      background: $blue-2;
+      border-radius: 25px;
+      color: #fff;
+      padding: 4px 0;
       font-weight: 700;
       letter-spacing: 3px;
+      width: 275px;
+      margin: 13px auto 0;
     }
   }
 
