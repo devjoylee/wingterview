@@ -1,6 +1,7 @@
 export { Timer } from './Timer/Timer'
 export { CurrentRound } from './CurrentRound/CurrentRound'
 export { StarRating } from './StarRating/StarRating'
-export { GuidelineBox } from './GuidelineBox/GuidelineBox'
+export { InterviewGuideline } from './InterviewGuideline/InterviewGuideline'
 export { InterviewStartButton } from './InterviewStartButton/InterviewStartButton'
 export { VoiceRecorder } from './VoiceRecorder/VoiceRecorder'
+export { TimeSelection } from './TimeSelection/TimeSelection'
