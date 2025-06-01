@@ -43,7 +43,6 @@ export const InterviewLayout: React.FC = () => {
 
       <Modal
         isOpen={isLastRoundDone}
-        closeOnBgClick={false}
         style="congrats"
         message={['오늘의 면접이 모두 종료되었습니다', '수고하셨습니다.']}
       >

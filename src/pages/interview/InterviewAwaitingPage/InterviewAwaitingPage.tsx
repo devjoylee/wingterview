@@ -235,14 +235,12 @@ export const InterviewAwaitingPage: React.FC = () => {
 
       <Modal
         isOpen={isGenerating}
-        closeOnBgClick={false}
         style="loading"
         message={['면접 질문을 생성하고 있습니다.', '잠시만 기다려주세요.']}
       />
 
       <Modal
         isOpen={!interviewee}
-        closeOnBgClick={false}
         style="failed"
         message={[
           '면접 상대가 정해지지 않았습니다.',

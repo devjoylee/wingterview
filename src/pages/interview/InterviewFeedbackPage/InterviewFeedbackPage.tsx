@@ -121,7 +121,6 @@ export const InterviewFeedbackPage: React.FC = () => {
       {isLastRound ? (
         <Modal
           isOpen={isSuccess}
-          closeOnBgClick={false}
           style="congrats"
           message={['피드백이 제출되었습니다!', '수고하셨습니다.']}
         >
@@ -130,8 +129,6 @@ export const InterviewFeedbackPage: React.FC = () => {
       ) : (
         <Modal
           isOpen={isSuccess}
-          closeOnBgClick={false}
-          onYesClick={handleNextRound}
           style="congrats"
           message={[
             '피드백이 제출되었습니다!',
