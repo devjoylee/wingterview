@@ -72,7 +72,7 @@ export const MatchResultPage: React.FC = () => {
   return (
     <div className={styles.matchResultPage}>
       <div className={styles.pageHeader}>
-        <Logo width={60} color="light" />
+        <Logo white />
         <h1>
           1:1 모의면접 매칭이
           <br />

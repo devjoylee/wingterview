@@ -1,15 +1,15 @@
-import logoDark from '@assets/logo-dark.png'
-import logoLight from '@assets/logo-light.png'
+import logo from '@assets/logo.png'
+import logoWhite from '@assets/logo-white.png'
 import styles from './styles.module.scss'
 
 interface LogoProps {
-  width: number
-  color?: 'light' | 'dark'
+  width?: number
+  white?: boolean
 }
 
-export const Logo: React.FC<LogoProps> = ({ width, color }) => (
+export const Logo: React.FC<LogoProps> = ({ width, white }) => (
   <img
-    src={color === 'light' ? logoLight : logoDark}
+    src={white ? logoWhite : logo}
     alt="logo"
     className={styles.logo}
     style={{ width: width }}

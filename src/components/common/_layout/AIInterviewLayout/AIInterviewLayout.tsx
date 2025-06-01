@@ -26,7 +26,7 @@ export const AIInterviewLayout: React.FC = () => {
     <div className={styles.interviewLayout}>
       <div className={styles.pageHeader}>
         <div className={styles.logoWrapper}>
-          <Logo width={60} color="light" />
+          <Logo white />
         </div>
         <div className={styles.timerWrapper}>
           <Timer />

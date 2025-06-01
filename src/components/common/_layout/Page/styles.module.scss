@@ -9,4 +9,5 @@
 
 .hasNavbar {
   height: calc(100vh - #{$nav-height});
+  height: calc(100dvh - #{$nav-height});
 }

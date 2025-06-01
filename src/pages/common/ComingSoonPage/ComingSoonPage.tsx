@@ -8,7 +8,7 @@ export const ComingSoonPage: React.FC = () => {
   return (
     <div className={styles.comingSoonPage}>
       <div className={styles.noticeBox}>
-        <Logo width={70} />
+        <Logo width={180} />
         <h1>
           페이지 <span>준비중</span>입니다.
         </h1>
