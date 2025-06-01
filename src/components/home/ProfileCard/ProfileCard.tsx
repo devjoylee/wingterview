@@ -9,7 +9,7 @@ interface ProfileCardProps {
 
 export const ProfileCard: React.FC<ProfileCardProps> = ({
   profile,
-  isLoggedIn = false,
+  isLoggedIn,
 }) => {
   const navigate = useNavigate()
 

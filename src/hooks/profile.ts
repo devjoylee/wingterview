@@ -24,7 +24,6 @@ export const useProfile = (
 
   const mutation = useMutation({
     mutationFn: async () => {
-      console.log(imageFile, formData.profileImageName, '되나용')
       if (imageFile && formData.profileImageName) {
         await uploadImage(imageFile, formData.profileImageName)
       }
