@@ -1,17 +1,15 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Modal } from '@/components/common'
-import { InterviewStartButton } from '@/components/interview'
+import { InterviewGuideline } from '@/components/interview'
 import { useTimerStore } from '@/stores/timerStore'
-import mrWing from '@/assets/mrwing.png'
-import styles from './styles.module.scss'
 import { useInterviewId, useStartInterview } from '@/hooks'
-import { useAIInterviewStore } from '@/stores'
+import { useAIInterviewStore, useAuthStore } from '@/stores'
 import { useRecordingStore } from '@/stores/recordingStore'
+import styles from './styles.module.scss'
 
 export const AwaitingPage: React.FC = () => {
   const navigate = useNavigate()
-  const [selectedTime, setSelectedTime] = useState<number>(0)
   const [toggleModal, setToggleModal] = useState(false)
   const [error, setError] = useState<string[]>([])
 
@@ -19,11 +17,15 @@ export const AwaitingPage: React.FC = () => {
   const { startInterview, loading } = useStartInterview()
   const { startTimer } = useTimerStore()
 
+  const isLoggedIn = useAuthStore(state => state.isLoggedIn)
   const myInterviewId = useAIInterviewStore(state => state.interviewId)
+  const duration = useAIInterviewStore(state => state.duration)
   const setInterviewId = useAIInterviewStore(state => state.setInterviewId)
   const setCurrentPhase = useAIInterviewStore(state => state.setCurrentPhase)
 
-  const { data: interviewId } = useInterviewId(myInterviewId)
+  const requestInterviewId = isLoggedIn && !myInterviewId
+
+  const { data: interviewId } = useInterviewId(requestInterviewId)
 
   const handleStartInterview = async () => {
     if (!interviewId) {
@@ -58,9 +60,9 @@ export const AwaitingPage: React.FC = () => {
 
       setMediaRecorder(recorder)
 
-      await startInterview(interviewId, selectedTime)
+      await startInterview(interviewId, duration)
 
-      startTimer(selectedTime)
+      startTimer(duration)
       setCurrentPhase('PROGRESS')
       navigate('/interview-ai/question')
     } catch (error) {
@@ -82,40 +84,7 @@ export const AwaitingPage: React.FC = () => {
   return (
     <div className={styles.awaitingPage}>
       <div className={styles.container}>
-        <div className={styles.guideline}>
-          <img src={mrWing} alt="mr wing" className={styles.mrwing} />
-
-          <div className={styles.textBox}>
-            <h3>AI 면접관, Mr.윙을 소개합니다!</h3>
-            <p>
-              본 면접에서는 음성 녹음이 진행됩니다. <br />
-              AI 면접관 <b>Mr.윙</b>이 녹음된 파일을 분석하여 <br />
-              면접이 끝나면 맞춤형 피드백을 제공합니다.
-            </p>
-            <p>
-              <b>원하는 면접 시간을 선택한 후</b> <br />
-              START 버튼을 눌러 면접을 시작해보세요.
-            </p>
-            <ul className={styles.timeSelection}>
-              {[5, 10, 15, 20].map(time => (
-                <li
-                  key={time}
-                  className={time === selectedTime ? styles.active : ''}
-                  onClick={() => setSelectedTime(time)}
-                >
-                  {time}분
-                </li>
-              ))}
-            </ul>
-            <span className={styles.alert}>
-              * 마이크 권한사용 팝업이 뜨면 "허용" 클릭
-            </span>
-            <InterviewStartButton
-              onClick={handleStartInterview}
-              disabled={!selectedTime}
-            />
-          </div>
-        </div>
+        <InterviewGuideline onClick={handleStartInterview} />
       </div>
 
       <Modal

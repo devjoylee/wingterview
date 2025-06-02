@@ -7,11 +7,13 @@ interface InterviewState {
   questionIdx: number
   question: string
   timeRemain: number
+  duration: number
 
   setInterviewId: (id: string) => void
   setQuestion: (question: string) => void
   setCurrentPhase: (currentPhase: string) => void
   setInterviewData: (data: Partial<AIInterviewData>) => void
+  setDuration: (duration: number) => void
 }
 
 export const useAIInterviewStore = create<InterviewState>()(
@@ -19,6 +21,7 @@ export const useAIInterviewStore = create<InterviewState>()(
     set => ({
       interviewId: '',
       currentPhase: 'PENDING',
+      duration: 0,
       timeRemain: 0,
       questionIdx: 1,
       question: '',
@@ -26,6 +29,7 @@ export const useAIInterviewStore = create<InterviewState>()(
       setInterviewId: interviewId => set({ interviewId }),
       setQuestion: question => set({ question }),
       setCurrentPhase: currentPhase => set({ currentPhase }),
+      setDuration: duration => set({ duration }),
 
       setInterviewData: data =>
         set(state => ({

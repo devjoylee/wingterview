@@ -47,7 +47,7 @@ export const QuestionPage: React.FC = () => {
       <div className={styles.interviewee}>
         <div className={styles.recordingBox}>
           <div className={styles.myImage}>
-            {myData && <ProfileImage url={myData.profileImageUrl} size={80} />}
+            {myData && <ProfileImage url={myData.profileImageUrl} size={62} />}
           </div>
           <div className={styles.recording}>
             <VoiceRecorder />
@@ -58,12 +58,13 @@ export const QuestionPage: React.FC = () => {
           className={styles.textArea}
           value={keyword}
           onChange={e => setKeyword(e.target.value)}
-          placeholder="답변을 간략히 요약해보세요 (최대 200자까지 입력 가능)"
+          placeholder="답변을 간략히 요약해보세요 (최대 200자까지 입력 가능)
+입력한 내용을 바탕으로 꼬리 질문을 만들어드려요."
           maxLength={200}
         />
 
         <p className={styles.helper}>
-          답변이 끝나면 아래 버튼 중 하나를 선택해주세요!
+          답변이 끝났다면 다음 질문 형식을 선택하세요!
         </p>
 
         <div className={styles.buttons}>

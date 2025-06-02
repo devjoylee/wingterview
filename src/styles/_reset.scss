@@ -43,9 +43,6 @@ input:-webkit-autofill:active {
   -webkit-box-shadow: 0 0 0px 1000px white inset !important;
 }
 
-input:focus {
-}
-
 p,
 h1,
 h2,
@@ -94,4 +91,5 @@ button {
   background: none;
   border: none;
   cursor: pointer;
+  color: #000;
 }
