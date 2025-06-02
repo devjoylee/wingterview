@@ -1,0 +1,64 @@
+@use '@/styles/variables' as *;
+
+.guideline {
+  padding: 0 20px;
+
+  & > * {
+    margin: 0 auto;
+  }
+}
+
+.mrwing {
+  width: 160px;
+  margin-bottom: -30px;
+  min-height: 148px;
+}
+
+.textBox {
+  color: #333;
+  background-color: #fff;
+  padding: 60px 20px 50px;
+  border-radius: 30px;
+  text-align: center;
+
+  h3 {
+    font-size: 19px;
+    font-weight: bold;
+    margin-bottom: 15px;
+  }
+
+  p {
+    margin-bottom: 12px;
+  }
+}
+
+.alert {
+  display: block;
+  color: $red;
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 15px;
+}
+
+@media (max-width: 768px) {
+  .mrwing {
+    width: 140px;
+    min-height: 130px;
+    margin-bottom: -26px;
+  }
+
+  .textBox {
+    padding: 45px 20px 40px;
+    border-radius: 30px;
+    text-align: center;
+
+    h3 {
+      font-size: 17px;
+      margin-bottom: 10px;
+    }
+
+    p {
+      font-size: 15px;
+    }
+  }
+}

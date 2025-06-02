@@ -2,7 +2,7 @@ import styles from './styles.module.scss'
 
 interface ButtonProps {
   onClick: () => void
-  disabled: boolean
+  disabled?: boolean
 }
 
 export const InterviewStartButton: React.FC<ButtonProps> = ({

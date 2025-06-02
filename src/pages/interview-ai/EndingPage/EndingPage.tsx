@@ -7,10 +7,12 @@ import { useAIInterviewStore, useRecordingStore } from '@/stores'
 export const EndingPage: React.FC = () => {
   const navigate = useNavigate()
   const interviewId = useAIInterviewStore(state => state.interviewId)
+  const setInterviewId = useAIInterviewStore(state => state.setInterviewId)
   const recordedBlob = useRecordingStore(state => state.recordedBlob)
 
   const returnToAwaitingPage = async () => {
     await endInterview(interviewId)
+    setInterviewId('')
     navigate('/interview-ai/awaiting')
   }
 
@@ -40,8 +42,8 @@ export const EndingPage: React.FC = () => {
 
         <img src={mrWing} alt="mr wing" className={styles.mrwing} />
 
-        <div className={styles.feedbackText}>
-          <p>Mr.윙 피드백 작성 중...</p>
+        <div className={styles.helperText}>
+          <h3>Mr.윙 피드백 작성 중...</h3>
           <p>
             녹음된 답변을 분석하여 피드백을 작성 중 입니다.
             <br />
@@ -50,12 +52,12 @@ export const EndingPage: React.FC = () => {
         </div>
 
         <div className={styles.buttons}>
-          <button>피드백 보러가기</button>
+          <button onClick={() => navigate('/coming-soon')}>
+            피드백 보러가기
+          </button>
           <button onClick={returnToAwaitingPage}>면접 대기실로 이동</button>
+          <button onClick={download}>녹음 파일 다운로드</button>
         </div>
-        <button onClick={download} className={styles.download}>
-          녹음 파일 다운로드
-        </button>
       </div>
     </div>
   )

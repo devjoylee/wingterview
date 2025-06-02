@@ -18,3 +18,4 @@ export { ProfileImage } from './_ui/ProfileImage/ProfileImage'
 
 export { Navbar } from './Navbar/Navbar'
 export { ProfileCard } from './ProfileCard/ProfileCard'
+export { LoginButton } from './LoginButton/LoginButton'

@@ -1,5 +1,4 @@
-import { ProfileImage } from '@/components/common'
-import { useNavigate } from 'react-router-dom'
+import { LoginButton, ProfileImage } from '@/components/common'
 import styles from './styles.module.scss'
 
 interface ProfileCardProps {
@@ -11,8 +10,6 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
   profile,
   isLoggedIn,
 }) => {
-  const navigate = useNavigate()
-
   return (
     <div className={styles.profileCard}>
       {isLoggedIn && profile && (
@@ -46,12 +43,7 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
 
       {!isLoggedIn && (
         <div className={styles.overlay}>
-          <button
-            className={styles.loginButton}
-            onClick={() => navigate('/login')}
-          >
-            로그인하러 가기
-          </button>
+          <LoginButton />
         </div>
       )}
     </div>
