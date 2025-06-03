@@ -5,7 +5,7 @@ import {
   ProtectedLayout,
   AIInterviewLayout,
   Page,
-} from '@/components/common'
+} from '@/components/layout'
 import * as P from '@/pages'
 
 const routes: RouteObject[] = [

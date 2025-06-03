@@ -1,11 +1,11 @@
-import { Modal, ProfileImage } from '@/components/common'
+import { Modal, ProfileImage } from '@/components/ui'
 import { useState } from 'react'
 import { useAIInterviewStore } from '@/stores'
 import mrWingMic from '@/assets/mrwing-mic.png'
 import styles from './styles.module.scss'
 import { useProfile } from '@/hooks/profile'
 import { useFinishInterview, useNextQuestion } from '@/hooks'
-import { VoiceRecorder } from '@/components/interview'
+import { VoiceRecorder } from '@/components/features'
 
 export const QuestionPage: React.FC = () => {
   const [keyword, setKeyword] = useState('')

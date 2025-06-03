@@ -1,6 +1,6 @@
 import { useEffect, useState, useCallback } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
-import { Button, Logo, Modal, ProfileCard } from '@/components/common'
+import { Button, Logo, Modal, ProfileCard } from '@/components/ui'
 import { useApplicantCount, useMatchResult, useMatchStart } from '@/hooks/match'
 import { useMatchStore } from '@/stores/matchStore'
 import { useProfile } from '@/hooks/profile'

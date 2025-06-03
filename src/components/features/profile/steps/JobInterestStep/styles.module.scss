@@ -1,0 +1,56 @@
+@use '@/styles/variables' as *;
+
+.container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.instruction {
+  display: flex;
+  justify-content: center;
+  height: 20px;
+  color: $light-black;
+  font-size: 13px;
+  margin-bottom: 30px;
+}
+
+.tagList {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 5px;
+  height: 180px;
+  margin-right: -5px;
+  overflow-y: scroll;
+  z-index: 10;
+
+  /* 스크롤바 디자인 */
+  &::-webkit-scrollbar {
+    right: 20px;
+    width: 8px;
+    border-radius: 4px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: $blue-6;
+    border-radius: 4px;
+  }
+}
+
+.container {
+  position: relative;
+
+  &::after {
+    content: '';
+    position: absolute;
+    right: -5px;
+    top: 50px;
+    width: 8px;
+    height: 180px;
+    background-color: #eee;
+    border-radius: 3px;
+    pointer-events: none;
+    z-index: 1;
+  }
+}

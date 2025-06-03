@@ -1,0 +1,63 @@
+@use '@/styles/variables' as *;
+
+.guideBox {
+  background: $white;
+  padding: 10px 15px;
+  margin: 25px 0;
+  border-radius: 20px;
+  border: 7px solid $blue-6;
+  color: #333;
+  text-align: center;
+
+  .title {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .textWrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+    gap: 4px;
+
+    svg {
+      color: $light-black;
+    }
+
+    h3 {
+      font-size: 16px;
+      font-weight: 700;
+      text-align: center;
+      color: #444;
+      margin-right: -10px;
+    }
+  }
+
+  .arrowIcon {
+    margin-left: auto;
+  }
+
+  .content {
+    margin-top: 5px;
+    font-size: 15px;
+
+    p {
+      color: #333;
+    }
+
+    span {
+      text-decoration: underline;
+    }
+
+    button {
+      color: #fff;
+      background: $orange;
+      margin: 10px 0;
+      padding: 10px 20px;
+      border-radius: 12px;
+      font-size: 14px;
+    }
+  }
+}

@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom'
-import { Logo } from '@/components/common'
+import { Logo } from '@/components/ui'
 import styles from './styles.module.scss'
 
 export const ComingSoonPage: React.FC = () => {

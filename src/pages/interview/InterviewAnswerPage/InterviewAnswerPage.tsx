@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
-import { Button, Modal, GuideBox } from '@/components/common'
+import { Button, Modal, GuideBox } from '@/components/ui'
 import { useInterviewStore, useTimerStore } from '@/stores'
 import {
   useGenerateQuestion,

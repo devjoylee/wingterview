@@ -4,7 +4,7 @@ import { useAuthStore } from '@/stores/authStore'
 import { kakaoLogin } from '@/api/authAPI'
 
 import styles from './styles.module.scss'
-import { LoadingIndicator } from '@/components/common'
+import { LoadingIndicator } from '@/components/ui'
 
 export const LoginRedirectPage: React.FC = () => {
   const navigate = useNavigate()
