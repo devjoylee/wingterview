@@ -4,8 +4,8 @@ import styles from './styles.module.scss'
 import { Send } from 'lucide-react'
 import { useInterviewStatus, useUpdateInterviewStatus } from '@/hooks/interview'
 import { useInterviewStore } from '@/stores/interviewStore'
-import { CurrentRound, StarRating } from '@/components/interview'
-import { Button, Modal, GuideBox, ProfileImage } from '@/components/common'
+import { CurrentRound, StarRating } from '@/components/features'
+import { Button, Modal, GuideBox, ProfileImage } from '@/components/ui'
 
 /**
  *   면접 피드백 페이지 flow

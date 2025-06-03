@@ -6,8 +6,8 @@ import {
   GuideBox,
   StaticTag,
   ProfileImage,
-} from '@/components/common'
-import { CurrentRound } from '@/components/interview'
+} from '@/components/ui'
+import { CurrentRound } from '@/components/features'
 import { useMatchStore, useInterviewStore, useTimerStore } from '@/stores'
 import { useMatchResult } from '@/hooks/match'
 import {

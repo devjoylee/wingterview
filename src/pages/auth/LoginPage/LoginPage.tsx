@@ -1,7 +1,7 @@
-import { KakaoLoginButton } from '@/components/auth'
-import styles from './styles.module.scss'
+import { Logo } from '@/components/ui'
+import { KakaoLoginButton } from '@/components/features'
 import introImage from '@assets/intro-image.png'
-import { Logo } from '@/components/common'
+import styles from './styles.module.scss'
 
 const REST_API_KEY = import.meta.env.VITE_KAKAO_REST_API_KEY
 const REDIRECT_URI = import.meta.env.VITE_KAKAO_REDIRECT_URI

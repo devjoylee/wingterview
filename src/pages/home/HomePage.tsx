@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
-import { Logo } from '@/components/common'
-import { FeatureSection, ProfileCard } from '@/components/home'
+import { Logo } from '@/components/ui'
+import { FeatureSection, ProfileCard } from '@/components/features'
 import { useProfile } from '@/hooks'
 import { useAuthStore } from '@/stores'
 import styles from './styles.module.scss'
