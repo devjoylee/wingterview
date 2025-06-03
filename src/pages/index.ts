@@ -17,3 +17,5 @@ export { QuestionPage } from './interview-ai/QuestionPage/QuestionPage'
 export { EndingPage } from './interview-ai/EndingPage/EndingPage'
 
 export { HomePage } from './home/HomePage'
+
+export { QuizAwaitingPage } from './quiz/QuizAwaitingPage/QuizAwaitingPage'

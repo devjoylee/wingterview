@@ -67,7 +67,7 @@ export const Navbar: React.FC = () => {
         onClick={() => handleTabClick('quiz', '/quiz/awaiting')}
       >
         <BookCheck />
-        <span>오늘의 퀴즈</span>
+        <span>윙퀴즈</span>
       </div>
       <div
         className={`${styles.navItem} ${activeTab === 'chat' ? styles.active : ''}`}
