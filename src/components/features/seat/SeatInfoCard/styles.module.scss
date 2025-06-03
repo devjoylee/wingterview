@@ -7,7 +7,7 @@
   overflow: hidden;
   background-color: #fff;
   margin: 0 auto;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
 .wrapper {
@@ -26,9 +26,8 @@
   text-align: center;
 
   .value {
-    font-size: 24px;
+    font-size: 20px;
     font-weight: bold;
-    margin-bottom: 4px;
   }
 
   .label {
@@ -37,7 +36,7 @@
   }
 
   &:last-child .value {
-    font-size: 22px;
+    font-size: 18px;
   }
 }
 
@@ -50,10 +49,10 @@
 .cardButton {
   width: 100%;
   padding: 16px;
-  background-color: $blue-5;
+  background-color: $blue-2;
   color: #fff;
   border: none;
-  font-size: 16px;
+  font-size: 15px;
   font-weight: bold;
   cursor: pointer;
   transition: background-color 0.3s;

@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react'
-import styles from './styles.module.scss'
-import { ProfileFormLayout } from '@components/features'
 import { ClickableTag, ErrorMessage } from '@/components/ui'
 import { useProfileStore } from '@/stores/profileStore'
+import styles from './styles.module.scss'
 
 export const TechStackStep: React.FC = React.memo(() => {
   const { updateTechStack, formErrors, formData } = useProfileStore()
@@ -37,27 +36,25 @@ export const TechStackStep: React.FC = React.memo(() => {
   }, [selected, updateTechStack])
 
   return (
-    <ProfileFormLayout name="기술 스택">
-      <div className={styles.container}>
-        <div className={styles.instruction}>
-          {formErrors.techStack ? (
-            <ErrorMessage error={formErrors.techStack} />
-          ) : (
-            <span>최대 3개까지 선택 가능합니다.</span>
-          )}
-        </div>
-        <div className={styles.tagList}>
-          {taglist.map(tag => (
-            <ClickableTag
-              key={tag}
-              label={tag}
-              selected={selected.includes(tag)}
-              onClick={() => toggleTag(tag)}
-              disabled={isMaxTagsSelected && !selected.includes(tag)}
-            />
-          ))}
-        </div>
+    <div className={styles.container}>
+      <div className={styles.instruction}>
+        {formErrors.techStack ? (
+          <ErrorMessage error={formErrors.techStack} />
+        ) : (
+          <span>최대 3개까지 선택 가능합니다.</span>
+        )}
       </div>
-    </ProfileFormLayout>
+      <div className={styles.tagList}>
+        {taglist.map(tag => (
+          <ClickableTag
+            key={tag}
+            label={tag}
+            selected={selected.includes(tag)}
+            onClick={() => toggleTag(tag)}
+            disabled={isMaxTagsSelected && !selected.includes(tag)}
+          />
+        ))}
+      </div>
+    </div>
   )
 })

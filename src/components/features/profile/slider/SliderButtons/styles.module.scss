@@ -11,19 +11,21 @@
     width: 100px;
     height: 45px;
     border-radius: 50px;
-    background-color: $blue-1;
-    color: $white;
+    opacity: 0.85;
+    background-color: #fff;
+    color: #333;
     font-size: 0.9rem;
     font-weight: 700;
     z-index: 10;
     cursor: pointer;
 
     &:disabled {
-      background-color: $gray-4;
+      opacity: 0.5;
     }
 
     &.submit {
       background-color: $orange;
+      color: #fff;
     }
   }
 }

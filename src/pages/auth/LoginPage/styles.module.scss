@@ -1,40 +1,72 @@
+@use '@/styles/variables' as *;
+
 .loginPage {
+  height: 100%;
+  background: $blue-1;
+  text-align: center;
+  padding: 50px 20px 45px;
+  position: relative;
+}
+
+.container {
+  height: 100%;
+  border-radius: 30px;
+  background: #fff;
+
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 100%;
+  border: 8px solid $blue-2;
 
-  .container {
-    margin-bottom: 50px;
+  .introImage {
+    width: 230px;
+    min-height: 133px;
+    margin-top: 30px;
+  }
 
-    img {
-      margin: 0 auto;
-    }
+  .greeting {
+    margin: 45px 0 30px;
+    font-size: 15px;
+    font-weight: 600;
+    text-align: center;
+    position: relative;
+    color: $light-black;
+  }
 
-    .introImage {
-      width: 270px;
-      margin-top: 40px;
-    }
+  .greeting::before {
+    content: '';
+    position: absolute;
+    width: 1px;
+    height: 30px;
+    background-color: #dfdfdf;
+    top: -45px;
+    left: 50%;
+    transform: translate(-50%);
+  }
+}
 
-    .greeting {
-      margin-top: 70px;
-      font-size: 15px;
-      font-weight: 600;
-      text-align: center;
-      position: relative;
-      color: #444;
-    }
+.homeButton {
+  display: flex;
+  align-items: center;
+  padding: 10px 20px;
+  border-radius: 30px;
+  background: $blue-2;
+  position: absolute;
+  left: 50%;
+  top: 35px;
+  transform: translateX(-50%);
 
-    .greeting::before {
-      content: '';
-      position: absolute;
-      width: 1px;
-      height: 40px;
-      background-color: #ccc;
-      top: -60px;
-      left: 50%;
-      transform: translate(-50%);
-    }
+  svg {
+    width: 18px;
+    height: 18px;
+    stroke: #fff;
+  }
+
+  span {
+    margin-left: 5px;
+    color: #fff;
+    font-size: 14px;
+    font-weight: 500;
   }
 }

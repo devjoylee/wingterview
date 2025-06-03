@@ -1,54 +1,56 @@
 .container {
   width: 100%;
-  padding: 16px;
+  padding: 14px;
 }
 
 .profileHeader {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-bottom: 10px;
 
   .thumbnail {
     margin-bottom: 10px;
   }
 
-  .name {
-    font-size: 15px;
-    font-weight: 600;
-    color: #fff;
-    margin-bottom: 2px;
-  }
-
-  .seat {
+  .myInfo {
     display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #fff;
-    opacity: 0.5;
-    font-size: 12px;
+
+    .name {
+      font-size: 15px;
+      font-weight: 600;
+      color: #333;
+      margin-right: 5px;
+    }
+
+    .seat {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #333;
+      opacity: 0.5;
+      font-size: 12px;
+    }
   }
 }
 
 .profileBody {
-  display: flex;
-  justify-content: space-around;
-  margin-right: 15px;
+  padding: 10px 5px;
+  text-align: center;
+
+  .section:first-child {
+    margin-bottom: 10px;
+  }
 
   .title {
     font-size: 14px;
     font-weight: 500;
     margin-bottom: 5px;
-    text-align: center;
   }
 
   .tagList {
     display: flex;
-    flex-direction: column;
     justify-content: center;
-    flex-wrap: nowrap;
     gap: 5px;
-    text-align: center;
     opacity: 0.85;
   }
 }

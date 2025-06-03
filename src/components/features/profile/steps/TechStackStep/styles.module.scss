@@ -10,31 +10,48 @@
   display: flex;
   justify-content: center;
   height: 20px;
-  color: #fff;
-  font-size: 14px;
-  margin-bottom: 16px;
+  color: $light-black;
+  font-size: 13px;
+  margin-bottom: 30px;
 }
 
 .tagList {
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
-  gap: 8px;
+  gap: 5px;
+  height: 180px;
+  margin-right: -5px;
+  padding: 0 20px;
+  z-index: 10;
   overflow-y: scroll;
-  height: 220px;
-  padding-right: 10px;
-  margin-right: -10px;
 
   /* 스크롤바 디자인 */
   &::-webkit-scrollbar {
     right: 20px;
     width: 8px;
     border-radius: 4px;
-    background-color: rgba(255, 255, 255, 0.3);
   }
 
   &::-webkit-scrollbar-thumb {
-    background-color: #ddd;
+    background-color: $blue-6;
     border-radius: 4px;
+  }
+}
+
+.container {
+  position: relative;
+
+  &::after {
+    content: '';
+    position: absolute;
+    right: -5px;
+    top: 50px;
+    width: 8px;
+    height: 180px;
+    background-color: #eee;
+    border-radius: 3px;
+    pointer-events: none;
+    z-index: 1;
   }
 }

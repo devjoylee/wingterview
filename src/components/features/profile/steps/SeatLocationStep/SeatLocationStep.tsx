@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import { createPortal } from 'react-dom'
-import { ProfileFormLayout } from '@components/features'
 import { ErrorMessage } from '@/components/ui'
 import { SeatMap, SeatInfoCard } from '@/components/features'
 import { useProfileStore } from '@/stores/profileStore'
@@ -18,7 +17,7 @@ export const SeatLocationStep = React.memo(() => {
   }, [selectedSeat, updateSeatPosition])
 
   return (
-    <ProfileFormLayout name="현재 위치 설정">
+    <>
       <div className={styles.container}>
         {formErrors.seatPosition && (
           <ErrorMessage error={formErrors.seatPosition} />
@@ -40,6 +39,6 @@ export const SeatLocationStep = React.memo(() => {
           <SeatMap closeSeatMap={closeSeatMap} isEditable={true} />,
           document.body
         )}
-    </ProfileFormLayout>
+    </>
   )
 })

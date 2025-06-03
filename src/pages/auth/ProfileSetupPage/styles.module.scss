@@ -7,8 +7,8 @@
   align-items: center;
   height: 100%;
   position: relative;
+  background: $blue-1;
   overflow: hidden;
-  margin-top: -10px;
 
   .logo {
     margin-bottom: 10px;
@@ -20,10 +20,10 @@
 
   .helper {
     margin-bottom: 10px;
-    font-size: 13px;
+    font-size: 14px;
     text-align: center;
     font-weight: 600;
     line-height: 1.3;
-    color: #aaa;
+    color: #fff;
   }
 }

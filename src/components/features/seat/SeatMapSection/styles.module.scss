@@ -47,12 +47,11 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: $blue-6;
-  color: #666;
+  background-color: #c6dcea;
   border-radius: 4px;
   cursor: pointer;
   font-size: 10px;
-  border: 1px solid $blue-6;
+  border: 1px solid #c6dcea;
   transition: all 0.1s ease-in-out;
 
   &.noData {

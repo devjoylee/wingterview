@@ -34,15 +34,6 @@ select {
   border: none;
 }
 
-input:-webkit-autofill,
-input:-webkit-autofill:hover,
-input:-webkit-autofill:focus,
-input:-webkit-autofill:active {
-  transition: #fff 5000s ease-in-out 0s;
-  -webkit-transition: #fff 9999s ease-out;
-  -webkit-box-shadow: 0 0 0px 1000px white inset !important;
-}
-
 p,
 h1,
 h2,

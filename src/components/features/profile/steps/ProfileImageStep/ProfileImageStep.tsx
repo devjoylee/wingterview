@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react'
 import styles from './styles.module.scss'
-import { ProfileFormLayout } from '@components/features'
 import { Pencil } from 'lucide-react'
 import { useProfileStore } from '@/stores/profileStore'
 import { ErrorMessage, ProfileImage } from '@/components/ui'
@@ -44,32 +43,48 @@ export const ProfileImageStep = React.memo(() => {
     }
   }
 
+  // 썸네일 클릭 시 파일 선택 트리거
+  const handleThumbnailClick = () => {
+    const fileInput = document.getElementById(
+      'profile-upload'
+    ) as HTMLInputElement
+    fileInput?.click()
+  }
+
   useEffect(() => {
     updateProfileImage(imageName)
   }, [imageName, updateProfileImage])
 
   return (
-    <ProfileFormLayout name="프로필 사진">
-      <div className={styles.container}>
-        <div className={styles.errorMessage}>
-          {error && <ErrorMessage error={error} />}
-        </div>
-        <div className={styles.imageWrapper}>
-          <div className={styles.thumbnail}>
-            <ProfileImage url={imageURL} size={180} />
-          </div>
-          <label htmlFor="profile-upload" className={styles.editButton}>
-            <Pencil size={20} color="white" />
-            <input
-              id="profile-upload"
-              type="file"
-              accept="image/*"
-              onChange={handleImageChange}
-              className={styles.fileInput}
-            />
-          </label>
-        </div>
+    <div className={styles.container}>
+      <div className={styles.errorMessage}>
+        {error && <ErrorMessage error={error} />}
       </div>
-    </ProfileFormLayout>
+      <div className={styles.imageWrapper}>
+        <div
+          className={styles.thumbnail}
+          onClick={handleThumbnailClick}
+          role="button"
+          tabIndex={0}
+          onKeyDown={e => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              handleThumbnailClick()
+            }
+          }}
+        >
+          <ProfileImage url={imageURL} size={160} />
+        </div>
+        <label htmlFor="profile-upload" className={styles.editButton}>
+          <Pencil size={20} color="white" />
+          <input
+            id="profile-upload"
+            type="file"
+            accept="image/*"
+            onChange={handleImageChange}
+            className={styles.fileInput}
+          />
+        </label>
+      </div>
+    </div>
   )
 })

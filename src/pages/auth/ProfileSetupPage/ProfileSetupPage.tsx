@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Logo, Modal } from '@/components/ui'
+import { Modal } from '@/components/ui'
 import { ProfileSlider, SliderButtons } from '@/components/features'
 import { useProfile } from '@/hooks/profile'
 import { useProfileStore } from '@/stores'
@@ -55,12 +55,9 @@ export const ProfileSetupPage: React.FC = () => {
 
   return (
     <div className={styles.profileSetupPage}>
-      <div className={styles.logo}>
-        <Logo width={200} />
-      </div>
-
       <span className={styles.helper}>
-        입력한 정보를 기반으로 맞춤형 면접 질문 및 피드백이 제공됩니다.
+        입력한 정보를 기반으로 <br />
+        맞춤형 면접 질문 및 피드백이 제공됩니다.
       </span>
 
       <ProfileSlider setSwiper={setSwiper} />

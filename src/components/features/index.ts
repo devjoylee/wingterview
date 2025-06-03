@@ -2,7 +2,7 @@
 export { KakaoLoginButton } from './auth/KakaoLoginButton/KakaoLoginButton'
 
 // profile
-export { ProfileFormLayout } from './profile/slider/ProfileFormLayout/ProfileFormLayout'
+export { SliderCard } from './profile/slider/SliderCard/SliderCard'
 export { ProfileSlider } from './profile/slider/ProfileSlider/ProfileSlider'
 export { SliderButtons } from './profile/slider/SliderButtons/SliderButtons'
 

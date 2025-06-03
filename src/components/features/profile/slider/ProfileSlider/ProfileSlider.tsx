@@ -5,6 +5,7 @@ import { useProfileStore } from '@/stores'
 import type { Swiper as SwiperType } from 'swiper'
 
 import * as S from '@components/features/profile/steps'
+import { SliderCard } from '@components/features'
 import styles from './styles.module.scss'
 
 import 'swiper/css'
@@ -24,12 +25,12 @@ export const ProfileSlider: React.FC<{
   )
 
   const slides = [
-    { id: 1, component: <S.BasicInfoStep /> },
-    { id: 2, component: <S.JobInterestStep /> },
-    { id: 3, component: <S.TechStackStep /> },
-    { id: 4, component: <S.ProfileImageStep /> },
-    { id: 5, component: <S.SeatLocationStep /> },
-    { id: 6, component: <S.FinalConfirmStep /> },
+    { id: 1, name: '기본 정보', component: <S.BasicInfoStep /> },
+    { id: 2, name: '희망 직무', component: <S.JobInterestStep /> },
+    { id: 3, name: '기술 스택', component: <S.TechStackStep /> },
+    { id: 4, name: '프로필 사진', component: <S.ProfileImageStep /> },
+    { id: 5, name: '현재 위치 설정', component: <S.SeatLocationStep /> },
+    { id: 6, name: '최종 프로필 확인', component: <S.FinalConfirmStep /> },
   ]
 
   const pagination = {
@@ -47,9 +48,9 @@ export const ProfileSlider: React.FC<{
         slidesPerView={'auto'}
         coverflowEffect={{
           rotate: 0,
-          stretch: 30,
-          depth: 100,
-          modifier: 2,
+          stretch: 13,
+          depth: 50,
+          modifier: 3,
         }}
         pagination={pagination}
         allowTouchMove={false}
@@ -64,7 +65,9 @@ export const ProfileSlider: React.FC<{
         {slides.map((slide, idx) => (
           <SwiperSlide key={slide.id}>
             {/* prev, current, next 단계만 렌더링 */}
-            {Math.abs(currentStep - idx) <= 1 ? slide.component : <div></div>}
+            <SliderCard name={slide.name}>
+              {Math.abs(currentStep - idx) <= 1 ? slide.component : <div></div>}
+            </SliderCard>
           </SwiperSlide>
         ))}
       </Swiper>

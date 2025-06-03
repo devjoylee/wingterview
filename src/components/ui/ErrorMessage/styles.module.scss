@@ -1,3 +1,5 @@
+@use '@/styles/variables' as *;
+
 .errorMessage {
   display: flex;
   align-items: center;
@@ -19,12 +21,12 @@
   }
 
   p {
-    color: #fff;
+    color: $light-black;
   }
 
   &.small {
     font-size: 12px;
-    margin-left: 10px;
+    margin-left: 5px;
 
     svg {
       width: 16px;

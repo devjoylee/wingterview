@@ -4,17 +4,19 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 6px 14px;
+  padding: 6px 12px;
+  padding-right: 10px;
   border-radius: 25px;
+  border: 2.3px solid $blue-1;
   background-color: #fff;
-  color: #444;
+  color: #555;
   font-size: 14px;
-  border: none;
   cursor: pointer;
-  transition: background-color 0.2s;
+  transition: all 0.15s ease;
 
   &.selected {
-    background-color: #333;
+    background-color: $blue-2;
+    border-color: $blue-2;
     color: #fff;
     opacity: 1;
 
@@ -29,7 +31,7 @@
   }
 
   .icon {
-    margin-left: 3px;
+    margin-left: 2px;
     font-weight: bold;
 
     svg {
