@@ -15,6 +15,9 @@ export const API = {
     STAT: '/matching/statistics',
     RESULT: '/matching/result',
   },
+  QUIZ: {
+    LIST: '/today-quiz',
+  },
   INTERVIEW: {
     STATUS: `/interview/status`,
     CHANGE_STATUS: (interviewId: string) =>

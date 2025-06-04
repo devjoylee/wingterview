@@ -59,14 +59,13 @@ const routes: RouteObject[] = [
             children: [
               // Public
               { path: 'awaiting', element: <P.QuizAwaitingPage /> },
+              { path: 'progress', element: <P.QuizProgressPage /> },
+              { path: 'result', element: <P.QuizResultPage /> },
 
               // Protected
               {
                 element: <L.ProtectedLayout />,
-                children: [
-                  { path: 'question', element: <P.QuestionPage /> },
-                  { path: 'end', element: <P.EndingPage /> },
-                ],
+                children: [],
               },
             ],
           },

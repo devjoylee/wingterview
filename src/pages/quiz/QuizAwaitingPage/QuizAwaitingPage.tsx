@@ -3,12 +3,34 @@ import styles from './styles.module.scss'
 import quizIcon from '@assets/quiz.png'
 import { Button, Modal } from '@/components/ui'
 import { QuizTypeSelection } from '@/components/features'
+import { getQuizList } from '@/api/quizAPI'
+import { useQuizStore } from '@/stores'
+import { DUMMY_QUIZZES } from '@/constants/quizzes'
+import { useNavigate } from 'react-router-dom'
 
 export const QuizAwaitingPage: React.FC = () => {
+  const navigate = useNavigate()
   const [toggleModal, setToggleModal] = useState(false)
+  const [isGenerating, setIsGenerating] = useState(false)
 
-  const handleStartQuiz = () => {
-    setToggleModal(true)
+  const setQuizzes = useQuizStore(state => state.setQuizzes)
+
+  const handleStartQuiz = async () => {
+    setIsGenerating(true)
+    const delay = new Promise(resolve => setTimeout(resolve, 1500))
+
+    await delay // 로딩 모달 창을 위한 1.5초 지연
+
+    try {
+      const quizzes = await getQuizList()
+      setQuizzes(quizzes)
+    } catch (error) {
+      console.error('더미 퀴즈 데이터 사용:', error)
+      setQuizzes(DUMMY_QUIZZES)
+    }
+
+    setIsGenerating(false)
+    navigate('/quiz/progress')
   }
 
   return (
@@ -25,7 +47,7 @@ export const QuizAwaitingPage: React.FC = () => {
             </p>
           </div>
 
-          <QuizTypeSelection />
+          <QuizTypeSelection onClick={() => setToggleModal(true)} />
 
           <div className={styles.startButton}>
             <Button
@@ -43,6 +65,12 @@ export const QuizAwaitingPage: React.FC = () => {
         message={['서비스 준비 중 입니다.', '조금만 기다려주세요!']}
         closable
         toggleModal={() => setToggleModal(!toggleModal)}
+      />
+
+      <Modal
+        isOpen={isGenerating}
+        style="loading"
+        message={['퀴즈를 생성하고 있습니다.', '잠시만 기다려주세요.']}
       />
     </div>
   )
