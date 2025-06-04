@@ -1,0 +1,75 @@
+@use '@/styles/variables' as *;
+
+.awaitingPage {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.container {
+  width: 100%;
+  padding: 0 20px;
+  max-width: 600px;
+}
+
+.guideBoard {
+  background: #fff;
+  border-radius: 30px;
+  min-height: 400px;
+  position: relative;
+  padding: 45px 25px;
+  border: 7px solid $blue-2;
+}
+
+.quizIcon {
+  position: absolute;
+  top: -40px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 135px;
+  margin: 0 auto;
+}
+
+.guideText {
+  text-align: center;
+
+  h3 {
+    font-size: 19px;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+
+  p {
+    margin-bottom: 10px;
+  }
+}
+
+.startButton {
+  margin-top: 20px;
+  text-align: center;
+  button {
+    padding: 12px 40px;
+  }
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 0 15px;
+  }
+
+  .guideBoard {
+    padding: 45px 20px;
+  }
+
+  .guideText {
+    h3 {
+      font-size: 17px;
+      margin-bottom: 10px;
+    }
+
+    p {
+      font-size: 15px;
+    }
+  }
+}

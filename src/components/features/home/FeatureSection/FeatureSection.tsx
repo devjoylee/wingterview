@@ -27,7 +27,7 @@ export const FeatureSection: React.FC = () => {
         <div className={styles.icon}>
           <Binary size={32} />
         </div>
-        <h3>CS 퀴즈</h3>
+        <h3>윙퀴즈</h3>
         <p>
           면접에 자주 나오는 <br />
           CS 개념을 퀴즈를 통해

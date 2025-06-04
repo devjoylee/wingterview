@@ -19,6 +19,10 @@ export { InterviewStartButton } from './interview/InterviewStartButton/Interview
 export { VoiceRecorder } from './interview/VoiceRecorder/VoiceRecorder'
 export { TimeSelection } from './interview/TimeSelection/TimeSelection'
 
+// quiz
+export { QuizTypeSelection } from './quiz/QuizTypeSelection/QuizTypeSelection'
+export { QuizContent } from './quiz/QuizContent/QuizContent'
+
 // match
 export { MatchInfoCard } from './match/MatchInfoCard/MatchInfoCard'
 

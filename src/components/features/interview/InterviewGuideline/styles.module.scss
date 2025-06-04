@@ -9,7 +9,7 @@
 }
 
 .mrwing {
-  width: 160px;
+  width: 150px;
   margin-bottom: -30px;
   min-height: 148px;
 }
@@ -17,7 +17,7 @@
 .textBox {
   color: #333;
   background-color: #fff;
-  padding: 60px 20px 50px;
+  padding: 50px 20px;
   border-radius: 30px;
   text-align: center;
 
@@ -42,13 +42,13 @@
 
 @media (max-width: 768px) {
   .mrwing {
-    width: 140px;
+    width: 120px;
     min-height: 130px;
     margin-bottom: -26px;
   }
 
   .textBox {
-    padding: 45px 20px 40px;
+    padding: 40px 20px;
     border-radius: 30px;
     text-align: center;
 
