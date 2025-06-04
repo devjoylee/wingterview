@@ -23,7 +23,7 @@ export const FeatureSection: React.FC = () => {
         <button>시작하기</button>
       </div>
 
-      <div className={styles.card} onClick={() => navigate('/coming-soon')}>
+      <div className={styles.card} onClick={() => navigate('/quiz/awaiting')}>
         <div className={styles.icon}>
           <Binary size={32} />
         </div>

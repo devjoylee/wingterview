@@ -16,15 +16,18 @@ export default defineConfig({
       '@utils': path.resolve(__dirname, './src/utils'),
     },
   },
-  // build: {
-  //   rollupOptions: {
-  //     output: {
-  //       manualChunks: {
-  //         mocks: ['./public/mockServiceWorker.js'], // 배포에서 msw 제외
-  //       },
-  //     },
-  //   },
-  // },
+  build: {
+    rollupOptions: {
+      output: {
+        entryFileNames: 'assets/[name].[hash].js',
+        chunkFileNames: 'assets/[name].[hash].js',
+        assetFileNames: 'assets/[name].[hash].[ext]',
+        // manualChunks: {
+        //   mocks: ['./public/mockServiceWorker.js'], // 배포에서 msw 제외
+        // },
+      },
+    },
+  },
   css: {
     preprocessorOptions: {
       scss: {
