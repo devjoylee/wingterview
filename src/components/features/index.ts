@@ -30,3 +30,7 @@ export { MatchInfoCard } from './match/MatchInfoCard/MatchInfoCard'
 export { SeatMap } from './seat/SeatMap/SeatMap'
 export { SeatMapSection } from './seat/SeatMapSection/SeatMapSection'
 export { SeatInfoCard } from './seat/SeatInfoCard/SeatInfoCard'
+
+// mypage
+export { MyProfileCard } from './mypage/MyProfileCard/MyProfileCard'
+export { FeatureCard } from './mypage/FeatureCard/FeatureCard'

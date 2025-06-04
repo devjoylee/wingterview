@@ -1,0 +1,52 @@
+@use '@/styles/variables' as *;
+
+.features {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+
+  .card {
+    flex: 1;
+    border-radius: 16px;
+    background: #fff;
+    padding: 25px 15px;
+    text-align: center;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease;
+    cursor: pointer;
+
+    &:hover {
+      transform: translateY(-3px);
+      background: $orange;
+
+      & * {
+        color: #fff;
+      }
+
+      button {
+        color: #000;
+        background: #fff;
+      }
+    }
+
+    .cardName {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    h3 {
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 10px;
+      flex: 0 0 auto;
+    }
+
+    p {
+      color: $light-black;
+      line-height: 1.4;
+      font-size: 14px;
+      flex: 1;
+    }
+  }
+}

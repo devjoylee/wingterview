@@ -71,6 +71,24 @@ const routes: RouteObject[] = [
           },
         ],
       },
+
+      {
+        path: 'mypage',
+        element: <L.Page hasNavbar={true} />,
+        children: [
+          // Public
+          { index: true, element: <P.MyPage /> },
+          { path: 'edit', element: <P.MyProfileEditPage /> },
+          { path: 'interview', element: <P.MyInterviewPage /> },
+          { path: 'quiz', element: <P.MyQuizPage /> },
+
+          // Protected
+          {
+            element: <L.ProtectedLayout />,
+            children: [],
+          },
+        ],
+      },
     ],
   },
 ]

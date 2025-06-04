@@ -78,7 +78,7 @@ export const Navbar: React.FC = () => {
       </div>
       <div
         className={`${styles.navItem} ${activeTab === 'mypage' ? styles.active : ''}`}
-        onClick={() => handleTabClick('mypage', '/coming-soon')}
+        onClick={() => handleTabClick('mypage', '/mypage')}
       >
         <User />
         <span>내 정보</span>

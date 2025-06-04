@@ -1,0 +1,14 @@
+@use '@/styles/variables' as *;
+
+.myInterviewPage {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.container {
+  width: 100%;
+  padding: 0 20px;
+  max-width: 600px;
+}

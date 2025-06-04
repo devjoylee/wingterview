@@ -21,3 +21,8 @@ export { HomePage } from './home/HomePage'
 export { QuizAwaitingPage } from './quiz/QuizAwaitingPage/QuizAwaitingPage'
 export { QuizProgressPage } from './quiz/QuizProgressPage/QuizProgressPage'
 export { QuizResultPage } from './quiz/QuizResultPage/QuizResultPage'
+
+export { MyPage } from './mypage/MyPage/MyPage'
+export { MyProfileEditPage } from './mypage/MyProfileEditPage/MyProfileEditPage'
+export { MyInterviewPage } from './mypage/MyInterviewPage/MyInterviewPage'
+export { MyQuizPage } from './mypage/MyQuizPage/MyQuizPage'
