@@ -1,0 +1,72 @@
+import { QuizContent } from '@/components/features'
+import { useQuizStore } from '@/stores'
+import { DUMMY_QUIZZES } from '@/constants/quizzes'
+import { useNavigate } from 'react-router-dom'
+import wingLeft from '@/assets/wing-l.png'
+import wingRight from '@/assets/wing-r.png'
+import styles from './styles.module.scss'
+
+export const QuizProgressPage = () => {
+  const navigate = useNavigate()
+
+  const quizzes = DUMMY_QUIZZES
+  const { currentIndex, userAnswers, setCurrentIndex, setUserAnswer } =
+    useQuizStore()
+
+  const isDone = userAnswers[userAnswers.length - 1] !== -1
+
+  const handleNext = () => {
+    if (currentIndex === quizzes.length - 1) {
+      navigate('/quiz/result')
+    } else {
+      setCurrentIndex(currentIndex + 1)
+    }
+  }
+
+  const handlePrev = () => {
+    if (currentIndex > 0) {
+      setCurrentIndex(currentIndex - 1)
+    }
+  }
+
+  return (
+    <div className={styles.progressPage}>
+      <div className={styles.container}>
+        <div className={styles.progressBar}>
+          <div
+            className={styles.progressFill}
+            style={{ width: `${((currentIndex + 1) / quizzes.length) * 100}%` }}
+          />
+        </div>
+
+        <QuizContent
+          quiz={quizzes[currentIndex]}
+          selectedAnswer={userAnswers[currentIndex]}
+          onSelect={index => setUserAnswer(currentIndex, index)}
+          number={`Question ${currentIndex + 1} of ${quizzes.length}`}
+        />
+
+        <div className={styles.buttons}>
+          <button onClick={handlePrev} disabled={currentIndex === 0}>
+            <img src={wingLeft} alt="이전 버튼" />
+          </button>
+          <button
+            onClick={handleNext}
+            disabled={userAnswers[currentIndex] === -1}
+          >
+            <img src={wingRight} alt="다음 버튼" />
+          </button>
+
+          {isDone && (
+            <span
+              className={styles.gradeButton}
+              onClick={() => navigate('/quiz/result')}
+            >
+              결과 보러가기
+            </span>
+          )}
+        </div>
+      </div>
+    </div>
+  )
+}

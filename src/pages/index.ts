@@ -19,3 +19,5 @@ export { EndingPage } from './interview-ai/EndingPage/EndingPage'
 export { HomePage } from './home/HomePage'
 
 export { QuizAwaitingPage } from './quiz/QuizAwaitingPage/QuizAwaitingPage'
+export { QuizProgressPage } from './quiz/QuizProgressPage/QuizProgressPage'
+export { QuizResultPage } from './quiz/QuizResultPage/QuizResultPage'

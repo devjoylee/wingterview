@@ -4,7 +4,9 @@ import styles from './styles.module.scss'
 
 type QuizType = 'review' | 'topic' | null
 
-export const QuizTypeSelection: React.FC = () => {
+export const QuizTypeSelection: React.FC<{ onClick: () => void }> = ({
+  onClick,
+}) => {
   const [selectedQuizType, setSelectedQuizType] = useState<QuizType>(null)
   const [selectedTopic, setSelectedTopic] = useState<string>('')
 
@@ -37,7 +39,7 @@ export const QuizTypeSelection: React.FC = () => {
         <p>Mr.윙과 진행한 모의면접 내용을 퀴즈로 복습</p>
       </div>
 
-      <div className={styles.quizType}>
+      <div className={styles.quizType} onClick={onClick}>
         <h4>주제별 퀴즈 (서비스 준비 중)</h4>
         <p>원하는 개발 주제를 선택해서 퀴즈 풀기</p>
       </div>
