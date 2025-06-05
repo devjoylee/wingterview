@@ -1,15 +1,21 @@
 import { useQuizStore } from '@/stores'
 import styles from './styles.module.scss'
-import { DUMMY_QUIZZES } from '@/constants/quizzes'
+import { Button } from '@/components/ui'
+import { useNavigate } from 'react-router-dom'
 
 export const QuizResultPage = () => {
-  const quizzes = DUMMY_QUIZZES
-
-  const { userAnswers } = useQuizStore()
+  const navigate = useNavigate()
+  const { quizzes, userAnswers, setCurrentState, resetQuiz } = useQuizStore()
   const correctCount = userAnswers.filter(
     (ans, i) => ans === quizzes[i].answerIdx
   ).length
   const scorePercentage = Math.round((correctCount / quizzes.length) * 100)
+
+  const restart = () => {
+    resetQuiz()
+    setCurrentState('awaiting')
+    navigate('/quiz/awaiting')
+  }
 
   return (
     <div className={styles.resultPage}>
@@ -53,6 +59,8 @@ export const QuizResultPage = () => {
               </div>
             )
           })}
+
+          <Button text="다시 풀기" color="orange" onClick={restart} />
         </div>
       </div>
     </div>

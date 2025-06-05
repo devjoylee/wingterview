@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { Home, Zap, BookCheck, MessageSquare, User } from 'lucide-react'
 import { getAIInterviewRouteByPhase } from '@/utils'
-import { useAIInterviewStore } from '@/stores'
+import { useAIInterviewStore, useQuizStore } from '@/stores'
 import styles from './styles.module.scss'
 
 export const Navbar: React.FC = () => {
@@ -10,6 +10,7 @@ export const Navbar: React.FC = () => {
   const navigate = useNavigate()
   const location = useLocation()
   const currentPhase = useAIInterviewStore(state => state.currentPhase)
+  const currentQuizState = useQuizStore(state => state.currentState)
 
   useEffect(() => {
     const path = location.pathname
@@ -30,6 +31,11 @@ export const Navbar: React.FC = () => {
   const handleTabClick = (tab: string, path: string) => {
     setActiveTab(tab)
     navigate(path)
+  }
+
+  const handleQuizTabClick = () => {
+    const path = `/quiz/${currentQuizState}`
+    handleTabClick('quiz', path)
   }
 
   // const handleInterviewTabClick = () => {
@@ -64,7 +70,7 @@ export const Navbar: React.FC = () => {
       </div>
       <div
         className={`${styles.navItem} ${activeTab === 'quiz' ? styles.active : ''}`}
-        onClick={() => handleTabClick('quiz', '/quiz/awaiting')}
+        onClick={handleQuizTabClick}
       >
         <BookCheck />
         <span>윙퀴즈</span>

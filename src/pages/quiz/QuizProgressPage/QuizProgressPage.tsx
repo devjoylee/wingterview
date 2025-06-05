@@ -1,6 +1,5 @@
 import { QuizContent } from '@/components/features'
 import { useQuizStore } from '@/stores'
-import { DUMMY_QUIZZES } from '@/constants/quizzes'
 import { useNavigate } from 'react-router-dom'
 import wingLeft from '@/assets/wing-l.png'
 import wingRight from '@/assets/wing-r.png'
@@ -9,14 +8,20 @@ import styles from './styles.module.scss'
 export const QuizProgressPage = () => {
   const navigate = useNavigate()
 
-  const quizzes = DUMMY_QUIZZES
-  const { currentIndex, userAnswers, setCurrentIndex, setUserAnswer } =
-    useQuizStore()
+  const {
+    quizzes,
+    currentIndex,
+    userAnswers,
+    setCurrentIndex,
+    setUserAnswer,
+    setCurrentState,
+  } = useQuizStore()
 
   const isDone = userAnswers[userAnswers.length - 1] !== -1
 
   const handleNext = () => {
     if (currentIndex === quizzes.length - 1) {
+      setCurrentState('result')
       navigate('/quiz/result')
     } else {
       setCurrentIndex(currentIndex + 1)
@@ -27,6 +32,11 @@ export const QuizProgressPage = () => {
     if (currentIndex > 0) {
       setCurrentIndex(currentIndex - 1)
     }
+  }
+
+  const handleEnd = () => {
+    setCurrentState('result')
+    navigate('/quiz/result')
   }
 
   return (
@@ -58,10 +68,7 @@ export const QuizProgressPage = () => {
           </button>
 
           {isDone && (
-            <span
-              className={styles.gradeButton}
-              onClick={() => navigate('/quiz/result')}
-            >
+            <span className={styles.gradeButton} onClick={handleEnd}>
               결과 보러가기
             </span>
           )}
