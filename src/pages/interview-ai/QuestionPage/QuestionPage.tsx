@@ -1,10 +1,12 @@
-import { Modal } from '@/components/ui'
+import { Button, Modal } from '@/components/ui'
 import { useAIInterviewStore } from '@/stores'
 import { useFinishInterview, useNextQuestion } from '@/hooks'
 import { AnswerArea, QuestionArea } from '@/components/features'
+import { useEffect, useState } from 'react'
 import styles from './styles.module.scss'
 
 export const QuestionPage: React.FC = () => {
+  const [endModal, setEndModal] = useState(false)
   const { interviewId, question } = useAIInterviewStore()
 
   const keyword = useAIInterviewStore(state => state.keyword)
@@ -30,8 +32,48 @@ export const QuestionPage: React.FC = () => {
 
   const handleEndInterview = async () => {
     if (!interviewId) return
+    setEndModal(false)
     await finishInterview(interviewId)
   }
+
+  // 녹음 중 이동 시 동작 handlers
+  useEffect(() => {
+    // navbar 클릭
+    const handleNavClick = (e: MouseEvent) => {
+      const target = e.target as HTMLElement
+      const navbar = target.closest('[data-id="navbar"]')
+
+      if (navbar) {
+        e.preventDefault()
+        e.stopPropagation()
+        setEndModal(true)
+      }
+    }
+
+    // 새로고침/탭 닫기
+    const handleBeforeUnload = (e: BeforeUnloadEvent) => {
+      e.preventDefault()
+      return ''
+    }
+
+    // 뒤로가기
+    const handleGoBack = () => {
+      setEndModal(true)
+      window.history.pushState(null, '', window.location.pathname)
+    }
+
+    window.history.pushState(null, '', window.location.pathname)
+
+    document.addEventListener('click', handleNavClick, true)
+    window.addEventListener('beforeunload', handleBeforeUnload)
+    window.addEventListener('popstate', handleGoBack)
+
+    return () => {
+      document.removeEventListener('click', handleNavClick, true)
+      window.removeEventListener('beforeunload', handleBeforeUnload)
+      window.removeEventListener('popstate', handleGoBack)
+    }
+  }, [])
 
   return (
     <div className={styles.questionPage}>
@@ -56,6 +98,19 @@ export const QuestionPage: React.FC = () => {
         style="loading"
         message={['녹음 파일을 저장 중입니다.', '잠시만 기다려주세요.']}
       />
+
+      <Modal
+        isOpen={endModal}
+        style="failed"
+        closable
+        toggleModal={() => setEndModal(!endModal)}
+        message={[
+          '페이지를 벗어나면 면접이 중지됩니다.',
+          '면접을 종료하시겠습니까?',
+        ]}
+      >
+        <Button text="면접 종료" color="black" onClick={handleEndInterview} />
+      </Modal>
     </div>
   )
 }
