@@ -1,85 +1,79 @@
 import { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
 import { Modal } from '@/components/ui'
 import { InterviewGuideline } from '@/components/features'
-import { useTimerStore } from '@/stores/timerStore'
 import { useInterviewId, useStartInterview } from '@/hooks'
 import { useAIInterviewStore, useAuthStore } from '@/stores'
-import { useRecordingStore } from '@/stores/recordingStore'
 import styles from './styles.module.scss'
+import { useMediaRecorder } from '@/hooks/interview/useMediaRecorder'
+
+/**
+ *   AI 면접 대기 페이지 flow
+ *
+ *   페이지 렌더링 시,
+ *   면접 ID 발급 요청 (발급 조건: 1. 로그인을 했다 2. 발급받은 ID가 없다)
+ *
+ *   면접 시작 버튼 클릭하면
+ *   1. 녹음 시작 요청 (startRecording)
+ *   2. (API) 인터뷰 시간 전송
+ *   3. (API) 인터뷰 상태 업데이트 (PENDING -> PROGRESS)
+ *   4. (API) 면접 질문 생성
+ *   5. 질문 페이지로 이동
+ *   6. 타이머 시작 (5번과 동시에)
+ */
 
 export const AwaitingPage: React.FC = () => {
-  const navigate = useNavigate()
-  const [toggleModal, setToggleModal] = useState(false)
+  const [errorModal, setErrorModal] = useState(false)
   const [error, setError] = useState<string[]>([])
 
-  const { setMediaRecorder, clearChunks } = useRecordingStore()
-  const { startInterview, loading } = useStartInterview()
-  const { startTimer } = useTimerStore()
-
   const isLoggedIn = useAuthStore(state => state.isLoggedIn)
-  const myInterviewId = useAIInterviewStore(state => state.interviewId)
-  const duration = useAIInterviewStore(state => state.duration)
-  const setInterviewId = useAIInterviewStore(state => state.setInterviewId)
-  const setCurrentPhase = useAIInterviewStore(state => state.setCurrentPhase)
+  const { interviewId, setInterviewId, duration } = useAIInterviewStore()
 
-  const requestInterviewId = isLoggedIn && !myInterviewId
+  const { startInterview, loading } = useStartInterview()
+  const { startRecording, stopRecording, micError } = useMediaRecorder()
 
-  const { data: interviewId } = useInterviewId(requestInterviewId)
+  const { data: newInterviewId } = useInterviewId(isLoggedIn && !interviewId)
 
   const handleStartInterview = async () => {
     if (!interviewId) {
       setError([
-        '면접 질문 생성에 실패했습니다.',
+        '면접 ID 발급에 실패했습니다.',
         '새로고침 후 다시 시도해주세요.',
       ])
-      setToggleModal(true)
+      setErrorModal(true)
       return
     }
 
-    const permission = await navigator.permissions.query({
-      name: 'microphone' as PermissionName,
-    })
-
-    if (permission.state === 'denied') {
-      setError([
-        '마이크 권한이 차단되어 있습니다.',
-        '브라우저 설정에서 마이크 권한을 허용해주세요.',
-      ])
-      setToggleModal(true)
-      return
-    }
-
+    // 면접 ID 발급 성공 -> 녹음 시작 요청
     try {
-      const stream = await navigator.mediaDevices.getUserMedia({ audio: true })
-      const recorder = new MediaRecorder(stream)
-
-      clearChunks()
-
-      recorder.start(1000)
-
-      setMediaRecorder(recorder)
-
-      await startInterview(interviewId, duration)
-
-      startTimer(duration)
-      setCurrentPhase('PROGRESS')
-      navigate('/interview-ai/question')
+      await startRecording()
     } catch (error) {
-      console.error('면접 질문 생성 실패', error)
+      console.error(error)
+      setError(micError)
+      setErrorModal(true)
+      return
+    }
+
+    // 녹음 실행 성공 -> 면접 시작 요청
+    try {
+      await startInterview(interviewId, duration)
+    } catch (error) {
+      console.error(error)
+      stopRecording()
+
       setError([
-        '면접 질문 생성에 실패했습니다.',
+        '모의 면접 실행에 실패했습니다.',
         '새로고침 후 다시 시도해주세요.',
       ])
-      setToggleModal(true)
+
+      setErrorModal(true)
     }
   }
 
   useEffect(() => {
-    if (interviewId) {
-      setInterviewId(interviewId)
+    if (newInterviewId) {
+      setInterviewId(newInterviewId)
     }
-  }, [interviewId, setInterviewId])
+  }, [newInterviewId, setInterviewId])
 
   return (
     <div className={styles.awaitingPage}>
@@ -88,17 +82,17 @@ export const AwaitingPage: React.FC = () => {
       </div>
 
       <Modal
-        isOpen={loading && !error}
+        isOpen={loading && !error.length}
         style="loading"
         message={['면접 질문을 준비하고 있습니다.', '잠시만 기다려주세요.']}
       />
 
       <Modal
-        isOpen={toggleModal}
+        isOpen={errorModal}
         style="failed"
         message={error}
         closable
-        toggleModal={() => setToggleModal(!toggleModal)}
+        toggleModal={() => setErrorModal(!errorModal)}
       />
     </div>
   )
