@@ -6,7 +6,10 @@ import { useEffect, useState } from 'react'
 import styles from './styles.module.scss'
 
 export const QuestionPage: React.FC = () => {
-  const [endModal, setEndModal] = useState(false)
+  const [endConfirmModal, setEndConfirmModal] = useState(false)
+  const [errorModal, setErrorModal] = useState(false)
+  const [error, setError] = useState<string[]>([])
+
   const { interviewId, question } = useAIInterviewStore()
 
   const keyword = useAIInterviewStore(state => state.keyword)
@@ -19,20 +22,25 @@ export const QuestionPage: React.FC = () => {
     if (!interviewId) return
     const target = e.target as HTMLElement
 
-    if (target.id === 'new') {
-      await nextQuestion(interviewId)
-    } else if (target.id === 'followup') {
-      await nextQuestion(interviewId, {
-        question: question,
-        keywords: keyword,
-      })
-      setKeyword('')
+    try {
+      if (target.id === 'new') {
+        await nextQuestion(interviewId)
+      } else if (target.id === 'followup') {
+        await nextQuestion(interviewId, {
+          question: question,
+          keywords: keyword,
+        })
+        setKeyword('')
+      }
+    } catch (error) {
+      console.log(error)
+      setError(['다음 질문을 불러올 수 없습니다.', '다시 시도해주세요.'])
     }
   }
 
   const handleEndInterview = async () => {
     if (!interviewId) return
-    setEndModal(false)
+    setEndConfirmModal(false)
     await finishInterview(interviewId)
   }
 
@@ -46,7 +54,7 @@ export const QuestionPage: React.FC = () => {
       if (navbar) {
         e.preventDefault()
         e.stopPropagation()
-        setEndModal(true)
+        setEndConfirmModal(true)
       }
     }
 
@@ -58,7 +66,7 @@ export const QuestionPage: React.FC = () => {
 
     // 뒤로가기
     const handleGoBack = () => {
-      setEndModal(true)
+      setEndConfirmModal(true)
       window.history.pushState(null, '', window.location.pathname)
     }
 
@@ -96,14 +104,22 @@ export const QuestionPage: React.FC = () => {
       <Modal
         isOpen={isFinishing}
         style="loading"
-        message={['녹음 파일을 저장 중입니다.', '잠시만 기다려주세요.']}
+        message={['녹음 파일을 전송 중입니다.', '잠시만 기다려주세요.']}
       />
 
       <Modal
-        isOpen={endModal}
+        isOpen={errorModal}
+        style="failed"
+        message={error}
+        closable
+        toggleModal={() => setErrorModal(!errorModal)}
+      />
+
+      <Modal
+        isOpen={endConfirmModal}
         style="failed"
         closable
-        toggleModal={() => setEndModal(!endModal)}
+        toggleModal={() => setEndConfirmModal(!endConfirmModal)}
         message={[
           '페이지를 벗어나면 면접이 중지됩니다.',
           '면접을 종료하시겠습니까?',
