@@ -1,31 +1,30 @@
-import { Modal, ProfileImage } from '@/components/ui'
-import { useState } from 'react'
+import { Modal } from '@/components/ui'
 import { useAIInterviewStore } from '@/stores'
-import mrWingMic from '@/assets/mrwing-mic.png'
-import styles from './styles.module.scss'
-import { useProfile } from '@/hooks/profile'
 import { useFinishInterview, useNextQuestion } from '@/hooks'
-import { VoiceRecorder } from '@/components/features'
+import { AnswerArea, QuestionArea } from '@/components/features'
+import styles from './styles.module.scss'
 
 export const QuestionPage: React.FC = () => {
-  const [keyword, setKeyword] = useState('')
-
   const { interviewId, question } = useAIInterviewStore()
 
-  const { myData } = useProfile('get')
-  const { nextQuestion, loading } = useNextQuestion()
-  const { finishInterview, loading: isEnding } = useFinishInterview()
+  const keyword = useAIInterviewStore(state => state.keyword)
+  const setKeyword = useAIInterviewStore(state => state.setKeyword)
+
+  const { finishInterview, loading: isFinishing } = useFinishInterview()
+  const { nextQuestion, loading: isGenerating } = useNextQuestion()
 
   const handleNextQuestion = async (e: React.MouseEvent<HTMLButtonElement>) => {
     if (!interviewId) return
+    const target = e.target as HTMLElement
 
-    if (e.currentTarget.id === 'new') {
+    if (target.id === 'new') {
       await nextQuestion(interviewId)
-    } else if (e.currentTarget.id === 'followup') {
+    } else if (target.id === 'followup') {
       await nextQuestion(interviewId, {
         question: question,
         keywords: keyword,
       })
+      setKeyword('')
     }
   }
 
@@ -36,63 +35,26 @@ export const QuestionPage: React.FC = () => {
 
   return (
     <div className={styles.questionPage}>
-      <div className={styles.interviewer}>
-        <div className={styles.mrwingProfile}>
-          <img src={mrWingMic} alt="mr wing" />
-        </div>
+      <QuestionArea question={question} />
 
-        <h2 className={styles.question}>{question}</h2>
-      </div>
+      <AnswerArea onNextClick={handleNextQuestion} />
 
-      <div className={styles.interviewee}>
-        <div className={styles.recordingBox}>
-          <div className={styles.myImage}>
-            {myData && <ProfileImage url={myData.profileImageUrl} size={62} />}
-          </div>
-          <div className={styles.recording}>
-            <VoiceRecorder />
-          </div>
-        </div>
-
-        <textarea
-          className={styles.textArea}
-          value={keyword}
-          onChange={e => setKeyword(e.target.value)}
-          placeholder="답변을 간략히 요약해보세요 (최대 200자까지 입력 가능)
-입력한 내용을 바탕으로 꼬리 질문을 만들어드려요."
-          maxLength={200}
-        />
-
-        <p className={styles.helper}>
-          답변이 끝났다면 다음 질문 형식을 선택하세요!
-        </p>
-
-        <div className={styles.buttons}>
-          <button id="followup" onClick={handleNextQuestion}>
-            꼬리 질문을 <br />
-            해주세요
-          </button>
-          <button id="new" onClick={handleNextQuestion}>
-            새로운 질문을 <br />
-            해주세요
-          </button>
-        </div>
-
+      <div className={styles.buttonContainer}>
         <button className={styles.endButton} onClick={handleEndInterview}>
           면접 종료
         </button>
       </div>
 
       <Modal
-        isOpen={loading}
+        isOpen={isGenerating}
         style="loading"
         message={['다음 질문을 준비 중 입니다.', '잠시만 기다려주세요.']}
       />
 
       <Modal
-        isOpen={isEnding}
+        isOpen={isFinishing}
         style="loading"
-        message={['녹음 파일을 전송 중입니다.', '잠시만 기다려주세요.']}
+        message={['녹음 파일을 저장 중입니다.', '잠시만 기다려주세요.']}
       />
     </div>
   )
