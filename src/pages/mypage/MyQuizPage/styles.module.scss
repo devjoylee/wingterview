@@ -19,6 +19,8 @@
   padding: 40px 0;
 }
 
-.quizList {
+.quizListContainer {
   flex: 1;
+  padding-bottom: 30px;
+  overflow-y: auto;
 }

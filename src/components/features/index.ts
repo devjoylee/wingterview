@@ -22,6 +22,8 @@ export { TimeSelection } from './interview/TimeSelection/TimeSelection'
 // quiz
 export { QuizTypeSelection } from './quiz/QuizTypeSelection/QuizTypeSelection'
 export { QuizContent } from './quiz/QuizContent/QuizContent'
+export { QuizCard } from './quiz/QuizCard/QuizCard'
+export { QuizCardList } from './quiz/QuizCardList/QuizCardList'
 
 // match
 export { MatchInfoCard } from './match/MatchInfoCard/MatchInfoCard'

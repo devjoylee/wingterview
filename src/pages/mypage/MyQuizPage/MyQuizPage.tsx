@@ -1,11 +1,11 @@
 import { EmptyPlaceholder, SubPageHeader } from '@/components/ui'
 import styles from './styles.module.scss'
 import { CircleProgressBar } from '@/components/ui'
-import { QuizFilterButton } from '@/components/features'
-import { QuizData } from '@/types/quiz'
+import { QuizCardList, QuizFilterButton } from '@/components/features'
+import { useQuizStore } from '@/stores'
 
 export const MyQuizPage: React.FC = () => {
-  const quizzes: QuizData[] = []
+  const { quizzes, userAnswers } = useQuizStore()
 
   return (
     <div className={styles.myQuizPage}>
@@ -17,14 +17,16 @@ export const MyQuizPage: React.FC = () => {
           <QuizFilterButton />
         </div>
 
-        {quizzes.length ? (
-          <div className={styles.quizList}></div>
-        ) : (
-          <EmptyPlaceholder
-            type="sad"
-            text={['완료된 퀴즈가 없습니다.', '윙퀴즈를 진행해주세요!']}
-          />
-        )}
+        <div className={styles.quizListContainer}>
+          {quizzes.length ? (
+            <QuizCardList quizzes={quizzes} userAnswers={userAnswers} />
+          ) : (
+            <EmptyPlaceholder
+              type="sad"
+              text={['완료된 퀴즈가 없습니다.', '윙퀴즈를 진행해주세요!']}
+            />
+          )}
+        </div>
       </div>
     </div>
   )

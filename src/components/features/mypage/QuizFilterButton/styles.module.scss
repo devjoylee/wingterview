@@ -24,8 +24,8 @@
   }
 
   button.active {
-    background: $blue-1;
-    border-color: $blue-1;
+    background: #333;
+    border-color: #333;
 
     svg {
       stroke: #fff;
@@ -39,10 +39,5 @@
 
   button.incorrect {
     margin-top: 8px;
-
-    &.active {
-      background: #cb2e2e;
-      border-color: #cb2e2e;
-    }
   }
 }
