@@ -7,11 +7,18 @@
 
 .container {
   width: 100%;
+  height: calc(100% - 60px);
   padding: 0 20px;
+  display: flex;
+  flex-direction: column;
 }
 
 .quizStatus {
   display: flex;
   justify-content: space-around;
   padding: 40px 0;
+}
+
+.quizList {
+  flex: 1;
 }
