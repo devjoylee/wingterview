@@ -17,9 +17,9 @@ export const Navbar: React.FC = () => {
 
     if (path === '/') {
       setActiveTab('home')
-    } else if (path.includes('interview')) {
+    } else if (path.startsWith('/interview')) {
       setActiveTab('interview')
-    } else if (path.includes('quiz')) {
+    } else if (path.startsWith('/quiz')) {
       setActiveTab('quiz')
     } else if (path.includes('chat')) {
       setActiveTab('chat')

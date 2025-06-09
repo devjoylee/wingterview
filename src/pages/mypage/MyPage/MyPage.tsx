@@ -5,13 +5,23 @@ import { useProfile } from '@/hooks'
 import { useAuthStore } from '@/stores'
 import { SquarePen } from 'lucide-react'
 import styles from './styles.module.scss'
+import { useNavigate } from 'react-router-dom'
 
 export const MyPage: React.FC = () => {
+  const navigate = useNavigate()
   const [toggleModal, setToggleModal] = useState(false)
   const [profile, setMyProfile] = useState<MyProfileData>()
   const isLoggedIn = useAuthStore(state => state.isLoggedIn)
 
   const { myData } = useProfile('get', isLoggedIn)
+
+  const linkTo = (link: string) => {
+    if (!isLoggedIn) {
+      setToggleModal(true)
+      return
+    }
+    navigate(link)
+  }
 
   useEffect(() => {
     if (myData) {
@@ -39,7 +49,7 @@ export const MyPage: React.FC = () => {
         <Logo width={170} />
 
         <section className={styles.features}>
-          <FeatureCard onClick={() => setToggleModal(true)} />
+          <FeatureCard linkTo={linkTo} />
         </section>
       </div>
 
