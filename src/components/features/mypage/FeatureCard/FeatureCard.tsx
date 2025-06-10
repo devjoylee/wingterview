@@ -1,13 +1,9 @@
 import { Speech, Binary } from 'lucide-react'
 import styles from './styles.module.scss'
-import { LoginButton, Modal } from '@/components/ui'
-import { useState } from 'react'
 
 export const FeatureCard: React.FC<{ linkTo: (link: string) => void }> = ({
   linkTo,
 }) => {
-  const [toggleModal, setToggleModal] = useState(false)
-
   return (
     <div className={styles.features}>
       <div className={styles.card} onClick={() => linkTo('/mypage/interview')}>
@@ -25,16 +21,6 @@ export const FeatureCard: React.FC<{ linkTo: (link: string) => void }> = ({
         </div>
         <p>내가 푼 퀴즈 다시보기 / 오답 모아보기</p>
       </div>
-
-      <Modal
-        isOpen={toggleModal}
-        style="failed"
-        message={['로그인 후 이용가능합니다.']}
-        closable
-        toggleModal={() => setToggleModal(!toggleModal)}
-      >
-        <LoginButton />
-      </Modal>
     </div>
   )
 }
