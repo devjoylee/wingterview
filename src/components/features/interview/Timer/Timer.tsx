@@ -1,35 +1,48 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useRef } from 'react'
 import { useTimerStore } from '@/stores/timerStore'
 import { Timer as TimerIcon } from 'lucide-react'
 import styles from './styles.module.scss'
 
-export const Timer: React.FC = () => {
+interface TimerProps {
+  onTimerEnd?: () => void
+}
+
+export const Timer: React.FC<TimerProps> = ({ onTimerEnd }) => {
   const { isActive, time } = useTimerStore()
+  const endTimeRef = useRef<number | null>(null)
 
   useEffect(() => {
-    let timer: NodeJS.Timeout | null = null
-
-    if (isActive) {
-      timer = setInterval(() => {
-        useTimerStore.setState(state => {
-          const { minutes, seconds } = state.time
-
-          if (seconds > 0) {
-            return { time: { minutes, seconds: seconds - 1 } }
-          }
-          if (minutes > 0) {
-            return { time: { minutes: minutes - 1, seconds: 59 } }
-          }
-          clearInterval(timer!)
-          return { isActive: false, time: { minutes: 0, seconds: 0 } }
-        })
-      }, 1000)
+    if (!isActive) {
+      endTimeRef.current = null
+      return
     }
 
-    return () => {
-      if (timer) clearInterval(timer)
+    if (endTimeRef.current === null) {
+      endTimeRef.current =
+        Date.now() + (time.minutes * 60 + time.seconds) * 1000
     }
-  }, [isActive])
+
+    const timer = setInterval(() => {
+      if (!endTimeRef.current) return
+
+      const now = Date.now()
+      const remaining = Math.max(0, endTimeRef.current - now)
+      const totalSeconds = Math.ceil(remaining / 1000)
+      const minutes = Math.floor(totalSeconds / 60)
+      const seconds = totalSeconds % 60
+
+      useTimerStore.setState({ time: { minutes, seconds } })
+
+      if (totalSeconds <= 0) {
+        clearInterval(timer)
+        useTimerStore.setState({ isActive: false })
+        endTimeRef.current = null
+        if (onTimerEnd) onTimerEnd()
+      }
+    }, 1000)
+
+    return () => clearInterval(timer)
+  }, [isActive, onTimerEnd])
 
   return (
     <div className={styles.container}>
