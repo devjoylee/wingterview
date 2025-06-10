@@ -1,10 +1,18 @@
 import { useState } from 'react'
 import { useRecordingStore } from '@/stores/recordingStore'
+import { useAudioUpload } from '../presigned'
 
 export const useMediaRecorder = () => {
-  const [micError, setMicError] = useState<string[]>([])
-  const { setIsRecording, setMediaRecorder, clearChunks, setStream } =
-    useRecordingStore()
+  const [recordingError, setRecordingError] = useState<string[]>([])
+  const {
+    setIsRecording,
+    setRecordedBlob,
+    setMediaRecorder,
+    clearChunks,
+    setStream,
+  } = useRecordingStore()
+
+  const { uploadAudio } = useAudioUpload()
 
   const startRecording = async () => {
     const permission = await navigator.permissions.query({
@@ -12,7 +20,7 @@ export const useMediaRecorder = () => {
     })
 
     if (permission.state === 'denied') {
-      setMicError([
+      setRecordingError([
         '마이크 권한이 차단되어 있습니다.',
         '브라우저 설정에서 마이크 권한을 허용해주세요.',
       ])
@@ -45,9 +53,43 @@ export const useMediaRecorder = () => {
     setIsRecording(false)
   }
 
+  const uploadRecording = async (interviewId: string) => {
+    const { mediaRecorder, audioChunks } = useRecordingStore.getState()
+
+    if (!mediaRecorder || mediaRecorder.state === 'inactive') {
+      console.warn('녹음 파일을 찾을 수 없습니다.')
+    }
+
+    if (mediaRecorder?.state === 'recording') {
+      mediaRecorder.onstop = async () => {
+        try {
+          const blob = new Blob(audioChunks, { type: 'audio/webm' })
+
+          if (blob.size === 0) {
+            console.warn('녹음 파일을 찾을 수 없습니다.')
+            return
+          }
+
+          setRecordedBlob(blob)
+          await uploadAudio(blob, `interview-${interviewId}.webm`)
+
+          clearChunks()
+        } catch (error) {
+          console.error('녹음 파일 업로드에 실패했습니다', error)
+        }
+      }
+
+      mediaRecorder.stop()
+      mediaRecorder.stream.getTracks().forEach(track => track.stop())
+      setMediaRecorder(null)
+      setIsRecording(false)
+    }
+  }
+
   return {
     startRecording,
     stopRecording,
-    micError,
+    uploadRecording,
+    recordingError,
   }
 }
