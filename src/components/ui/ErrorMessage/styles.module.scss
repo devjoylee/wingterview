@@ -1,0 +1,35 @@
+@use '@/styles/variables' as *;
+
+.errorMessage {
+  display: flex;
+  align-items: center;
+  font-size: 13px;
+  font-weight: 600;
+
+  svg {
+    color: #cf0f0f;
+    width: 18px;
+    margin-right: 3px;
+
+    circle {
+      fill: #cf0f0f;
+    }
+
+    line {
+      color: #fff;
+    }
+  }
+
+  p {
+    color: $light-black;
+  }
+
+  &.small {
+    font-size: 12px;
+    margin-left: 5px;
+
+    svg {
+      width: 16px;
+    }
+  }
+}

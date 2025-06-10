@@ -2,30 +2,20 @@ import axios from 'axios'
 import apiClient from '@/api/apiClient'
 import { API } from './endpoints'
 
-// S3에 직접 이미지를 업로드하는 함수 (presigned URL 사용)
-export const uploadImageToS3 = async (presignedUrl: string, file: File) => {
+// S3에 직접 파일을 업로드하는 함수 (presigned URL 사용)
+export const uploadFileToS3 = async (presignedUrl: string, file: File) => {
   try {
-    let contentType = 'application/octet-stream'
-
-    if (
-      file.type.includes('jpeg') ||
-      file.type.includes('jpg') ||
-      file.type.includes('png')
-    ) {
-      contentType = file.type
-    }
-
     const response = await axios.put(presignedUrl, file, {
       headers: {
-        'Content-Type': contentType,
+        'Content-Type': file.type || 'application/octet-stream',
       },
       withCredentials: false,
     })
 
-    console.log('🎉 S3 이미지 업로드 성공:', response)
+    console.log('🎉 S3 파일 업로드 성공:')
     return response
   } catch (error) {
-    console.error('S3 이미지 업로드 실패:', error)
+    console.error('S3 파일 업로드 실패:', error)
     throw error
   }
 }
@@ -37,12 +27,12 @@ export const getPresignedURL = async (filename?: string) => {
       API.PRESIGNED_URL(filename)
     )
     console.log(
-      `🎉 ${filename ? '이미지' : 'Presigned'} URL 조회 성공:`,
+      `🎉 ${filename ? '파일' : 'Presigned'} URL 조회 성공:`,
       response.data.data
     )
     return response.data.data.url
   } catch (error) {
-    console.error(`${filename ? '이미지' : 'Presigned'} URL 조회 실패:`, error)
+    console.error(`${filename ? '파일' : 'Presigned'} URL 조회 실패:`, error)
     throw error
   }
 }

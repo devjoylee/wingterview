@@ -1,0 +1,42 @@
+@use '@/styles/variables' as *;
+
+.slider {
+  width: 100%;
+  z-index: 10;
+}
+
+:global .swiper {
+  overflow: unset !important;
+  padding-top: 60px !important;
+}
+
+:global .swiper-wrapper {
+  z-index: 10 !important;
+}
+
+:global .swiper-pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 40px;
+  top: 0 !important;
+  cursor: default;
+}
+
+:global .swiper-pagination-bullet {
+  display: flex !important;
+  justify-content: center;
+  align-items: center;
+  padding: 9px;
+  font-size: 12px;
+  opacity: 0.6 !important;
+  color: #fff !important;
+  background: #fff !important;
+}
+
+:global .swiper-pagination-bullet-active {
+  padding: 15px;
+  font-weight: 600;
+  opacity: 0.9 !important;
+  background: $orange !important;
+}

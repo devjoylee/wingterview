@@ -1,0 +1,42 @@
+@use '@/styles/variables' as *;
+
+.tag {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 12px;
+  padding-right: 10px;
+  border-radius: 25px;
+  border: 2.3px solid $blue-1;
+  background-color: #fff;
+  color: #555;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+
+  &.selected {
+    background-color: $blue-2;
+    border-color: $blue-2;
+    color: #fff;
+    opacity: 1;
+
+    .icon svg {
+      color: #fff;
+    }
+  }
+
+  &.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  .icon {
+    margin-left: 2px;
+    font-weight: bold;
+
+    svg {
+      color: #444;
+      width: 15px;
+    }
+  }
+}

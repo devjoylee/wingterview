@@ -1,0 +1,21 @@
+@use '@/styles/variables' as *;
+
+.button {
+  font-weight: bold;
+  background: $orange;
+  color: #fff;
+  padding: 8px 30px;
+  border-radius: 30px;
+  letter-spacing: 3px;
+
+  &:disabled {
+    opacity: 0.5;
+    background-color: #aaa;
+  }
+}
+
+@media (max-width: 768px) {
+  .button {
+    font-size: 15px;
+  }
+}

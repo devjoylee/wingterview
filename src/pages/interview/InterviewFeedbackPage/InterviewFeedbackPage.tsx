@@ -4,8 +4,8 @@ import styles from './styles.module.scss'
 import { Send } from 'lucide-react'
 import { useInterviewStatus, useUpdateInterviewStatus } from '@/hooks/interview'
 import { useInterviewStore } from '@/stores/interviewStore'
-import { CurrentRound, StarRating } from '@/components/interview'
-import { Button, Modal, GuideBox, ProfileImage } from '@/components/common'
+import { CurrentRound, StarRating } from '@/components/features'
+import { Button, Modal, GuideBox, ProfileImage } from '@/components/ui'
 
 /**
  *   면접 피드백 페이지 flow
@@ -121,7 +121,6 @@ export const InterviewFeedbackPage: React.FC = () => {
       {isLastRound ? (
         <Modal
           isOpen={isSuccess}
-          closeOnBgClick={false}
           style="congrats"
           message={['피드백이 제출되었습니다!', '수고하셨습니다.']}
         >
@@ -130,8 +129,6 @@ export const InterviewFeedbackPage: React.FC = () => {
       ) : (
         <Modal
           isOpen={isSuccess}
-          closeOnBgClick={false}
-          onYesClick={handleNextRound}
           style="congrats"
           message={[
             '피드백이 제출되었습니다!',

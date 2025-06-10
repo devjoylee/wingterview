@@ -26,3 +26,12 @@ interface InterviewData {
   questionOption: string[] | null
   timeRemain: number
 }
+
+interface AIInterviewData {
+  interviewId: string
+  timeRemain: number
+  currentPhase: InterviewPhase
+  isAiInterview: boolean
+  questionIdx: number
+  question: string
+}

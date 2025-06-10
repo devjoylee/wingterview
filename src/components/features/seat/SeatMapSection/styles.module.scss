@@ -1,0 +1,136 @@
+@use '@/styles/variables' as *;
+
+.section {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.sectionName {
+  font-size: 18px;
+  color: #ccc;
+  font-weight: 800;
+  margin-bottom: 12px;
+  text-align: center;
+}
+
+.line {
+  display: flex;
+
+  .seatWrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 7px;
+    padding: 0 25px 8px 20px;
+
+    border-left: 1px solid #eee;
+    border-right: 1px solid #eee;
+  }
+
+  &:nth-child(odd) .seatWrapper {
+    padding-bottom: 20px;
+  }
+}
+
+.lineNumber {
+  color: #ddd;
+  font-size: 16px;
+  font-weight: 700;
+  text-align: center;
+}
+
+.seat {
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #c6dcea;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 10px;
+  border: 1px solid #c6dcea;
+  transition: all 0.1s ease-in-out;
+
+  &.noData {
+    background-color: #f0f0f0;
+    border: 1px solid #ddd;
+  }
+
+  &.selected {
+    background-color: $orange;
+    border-color: $orange;
+    color: white;
+  }
+
+  &.highlighted {
+    background-color: $orange;
+    border-color: $orange;
+    color: white;
+  }
+
+  &.occupied {
+    background-color: #eee;
+    border-color: #eee;
+    position: relative;
+    cursor: not-allowed;
+
+    &::before,
+    &::after {
+      position: absolute;
+      content: '';
+      width: 100%;
+      height: 1px;
+      background: #ddd;
+    }
+    &::before {
+      transform: rotate(45deg);
+    }
+    &::after {
+      transform: rotate(-45deg);
+    }
+  }
+}
+
+.ryan {
+  font-size: 15px;
+  color: #ccc;
+  font-weight: bold;
+  text-align: center;
+  padding: 0 30px;
+
+  & span {
+    display: block;
+    background-color: #bbb;
+    color: #fff;
+    border-radius: 50%;
+    width: 25px;
+    height: 25px;
+    margin: 0 auto;
+    padding-top: 1px;
+  }
+}
+
+.line:nth-child(7) .ryan,
+.line:nth-child(13) .ryan {
+  margin-top: 30px;
+}
+
+.lineNumber,
+.spacer,
+.ryan {
+  min-width: 50px;
+  max-height: 20px;
+  height: auto;
+}
+
+.lineContainer {
+  display: flex;
+  flex-direction: column;
+}
+
+.section:nth-child(2) .spacer {
+  min-width: 20px;
+}

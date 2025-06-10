@@ -208,25 +208,25 @@ export const handlers = [
       message: 'interview_phase_updated',
       data: {
         currentRound: 2,
-        currentPhase: 'PENDING',
+        currentPhase: 'PROGRESS',
       },
     })
   }),
 
-  // 질문 생성
-  http.post(API.INTERVIEW.GET_QUESTIONS(':interviewId'), () => {
-    return HttpResponse.json({
-      message: 'question_fetch_done',
-      data: {
-        questions: [
-          'Java의 버전별 차이를 설명하시오.',
-          'Spring Boot와 Spring의 차이를 설명하시오.',
-          'TCP와 UDP의 차이를 설명하시오.',
-          'Transaction에 대해 설명하시오.',
-        ],
-      },
-    })
-  }),
+  // // 질문 생성
+  // http.post(API.INTERVIEW.GET_QUESTIONS(':interviewId'), () => {
+  //   return HttpResponse.json({
+  //     message: 'question_fetch_done',
+  //     data: {
+  //       questions: [
+  //         'Java의 버전별 차이를 설명하시오.',
+  //         'Spring Boot와 Spring의 차이를 설명하시오.',
+  //         'TCP와 UDP의 차이를 설명하시오.',
+  //         'Transaction에 대해 설명하시오.',
+  //       ],
+  //     },
+  //   })
+  // }),
 
   // 질문 선택
   http.post(API.INTERVIEW.PICK_QUESTION(':interviewId'), () => {
@@ -265,6 +265,64 @@ export const handlers = [
           '질문선택지4',
         ],
       },
+    })
+  }),
+
+  // 면접 ID 발급
+  http.post(API.AI_INTERVIEW.ID, () => {
+    return HttpResponse.json({
+      message: 'get_interview_id',
+      data: { interviewId: 'id-1234567890temp' },
+    })
+  }),
+
+  // 면접 종료 및 삭제
+  http.delete(API.AI_INTERVIEW.END(':interviewId'), () => {
+    return HttpResponse.json({
+      message: 'delete_interview_id',
+      data: null,
+    })
+  }),
+
+  // 면접 시간 설정
+  http.put(API.AI_INTERVIEW.TIME(':interviewId'), () => {
+    return HttpResponse.json({
+      message: 'set_interview_time',
+      data: null,
+    })
+  }),
+
+  // 서버에 presigned url 을 요청하는 함수
+  http.get(API.PRESIGNED_URL(':filename'), () => {
+    return HttpResponse.json({
+      message: 'get_presigned_url',
+      data: {
+        url: 'http//presigned.url',
+      },
+    })
+  }),
+
+  // s3 녹음파일 업로드
+  http.put('http//presigned.url', () => {
+    return HttpResponse.json({
+      message: 'upload_recording_file',
+      data: null,
+    })
+  }),
+
+  // s3 녹음파일 업로드 컨펌
+  http.post(API.AI_INTERVIEW.SAVE_RECODING(':filename'), () => {
+    return HttpResponse.json({
+      message: 'save_recording_s3',
+      data: null,
+    })
+  }),
+
+  // 문제 생성
+  http.post(API.AI_INTERVIEW.QUESTION(':interviewId'), () => {
+    return HttpResponse.json({
+      message: 'get_interview_question',
+      data: { question: 'Spring Boot와 Spring의 차이를 설명하시오.' },
     })
   }),
 ]

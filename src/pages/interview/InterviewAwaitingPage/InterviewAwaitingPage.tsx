@@ -6,9 +6,9 @@ import {
   GuideBox,
   StaticTag,
   ProfileImage,
-} from '@/components/common'
-import { CurrentRound } from '@/components/interview'
-import { useMatchStore } from '@/stores/matchStore'
+} from '@/components/ui'
+import { CurrentRound } from '@/components/features'
+import { useMatchStore, useInterviewStore, useTimerStore } from '@/stores'
 import { useMatchResult } from '@/hooks/match'
 import {
   useUpdateInterviewStatus,
@@ -16,8 +16,6 @@ import {
   useInterviewStatus,
 } from '@/hooks/interview'
 
-import { useInterviewStore } from '@/stores/interviewStore'
-import { useTimerStore } from '@/stores/timerStore'
 import styles from './styles.module.scss'
 
 /**
@@ -90,7 +88,7 @@ export const InterviewAwaitingPage: React.FC = () => {
             },
           })
 
-          startTimer()
+          startTimer(20)
         }
       }
     },
@@ -237,14 +235,12 @@ export const InterviewAwaitingPage: React.FC = () => {
 
       <Modal
         isOpen={isGenerating}
-        closeOnBgClick={false}
         style="loading"
         message={['면접 질문을 생성하고 있습니다.', '잠시만 기다려주세요.']}
       />
 
       <Modal
         isOpen={!interviewee}
-        closeOnBgClick={false}
         style="failed"
         message={[
           '면접 상대가 정해지지 않았습니다.',

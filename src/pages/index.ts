@@ -11,3 +11,18 @@ export { InterviewAwaitingPage } from './interview/InterviewAwaitingPage/Intervi
 export { InterviewQuestionPage } from './interview/InterviewQuestionPage/InterviewQuestionPage'
 export { InterviewAnswerPage } from './interview/InterviewAnswerPage/InterviewAnswerPage'
 export { InterviewFeedbackPage } from './interview/InterviewFeedbackPage/InterviewFeedbackPage'
+
+export { AwaitingPage } from './interview-ai/AwaitingPage/AwaitingPage'
+export { QuestionPage } from './interview-ai/QuestionPage/QuestionPage'
+export { EndingPage } from './interview-ai/EndingPage/EndingPage'
+
+export { HomePage } from './home/HomePage'
+
+export { QuizAwaitingPage } from './quiz/QuizAwaitingPage/QuizAwaitingPage'
+export { QuizProgressPage } from './quiz/QuizProgressPage/QuizProgressPage'
+export { QuizResultPage } from './quiz/QuizResultPage/QuizResultPage'
+
+export { MyPage } from './mypage/MyPage/MyPage'
+export { MyProfileEditPage } from './mypage/MyProfileEditPage/MyProfileEditPage'
+export { MyInterviewPage } from './mypage/MyInterviewPage/MyInterviewPage'
+export { MyQuizPage } from './mypage/MyQuizPage/MyQuizPage'

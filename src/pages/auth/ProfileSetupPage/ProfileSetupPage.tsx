@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Modal } from '@/components/common'
-import { ProfileSlider, SliderButtons } from '@/components/profile'
+import { Modal } from '@/components/ui'
+import { ProfileSlider, SliderButtons } from '@/components/features'
 import { useProfile } from '@/hooks/profile'
 import { useProfileStore } from '@/stores'
 import type { Swiper as SwiperType } from 'swiper'
@@ -55,10 +55,10 @@ export const ProfileSetupPage: React.FC = () => {
 
   return (
     <div className={styles.profileSetupPage}>
-      <h2 className={styles.guideText}>
-        매칭에 필요한 <br />
-        정보를 입력해주세요.
-      </h2>
+      <span className={styles.helper}>
+        입력한 정보를 기반으로 <br />
+        맞춤형 면접 질문 및 피드백이 제공됩니다.
+      </span>
 
       <ProfileSlider setSwiper={setSwiper} />
       <SliderButtons swiper={swiper} handleSubmit={handleSubmit} />
@@ -66,7 +66,6 @@ export const ProfileSetupPage: React.FC = () => {
       {showModal && (
         <Modal
           isOpen={showModal}
-          closeOnBgClick={false}
           style="loading"
           message={['프로필을 생성하고 있습니다.', '잠시만 기다려주세요.']}
         />

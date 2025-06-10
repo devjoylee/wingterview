@@ -1,0 +1,85 @@
+@use '@/styles/variables' as *;
+
+.endingPage {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 20px;
+  flex: 1;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+}
+
+.closingText {
+  text-align: center;
+  margin-bottom: 30px;
+  font-size: 22px;
+  font-weight: 700;
+  color: #fff;
+}
+
+.mrwing {
+  width: 180px;
+  margin: 0 auto;
+}
+
+.helperText {
+  text-align: center;
+  color: #fff;
+  margin-top: 20px;
+
+  h3 {
+    font-size: 20px;
+    font-weight: bold;
+  }
+}
+
+.buttons {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  margin-top: 30px;
+
+  button {
+    width: 200px;
+    background-color: #fff;
+    font-weight: 600;
+    padding: 12px 20px;
+    border-radius: 20px;
+    font-size: 14px;
+
+    &:hover {
+      background-color: $orange;
+      color: #fff;
+    }
+  }
+}
+
+// 반응형 처리
+@media (max-width: 768px) {
+  .closingText {
+    font-size: 18px;
+    margin-bottom: 20px;
+  }
+
+  .mrwing {
+    width: 140px;
+  }
+
+  .helperText {
+    margin-top: 20px;
+
+    h3 {
+      font-size: 18px;
+      font-weight: bold;
+    }
+    p {
+      font-size: 15px;
+    }
+  }
+}

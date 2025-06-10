@@ -1,49 +1,91 @@
 import { RouteObject } from 'react-router-dom'
-import {
-  RootLayout,
-  ProtectedLayout,
-  Page,
-  InterviewLayout,
-} from '@/components/common'
+import * as L from '@/components/layout'
 import * as P from '@/pages'
 
 const routes: RouteObject[] = [
   {
     path: '/',
-    element: <RootLayout />,
+    element: <L.RootLayout />,
     children: [
-      { path: 'login', element: <P.LoginPage /> },
-      { path: 'auth/kakao', element: <P.LoginRedirectPage /> },
-
+      // 로그인 & 프로필
       {
-        element: <ProtectedLayout />,
+        element: <L.AuthLayout />,
+        children: [
+          { path: 'login', element: <P.LoginPage /> },
+          { path: 'auth/kakao', element: <P.LoginRedirectPage /> },
+          { path: 'profile-setup', element: <P.ProfileSetupPage /> },
+        ],
+      },
+
+      // 홈페이지 & 준비중
+      {
+        element: <L.Page hasNavbar={true} />,
+        children: [
+          { path: '', element: <P.HomePage /> },
+          { path: 'coming-soon', element: <P.ComingSoonPage /> },
+        ],
+      },
+
+      // AI 면접 페이지
+      {
+        path: 'interview-ai',
+        element: <L.Page hasNavbar={true} />,
         children: [
           {
-            element: <Page hasNavbar={true} />,
+            element: <L.AIInterviewLayout />,
             children: [
-              { index: true, element: <P.MatchAwaitingPage /> },
-              { path: 'match/result', element: <P.MatchResultPage /> },
-              { path: 'coming-soon', element: <P.ComingSoonPage /> },
+              // Public
+              { path: 'awaiting', element: <P.AwaitingPage /> },
 
+              // Protected
               {
-                path: 'interview',
-                element: <InterviewLayout />,
+                element: <L.ProtectedLayout />,
                 children: [
-                  { path: 'awaiting', element: <P.InterviewAwaitingPage /> },
-                  {
-                    path: 'question',
-                    element: <P.InterviewQuestionPage />,
-                  },
-                  { path: 'answer', element: <P.InterviewAnswerPage /> },
-                  { path: 'feedback', element: <P.InterviewFeedbackPage /> },
+                  { path: 'question', element: <P.QuestionPage /> },
+                  { path: 'end', element: <P.EndingPage /> },
                 ],
               },
             ],
           },
+        ],
+      },
+
+      {
+        path: 'quiz',
+        element: <L.Page hasNavbar={true} />,
+        children: [
           {
-            element: <Page hasNavbar={false} />,
+            element: <L.QuizLayout />,
             children: [
-              { path: 'profile-setup', element: <P.ProfileSetupPage /> },
+              // Public
+              { path: 'awaiting', element: <P.QuizAwaitingPage /> },
+              { path: 'progress', element: <P.QuizProgressPage /> },
+              { path: 'result', element: <P.QuizResultPage /> },
+
+              // Protected
+              {
+                element: <L.ProtectedLayout />,
+                children: [],
+              },
+            ],
+          },
+        ],
+      },
+
+      {
+        path: 'mypage',
+        element: <L.Page hasNavbar={true} />,
+        children: [
+          // Public
+          { index: true, element: <P.MyPage /> },
+
+          // Protected
+          {
+            element: <L.ProtectedLayout />,
+            children: [
+              { path: 'edit', element: <P.MyProfileEditPage /> },
+              { path: 'interview', element: <P.MyInterviewPage /> },
+              { path: 'quiz', element: <P.MyQuizPage /> },
             ],
           },
         ],

@@ -1,13 +1,12 @@
 import { useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
-import { Button, Modal, GuideBox } from '@/components/common'
-import { useInterviewStore } from '@/stores/interviewStore'
+import { Button, Modal, GuideBox } from '@/components/ui'
+import { useInterviewStore, useTimerStore } from '@/stores'
 import {
   useGenerateQuestion,
   useUpdateInterviewStatus,
 } from '@/hooks/interview'
 import styles from './styles.module.scss'
-import { useTimerStore } from '@/stores/timerStore'
 
 /**
  *   면접 답변 페이지 flow
@@ -167,7 +166,6 @@ export const InterviewAnswerPage: React.FC = () => {
 
       <Modal
         isOpen={isGenerating}
-        closeOnBgClick={false}
         style="loading"
         message={['질문을 생성하고 있습니다.', '잠시만 기다려주세요.']}
       />

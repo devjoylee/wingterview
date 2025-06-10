@@ -1,0 +1,39 @@
+@use '@/styles/variables' as *;
+
+.button {
+  padding: 12px 24px;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+  border-radius: 30px;
+  transition: all 0.15s ease;
+  cursor: pointer;
+
+  &:disabled {
+    opacity: 0.5;
+  }
+}
+
+.black {
+  background: #000;
+
+  &:hover:not(:disabled) {
+    background: $orange;
+  }
+}
+
+.blue {
+  background: $blue-2;
+
+  &:hover:not(:disabled) {
+    background: $blue-1;
+  }
+}
+
+.orange {
+  background: $orange;
+
+  &:hover:not(:disabled) {
+    opacity: 0.8;
+  }
+}

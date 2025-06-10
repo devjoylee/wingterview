@@ -1,10 +1,9 @@
 import { useEffect, useState } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
-import { MatchInfoCard } from '@/components/match'
-import { Button, Logo } from '@/components/common'
+import { MatchInfoCard, SeatMap } from '@/components/features'
+import { Button, Logo } from '@/components/ui'
 import { useMatchStore } from '@/stores/matchStore'
 import { useMatchResult } from '@/hooks/match'
-import { SeatMap } from '@/components/seat'
 import styles from './styles.module.scss'
 
 export const MatchResultPage: React.FC = () => {
@@ -69,16 +68,10 @@ export const MatchResultPage: React.FC = () => {
     matchResultFromApi,
   ])
 
-  useEffect(() => {
-    if (result?.interviewId) {
-      localStorage.setItem('interviewId', result.interviewId)
-    }
-  }, [result])
-
   return (
     <div className={styles.matchResultPage}>
       <div className={styles.pageHeader}>
-        <Logo width={60} color="light" />
+        <Logo white />
         <h1>
           1:1 모의면접 매칭이
           <br />

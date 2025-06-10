@@ -1,6 +1,6 @@
 import { useEffect, useState, useCallback } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
-import { Button, Logo, Modal, ProfileCard } from '@/components/common'
+import { Button, Logo, Modal, ProfileCard } from '@/components/ui'
 import { useApplicantCount, useMatchResult, useMatchStart } from '@/hooks/match'
 import { useMatchStore } from '@/stores/matchStore'
 import { useProfile } from '@/hooks/profile'
@@ -14,7 +14,7 @@ export const MatchAwaitingPage: React.FC = () => {
   const [isInQueue, setIsInQueue] = useState<boolean>(false)
   const { isMatching, setIsMatching, setMatchResultInStore } = useMatchStore()
 
-  const { profileData: myData } = useProfile('get')
+  const { myData } = useProfile('get')
   const { data: applicantCount } = useApplicantCount()
   const { data: matchResult } = useMatchResult({
     enablePolling: isMatching,
@@ -71,7 +71,7 @@ export const MatchAwaitingPage: React.FC = () => {
   return (
     <div className={styles.matchAwaitingPage}>
       <div className={styles.pageHeader}>
-        <Logo width={60} color="light" />
+        <Logo white />
         <h1>
           모의 면접 D-day,
           <br />
@@ -95,7 +95,6 @@ export const MatchAwaitingPage: React.FC = () => {
 
       <Modal
         isOpen={isMatching}
-        closeOnBgClick={false}
         style="loading"
         message={['모의 면접 매칭을 진행 중 입니다.', '잠시만 기다려주세요.']}
       />

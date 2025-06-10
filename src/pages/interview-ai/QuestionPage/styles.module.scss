@@ -1,0 +1,56 @@
+@use '@/styles/variables' as *;
+
+.questionPage {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+}
+
+.buttonContainer {
+  flex: 1;
+  background-color: #fff;
+  text-align: center;
+}
+
+.endButton {
+  font-size: 14px;
+  color: #aaa;
+}
+
+@media (max-width: 768px) {
+  .interviewer {
+    padding: 25px 20px;
+    color: #fff;
+
+    .question {
+      min-height: 50px;
+      font-size: 16px;
+      line-height: 1.4;
+      margin-top: 10px;
+    }
+
+    .mrwingProfile {
+      img {
+        width: 60px;
+        height: 60px;
+      }
+    }
+  }
+
+  .recordingBox {
+    margin-bottom: 20px;
+  }
+
+  .textArea {
+    min-height: 100px;
+    margin-bottom: 15px;
+  }
+
+  .buttons {
+    button {
+      padding: 15px;
+      font-size: 14px;
+    }
+  }
+}
