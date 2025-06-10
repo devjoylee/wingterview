@@ -3,39 +3,34 @@ import { persist, StorageValue } from 'zustand/middleware'
 
 interface InterviewState {
   interviewId: string
-  currentPhase: string
-  questionIdx: number
   question: string
-  timeRemain: number
   duration: number
+  keyword: string
 
   setInterviewId: (id: string) => void
   setQuestion: (question: string) => void
-  setCurrentPhase: (currentPhase: string) => void
-  setInterviewData: (data: Partial<AIInterviewData>) => void
   setDuration: (duration: number) => void
+  setKeyword: (keyword: string) => void
+  resetInterviewData: () => void
 }
 
 export const useAIInterviewStore = create<InterviewState>()(
   persist(
     set => ({
       interviewId: '',
-      currentPhase: 'PENDING',
       duration: 0,
-      timeRemain: 0,
-      questionIdx: 1,
       question: '',
+      keyword: '',
 
       setInterviewId: interviewId => set({ interviewId }),
       setQuestion: question => set({ question }),
-      setCurrentPhase: currentPhase => set({ currentPhase }),
       setDuration: duration => set({ duration }),
+      setKeyword: keyword => set({ keyword }),
 
-      setInterviewData: data =>
-        set(state => ({
-          ...state,
-          ...data,
-        })),
+      resetInterviewData: () => {
+        set({ interviewId: '', duration: 0, question: '', keyword: '' })
+        sessionStorage.removeItem('ai-interview-storage')
+      },
     }),
     {
       name: 'ai-interview-storage',

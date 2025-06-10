@@ -1,28 +1,38 @@
 import { useState } from 'react'
-import { generateQuestion, setInterviewTime } from '@/api/interviewAiAPI'
+import { generateQuestion, getInterviewId } from '@/api/interviewAiAPI'
 import { updateInterviewStatus } from '@/api/interviewAPI'
 import { useAIInterviewStore } from '@/stores'
+import { useNavigate } from 'react-router-dom'
+import { useTimerStore } from '@/stores/timerStore'
 
 export const useStartInterview = () => {
+  const navigate = useNavigate()
   const [loading, setLoading] = useState<boolean>(false)
   const setQuestion = useAIInterviewStore(state => state.setQuestion)
+  const setInterviewId = useAIInterviewStore(state => state.setInterviewId)
 
-  const startInterview = async (interviewId: string, selectedTime: number) => {
+  const { startTimer } = useTimerStore()
+
+  const startInterview = async (duration: number) => {
     setLoading(true)
 
     const delay = new Promise(resolve => setTimeout(resolve, 1500))
 
-    await setInterviewTime(interviewId, selectedTime)
+    const interviewId = await getInterviewId(duration)
+    if (interviewId) setInterviewId(interviewId)
+
     await updateInterviewStatus(interviewId)
 
     const response = await generateQuestion(interviewId)
     const question = response?.question
 
-    if (question) setQuestion(question)
-
     await delay
 
-    setLoading(false)
+    if (question) {
+      setQuestion(question)
+      startTimer(duration)
+      navigate('/interview-ai/question')
+    }
   }
 
   return { startInterview, loading }

@@ -7,126 +7,13 @@
   height: 100%;
 }
 
-.interviewer {
-  padding: 25px 20px;
-  color: #fff;
-
-  .question {
-    display: flex;
-    align-items: center;
-    min-height: 80px;
-    font-size: 18px;
-    font-weight: 600;
-    line-height: 1.5;
-    margin-top: 10px;
-    word-break: keep-all;
-  }
-
-  .mrwingProfile {
-    display: flex;
-    align-items: center;
-
-    img {
-      width: 65px;
-      height: 65px;
-      background-color: #fff;
-      border: 4px solid $blue-6;
-      border-radius: 50%;
-      object-fit: cover;
-    }
-  }
-}
-
-.interviewee {
-  padding: 25px 20px;
-  background-color: #fff;
-  border-top-left-radius: 12px;
-  border-top-right-radius: 12px;
-  text-align: center;
-  color: #333;
+.buttonContainer {
   flex: 1;
-}
-
-.recordingBox {
-  display: flex;
-  align-items: center;
-  margin-bottom: 25px;
-
-  .myImage > div {
-    border: 4px solid $blue-2;
-    padding: 0;
-  }
-
-  .recording {
-    margin-left: 20px;
-  }
-}
-
-.textArea {
-  width: 100%;
-  min-height: 130px;
-  padding: 12px;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  font-size: 14px;
-  resize: none;
-  background-color: #f9f9f9;
-  margin-bottom: 25px;
-
-  &::placeholder {
-    color: #999;
-    font-size: 13px;
-    line-height: 1.5;
-  }
-
-  &:focus {
-    outline: none;
-    border-color: #666;
-  }
-}
-
-.helper {
+  background-color: #fff;
   text-align: center;
-  font-size: 14px;
-  margin-bottom: 15px;
-}
-
-.buttons {
-  display: flex;
-  justify-content: center;
-  border: 4px solid $blue-1;
-  border-radius: 5px;
-
-  button {
-    flex: 1;
-    text-align: center;
-    padding: 10px;
-    font-size: 15px;
-    font-weight: 700;
-    line-height: 1.3;
-    background: $blue-1;
-    color: #fff;
-    transition: background 0.18s ease;
-  }
-
-  button:hover {
-    background: $blue-6;
-    color: #fff;
-  }
-
-  button + button {
-    border-left: 1px solid $blue-6;
-  }
-
-  .active {
-    background-color: #333;
-    color: #fff;
-    font-weight: bold;
-  }
 }
 
 .endButton {
-  margin-top: 20px;
   font-size: 14px;
   color: #aaa;
 }

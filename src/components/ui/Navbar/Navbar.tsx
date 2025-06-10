@@ -1,15 +1,13 @@
 import { useState, useEffect } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { Home, Zap, BookCheck, MessageSquare, User } from 'lucide-react'
-import { getAIInterviewRouteByPhase } from '@/utils'
-import { useAIInterviewStore, useQuizStore } from '@/stores'
+import { useQuizStore } from '@/stores'
 import styles from './styles.module.scss'
 
 export const Navbar: React.FC = () => {
   const [activeTab, setActiveTab] = useState('')
   const navigate = useNavigate()
   const location = useLocation()
-  const currentPhase = useAIInterviewStore(state => state.currentPhase)
   const currentQuizState = useQuizStore(state => state.currentState)
 
   useEffect(() => {
@@ -47,13 +45,13 @@ export const Navbar: React.FC = () => {
   //   handleTabClick('interview', interviewPath)
   // }
 
-  const handleAIInterviewTabClick = () => {
-    const path = getAIInterviewRouteByPhase(currentPhase)
-    handleTabClick('interview', path)
-  }
+  // const handleAIInterviewTabClick = () => {
+  //   const path = getAIInterviewRouteByPhase(currentPhase)
+  //   handleTabClick('interview', path)
+  // }
 
   return (
-    <div className={styles.navbar}>
+    <div className={styles.navbar} data-id="navbar">
       <div
         className={`${styles.navItem} ${activeTab === 'home' ? styles.active : ''}`}
         onClick={() => handleTabClick('home', '/')}
@@ -63,7 +61,7 @@ export const Navbar: React.FC = () => {
       </div>
       <div
         className={`${styles.navItem} ${activeTab === 'interview' ? styles.active : ''}`}
-        onClick={handleAIInterviewTabClick}
+        onClick={() => handleTabClick('interview', '/interview-ai/awaiting')}
       >
         <Zap />
         <span>면접실</span>

@@ -1,71 +1,46 @@
-import { useState } from 'react'
+import { useCallback, useState } from 'react'
 import { updateInterviewStatus } from '@/api/interviewAPI'
 import { useNavigate } from 'react-router-dom'
-import { useAIInterviewStore, useTimerStore, useRecordingStore } from '@/stores'
-import { useAudioUpload } from '@/hooks/presigned'
+import { useAIInterviewStore, useTimerStore } from '@/stores'
+import { useMediaRecorder } from './useMediaRecorder'
+import { endInterview } from '@/api/interviewAiAPI'
 
 export const useFinishInterview = () => {
   const navigate = useNavigate()
   const [loading, setLoading] = useState<boolean>(false)
 
-  const {
-    mediaRecorder,
-    audioChunks,
-    setMediaRecorder,
-    clearChunks,
-    setRecordedBlob,
-  } = useRecordingStore()
-  const { setCurrentPhase } = useAIInterviewStore()
-  const { resetTimer } = useTimerStore()
-  const { uploadAudio } = useAudioUpload()
+  const reset = useAIInterviewStore(state => state.resetInterviewData)
+  const resetTimer = useTimerStore(state => state.resetTimer)
+
+  const interviewId = useAIInterviewStore(state => state.interviewId)
+
+  const { uploadRecording } = useMediaRecorder()
 
   const finishInterview = async (interviewId: string) => {
     if (!interviewId) return
-
     setLoading(true)
 
-    try {
-      await updateInterviewStatus(interviewId)
+    const delay = new Promise(resolve => setTimeout(resolve, 1500))
 
-      const delay = new Promise(resolve => setTimeout(resolve, 1500))
-      await delay
+    await uploadRecording(interviewId)
+    await delay
 
-      if (mediaRecorder?.state === 'recording') {
-        mediaRecorder.onstop = async () => {
-          try {
-            const blob = new Blob(audioChunks, { type: 'audio/webm' })
-
-            if (blob.size > 0) {
-              setRecordedBlob(blob)
-              await uploadAudio(blob, `interview-${interviewId}.webm`)
-            } else {
-              console.warn('⚠️ 녹음된 오디오 데이터가 없습니다.')
-            }
-
-            clearChunks()
-          } catch (error) {
-            console.error('오디오 업로드 중 오류 발생:', error)
-          } finally {
-            setLoading(false)
-            resetTimer({ minutes: 0, seconds: 0 })
-            setCurrentPhase('COMPLETE')
-            navigate('/interview-ai/end')
-          }
-        }
-
-        mediaRecorder.stop()
-        mediaRecorder.stream.getTracks().forEach(track => track.stop())
-      }
-
-      setMediaRecorder(null)
-    } catch (error) {
-      console.error('오디오 전송에 실패했습니다:', error)
-      setCurrentPhase('COMPLETE')
-      resetTimer({ minutes: 0, seconds: 0 })
-      navigate('/interview-ai/end')
-      setLoading(false)
-    }
+    await resetInterview()
+    resetTimer({ minutes: 0, seconds: 0 })
+    navigate('/interview-ai/end')
   }
 
-  return { finishInterview, loading }
+  const resetInterview = useCallback(async () => {
+    if (!interviewId) return
+
+    try {
+      await updateInterviewStatus(interviewId) // PROGRESS -> COMPLETE
+      await endInterview(interviewId) // DELETE ID
+      reset() // DELETE STORE
+    } catch (error) {
+      console.error('면접 초기화 중 오류 발생:', error)
+    }
+  }, [reset, interviewId])
+
+  return { finishInterview, resetInterview, loading }
 }

@@ -12,7 +12,7 @@ export const uploadFileToS3 = async (presignedUrl: string, file: File) => {
       withCredentials: false,
     })
 
-    console.log('🎉 S3 파일 업로드 성공:', response)
+    console.log('🎉 S3 파일 업로드 성공:')
     return response
   } catch (error) {
     console.error('S3 파일 업로드 실패:', error)

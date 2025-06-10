@@ -1,0 +1,31 @@
+@use '@/styles/variables' as *;
+
+.questionArea {
+  padding: 25px 20px;
+  color: #fff;
+
+  .question {
+    display: flex;
+    align-items: center;
+    min-height: 80px;
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 1.5;
+    margin-top: 10px;
+    word-break: keep-all;
+  }
+
+  .mrwingProfile {
+    display: flex;
+    align-items: center;
+
+    img {
+      width: 65px;
+      height: 65px;
+      background-color: #fff;
+      border: 4px solid $blue-6;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+  }
+}

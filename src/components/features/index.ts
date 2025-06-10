@@ -18,6 +18,8 @@ export { InterviewGuideline } from './interview/InterviewGuideline/InterviewGuid
 export { InterviewStartButton } from './interview/InterviewStartButton/InterviewStartButton'
 export { VoiceRecorder } from './interview/VoiceRecorder/VoiceRecorder'
 export { TimeSelection } from './interview/TimeSelection/TimeSelection'
+export { QuestionArea } from './interview/QuestionArea/QuestionArea'
+export { AnswerArea } from './interview/AnswerArea/AnswerArea'
 
 // quiz
 export { QuizTypeSelection } from './quiz/QuizTypeSelection/QuizTypeSelection'
