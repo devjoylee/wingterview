@@ -1,7 +1,9 @@
-import { useQuizStore } from '@/stores'
-import styles from './styles.module.scss'
-import { Button } from '@/components/ui'
 import { useNavigate } from 'react-router-dom'
+import { useQuizStore } from '@/stores'
+import { Button, CircleProgressBar } from '@/components/ui'
+import { QuizCardList } from '@/components/features'
+import { Check, X } from 'lucide-react'
+import styles from './styles.module.scss'
 
 export const QuizResultPage = () => {
   const navigate = useNavigate()
@@ -9,7 +11,8 @@ export const QuizResultPage = () => {
   const correctCount = userAnswers.filter(
     (ans, i) => ans === quizzes[i].answerIdx
   ).length
-  const scorePercentage = Math.round((correctCount / quizzes.length) * 100)
+
+  const percentage = Math.round((correctCount / quizzes.length) * 100)
 
   const restart = () => {
     resetQuiz()
@@ -20,47 +23,30 @@ export const QuizResultPage = () => {
   return (
     <div className={styles.resultPage}>
       <div className={styles.container}>
-        <div className={styles.quizScore}>
-          <div className={styles.stat}>
-            정답률 <span>{scorePercentage}</span>%
-          </div>
-          <div className={styles.summary}>
+        <div className={styles.quizStatus}>
+          <CircleProgressBar percentage={percentage} label="정답률" />
+
+          <div className={styles.score}>
             <div className={styles.correct}>
-              <span>✓</span>
-              <span>{correctCount} </span>
+              <span className={styles.icon}>
+                <Check />
+              </span>
+              <span className={styles.num}>{correctCount}</span>
             </div>
             <div className={styles.incorrect}>
-              <span>✕</span>
-              <span>{quizzes.length - correctCount} </span>
+              <span className={styles.icon}>
+                <X />
+              </span>
+              <span className={styles.num}>
+                {quizzes.length - correctCount}
+              </span>
             </div>
           </div>
         </div>
 
         <div className={styles.quizResult}>
-          {quizzes.map((quiz, i) => {
-            const isCorrect = userAnswers[i] === quiz.answerIdx
-            return (
-              <div
-                key={i}
-                className={`${styles.quizCard} ${isCorrect ? styles.correct : styles.incorrect}`}
-              >
-                <h3>
-                  Q{i + 1}. {quiz.question}
-                </h3>
-                <p className={styles.correctAnswer}>
-                  정답: {quiz.options[quiz.answerIdx]}
-                </p>
-                {!isCorrect && userAnswers[i] !== -1 && (
-                  <p className={styles.userAnswer}>
-                    내 답안: {quiz.options[userAnswers[i]]}
-                  </p>
-                )}
-                <p className={styles.commentary}>{quiz.commentary}</p>
-              </div>
-            )
-          })}
-
-          <Button text="다시 풀기" color="orange" onClick={restart} />
+          <QuizCardList quizzes={quizzes} userAnswers={userAnswers} />
+          <Button text="다시 풀기" color="black" onClick={restart} />
         </div>
       </div>
     </div>

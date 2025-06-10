@@ -78,14 +78,15 @@ const routes: RouteObject[] = [
         children: [
           // Public
           { index: true, element: <P.MyPage /> },
-          { path: 'edit', element: <P.MyProfileEditPage /> },
-          { path: 'interview', element: <P.MyInterviewPage /> },
-          { path: 'quiz', element: <P.MyQuizPage /> },
 
           // Protected
           {
             element: <L.ProtectedLayout />,
-            children: [],
+            children: [
+              { path: 'edit', element: <P.MyProfileEditPage /> },
+              { path: 'interview', element: <P.MyInterviewPage /> },
+              { path: 'quiz', element: <P.MyQuizPage /> },
+            ],
           },
         ],
       },

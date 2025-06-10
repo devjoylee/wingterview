@@ -1,14 +1,26 @@
 @use '@/styles/variables' as *;
 
 .myQuizPage {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  width: 100%;
   height: 100%;
 }
 
 .container {
   width: 100%;
+  height: calc(100% - 60px);
   padding: 0 20px;
-  max-width: 600px;
+  display: flex;
+  flex-direction: column;
+}
+
+.quizStatus {
+  display: flex;
+  justify-content: space-around;
+  padding: 40px 0;
+}
+
+.quizListContainer {
+  flex: 1;
+  padding-bottom: 30px;
+  overflow-y: auto;
 }

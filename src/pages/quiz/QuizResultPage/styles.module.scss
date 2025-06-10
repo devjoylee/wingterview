@@ -6,120 +6,70 @@
 }
 
 .container {
+  display: flex;
+  flex-direction: column;
   width: 100%;
   height: 100%;
   background: #fff;
   border-radius: 20px;
 }
 
-.quizScore {
+.quizStatus {
+  display: flex;
   text-align: center;
-  padding: 20px;
+  padding: 30px 20px 50px;
+  padding-left: 40px;
 }
 
-.stat {
-  span {
-    margin-left: 5px;
-    font-size: 22px;
-    font-weight: bold;
-    color: #333;
-  }
-}
-
-.summary {
+.score {
   display: flex;
   justify-content: center;
-  gap: 2rem;
-  margin-top: 1rem;
+  gap: 40px;
+  padding-top: 15px;
+  padding-left: 45px;
 }
 
 .correct,
 .incorrect {
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-  gap: 0.5rem;
-  font-size: 1.1rem;
-
-  span:first-child {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 24px;
-    height: 24px;
+  .icon {
+    display: block;
     border-radius: 50%;
+    padding: 10px;
+
+    svg {
+      width: 22px;
+      height: 22px;
+      color: #fff;
+    }
+  }
+
+  .num {
+    font-size: 18px;
   }
 }
 
 .correct {
-  color: #58874d;
-
-  span:first-child {
-    background: #58874d;
-    color: white;
+  color: $blue-2;
+  .icon {
+    background: $blue-2;
   }
 }
 
 .incorrect {
   color: $red;
-
-  span:first-child {
+  .icon {
     background: $red;
-    color: white;
   }
 }
 
 .quizResult {
-  max-height: calc(100% - 170px);
+  flex: 1;
   overflow-y: auto;
   padding: 0 15px;
+  margin-bottom: 20px;
 
   button {
     margin: 0 auto;
     display: block;
   }
-}
-
-.quizCard {
-  padding: 1rem;
-  border-radius: 10px;
-  margin-bottom: 1rem;
-  align-items: flex-start;
-
-  h3 {
-    font-size: 17px;
-    font-weight: bold;
-  }
-
-  p {
-    line-height: 1.2;
-  }
-
-  &.correct {
-    border: 4px solid #58874d;
-  }
-
-  &.incorrect {
-    border: 4px solid $red;
-  }
-}
-
-.correctAnswer,
-.userAnswer {
-  font-size: 15px;
-}
-
-.correctAnswer {
-  color: #333;
-}
-
-.userAnswer {
-  color: $red;
-}
-
-.commentary {
-  font-size: 14px;
-  color: $light-black;
-  padding-top: 10px;
-  border-top: 1px dashed #333;
 }

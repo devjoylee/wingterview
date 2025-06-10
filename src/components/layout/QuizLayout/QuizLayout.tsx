@@ -7,7 +7,7 @@ export const QuizLayout: React.FC = () => {
     <div className={styles.quizLayout}>
       <div className={styles.pageHeader}>
         <div className={styles.left}>
-          <div className={styles.text}>Quiz 10/10</div>
+          <div className={styles.text}>WING QUIZ</div>
         </div>
         <div className={styles.right}>
           <Logo white />
