@@ -1,19 +1,19 @@
+import { useEffect, useState } from 'react'
 import { Button, Modal } from '@/components/ui'
-import { useAIInterviewStore } from '@/stores'
+import { useAIInterviewStore, useRecordingStore } from '@/stores'
 import { useFinishInterview, useNextQuestion } from '@/hooks'
 import { AnswerArea, QuestionArea } from '@/components/features'
-import { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import styles from './styles.module.scss'
 
 export const QuestionPage: React.FC = () => {
+  const navigate = useNavigate()
   const [endConfirmModal, setEndConfirmModal] = useState(false)
   const [errorModal, setErrorModal] = useState(false)
   const [error, setError] = useState<string[]>([])
 
-  const { interviewId, question } = useAIInterviewStore()
-
-  const keyword = useAIInterviewStore(state => state.keyword)
-  const setKeyword = useAIInterviewStore(state => state.setKeyword)
+  const { interviewId, question, keyword, setKeyword } = useAIInterviewStore()
+  const isRecording = useRecordingStore(state => state.isRecording)
 
   const { finishInterview, loading: isFinishing } = useFinishInterview()
   const { nextQuestion, loading: isGenerating } = useNextQuestion()
@@ -30,18 +30,26 @@ export const QuestionPage: React.FC = () => {
           question: question,
           keywords: keyword,
         })
-        setKeyword('')
       }
+      setKeyword('')
     } catch (error) {
       console.log(error)
       setError(['다음 질문을 불러올 수 없습니다.', '다시 시도해주세요.'])
+      setErrorModal(true)
     }
   }
 
-  const handleEndInterview = async () => {
+  const handleFinishInterview = async () => {
     if (!interviewId) return
-    setEndConfirmModal(false)
-    await finishInterview(interviewId)
+
+    try {
+      setEndConfirmModal(false)
+      await finishInterview(interviewId)
+    } catch (error) {
+      console.log(error)
+      setError(['녹음 파일 전송에 실패했습니다.'])
+      setErrorModal(true)
+    }
   }
 
   // 녹음 중 이동 시 동작 handlers
@@ -83,6 +91,13 @@ export const QuestionPage: React.FC = () => {
     }
   }, [])
 
+  // 새로고침 후 접근 시
+  useEffect(() => {
+    if (!isRecording && !isFinishing) {
+      navigate('/interview-ai/awaiting')
+    }
+  }, [isRecording, isFinishing, navigate])
+
   return (
     <div className={styles.questionPage}>
       <QuestionArea question={question} />
@@ -90,7 +105,7 @@ export const QuestionPage: React.FC = () => {
       <AnswerArea onNextClick={handleNextQuestion} />
 
       <div className={styles.buttonContainer}>
-        <button className={styles.endButton} onClick={handleEndInterview}>
+        <button className={styles.endButton} onClick={handleFinishInterview}>
           면접 종료
         </button>
       </div>
@@ -125,7 +140,11 @@ export const QuestionPage: React.FC = () => {
           '면접을 종료하시겠습니까?',
         ]}
       >
-        <Button text="면접 종료" color="black" onClick={handleEndInterview} />
+        <Button
+          text="면접 종료"
+          color="black"
+          onClick={handleFinishInterview}
+        />
       </Modal>
     </div>
   )

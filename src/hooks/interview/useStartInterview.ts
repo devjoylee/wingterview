@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { generateQuestion, setInterviewTime } from '@/api/interviewAiAPI'
+import { generateQuestion, getInterviewId } from '@/api/interviewAiAPI'
 import { updateInterviewStatus } from '@/api/interviewAPI'
 import { useAIInterviewStore } from '@/stores'
 import { useNavigate } from 'react-router-dom'
@@ -9,14 +9,18 @@ export const useStartInterview = () => {
   const navigate = useNavigate()
   const [loading, setLoading] = useState<boolean>(false)
   const setQuestion = useAIInterviewStore(state => state.setQuestion)
+  const setInterviewId = useAIInterviewStore(state => state.setInterviewId)
+
   const { startTimer } = useTimerStore()
 
-  const startInterview = async (interviewId: string, duration: number) => {
+  const startInterview = async (duration: number) => {
     setLoading(true)
 
     const delay = new Promise(resolve => setTimeout(resolve, 1500))
 
-    await setInterviewTime(interviewId, duration)
+    const interviewId = await getInterviewId(duration)
+    if (interviewId) setInterviewId(interviewId)
+
     await updateInterviewStatus(interviewId)
 
     const response = await generateQuestion(interviewId)
@@ -29,8 +33,6 @@ export const useStartInterview = () => {
       startTimer(duration)
       navigate('/interview-ai/question')
     }
-
-    setLoading(false)
   }
 
   return { startInterview, loading }

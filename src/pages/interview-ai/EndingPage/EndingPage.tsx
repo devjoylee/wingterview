@@ -1,27 +1,19 @@
 import { useNavigate } from 'react-router-dom'
 import mrWing from '@/assets/mrwing.png'
 import styles from './styles.module.scss'
-import { endInterview } from '@/api/interviewAiAPI'
-import { useAIInterviewStore, useRecordingStore } from '@/stores'
+import { useRecordingStore } from '@/stores'
+import { useEffect } from 'react'
 
 export const EndingPage: React.FC = () => {
   const navigate = useNavigate()
-  const interviewId = useAIInterviewStore(state => state.interviewId)
-  const setInterviewId = useAIInterviewStore(state => state.setInterviewId)
   const recordedBlob = useRecordingStore(state => state.recordedBlob)
-
-  const returnToAwaitingPage = async () => {
-    await endInterview(interviewId)
-    setInterviewId('')
-    navigate('/interview-ai/awaiting')
-  }
 
   const download = () => {
     if (recordedBlob && recordedBlob.size > 0) {
       const url = URL.createObjectURL(recordedBlob)
       const a = document.createElement('a')
       a.href = url
-      a.download = `interview-${interviewId}.webm`
+      a.download = 'wingterview-recording.webm'
       document.body.appendChild(a)
       a.click()
       document.body.removeChild(a)
@@ -30,6 +22,13 @@ export const EndingPage: React.FC = () => {
       console.warn('다운로드할 녹음 파일이 없습니다.')
     }
   }
+
+  // 새로고침 후 접근 시
+  useEffect(() => {
+    if (!recordedBlob) {
+      navigate('/interview-ai/awaiting')
+    }
+  }, [recordedBlob, navigate])
 
   return (
     <div className={styles.endingPage}>
@@ -52,10 +51,10 @@ export const EndingPage: React.FC = () => {
         </div>
 
         <div className={styles.buttons}>
-          <button onClick={() => navigate('/coming-soon')}>
-            피드백 보러가기
+          <button onClick={() => navigate('/mypage')}>피드백 보러가기</button>
+          <button onClick={() => navigate('/interview-ai/awaiting')}>
+            면접 대기실로 이동
           </button>
-          <button onClick={returnToAwaitingPage}>면접 대기실로 이동</button>
           <button onClick={download}>녹음 파일 다운로드</button>
         </div>
       </div>

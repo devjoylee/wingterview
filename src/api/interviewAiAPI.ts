@@ -1,10 +1,13 @@
 import apiClient from '@/api/apiClient'
 import { API } from './endpoints'
 
-export const getInterviewId = async () => {
+export const getInterviewId = async (duration: number) => {
   try {
     const response = await apiClient.post<ApiResponse<{ interviewId: string }>>(
-      API.AI_INTERVIEW.ID
+      API.AI_INTERVIEW.ID,
+      {
+        time: duration,
+      }
     )
     console.log('🎉 AI 면접 시작 성공:', response.data)
     return response.data.data.interviewId
