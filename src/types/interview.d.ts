@@ -35,3 +35,12 @@ interface AIInterviewData {
   questionIdx: number
   question: string
 }
+
+interface InterviewHistoryListData {
+  interviewHistoryId: string
+  createdAt: string
+  firstQuestion: string
+  questionCount: number
+  duration: number
+  hasFeedback: boolean
+}
