@@ -1,5 +1,6 @@
-import { useRef } from 'react'
+import { useRef, useEffect } from 'react'
 import styles from './styles.module.scss'
+import { useAudioStore } from '@/stores'
 
 interface Props {
   audioURL: string
@@ -7,6 +8,11 @@ interface Props {
 
 export const AudioPlayer: React.FC<Props> = ({ audioURL }) => {
   const audioRef = useRef<HTMLAudioElement>(null)
+  const { setAudioRef } = useAudioStore()
+
+  useEffect(() => {
+    setAudioRef(audioRef as React.RefObject<HTMLAudioElement>)
+  }, [setAudioRef])
 
   return (
     <div className={styles.audioPlayer}>

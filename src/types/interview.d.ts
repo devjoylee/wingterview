@@ -48,7 +48,7 @@ interface InterviewHistoryListData {
 interface InterviewHistoryDetailData {
   createdAt: string
   duration: number
-  recordingUrl?: string
+  recordingUrl: string
   feedback: FeedbackData[]
 }
 
