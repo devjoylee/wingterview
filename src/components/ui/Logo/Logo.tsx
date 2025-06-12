@@ -12,8 +12,13 @@ export const Logo: React.FC<LogoProps> = ({ width = 150, white }) => {
   const navigate = useNavigate()
 
   return (
-    <div className={styles.logo} onClick={() => navigate('/')}>
-      <img src={white ? logoWhite : logo} alt="logo" style={{ width: width }} />
+    <div className={styles.logo}>
+      <img
+        src={white ? logoWhite : logo}
+        alt="logo"
+        style={{ width: width }}
+        onClick={() => navigate('/')}
+      />
     </div>
   )
 }

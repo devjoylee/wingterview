@@ -7,7 +7,7 @@ import styles from './styles.module.scss'
 
 export const QuizResultPage = () => {
   const navigate = useNavigate()
-  const { quizzes, userAnswers, setCurrentState, resetQuiz } = useQuizStore()
+  const { quizzes, userAnswers, resetQuiz } = useQuizStore()
   const correctCount = userAnswers.filter(
     (ans, i) => ans === quizzes[i].answerIdx
   ).length
@@ -16,7 +16,6 @@ export const QuizResultPage = () => {
 
   const restart = () => {
     resetQuiz()
-    setCurrentState('awaiting')
     navigate('/quiz/awaiting')
   }
 

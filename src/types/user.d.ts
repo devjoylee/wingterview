@@ -12,6 +12,7 @@ interface MyProfileData extends BaseProfile {
   seatCode: string | null
   interviewCnt: number
   isInQueue: boolean
+  myId: string
 }
 
 interface InterviewerData extends BaseProfile {

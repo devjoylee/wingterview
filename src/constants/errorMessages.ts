@@ -9,6 +9,7 @@ export const errorMessages: Record<string, string> = {
   INTERVIEW_NOT_FOUND: '존재하지 않는 인터뷰',
   QUESTION_NOT_FOUND: '존재하지 않는 질문 목록',
   USER_NOT_FOUND: '유저가 존재하지 않음',
+  QUIZ_NOT_FOUND: '퀴즈가 존재하지 않음',
 
   // 409
   ALREADY_ENQUEUED: '이미 진입한 사용자',

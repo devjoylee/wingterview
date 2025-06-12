@@ -10,7 +10,7 @@ interface Props {
 
 export const QuizCard: React.FC<Props> = ({ quiz, userAnswer, index }) => {
   const { question, answerIdx, options, commentary } = quiz
-  const isCorrect = userAnswer === answerIdx
+  const isCorrect = userAnswer === answerIdx - 1
 
   return (
     <div
@@ -24,7 +24,7 @@ export const QuizCard: React.FC<Props> = ({ quiz, userAnswer, index }) => {
         {!isCorrect && userAnswer !== -1 && (
           <p className={styles.userAnswer}>내 답안: {options[userAnswer]}</p>
         )}
-        <p className={styles.correctAnswer}>정답: {options[answerIdx]}</p>
+        <p className={styles.correctAnswer}>정답: {options[answerIdx - 1]}</p>
         <span className={styles.commentary}>{commentary}</span>
       </div>
     </div>

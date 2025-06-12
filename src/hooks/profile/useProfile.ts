@@ -10,7 +10,7 @@ export const useProfile = (action: ProfileAction, isLoggedIn?: boolean) => {
   const { uploadImage } = useImageUpload()
   const { formData, imageFile } = useProfileStore()
 
-  const profileQuery = useQuery<MyProfileData>({
+  const query = useQuery<MyProfileData>({
     queryKey: ['userProfile'],
     queryFn: fetchMyProfile,
     enabled: action !== 'create' && isLoggedIn === true,
@@ -34,7 +34,8 @@ export const useProfile = (action: ProfileAction, isLoggedIn?: boolean) => {
 
   return {
     ...mutation,
-    myData: profileQuery.data,
-    isLoading: profileQuery.isLoading,
+    myData: query.data,
+    myId: query.data?.myId,
+    isLoading: query.isLoading,
   }
 }

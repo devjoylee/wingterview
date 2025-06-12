@@ -4,13 +4,21 @@
   font-weight: bold;
   background: $orange;
   color: #fff;
-  padding: 8px 30px;
+  padding: 10px 35px;
   border-radius: 30px;
   letter-spacing: 3px;
+  box-shadow: 2px 2px 0 $blue-2;
+  background: $blue-1;
+  transition: all 0.2s ease;
 
   &:disabled {
     opacity: 0.5;
     background-color: #aaa;
+  }
+
+  &:hover {
+    box-shadow: 0 0 0 $blue-1;
+    transform: translate(2px, 2px);
   }
 }
 

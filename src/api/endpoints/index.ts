@@ -16,7 +16,7 @@ export const API = {
     RESULT: '/matching/result',
   },
   QUIZ: {
-    LIST: '/today-quiz',
+    TODAY: (myId: string) => `/today-quiz/${myId}`,
   },
   INTERVIEW: {
     STATUS: `/interview/status`,

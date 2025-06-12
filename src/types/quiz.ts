@@ -4,3 +4,9 @@ export interface QuizData {
   answerIdx: number
   commentary: string
 }
+
+export interface UserAnswerData {
+  quizIdx: number
+  userSelection: number
+  isCorrect: boolean
+}
