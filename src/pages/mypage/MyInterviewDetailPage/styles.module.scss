@@ -11,6 +11,8 @@
 }
 
 .title {
+  margin-bottom: 30px;
+
   h1 {
     font-size: 22px;
     font-weight: 700;
@@ -21,12 +23,5 @@
     display: flex;
     gap: 15px;
     font-size: 14px;
-  }
-}
-
-.recording {
-  margin: 30px 0;
-  .audioPlayer {
-    width: 100%;
   }
 }

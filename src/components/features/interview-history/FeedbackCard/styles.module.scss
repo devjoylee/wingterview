@@ -3,13 +3,33 @@
 .feedbackCard {
   background: #fff;
   border-radius: 8px;
-  padding: 16px;
+  padding: 20px;
   margin-bottom: 20px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
+.timestamp {
+  font-weight: 600;
+  text-align: center;
+  background: $blue-1;
+  border-radius: 12px;
+  padding: 2px 8px;
+  margin-bottom: 15px;
+  color: #fff;
+
+  span {
+    font-size: 13px;
+    padding: 0 4px;
+    cursor: pointer;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
 .question {
-  margin-bottom: 12px;
+  margin-bottom: 15px;
 
   font-size: 17px;
   font-weight: 600;
@@ -24,13 +44,10 @@
     font-size: 15px;
     font-weight: 600;
     margin-bottom: 8px;
-    display: flex;
-    align-items: center;
   }
 
   p {
     font-size: 15px;
     line-height: 1.6;
-    white-space: pre-line;
   }
 }

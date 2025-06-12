@@ -1,7 +1,7 @@
 import { SubPageHeader } from '@/components/ui'
-import styles from './styles.module.scss'
 import { DUMMY_HISTORY_DETAIL } from '@/constants/history'
-import { FeedbackList } from '@/components/features'
+import { AudioPlayer, FeedbackList } from '@/components/features'
+import styles from './styles.module.scss'
 
 export const MyInterviewDetailPage = () => {
   const interview = DUMMY_HISTORY_DETAIL
@@ -19,15 +19,9 @@ export const MyInterviewDetailPage = () => {
           </div>
         </div>
 
-        <div className={styles.recording}>
-          <audio controls className={styles.audioPlayer}>
-            <source src={interview.recordingUrl} type="audio/webm" />
-          </audio>
-        </div>
+        <AudioPlayer audioURL={interview.recordingUrl} />
 
-        <div className={styles.questions}>
-          <FeedbackList list={interview.feedback} />
-        </div>
+        <FeedbackList list={interview.feedback} />
       </div>
     </div>
   )

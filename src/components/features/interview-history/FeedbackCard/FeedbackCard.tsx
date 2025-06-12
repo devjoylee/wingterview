@@ -1,3 +1,4 @@
+import { timeFormatter } from '@/utils'
 import styles from './styles.module.scss'
 
 interface Props {
@@ -6,10 +7,15 @@ interface Props {
 }
 
 export const FeedbackCard: React.FC<Props> = ({ feedback, idx }) => {
-  const { question, modelAnswer, commentary } = feedback
+  const { question, modelAnswer, commentary, startTime, endTime } = feedback
 
   return (
     <div className={styles.feedbackCard}>
+      <div className={styles.timestamp}>
+        <span>{timeFormatter(startTime)}</span>~
+        <span>{timeFormatter(endTime)}</span>
+      </div>
+
       <h3 className={styles.question}>
         Q{idx + 1}. {question}
       </h3>
