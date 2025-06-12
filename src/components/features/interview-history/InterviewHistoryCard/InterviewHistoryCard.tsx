@@ -3,15 +3,19 @@ import styles from './styles.module.scss'
 import { Clock } from 'lucide-react'
 
 interface Props {
-  list: InterviewHistoryListData
+  history: InterviewHistoryListData
+  onClick: (hasFeedback: boolean, id: string) => void
 }
 
-export const InterviewHistoryCard: React.FC<Props> = ({ list }) => {
-  const { createdAt, firstQuestion, questionCount, duration, hasFeedback } =
-    list
+export const InterviewHistoryCard: React.FC<Props> = ({ history, onClick }) => {
+  const { id, createdAt, firstQuestion, questionCount, duration, hasFeedback } =
+    history
 
   return (
-    <div className={styles.historyCard}>
+    <div
+      className={styles.historyCard}
+      onClick={() => onClick(hasFeedback, id)}
+    >
       <div className={styles.header}>
         <span className={styles.date}>{createdAt}</span>
         <span className={styles.duration}>
