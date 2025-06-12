@@ -1,0 +1,27 @@
+@use '@/styles/variables' as *;
+
+.interviewDetailPage {
+  height: 100%;
+}
+
+.container {
+  padding: 25px 20px;
+  overflow-y: auto;
+  height: calc(100% - 60px);
+}
+
+.title {
+  margin-bottom: 30px;
+
+  h1 {
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 3px;
+  }
+
+  .meta {
+    display: flex;
+    gap: 15px;
+    font-size: 14px;
+  }
+}

@@ -85,6 +85,10 @@ const routes: RouteObject[] = [
             children: [
               { path: 'edit', element: <P.MyProfileEditPage /> },
               { path: 'interview', element: <P.MyInterviewPage /> },
+              {
+                path: 'interview/:interviewId',
+                element: <P.MyInterviewDetailPage />,
+              },
               { path: 'quiz', element: <P.MyQuizPage /> },
             ],
           },
