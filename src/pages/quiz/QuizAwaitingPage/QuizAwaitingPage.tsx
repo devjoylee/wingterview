@@ -1,13 +1,13 @@
 import { useState } from 'react'
 import styles from './styles.module.scss'
-import quizIcon from '@assets/quiz.png'
-import { Button, Modal } from '@/components/ui'
-import { QuizTypeSelection } from '@/components/features'
+import bulbImage from '@assets/bulb.png'
+import { LoginButton, Modal } from '@/components/ui'
 import { getQuizList } from '@/api/quizAPI'
 import { useAuthStore, useQuizStore } from '@/stores'
 import { DUMMY_QUIZZES } from '@/constants/quizzes'
 import { useNavigate } from 'react-router-dom'
 import { useProfile } from '@/hooks'
+import { ChevronRight } from 'lucide-react'
 
 export const QuizAwaitingPage: React.FC = () => {
   const navigate = useNavigate()
@@ -38,7 +38,13 @@ export const QuizAwaitingPage: React.FC = () => {
   }
 
   const handleStartQuiz = async () => {
+    if (!isLoggedIn) {
+      setToggleModal(true)
+      return
+    }
+
     setIsGenerating(true)
+
     const delay = new Promise(resolve => setTimeout(resolve, 1500))
 
     await delay
@@ -50,9 +56,20 @@ export const QuizAwaitingPage: React.FC = () => {
       }
     } catch (error) {
       console.log(error)
-      setDummyQuizzes()
     }
 
+    setCurrentState('progress')
+    navigate('/quiz/progress')
+  }
+
+  const trial = async () => {
+    setIsGenerating(true)
+
+    const delay = new Promise(resolve => setTimeout(resolve, 1500))
+
+    await delay
+
+    setDummyQuizzes()
     setCurrentState('progress')
     navigate('/quiz/progress')
   }
@@ -61,7 +78,7 @@ export const QuizAwaitingPage: React.FC = () => {
     <div className={styles.awaitingPage}>
       <div className={styles.container}>
         <div className={styles.guideBoard}>
-          <img src={quizIcon} alt="" className={styles.quizIcon} />
+          <img src={bulbImage} alt="" className={styles.bulbImage} />
 
           <div className={styles.guideText}>
             <h3>You Quiz ? Wing Quiz ! </h3>
@@ -71,14 +88,20 @@ export const QuizAwaitingPage: React.FC = () => {
             </p>
           </div>
 
-          <QuizTypeSelection onClick={() => setToggleModal(true)} />
+          <div className={styles.reviewQuizButton} onClick={handleStartQuiz}>
+            <div className={styles.text}>
+              <p>모의면접 복습 퀴즈 </p>
+              <span>
+                Mr.윙과 진행한 모의면접을 <br />
+                퀴즈로 복습해보세요
+              </span>
+            </div>
+            <ChevronRight size={30} className={styles.icon} />
+          </div>
 
-          <div className={styles.startButton}>
-            <Button
-              text="퀴즈 시작하기"
-              onClick={handleStartQuiz}
-              color="orange"
-            />
+          <div className={styles.trial}>
+            <p>윙퀴즈가 궁금하신가요? </p>
+            <button onClick={trial}>윙퀴즈 체험하기</button>
           </div>
         </div>
       </div>
@@ -86,10 +109,12 @@ export const QuizAwaitingPage: React.FC = () => {
       <Modal
         isOpen={toggleModal}
         style="failed"
-        message={['서비스 준비 중 입니다.', '조금만 기다려주세요!']}
+        message={['로그인 후 이용가능합니다.']}
         closable
         toggleModal={() => setToggleModal(!toggleModal)}
-      />
+      >
+        <LoginButton />
+      </Modal>
 
       <Modal
         isOpen={isGenerating}
