@@ -1,10 +1,10 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import styles from './styles.module.scss'
 import quizIcon from '@assets/quiz.png'
 import { Button, Modal } from '@/components/ui'
 import { QuizTypeSelection } from '@/components/features'
-// import { getQuizList } from '@/api/quizAPI'
-import { useQuizStore } from '@/stores'
+import { getQuizList } from '@/api/quizAPI'
+import { useAuthStore, useQuizStore } from '@/stores'
 import { DUMMY_QUIZZES } from '@/constants/quizzes'
 import { useNavigate } from 'react-router-dom'
 import { useProfile } from '@/hooks'
@@ -16,29 +16,11 @@ export const QuizAwaitingPage: React.FC = () => {
 
   const setQuizzes = useQuizStore(state => state.setQuizzes)
   const setCurrentState = useQuizStore(state => state.setCurrentState)
+  const isLoggedIn = useAuthStore(state => state.isLoggedIn)
 
-  const { myData } = useProfile('get')
+  const { myData, myId } = useProfile('get', isLoggedIn)
 
-  const handleStartQuiz = async () => {
-    setIsGenerating(true)
-    const delay = new Promise(resolve => setTimeout(resolve, 1500))
-
-    await delay // 로딩 모달 창을 위한 1.5초 지연
-
-    // try {
-    //   const quizzes = await getQuizList()
-    //   setQuizzes(quizzes)
-    // } catch (error) {
-    //   console.error('더미 퀴즈 데이터 사용:', error)
-    //   setQuizzes(DUMMY_QUIZZES)
-    // }
-
-    setIsGenerating(false)
-    setCurrentState('progress')
-    navigate('/quiz/progress')
-  }
-
-  useEffect(() => {
+  const setDummyQuizzes = () => {
     switch (myData?.curriculum) {
       case '풀스택':
         setQuizzes(DUMMY_QUIZZES.fullstack)
@@ -53,7 +35,27 @@ export const QuizAwaitingPage: React.FC = () => {
         setQuizzes(DUMMY_QUIZZES.fullstack)
         return
     }
-  }, [myData, setQuizzes])
+  }
+
+  const handleStartQuiz = async () => {
+    setIsGenerating(true)
+    const delay = new Promise(resolve => setTimeout(resolve, 1500))
+
+    await delay
+
+    try {
+      if (myId) {
+        const quizzes = await getQuizList(myId)
+        setQuizzes(quizzes)
+      }
+    } catch (error) {
+      console.log(error)
+      setDummyQuizzes()
+    }
+
+    setCurrentState('progress')
+    navigate('/quiz/progress')
+  }
 
   return (
     <div className={styles.awaitingPage}>
