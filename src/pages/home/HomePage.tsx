@@ -9,7 +9,7 @@ export const HomePage: React.FC = () => {
   const [profile, setMyProfile] = useState<MyProfileData>()
   const isLoggedIn = useAuthStore(state => state.isLoggedIn)
 
-  const { myData } = useProfile('get', isLoggedIn)
+  const { myData } = useProfile('get')
 
   useEffect(() => {
     if (myData) {

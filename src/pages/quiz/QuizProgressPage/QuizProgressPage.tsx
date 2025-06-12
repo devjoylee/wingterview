@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { QuizContent } from '@/components/features'
-import { useAuthStore, useQuizStore } from '@/stores'
+import { useQuizStore } from '@/stores'
 import { useNavigate } from 'react-router-dom'
 import wingLeft from '@/assets/wing-l.png'
 import wingRight from '@/assets/wing-r.png'
@@ -13,9 +13,8 @@ export const QuizProgressPage = () => {
   const navigate = useNavigate()
   const [toggleModal, setToggleModal] = useState(false)
   const [isFinishing, setIsFinishing] = useState(false)
-  const isLoggedIn = useAuthStore(state => state.isLoggedIn)
 
-  const { myId } = useProfile('get', isLoggedIn)
+  const { myId } = useProfile('get')
 
   const {
     quizzes,
