@@ -37,10 +37,25 @@ interface AIInterviewData {
 }
 
 interface InterviewHistoryListData {
-  interviewHistoryId: string
+  id: string
   createdAt: string
   firstQuestion: string
   questionCount: number
   duration: number
   hasFeedback: boolean
+}
+
+interface InterviewHistoryDetailData {
+  createdAt: string
+  duration: number
+  recordingUrl?: string
+  feedback: FeedbackData[]
+}
+
+interface FeedbackData {
+  question: string
+  modelAnswer: string
+  commentary: string
+  startTime: number
+  endTime: number
 }

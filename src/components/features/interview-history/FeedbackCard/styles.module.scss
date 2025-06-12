@@ -1,0 +1,36 @@
+@use '@/styles/variables' as *;
+
+.feedbackCard {
+  background: #fff;
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.question {
+  margin-bottom: 12px;
+
+  font-size: 17px;
+  font-weight: 600;
+}
+
+.answer {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+
+  h4 {
+    font-size: 15px;
+    font-weight: 600;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+  }
+
+  p {
+    font-size: 15px;
+    line-height: 1.6;
+    white-space: pre-line;
+  }
+}

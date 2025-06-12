@@ -43,3 +43,5 @@ export { QuizFilterButton } from './mypage/QuizFilterButton/QuizFilterButton'
 // interview-history
 export { InterviewHistoryList } from './interview-history/InterviewHistoryList/InterviewHistoryList'
 export { InterviewHistoryCard } from './interview-history/InterviewHistoryCard/InterviewHistoryCard'
+export { FeedbackList } from './interview-history/FeedbackList/FeedbackList'
+export { FeedbackCard } from './interview-history/FeedbackCard/FeedbackCard'
