@@ -9,7 +9,7 @@ export const QuizResultPage = () => {
   const navigate = useNavigate()
   const { quizzes, userAnswers, resetQuiz } = useQuizStore()
   const correctCount = userAnswers.filter(
-    (ans, i) => ans === quizzes[i].answerIdx
+    (ans, i) => ans + 1 === quizzes[i].answerIdx
   ).length
 
   const percentage = Math.round((correctCount / quizzes.length) * 100)

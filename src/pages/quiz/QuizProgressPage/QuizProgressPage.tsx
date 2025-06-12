@@ -98,29 +98,25 @@ export const QuizProgressPage = () => {
             <img src={wingLeft} alt="이전 버튼" />
           </button>
 
-          {!isDone && (
+          {!isDone ? (
             <span
               className={styles.stopButton}
               onClick={() => setToggleModal(true)}
             >
               퀴즈 종료
             </span>
-          )}
-
-          {isDone && (
+          ) : (
             <span className={styles.gradeButton} onClick={handleEnd}>
               채점하기
             </span>
           )}
 
-          {!isDone && (
-            <button
-              onClick={handleNext}
-              disabled={userAnswers[currentIndex] === -1}
-            >
-              <img src={wingRight} alt="다음 버튼" />
-            </button>
-          )}
+          <button
+            onClick={handleNext}
+            disabled={userAnswers[currentIndex] === -1}
+          >
+            <img src={wingRight} alt="다음 버튼" />
+          </button>
         </div>
       </div>
 
