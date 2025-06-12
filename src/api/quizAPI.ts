@@ -1,6 +1,6 @@
 import apiClient from '@/api/apiClient'
 import { API } from './endpoints'
-import { QuizData } from '@/types/quiz'
+import { QuizData, UserAnswerData } from '@/types/quiz'
 
 export const getQuizList = async (myId: string) => {
   try {
@@ -17,5 +17,18 @@ export const getQuizList = async (myId: string) => {
       console.error('오늘의 퀴즈 조회 실패:', error)
       throw error
     }
+  }
+}
+
+export const sendQuizResult = async (
+  myId: string,
+  result: UserAnswerData[]
+) => {
+  try {
+    await apiClient.post<ApiResponse<null>>(API.QUIZ.TODAY(myId), result)
+    console.log('🎉 퀴즈 결과 전송 성공:')
+  } catch (error) {
+    console.error('퀴즈 결과 전송 실패:', error)
+    throw error
   }
 }

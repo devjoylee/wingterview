@@ -1,21 +1,27 @@
 import { useState } from 'react'
 import { QuizContent } from '@/components/features'
-import { useQuizStore } from '@/stores'
+import { useAuthStore, useQuizStore } from '@/stores'
 import { useNavigate } from 'react-router-dom'
 import wingLeft from '@/assets/wing-l.png'
 import wingRight from '@/assets/wing-r.png'
 import styles from './styles.module.scss'
 import { Button, Modal } from '@/components/ui'
+import { sendQuizResult } from '@/api/quizAPI'
+import { useProfile } from '@/hooks'
 
 export const QuizProgressPage = () => {
   const navigate = useNavigate()
   const [toggleModal, setToggleModal] = useState(false)
   const [isFinishing, setIsFinishing] = useState(false)
+  const isLoggedIn = useAuthStore(state => state.isLoggedIn)
+
+  const { myId } = useProfile('get', isLoggedIn)
 
   const {
     quizzes,
     currentIndex,
     userAnswers,
+    isTrial,
     setCurrentIndex,
     setUserAnswer,
     setCurrentState,
@@ -47,6 +53,19 @@ export const QuizProgressPage = () => {
   const handleEnd = async () => {
     setIsFinishing(true)
     const delay = new Promise(resolve => setTimeout(resolve, 1500))
+
+    if (myId && !isTrial) {
+      const result = quizzes.map((quiz, idx) => {
+        const selectedIdx = userAnswers[idx] + 1
+        return {
+          quizIdx: idx + 1,
+          userSelection: selectedIdx,
+          isCorrect: quiz.answerIdx === selectedIdx,
+        }
+      })
+
+      await sendQuizResult(myId, result)
+    }
 
     await delay
 
