@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import styles from './styles.module.scss'
 import bulbImage from '@assets/bulb.png'
-import { LoginButton, Modal } from '@/components/ui'
+import { Button, LoginButton, Modal } from '@/components/ui'
 import { getQuizList } from '@/api/quizAPI'
 import { useAuthStore, useQuizStore } from '@/stores'
 import { DUMMY_QUIZZES } from '@/constants/quizzes'
@@ -11,9 +11,11 @@ import { ChevronRight } from 'lucide-react'
 
 export const QuizAwaitingPage: React.FC = () => {
   const navigate = useNavigate()
-  const [toggleModal, setToggleModal] = useState(false)
+  const [loginModal, setLoginModal] = useState(false)
+  const [notFoundModal, setNotFoundModal] = useState(false)
   const [isGenerating, setIsGenerating] = useState(false)
 
+  const setIsTrial = useQuizStore(state => state.setIsTrial)
   const setQuizzes = useQuizStore(state => state.setQuizzes)
   const setCurrentState = useQuizStore(state => state.setCurrentState)
   const isLoggedIn = useAuthStore(state => state.isLoggedIn)
@@ -39,27 +41,31 @@ export const QuizAwaitingPage: React.FC = () => {
 
   const handleStartQuiz = async () => {
     if (!isLoggedIn) {
-      setToggleModal(true)
+      setLoginModal(true)
       return
     }
 
-    setIsGenerating(true)
-
     const delay = new Promise(resolve => setTimeout(resolve, 1500))
-
-    await delay
 
     try {
       if (myId) {
         const quizzes = await getQuizList(myId)
-        setQuizzes(quizzes)
+
+        if (!quizzes.length) {
+          setNotFoundModal(true)
+        } else {
+          setIsGenerating(true)
+          setQuizzes(quizzes)
+          setCurrentState('progress')
+          navigate('/quiz/progress')
+        }
       }
     } catch (error) {
       console.log(error)
+      setNotFoundModal(true)
     }
 
-    setCurrentState('progress')
-    navigate('/quiz/progress')
+    await delay
   }
 
   const trial = async () => {
@@ -69,6 +75,7 @@ export const QuizAwaitingPage: React.FC = () => {
 
     await delay
 
+    setIsTrial(true)
     setDummyQuizzes()
     setCurrentState('progress')
     navigate('/quiz/progress')
@@ -107,17 +114,33 @@ export const QuizAwaitingPage: React.FC = () => {
       </div>
 
       <Modal
-        isOpen={toggleModal}
+        isOpen={loginModal}
         style="failed"
         message={['로그인 후 이용가능합니다.']}
         closable
-        toggleModal={() => setToggleModal(!toggleModal)}
+        toggleModal={() => setLoginModal(!loginModal)}
       >
         <LoginButton />
       </Modal>
 
       <Modal
-        isOpen={isGenerating}
+        isOpen={notFoundModal}
+        style="failed"
+        message={[
+          '모의 면접 데이터를 찾을 수 없습니다.',
+          '면접을 먼저 진행해 주세요.',
+        ]}
+        closable
+        toggleModal={() => setNotFoundModal(!notFoundModal)}
+      >
+        <Button
+          text="모의 면접 하러가기"
+          onClick={() => navigate('/interview-ai/awaiting')}
+        />
+      </Modal>
+
+      <Modal
+        isOpen={isGenerating && !notFoundModal}
         style="loading"
         message={['퀴즈를 생성하고 있습니다.', '잠시만 기다려주세요.']}
       />

@@ -9,10 +9,14 @@ interface QuizStore {
   currentIndex: number
   userAnswers: number[]
   currentState: QuizState
+  isTrial: boolean
+
   setQuizzes: (quizzes: QuizData[]) => void
   setCurrentIndex: (index: number) => void
   setUserAnswer: (index: number, answerIdx: number) => void
   setCurrentState: (state: QuizState) => void
+  setIsTrial: (isTrial: boolean) => void
+
   resetQuiz: () => void
 }
 
@@ -23,13 +27,11 @@ export const useQuizStore = create<QuizStore>()(
       currentIndex: 0,
       userAnswers: Array(10).fill(-1),
       currentState: 'awaiting',
+      isTrial: false,
 
-      setQuizzes: quizzes =>
-        set({
-          quizzes,
-          userAnswers: Array(quizzes.length).fill(-1),
-        }),
+      setQuizzes: quizzes => set({ quizzes }),
 
+      setIsTrial: isTrial => set({ isTrial }),
       setCurrentIndex: index => set({ currentIndex: index }),
       setCurrentState: state => set({ currentState: state }),
       setUserAnswer: (index, answerIdx) =>
@@ -38,6 +40,7 @@ export const useQuizStore = create<QuizStore>()(
           newAnswers[index] = answerIdx
           return { userAnswers: newAnswers }
         }),
+
       resetQuiz: () => {
         set(state => ({
           currentIndex: 0,
