@@ -38,12 +38,14 @@ export const useQuizStore = create<QuizStore>()(
           newAnswers[index] = answerIdx
           return { userAnswers: newAnswers }
         }),
-      resetQuiz: () =>
+      resetQuiz: () => {
         set(state => ({
           currentIndex: 0,
           userAnswers: Array(state.quizzes.length).fill(-1),
           currentState: 'awaiting',
-        })),
+        }))
+        sessionStorage.removeItem('quiz-storage')
+      },
     }),
     {
       name: 'quiz-storage',

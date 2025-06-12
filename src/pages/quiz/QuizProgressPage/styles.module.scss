@@ -47,13 +47,21 @@
   }
 }
 
+.stopButton {
+  margin-top: 18px;
+  font-size: 13px;
+  color: $gray-4;
+  font-weight: 600;
+  cursor: pointer;
+}
+
 .gradeButton {
-  position: absolute;
-  top: 12px;
-  left: 50%;
-  transform: translateX(-50%);
-  color: $blue-2;
+  font-size: 15px;
   font-weight: 700;
+  border-radius: 30px;
+  background: $blue-1;
+  color: #fff;
+  padding: 10px 20px;
   cursor: pointer;
 }
 
