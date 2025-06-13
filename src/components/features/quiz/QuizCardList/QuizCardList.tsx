@@ -1,16 +1,14 @@
 import { QuizCard } from '@/components/features'
 import styles from './styles.module.scss'
 
-interface Props {
-  quizzes: QuizData[]
-  userAnswers: number[]
-}
-
-export const QuizCardList: React.FC<Props> = ({ quizzes, userAnswers }) => {
+export const QuizCardList: React.FC<{
+  quizzes: QuizCardData[]
+  hasIndex?: boolean
+}> = ({ quizzes, hasIndex }) => {
   return (
     <div className={styles.quizList}>
       {quizzes.map((quiz, index) => (
-        <QuizCard key={index} quiz={quiz} userAnswer={userAnswers[index]} />
+        <QuizCard key={index} data={quiz} hasIndex={hasIndex} />
       ))}
     </div>
   )

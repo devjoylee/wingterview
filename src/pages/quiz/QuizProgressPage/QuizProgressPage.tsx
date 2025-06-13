@@ -55,7 +55,7 @@ export const QuizProgressPage = () => {
 
     if (myId && !isTrial) {
       const result = quizzes.map((quiz, idx) => {
-        const selectedIdx = userAnswers[idx] + 1
+        const selectedIdx = userAnswers[idx]
         return {
           quizIdx: idx + 1,
           userSelection: selectedIdx,
@@ -86,7 +86,7 @@ export const QuizProgressPage = () => {
         {quizzes.length && (
           <QuizContent
             quiz={quizzes[currentIndex]}
-            selectedAnswer={userAnswers[currentIndex]}
+            selectedAnswer={userAnswers[currentIndex] - 1}
             onSelect={index => setUserAnswer(currentIndex, index)}
             number={`Question ${currentIndex + 1} of ${quizzes.length}`}
           />

@@ -25,7 +25,7 @@ export const QuizContent: React.FC<QuizContentProps> = ({
             className={`${styles.option} ${
               selectedAnswer === index ? styles.selected : ''
             }`}
-            onClick={() => onSelect(index)}
+            onClick={() => onSelect(index + 1)}
           >
             {option}
           </button>

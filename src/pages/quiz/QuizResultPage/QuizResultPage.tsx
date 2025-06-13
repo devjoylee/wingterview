@@ -8,11 +8,24 @@ import styles from './styles.module.scss'
 export const QuizResultPage = () => {
   const navigate = useNavigate()
   const { quizzes, userAnswers, resetQuiz } = useQuizStore()
-  const correctCount = userAnswers.filter(
-    (ans, i) => ans + 1 === quizzes[i].answerIdx
-  ).length
 
-  const percentage = Math.round((correctCount / quizzes.length) * 100)
+  const result: QuizCardData[] = quizzes.map((quiz, idx) => {
+    const userAnswer = quiz.options[userAnswers[idx] - 1]
+    const correctAnswer = quiz.options[quiz.answerIdx - 1]
+
+    return {
+      questionIdx: idx + 1,
+      question: quiz.question,
+      userAnswer: userAnswer,
+      correctAnswer: correctAnswer,
+      commentary: quiz.commentary,
+      isCorrect: userAnswer === correctAnswer,
+    }
+  })
+
+  const correctCount = result.filter(quiz => quiz.isCorrect).length
+
+  const percentage = Math.round((correctCount / 10) * 100)
 
   const restart = () => {
     resetQuiz()
@@ -44,7 +57,7 @@ export const QuizResultPage = () => {
         </div>
 
         <div className={styles.quizResult}>
-          <QuizCardList quizzes={quizzes} userAnswers={userAnswers} />
+          <QuizCardList quizzes={result} hasIndex />
           <Button text="다시 풀기" color="black" onClick={restart} />
         </div>
       </div>

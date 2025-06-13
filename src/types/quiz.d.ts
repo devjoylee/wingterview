@@ -11,7 +11,7 @@ interface UserAnswerData {
   isCorrect: boolean
 }
 
-interface QuizHistoryData {
+interface QuizCardData {
   questionIdx: number
   question: string
   userAnswer: string
