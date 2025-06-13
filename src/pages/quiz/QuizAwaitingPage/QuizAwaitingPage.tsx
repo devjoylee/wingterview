@@ -15,12 +15,13 @@ export const QuizAwaitingPage: React.FC = () => {
   const [notFoundModal, setNotFoundModal] = useState(false)
   const [isGenerating, setIsGenerating] = useState(false)
 
+  const userId = useAuthStore(state => state.userId)
   const setIsTrial = useQuizStore(state => state.setIsTrial)
   const setQuizzes = useQuizStore(state => state.setQuizzes)
   const setCurrentState = useQuizStore(state => state.setCurrentState)
   const isLoggedIn = useAuthStore(state => state.isLoggedIn)
 
-  const { myData, myId } = useProfile('get')
+  const { myData } = useProfile('get')
 
   const setDummyQuizzes = () => {
     switch (myData?.curriculum) {
@@ -48,8 +49,8 @@ export const QuizAwaitingPage: React.FC = () => {
     const delay = new Promise(resolve => setTimeout(resolve, 1500))
 
     try {
-      if (myId) {
-        const quizzes = await getQuizList(myId)
+      if (userId) {
+        const quizzes = await getQuizList(userId)
 
         if (!quizzes.length) {
           setNotFoundModal(true)

@@ -3,13 +3,14 @@ import { AudioPlayer, FeedbackList } from '@/components/features'
 import styles from './styles.module.scss'
 import { dateFormatter } from '@/utils'
 import { useParams } from 'react-router-dom'
-import { useProfile, useFeedback } from '@/hooks'
+import { useFeedback } from '@/hooks'
+import { useAuthStore } from '@/stores'
 
 export const MyInterviewDetailPage = () => {
   const { id: interviewId } = useParams<{ id: string }>()
-  const { myId } = useProfile('get')
+  const userId = useAuthStore(state => state.userId)
 
-  const { data: interview } = useFeedback(myId || '', interviewId || '')
+  const { data: interview } = useFeedback(userId || '', interviewId || '')
 
   return (
     <div className={styles.interviewDetailPage}>

@@ -1,12 +1,12 @@
 import { EmptyPlaceholder, SubPageHeader } from '@/components/ui'
 import { InterviewHistoryList } from '@/components/features'
-import { useProfile, useInterviewHistory } from '@/hooks'
+import { useInterviewHistory } from '@/hooks'
 import styles from './styles.module.scss'
+import { useAuthStore } from '@/stores'
 
 export const MyInterviewPage: React.FC = () => {
-  const { myId } = useProfile('get')
-
-  const { data } = useInterviewHistory(myId as string, 10)
+  const userId = useAuthStore(state => state.userId)
+  const { data } = useInterviewHistory(userId, 10)
 
   return (
     <div className={styles.myInterviewPage}>
