@@ -3,9 +3,14 @@ import styles from './styles.module.scss'
 import { CircleProgressBar } from '@/components/ui'
 import { QuizCardList, QuizFilterButton } from '@/components/features'
 import { useQuizStore } from '@/stores'
+import { useProfile } from '@/hooks'
+import { useQuizStatistic } from '@/hooks/quiz-history/useQuizStatistic'
 
 export const MyQuizPage: React.FC = () => {
   const { quizzes, userAnswers } = useQuizStore()
+
+  const { myId } = useProfile('get')
+  const { data: percentage } = useQuizStatistic(myId as string)
 
   return (
     <div className={styles.myQuizPage}>
@@ -13,7 +18,7 @@ export const MyQuizPage: React.FC = () => {
 
       <div className={styles.container}>
         <div className={styles.quizStatus}>
-          <CircleProgressBar percentage={77.7} label="전체 정답률" />
+          <CircleProgressBar percentage={percentage || 0} label="전체 정답률" />
           <QuizFilterButton />
         </div>
 

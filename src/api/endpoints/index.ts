@@ -17,6 +17,7 @@ export const API = {
   },
   QUIZ: {
     TODAY: (userId: string) => `/today-quiz/${userId}`,
+    STAT: (userId: string) => `/user/${userId}/quiz-stats`,
   },
   INTERVIEW: {
     STATUS: `/interview/status`,
