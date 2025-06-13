@@ -18,11 +18,10 @@ export const useNextQuestion = () => {
     const response = await generateQuestion(interviewId, questionData)
     const question = response?.question
 
-    if (question) setQuestion(question)
-
     await delay
-
     setLoading(false)
+
+    if (question) setQuestion(question)
   }
 
   return { nextQuestion, loading }

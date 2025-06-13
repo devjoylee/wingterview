@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { QuizContent } from '@/components/features'
-import { useAuthStore, useQuizStore } from '@/stores'
+import { useQuizStore } from '@/stores'
 import { useNavigate } from 'react-router-dom'
 import wingLeft from '@/assets/wing-l.png'
 import wingRight from '@/assets/wing-r.png'
@@ -13,9 +13,8 @@ export const QuizProgressPage = () => {
   const navigate = useNavigate()
   const [toggleModal, setToggleModal] = useState(false)
   const [isFinishing, setIsFinishing] = useState(false)
-  const isLoggedIn = useAuthStore(state => state.isLoggedIn)
 
-  const { myId } = useProfile('get', isLoggedIn)
+  const { myId } = useProfile('get')
 
   const {
     quizzes,
@@ -98,29 +97,25 @@ export const QuizProgressPage = () => {
             <img src={wingLeft} alt="이전 버튼" />
           </button>
 
-          {!isDone && (
+          {!isDone ? (
             <span
               className={styles.stopButton}
               onClick={() => setToggleModal(true)}
             >
               퀴즈 종료
             </span>
-          )}
-
-          {isDone && (
+          ) : (
             <span className={styles.gradeButton} onClick={handleEnd}>
               채점하기
             </span>
           )}
 
-          {!isDone && (
-            <button
-              onClick={handleNext}
-              disabled={userAnswers[currentIndex] === -1}
-            >
-              <img src={wingRight} alt="다음 버튼" />
-            </button>
-          )}
+          <button
+            onClick={handleNext}
+            disabled={userAnswers[currentIndex] === -1}
+          >
+            <img src={wingRight} alt="다음 버튼" />
+          </button>
         </div>
       </div>
 

@@ -1,3 +1,4 @@
+import { findOldInterview } from '@/api/interviewAiAPI'
 import {
   generateQuestion,
   getInterviewStatus,
@@ -53,5 +54,12 @@ export const useInterviewStatus = (interviewId: string) => {
   return useQuery<ApiResponse<InterviewData>>({
     queryKey: ['interviewStatus', interviewId],
     queryFn: getInterviewStatus,
+  })
+}
+
+export const useOldInterviewId = (userId: string) => {
+  return useQuery<string>({
+    queryKey: ['interviewId', userId],
+    queryFn: () => findOldInterview(userId),
   })
 }

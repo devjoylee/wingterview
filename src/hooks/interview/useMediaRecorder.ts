@@ -38,9 +38,22 @@ export const useMediaRecorder = () => {
   }
 
   const stopRecording = () => {
-    const { mediaRecorder, stream } = useRecordingStore.getState()
+    const { mediaRecorder, stream, audioChunks } = useRecordingStore.getState()
 
     if (mediaRecorder && mediaRecorder.state !== 'inactive') {
+      mediaRecorder.onstop = () => {
+        try {
+          const blob = new Blob(audioChunks, { type: 'audio/webm' })
+          if (blob.size === 0) {
+            console.warn('녹음 파일을 찾을 수 없습니다.')
+            return
+          }
+          setRecordedBlob(blob)
+        } catch (error) {
+          console.error('녹음 파일 생성에 실패했습니다', error)
+        }
+      }
+
       mediaRecorder.stop()
     }
 
@@ -54,35 +67,18 @@ export const useMediaRecorder = () => {
   }
 
   const uploadRecording = async (interviewId: string) => {
-    const { mediaRecorder, audioChunks } = useRecordingStore.getState()
+    const { recordedBlob } = useRecordingStore.getState()
 
-    if (!mediaRecorder || mediaRecorder.state === 'inactive') {
-      console.warn('녹음 파일을 찾을 수 없습니다.')
+    if (!recordedBlob) {
+      console.warn('업로드할 녹음 파일을 찾을 수 없습니다.')
+      return
     }
 
-    if (mediaRecorder?.state === 'recording') {
-      mediaRecorder.onstop = async () => {
-        try {
-          const blob = new Blob(audioChunks, { type: 'audio/webm' })
-
-          if (blob.size === 0) {
-            console.warn('녹음 파일을 찾을 수 없습니다.')
-            return
-          }
-
-          setRecordedBlob(blob)
-          await uploadAudio(blob, `interview-${interviewId}.webm`)
-
-          clearChunks()
-        } catch (error) {
-          console.error('녹음 파일 업로드에 실패했습니다', error)
-        }
-      }
-
-      mediaRecorder.stop()
-      mediaRecorder.stream.getTracks().forEach(track => track.stop())
-      setMediaRecorder(null)
-      setIsRecording(false)
+    try {
+      await uploadAudio(recordedBlob, `interview-${interviewId}.webm`)
+      clearChunks()
+    } catch (error) {
+      console.error('녹음 파일 업로드에 실패했습니다', error)
     }
   }
 

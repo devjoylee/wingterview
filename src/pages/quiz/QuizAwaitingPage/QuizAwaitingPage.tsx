@@ -20,7 +20,7 @@ export const QuizAwaitingPage: React.FC = () => {
   const setCurrentState = useQuizStore(state => state.setCurrentState)
   const isLoggedIn = useAuthStore(state => state.isLoggedIn)
 
-  const { myData, myId } = useProfile('get', isLoggedIn)
+  const { myData, myId } = useProfile('get')
 
   const setDummyQuizzes = () => {
     switch (myData?.curriculum) {

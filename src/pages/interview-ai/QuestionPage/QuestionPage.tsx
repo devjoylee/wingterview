@@ -47,8 +47,6 @@ export const QuestionPage: React.FC = () => {
       await finishInterview(interviewId)
     } catch (error) {
       console.log(error)
-      setError(['녹음 파일 전송에 실패했습니다.'])
-      setErrorModal(true)
     }
   }
 
@@ -119,7 +117,7 @@ export const QuestionPage: React.FC = () => {
       <Modal
         isOpen={isFinishing}
         style="loading"
-        message={['녹음 파일을 전송 중입니다.', '잠시만 기다려주세요.']}
+        message={['녹음 파일을 저장하고 있습니다.', '잠시만 기다려주세요.']}
       />
 
       <Modal

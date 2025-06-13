@@ -14,7 +14,7 @@ export const MyPage: React.FC = () => {
   const [profile, setMyProfile] = useState<MyProfileData>()
   const isLoggedIn = useAuthStore(state => state.isLoggedIn)
 
-  const { myData } = useProfile('get', isLoggedIn)
+  const { myData } = useProfile('get')
 
   const linkTo = (link: string) => {
     if (!isLoggedIn) {
