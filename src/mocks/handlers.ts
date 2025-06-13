@@ -1,4 +1,5 @@
 import { API } from '@/api/endpoints'
+import { DUMMY_HISTORY_LIST } from '@/constants/history'
 import { http, HttpResponse } from 'msw'
 
 export const handlers = [
@@ -323,6 +324,17 @@ export const handlers = [
     return HttpResponse.json({
       message: 'get_interview_question',
       data: { question: 'Spring Boot와 Spring의 차이를 설명하시오.' },
+    })
+  }),
+
+  http.get(API.AI_INTERVIEW.HISTORY(':userId', 10, ':cursor'), () => {
+    return HttpResponse.json({
+      message: 'interview_history_fetch_done',
+      data: {
+        history: DUMMY_HISTORY_LIST,
+        hasNext: false,
+        nextCursor: null,
+      },
     })
   }),
 ]

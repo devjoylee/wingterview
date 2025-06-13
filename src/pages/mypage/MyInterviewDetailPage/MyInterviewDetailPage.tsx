@@ -2,6 +2,7 @@ import { SubPageHeader } from '@/components/ui'
 import { DUMMY_HISTORY_DETAIL } from '@/constants/history'
 import { AudioPlayer, FeedbackList } from '@/components/features'
 import styles from './styles.module.scss'
+import { dateFormatter } from '@/utils'
 
 export const MyInterviewDetailPage = () => {
   const interview = DUMMY_HISTORY_DETAIL
@@ -14,7 +15,7 @@ export const MyInterviewDetailPage = () => {
         <div className={styles.title}>
           <h1>인터뷰 상세 기록</h1>
           <div className={styles.meta}>
-            <p>날짜: {interview.createdAt}</p>
+            <p>날짜: {dateFormatter(interview.createdAt)}</p>
             <p>면접 시간: {interview.duration}분</p>
           </div>
         </div>
