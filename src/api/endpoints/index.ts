@@ -18,6 +18,8 @@ export const API = {
   QUIZ: {
     TODAY: (userId: string) => `/today-quiz/${userId}`,
     STAT: (userId: string) => `/user/${userId}/quiz-stats`,
+    HISTORY: (userId: string, wrong: boolean, limit: number, cursor?: string) =>
+      `/user/${userId}/quizzes?wrong=${wrong}&limit=${limit}${cursor ? `&cursor=${cursor}` : ''}`,
   },
   INTERVIEW: {
     STATUS: `/interview/status`,

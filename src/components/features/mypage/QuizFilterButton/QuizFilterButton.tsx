@@ -1,28 +1,28 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { Archive, ArchiveX } from 'lucide-react'
 import styles from './styles.module.scss'
 
-type FilterType = 'all' | 'incorrect'
+interface Props {
+  isFiltered: boolean
+  setIsFiltered: (isFiltered: boolean) => void
+}
 
-export const QuizFilterButton: React.FC = () => {
-  const [active, setActive] = useState<FilterType>('all')
-
-  const handleClick = (filter: FilterType) => {
-    setActive(filter)
-  }
-
+export const QuizFilterButton: React.FC<Props> = ({
+  isFiltered,
+  setIsFiltered,
+}) => {
   return (
     <div className={styles.buttonContainer}>
       <button
-        className={`${styles.all} ${active === 'all' ? styles.active : ''}`}
-        onClick={() => handleClick('all')}
+        className={`${styles.all} ${!isFiltered ? styles.active : ''}`}
+        onClick={() => setIsFiltered(false)}
       >
         <Archive />
         <span>전체 퀴즈 보기</span>
       </button>
       <button
-        className={`${styles.incorrect} ${active === 'incorrect' ? styles.active : ''}`}
-        onClick={() => handleClick('incorrect')}
+        className={`${styles.incorrect} ${isFiltered ? styles.active : ''}`}
+        onClick={() => setIsFiltered(true)}
       >
         <ArchiveX />
         <span>오답만 모아보기</span>
