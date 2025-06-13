@@ -1,4 +1,4 @@
-export const DUMMY_HISTORY_LIST: InterviewHistoryListData[] = [
+export const DUMMY_HISTORY_LIST: HistoryListData[] = [
   {
     id: '1',
     createdAt: '6월 12일',

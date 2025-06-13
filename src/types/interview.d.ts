@@ -36,7 +36,7 @@ interface AIInterviewData {
   question: string
 }
 
-interface InterviewHistoryListData {
+interface HistoryListData {
   id: string
   createdAt: string
   firstQuestion: string
@@ -58,4 +58,10 @@ interface FeedbackData {
   commentary: string
   startTime: number
   endTime: number
+}
+
+interface HistoryResponse {
+  history: HistoryListData[]
+  hasNext: boolean
+  nextCursor: string
 }
