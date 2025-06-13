@@ -1,10 +1,12 @@
 import { EmptyPlaceholder, SubPageHeader } from '@/components/ui'
 import { InterviewHistoryList } from '@/components/features'
-import { DUMMY_HISTORY_LIST } from '@/constants/history'
+import { useProfile, useInterviewHistory } from '@/hooks'
 import styles from './styles.module.scss'
 
 export const MyInterviewPage: React.FC = () => {
-  const history = DUMMY_HISTORY_LIST
+  const { myId } = useProfile('get')
+
+  const { data } = useInterviewHistory(myId as string, 10)
 
   return (
     <div className={styles.myInterviewPage}>
@@ -13,8 +15,8 @@ export const MyInterviewPage: React.FC = () => {
         <h2 className={styles.title}>Interview History</h2>
 
         <div className={styles.quizListContainer}>
-          {history.length ? (
-            <InterviewHistoryList history={history} />
+          {data?.history ? (
+            <InterviewHistoryList history={data.history} />
           ) : (
             <EmptyPlaceholder
               type="sad"

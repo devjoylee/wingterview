@@ -32,3 +32,15 @@ export const sendQuizResult = async (
     throw error
   }
 }
+
+export const getQuizStatistic = async (myId: string) => {
+  try {
+    const response = await apiClient.get<ApiResponse<{ correctRate: number }>>(
+      API.QUIZ.STAT(myId)
+    )
+    return response.data.data.correctRate
+  } catch (error) {
+    console.error('퀴즈 통계 조회 실패:', error)
+    throw error
+  }
+}

@@ -17,6 +17,7 @@ export const API = {
   },
   QUIZ: {
     TODAY: (userId: string) => `/today-quiz/${userId}`,
+    STAT: (userId: string) => `/user/${userId}/quiz-stats`,
   },
   INTERVIEW: {
     STATUS: `/interview/status`,
@@ -35,6 +36,10 @@ export const API = {
     QUESTION: (interviewId: string) => `/interview/${interviewId}/question`,
     SAVE_RECODING: (filename?: string) =>
       `/s3/presigned-url/recording?filename=${filename}`,
+    HISTORY: (userId: string, limit: number, cursor?: string) =>
+      `/user/${userId}/interview?limit=${limit}${cursor ? `&cursor=${cursor}` : ''}`,
+    FEEDBACK: (userId: string, interviewId: string) =>
+      `/user/${userId}/interview/${interviewId}`,
   },
   PRESIGNED_URL: (filename?: string) =>
     `/s3/presigned-url?filename=${filename}`,

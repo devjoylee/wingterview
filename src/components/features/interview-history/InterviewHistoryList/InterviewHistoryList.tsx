@@ -5,7 +5,7 @@ import { Modal } from '@/components/ui'
 import { useNavigate } from 'react-router-dom'
 
 interface Props {
-  history: InterviewHistoryListData[]
+  history: HistoryListData[]
 }
 
 export const InterviewHistoryList: React.FC<Props> = ({ history }) => {

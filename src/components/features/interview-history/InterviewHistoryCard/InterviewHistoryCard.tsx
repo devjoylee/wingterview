@@ -1,9 +1,10 @@
 import mrWing from '@/assets/mrwing-face.png'
 import styles from './styles.module.scss'
 import { Clock } from 'lucide-react'
+import { dateFormatter } from '@/utils'
 
 interface Props {
-  history: InterviewHistoryListData
+  history: HistoryListData
   onClick: (hasFeedback: boolean, id: string) => void
 }
 
@@ -17,7 +18,7 @@ export const InterviewHistoryCard: React.FC<Props> = ({ history, onClick }) => {
       onClick={() => onClick(hasFeedback, id)}
     >
       <div className={styles.header}>
-        <span className={styles.date}>{createdAt}</span>
+        <span className={styles.date}>{dateFormatter(createdAt)}</span>
         <span className={styles.duration}>
           <Clock />
           {duration}분

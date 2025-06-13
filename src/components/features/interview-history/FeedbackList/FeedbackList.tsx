@@ -2,7 +2,7 @@ import { FeedbackCard } from '../FeedbackCard/FeedbackCard'
 import styles from './styles.module.scss'
 
 interface Props {
-  list: FeedbackData[]
+  list: Feedback[]
 }
 
 export const FeedbackList: React.FC<Props> = ({ list }) => {

@@ -3,21 +3,19 @@ import { useAudioStore } from '@/stores'
 import styles from './styles.module.scss'
 
 interface Props {
-  feedback: FeedbackData
+  feedback: Feedback
   idx: number
 }
 
 export const FeedbackCard: React.FC<Props> = ({ feedback, idx }) => {
-  const { question, modelAnswer, commentary, startTime, endTime } = feedback
+  const { question, modelAnswer, commentary, startAt, endAt } = feedback
   const { jumpTo } = useAudioStore()
 
   return (
     <div className={styles.feedbackCard}>
       <div className={styles.timestamp}>
-        <span onClick={() => jumpTo(startTime)}>
-          {timeFormatter(startTime)}
-        </span>
-        ~<span onClick={() => jumpTo(endTime)}>{timeFormatter(endTime)}</span>
+        <span onClick={() => jumpTo(startAt)}>{timeFormatter(startAt)}</span>~
+        <span onClick={() => jumpTo(endAt)}>{timeFormatter(endAt)}</span>
       </div>
 
       <h3 className={styles.question}>
