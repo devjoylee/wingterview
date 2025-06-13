@@ -16,7 +16,7 @@ export const API = {
     RESULT: '/matching/result',
   },
   QUIZ: {
-    TODAY: (myId: string) => `/today-quiz/${myId}`,
+    TODAY: (userId: string) => `/today-quiz/${userId}`,
   },
   INTERVIEW: {
     STATUS: `/interview/status`,
@@ -28,7 +28,8 @@ export const API = {
       `/interview/${interviewId}/selection`,
   },
   AI_INTERVIEW: {
-    ID: `/interview/ai`,
+    ID: '/interview/ai',
+    OLD: (myId: string) => `/interview/${myId}`,
     TIME: (interviewId: string) => `/interview/ai/${interviewId}/time`,
     END: (interviewId: string) => `/interview/${interviewId}`,
     QUESTION: (interviewId: string) => `/interview/${interviewId}/question`,

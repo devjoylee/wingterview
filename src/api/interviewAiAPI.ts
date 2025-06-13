@@ -1,6 +1,18 @@
 import apiClient from '@/api/apiClient'
 import { API } from './endpoints'
 
+export const findOldInterview = async (myId: string) => {
+  try {
+    const response = await apiClient.get<ApiResponse<{ interviewId: string }>>(
+      API.AI_INTERVIEW.OLD(myId)
+    )
+    return response.data.data.interviewId
+  } catch (error) {
+    console.error('이전 인터뷰 id 조회 실패:', error)
+    throw error
+  }
+}
+
 export const getInterviewId = async (duration: number) => {
   try {
     const response = await apiClient.post<ApiResponse<{ interviewId: string }>>(

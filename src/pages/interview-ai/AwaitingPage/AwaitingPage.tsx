@@ -1,12 +1,14 @@
 import { useEffect, useState } from 'react'
-import { Modal } from '@/components/ui'
+import { Button, Modal } from '@/components/ui'
 import { InterviewGuideline } from '@/components/features'
 import {
   useStartInterview,
   useMediaRecorder,
   useFinishInterview,
+  useProfile,
 } from '@/hooks'
 import { useAIInterviewStore } from '@/stores'
+import { findOldInterview } from '@/api/interviewAiAPI'
 import styles from './styles.module.scss'
 
 /**
@@ -25,9 +27,13 @@ import styles from './styles.module.scss'
 
 export const AwaitingPage: React.FC = () => {
   const [errorModal, setErrorModal] = useState(false)
+  const [resetModal, setResetModal] = useState(false)
   const [error, setError] = useState<string[]>([])
 
+  const { myId } = useProfile('get')
+
   const interviewId = useAIInterviewStore(state => state.interviewId)
+  const setInterviewId = useAIInterviewStore(state => state.setInterviewId)
   const duration = useAIInterviewStore(state => state.duration)
 
   const { startInterview, loading: isStarting } = useStartInterview()
@@ -51,16 +57,25 @@ export const AwaitingPage: React.FC = () => {
     } catch (error) {
       console.error(error)
       stopRecording()
-      setError(['잘못된 접근입니다.', '새로고침 후 다시 실행해주세요.'])
-      setErrorModal(true)
+      setError(['잘못된 접근입니다.', '초기화 후 다시 실행해주세요.'])
+      setResetModal(true)
+    }
+  }
+
+  const init = async () => {
+    if (myId) {
+      const oldInterviewId = await findOldInterview(myId)
+      setInterviewId(oldInterviewId)
+      setResetModal(false)
+      window.location.reload()
     }
   }
 
   useEffect(() => {
     if (interviewId && !isStarting) {
-      resetInterview()
+      resetInterview(interviewId)
     }
-  })
+  }, [interviewId, isStarting, resetInterview])
 
   return (
     <div className={styles.awaitingPage}>
@@ -81,6 +96,16 @@ export const AwaitingPage: React.FC = () => {
         closable
         toggleModal={() => setErrorModal(!errorModal)}
       />
+
+      <Modal
+        isOpen={resetModal}
+        style="failed"
+        message={error}
+        closable
+        toggleModal={() => setResetModal(!resetModal)}
+      >
+        <Button text="초기화" onClick={init} />
+      </Modal>
     </div>
   )
 }

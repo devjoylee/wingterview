@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react'
+import { useState } from 'react'
 import { updateInterviewStatus } from '@/api/interviewAPI'
 import { useNavigate } from 'react-router-dom'
 import { useAIInterviewStore, useTimerStore } from '@/stores'
@@ -12,8 +12,6 @@ export const useFinishInterview = () => {
   const reset = useAIInterviewStore(state => state.resetInterviewData)
   const resetTimer = useTimerStore(state => state.resetTimer)
 
-  const interviewId = useAIInterviewStore(state => state.interviewId)
-
   const { uploadRecording } = useMediaRecorder()
 
   const finishInterview = async (interviewId: string) => {
@@ -25,12 +23,12 @@ export const useFinishInterview = () => {
     await uploadRecording(interviewId)
     await delay
 
-    await resetInterview()
+    await resetInterview(interviewId)
     resetTimer({ minutes: 0, seconds: 0 })
     navigate('/interview-ai/end')
   }
 
-  const resetInterview = useCallback(async () => {
+  const resetInterview = async (interviewId: string) => {
     if (!interviewId) return
 
     try {
@@ -40,7 +38,7 @@ export const useFinishInterview = () => {
     } catch (error) {
       console.error('면접 초기화 중 오류 발생:', error)
     }
-  }, [reset, interviewId])
+  }
 
   return { finishInterview, resetInterview, loading }
 }
