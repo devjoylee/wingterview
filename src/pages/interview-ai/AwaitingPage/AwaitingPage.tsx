@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import { Button, Modal } from '@/components/ui'
 import { InterviewGuideline } from '@/components/features'
 import {
@@ -29,6 +29,7 @@ export const AwaitingPage: React.FC = () => {
   const [errorModal, setErrorModal] = useState(false)
   const [resetModal, setResetModal] = useState(false)
   const [error, setError] = useState<string[]>([])
+  const resetDoneRef = useRef(false)
 
   const { myId } = useProfile('get')
 
@@ -72,10 +73,11 @@ export const AwaitingPage: React.FC = () => {
   }
 
   useEffect(() => {
-    if (interviewId && !isStarting) {
+    if (interviewId && !isStarting && !resetDoneRef.current) {
+      resetDoneRef.current = true
       resetInterview(interviewId)
     }
-  }, [interviewId, isStarting, resetInterview])
+  }, [interviewId, isStarting])
 
   return (
     <div className={styles.awaitingPage}>

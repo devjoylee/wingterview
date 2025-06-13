@@ -12,20 +12,32 @@ export const useFinishInterview = () => {
   const reset = useAIInterviewStore(state => state.resetInterviewData)
   const resetTimer = useTimerStore(state => state.resetTimer)
 
-  const { uploadRecording } = useMediaRecorder()
+  const { uploadRecording, stopRecording } = useMediaRecorder()
 
   const finishInterview = async (interviewId: string) => {
+    if (!interviewId) return
+    setLoading(true)
+
+    const delay = new Promise(resolve => setTimeout(resolve, 1000))
+
+    await updateInterviewStatus(interviewId)
+    stopRecording()
+    await delay
+
+    resetTimer({ minutes: 0, seconds: 0 })
+    navigate('/interview-ai/end')
+  }
+
+  const saveInterview = async (interviewId: string) => {
     if (!interviewId) return
     setLoading(true)
 
     const delay = new Promise(resolve => setTimeout(resolve, 1500))
 
     await uploadRecording(interviewId)
-    await delay
-
     await resetInterview(interviewId)
-    resetTimer({ minutes: 0, seconds: 0 })
-    navigate('/interview-ai/end')
+    await delay
+    setLoading(false)
   }
 
   const resetInterview = async (interviewId: string) => {
@@ -40,5 +52,5 @@ export const useFinishInterview = () => {
     }
   }
 
-  return { finishInterview, resetInterview, loading }
+  return { finishInterview, saveInterview, resetInterview, loading }
 }
