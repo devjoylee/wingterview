@@ -1,6 +1,5 @@
 import apiClient from '@/api/apiClient'
 import { API } from './endpoints'
-import { QuizData, UserAnswerData } from '@/types/quiz'
 
 export const getQuizList = async (myId: string) => {
   try {
@@ -41,6 +40,24 @@ export const getQuizStatistic = async (myId: string) => {
     return response.data.data.correctRate
   } catch (error) {
     console.error('퀴즈 통계 조회 실패:', error)
+    throw error
+  }
+}
+
+export const getQuizHistory = async (
+  userId: string,
+  wrong: boolean,
+  limit: number = 10,
+  cursor?: string
+) => {
+  try {
+    const response = await apiClient.get<ApiResponse<QuizHistoryResponse>>(
+      API.QUIZ.HISTORY(userId, wrong, limit, cursor)
+    )
+    console.log('🎉 나의 퀴즈 조회 성공:', response.data)
+    return response.data.data
+  } catch (error) {
+    console.error('나의 퀴즈 조회 실패:', error)
     throw error
   }
 }

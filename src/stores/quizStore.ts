@@ -1,5 +1,4 @@
 import { create } from 'zustand'
-import { QuizData } from '@/types/quiz'
 import { persist, StorageValue } from 'zustand/middleware'
 
 export type QuizState = 'awaiting' | 'progress' | 'result'

@@ -1,31 +1,26 @@
 import React from 'react'
-import { QuizData } from '@/types/quiz'
 import styles from './styles.module.scss'
 
 interface Props {
-  quiz: QuizData
-  userAnswer: number
-  index?: number
+  data: QuizCardData
+  hasIndex?: boolean
 }
 
-export const QuizCard: React.FC<Props> = ({ quiz, userAnswer, index }) => {
-  const { question, answerIdx, options, commentary } = quiz
-  const isCorrect = userAnswer === answerIdx - 1
-
+export const QuizCard: React.FC<Props> = ({ data, hasIndex }) => {
   return (
     <div
-      className={`${styles.quizCard} ${isCorrect ? styles.correct : styles.incorrect}`}
+      className={`${styles.quizCard} ${data.isCorrect ? styles.correct : styles.incorrect}`}
     >
       <h3 className={styles.question}>
-        {index ? `Q${index + 1}` : 'Q'}. {question}
+        {hasIndex ? `Q${data.questionIdx}` : 'Q'}. {data.question}
       </h3>
 
       <div className={styles.answer}>
-        {!isCorrect && userAnswer !== -1 && (
-          <p className={styles.userAnswer}>내 답안: {options[userAnswer]}</p>
+        {!data.isCorrect && (
+          <p className={styles.userAnswer}>내 답안: {data.userAnswer}</p>
         )}
-        <p className={styles.correctAnswer}>정답: {options[answerIdx - 1]}</p>
-        <span className={styles.commentary}>{commentary}</span>
+        <p className={styles.correctAnswer}>정답: {data.correctAnswer}</p>
+        <span className={styles.commentary}>{data.commentary}</span>
       </div>
     </div>
   )

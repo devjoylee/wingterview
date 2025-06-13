@@ -5,9 +5,8 @@ import {
   useStartInterview,
   useMediaRecorder,
   useFinishInterview,
-  useProfile,
 } from '@/hooks'
-import { useAIInterviewStore } from '@/stores'
+import { useAIInterviewStore, useAuthStore } from '@/stores'
 import { findOldInterview } from '@/api/interviewAiAPI'
 import styles from './styles.module.scss'
 
@@ -31,8 +30,7 @@ export const AwaitingPage: React.FC = () => {
   const [error, setError] = useState<string[]>([])
   const resetDoneRef = useRef(false)
 
-  const { myId } = useProfile('get')
-
+  const userId = useAuthStore(state => state.userId)
   const interviewId = useAIInterviewStore(state => state.interviewId)
   const setInterviewId = useAIInterviewStore(state => state.setInterviewId)
   const duration = useAIInterviewStore(state => state.duration)
@@ -64,8 +62,8 @@ export const AwaitingPage: React.FC = () => {
   }
 
   const init = async () => {
-    if (myId) {
-      const oldInterviewId = await findOldInterview(myId)
+    if (userId) {
+      const oldInterviewId = await findOldInterview(userId)
       setInterviewId(oldInterviewId)
       setResetModal(false)
       window.location.reload()

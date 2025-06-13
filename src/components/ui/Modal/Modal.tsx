@@ -1,4 +1,4 @@
-import { ReactNode } from 'react'
+import { ReactNode, useEffect, useState } from 'react'
 import { LoadingIndicator } from '@/components/ui'
 import { PartyPopper, X } from 'lucide-react'
 import failedEmoji from '@assets/sad.png'
@@ -21,6 +21,14 @@ export const Modal: React.FC<ModalProps> = ({
   closable,
   toggleModal,
 }) => {
+  const [scrollY, setScrollY] = useState(0)
+
+  useEffect(() => {
+    if (isOpen) {
+      setScrollY(window.scrollY)
+    }
+  }, [isOpen, scrollY])
+
   const handleOverlayClick = (e: React.MouseEvent<HTMLDivElement>) => {
     if (closable && toggleModal && e.target === e.currentTarget) {
       toggleModal()
@@ -30,7 +38,11 @@ export const Modal: React.FC<ModalProps> = ({
   if (!isOpen) return null
 
   return (
-    <div className={styles.modalOverlay} onClick={handleOverlayClick}>
+    <div
+      className={styles.modalOverlay}
+      onClick={handleOverlayClick}
+      style={{ top: `${scrollY}px` }}
+    >
       <div className={`${styles.modal} ${styles[style]}`}>
         {closable && (
           <button className={styles.closeButton} onClick={toggleModal}>

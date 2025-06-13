@@ -1,20 +1,19 @@
 import { useState } from 'react'
 import { QuizContent } from '@/components/features'
-import { useQuizStore } from '@/stores'
+import { useAuthStore, useQuizStore } from '@/stores'
 import { useNavigate } from 'react-router-dom'
 import wingLeft from '@/assets/wing-l.png'
 import wingRight from '@/assets/wing-r.png'
 import styles from './styles.module.scss'
 import { Button, Modal } from '@/components/ui'
 import { sendQuizResult } from '@/api/quizAPI'
-import { useProfile } from '@/hooks'
 
 export const QuizProgressPage = () => {
   const navigate = useNavigate()
   const [toggleModal, setToggleModal] = useState(false)
   const [isFinishing, setIsFinishing] = useState(false)
 
-  const { myId } = useProfile('get')
+  const userId = useAuthStore(state => state.userId)
 
   const {
     quizzes,
@@ -53,9 +52,9 @@ export const QuizProgressPage = () => {
     setIsFinishing(true)
     const delay = new Promise(resolve => setTimeout(resolve, 1500))
 
-    if (myId && !isTrial) {
+    if (userId && !isTrial) {
       const result = quizzes.map((quiz, idx) => {
-        const selectedIdx = userAnswers[idx] + 1
+        const selectedIdx = userAnswers[idx]
         return {
           quizIdx: idx + 1,
           userSelection: selectedIdx,
@@ -63,7 +62,7 @@ export const QuizProgressPage = () => {
         }
       })
 
-      await sendQuizResult(myId, result)
+      await sendQuizResult(userId, result)
     }
 
     await delay
@@ -86,7 +85,7 @@ export const QuizProgressPage = () => {
         {quizzes.length && (
           <QuizContent
             quiz={quizzes[currentIndex]}
-            selectedAnswer={userAnswers[currentIndex]}
+            selectedAnswer={userAnswers[currentIndex] - 1}
             onSelect={index => setUserAnswer(currentIndex, index)}
             number={`Question ${currentIndex + 1} of ${quizzes.length}`}
           />

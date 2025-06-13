@@ -2,15 +2,16 @@ import { EmptyPlaceholder, SubPageHeader } from '@/components/ui'
 import styles from './styles.module.scss'
 import { CircleProgressBar } from '@/components/ui'
 import { QuizCardList, QuizFilterButton } from '@/components/features'
-import { useQuizStore } from '@/stores'
-import { useProfile } from '@/hooks'
-import { useQuizStatistic } from '@/hooks/quiz-history/useQuizStatistic'
+import { useQuizHistory, useQuizStatistic } from '@/hooks'
+import { useState } from 'react'
+import { useAuthStore } from '@/stores'
 
 export const MyQuizPage: React.FC = () => {
-  const { quizzes, userAnswers } = useQuizStore()
+  const [isFiltered, setIsFiltered] = useState(false)
 
-  const { myId } = useProfile('get')
-  const { data: percentage } = useQuizStatistic(myId as string)
+  const userId = useAuthStore(state => state.userId)
+  const { data: percentage } = useQuizStatistic(userId)
+  const { data: quizData } = useQuizHistory(userId, isFiltered, 10)
 
   return (
     <div className={styles.myQuizPage}>
@@ -19,12 +20,15 @@ export const MyQuizPage: React.FC = () => {
       <div className={styles.container}>
         <div className={styles.quizStatus}>
           <CircleProgressBar percentage={percentage || 0} label="전체 정답률" />
-          <QuizFilterButton />
+          <QuizFilterButton
+            isFiltered={isFiltered}
+            setIsFiltered={setIsFiltered}
+          />
         </div>
 
         <div className={styles.quizListContainer}>
-          {quizzes.length ? (
-            <QuizCardList quizzes={quizzes} userAnswers={userAnswers} />
+          {quizData?.quizzes ? (
+            <QuizCardList quizzes={quizData?.quizzes} />
           ) : (
             <EmptyPlaceholder
               type="sad"

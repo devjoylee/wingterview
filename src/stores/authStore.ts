@@ -2,11 +2,13 @@ import { create } from 'zustand'
 import { persist, StorageValue } from 'zustand/middleware'
 
 interface AuthState {
+  userId: string
   accessToken: string
   isNewUser: boolean
   isLoggedIn: boolean
   hasProfile: boolean
 
+  setUserId: (userId: string) => void
   setAccessToken: (accessToken: string) => void
   setLoginState: (accessToken: string, isNewUser: boolean) => void
 }
@@ -14,11 +16,13 @@ interface AuthState {
 export const useAuthStore = create<AuthState>()(
   persist(
     set => ({
+      userId: '',
       accessToken: '',
       isNewUser: false,
       isLoggedIn: false,
       hasProfile: !!localStorage.getItem('nickname'),
 
+      setUserId: (userId: string) => set({ userId }),
       setAccessToken: (accessToken: string) => set({ accessToken }),
       setLoginState: (accessToken: string, isNewUser: boolean) =>
         set({
