@@ -1,8 +1,7 @@
 import { EmptyPlaceholder, SubPageHeader } from '@/components/ui'
 import { InterviewHistoryList } from '@/components/features'
+import { useProfile, useInterviewHistory } from '@/hooks'
 import styles from './styles.module.scss'
-import { useInterviewHistory } from '@/hooks/interview/useInterviewHistory'
-import { useProfile } from '@/hooks'
 
 export const MyInterviewPage: React.FC = () => {
   const { myId } = useProfile('get')

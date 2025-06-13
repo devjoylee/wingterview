@@ -45,19 +45,19 @@ interface HistoryListData {
   hasFeedback: boolean
 }
 
-interface InterviewHistoryDetailData {
+interface FeedbackPageData {
   createdAt: string
   duration: number
   recordingUrl: string
-  feedback: FeedbackData[]
+  feedback: Feedback[]
 }
 
-interface FeedbackData {
+interface Feedback {
   question: string
   modelAnswer: string
   commentary: string
-  startTime: number
-  endTime: number
+  startAt: number
+  endAt: number
 }
 
 interface HistoryResponse {
