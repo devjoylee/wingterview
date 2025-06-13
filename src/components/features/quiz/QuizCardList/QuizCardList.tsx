@@ -1,4 +1,3 @@
-import { QuizData } from '@/types/quiz'
 import { QuizCard } from '@/components/features'
 import styles from './styles.module.scss'
 

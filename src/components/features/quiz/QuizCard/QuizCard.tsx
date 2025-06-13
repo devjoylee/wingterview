@@ -1,5 +1,4 @@
 import React from 'react'
-import { QuizData } from '@/types/quiz'
 import styles from './styles.module.scss'
 
 interface Props {

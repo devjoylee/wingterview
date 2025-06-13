@@ -1,4 +1,3 @@
-import { QuizData } from '@/types/quiz'
 import styles from './styles.module.scss'
 
 interface QuizContentProps {
