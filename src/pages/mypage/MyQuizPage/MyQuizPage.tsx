@@ -11,7 +11,8 @@ export const MyQuizPage: React.FC = () => {
 
   const userId = useAuthStore(state => state.userId)
   const { data: percentage } = useQuizStatistic(userId)
-  const { data: quizData } = useQuizHistory(userId, isFiltered, 10)
+  const { quizzes, isLoading, fetchNextPage, hasNextPage, isFetchingNextPage } =
+    useQuizHistory(userId, isFiltered, 10)
 
   return (
     <div className={styles.myQuizPage}>
@@ -27,13 +28,20 @@ export const MyQuizPage: React.FC = () => {
         </div>
 
         <div className={styles.quizListContainer}>
-          {quizData?.quizzes ? (
-            <QuizCardList quizzes={quizData?.quizzes} />
-          ) : (
-            <EmptyPlaceholder
-              type="sad"
-              text={['완료된 퀴즈가 없습니다.', '윙퀴즈를 진행해주세요!']}
+          {quizzes[0] ? (
+            <QuizCardList
+              quizzes={quizzes}
+              hasNextPage={hasNextPage}
+              isFetchingNextPage={isFetchingNextPage}
+              fetchNextPage={fetchNextPage}
             />
+          ) : (
+            !isLoading && (
+              <EmptyPlaceholder
+                type="sad"
+                text={['완료된 퀴즈가 없습니다.', '윙퀴즈를 진행해주세요!']}
+              />
+            )
           )}
         </div>
       </div>

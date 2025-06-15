@@ -48,9 +48,9 @@ export const InterviewHistoryList: React.FC<Props> = ({
 
   return (
     <div className={styles.historyList}>
-      {history.map((item, index) => (
+      {history.map(item => (
         <InterviewHistoryCard
-          key={`${item.id}-${index}`}
+          key={item.id}
           history={item}
           onClick={handleClick}
         />

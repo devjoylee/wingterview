@@ -1,15 +1,57 @@
+import { useRef, useEffect } from 'react'
 import { QuizCard } from '@/components/features'
 import styles from './styles.module.scss'
+import { LoadingIndicator } from '@/components/ui'
 
-export const QuizCardList: React.FC<{
+interface Props {
   quizzes: QuizCardData[]
+  hasNextPage: boolean | undefined
+  isFetchingNextPage: boolean
+  fetchNextPage: () => void
   hasIndex?: boolean
-}> = ({ quizzes, hasIndex }) => {
+}
+
+export const QuizCardList: React.FC<Props> = ({
+  quizzes,
+  hasNextPage,
+  isFetchingNextPage,
+  fetchNextPage,
+  hasIndex,
+}) => {
+  const observerTarget = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    const target = observerTarget.current
+    const observer = new IntersectionObserver(
+      entries => {
+        if (entries[0].isIntersecting && hasNextPage && fetchNextPage)
+          fetchNextPage()
+      },
+      { threshold: 0.1 }
+    )
+
+    if (target) observer.observe(target)
+
+    return () => {
+      if (target) observer.unobserve(target)
+    }
+  }, [fetchNextPage, hasNextPage])
+
   return (
     <div className={styles.quizList}>
       {quizzes.map((quiz, index) => (
         <QuizCard key={index} data={quiz} hasIndex={hasIndex} />
       ))}
+
+      {isFetchingNextPage && (
+        <div className={styles.loading}>
+          <LoadingIndicator size={40} />
+        </div>
+      )}
+
+      {hasNextPage && (
+        <div ref={observerTarget} className={styles.trigger}></div>
+      )}
     </div>
   )
 }
