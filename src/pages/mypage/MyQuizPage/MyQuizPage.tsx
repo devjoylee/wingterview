@@ -28,7 +28,7 @@ export const MyQuizPage: React.FC = () => {
         </div>
 
         <div className={styles.quizListContainer}>
-          {quizzes[0] ? (
+          {quizzes && quizzes[0] ? (
             <QuizCardList
               quizzes={quizzes}
               hasNextPage={hasNextPage}
