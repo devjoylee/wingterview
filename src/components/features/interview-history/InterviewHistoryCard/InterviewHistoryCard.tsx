@@ -1,7 +1,7 @@
 import mrWing from '@/assets/mrwing-face.png'
 import styles from './styles.module.scss'
 import { Clock } from 'lucide-react'
-import { dateFormatter } from '@/utils'
+import { dateFormatter, timeFormatter } from '@/utils'
 
 interface Props {
   history: HistoryListData
@@ -21,7 +21,7 @@ export const InterviewHistoryCard: React.FC<Props> = ({ history, onClick }) => {
         <span className={styles.date}>{dateFormatter(createdAt)}</span>
         <span className={styles.duration}>
           <Clock />
-          {duration}분
+          {timeFormatter(duration, 'kor')}
         </span>
       </div>
 

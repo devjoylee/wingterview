@@ -6,7 +6,9 @@ import { useAuthStore } from '@/stores'
 
 export const MyInterviewPage: React.FC = () => {
   const userId = useAuthStore(state => state.userId)
-  const { data } = useInterviewHistory(userId, 10)
+
+  const { history, isLoading, fetchNextPage, hasNextPage, isFetchingNextPage } =
+    useInterviewHistory(userId, 10)
 
   return (
     <div className={styles.myInterviewPage}>
@@ -15,16 +17,23 @@ export const MyInterviewPage: React.FC = () => {
         <h2 className={styles.title}>Interview History</h2>
 
         <div className={styles.quizListContainer}>
-          {data?.history ? (
-            <InterviewHistoryList history={data.history} />
-          ) : (
-            <EmptyPlaceholder
-              type="sad"
-              text={[
-                '저장된 면접이 없습니다.',
-                '모의 면접을 먼저 진행해주세요!',
-              ]}
+          {history.length > 0 ? (
+            <InterviewHistoryList
+              history={history}
+              hasNextPage={hasNextPage}
+              isFetchingNextPage={isFetchingNextPage}
+              fetchNextPage={fetchNextPage}
             />
+          ) : (
+            !isLoading && (
+              <EmptyPlaceholder
+                type="sad"
+                text={[
+                  '저장된 면접이 없습니다.',
+                  '모의 면접을 먼저 진행해주세요!',
+                ]}
+              />
+            )
           )}
         </div>
       </div>

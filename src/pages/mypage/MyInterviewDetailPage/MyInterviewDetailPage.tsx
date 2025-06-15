@@ -1,7 +1,7 @@
 import { SubPageHeader } from '@/components/ui'
 import { AudioPlayer, FeedbackList } from '@/components/features'
 import styles from './styles.module.scss'
-import { dateFormatter } from '@/utils'
+import { dateFormatter, timeFormatter } from '@/utils'
 import { useParams } from 'react-router-dom'
 import { useFeedback } from '@/hooks'
 import { useAuthStore } from '@/stores'
@@ -22,7 +22,7 @@ export const MyInterviewDetailPage = () => {
             <h1>인터뷰 상세 기록</h1>
             <div className={styles.meta}>
               <p>날짜: {dateFormatter(interview.createdAt)}</p>
-              <p>면접 시간: {interview.duration}분</p>
+              <p>면접 시간: {timeFormatter(interview.duration, 'kor')}</p>
             </div>
           </div>
 

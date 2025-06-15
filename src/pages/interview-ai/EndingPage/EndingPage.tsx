@@ -44,7 +44,7 @@ export const EndingPage: React.FC = () => {
     }
   }
 
-  // // 새로고침 후 접근 시
+  // 새로고침 후 접근 시
   useEffect(() => {
     if (!recordedBlob) {
       navigate('/interview-ai/awaiting')

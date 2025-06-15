@@ -2,8 +2,16 @@
 
 .historyList {
   margin-top: 20px;
+}
 
-  & > div + div {
-    margin-top: 10px;
+.historyList {
+  width: 100%;
+
+  .loading {
+    margin-top: 20px;
+  }
+
+  .trigger {
+    height: 50px;
   }
 }
