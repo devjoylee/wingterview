@@ -34,6 +34,7 @@ export const MyQuizPage: React.FC = () => {
               hasNextPage={hasNextPage}
               isFetchingNextPage={isFetchingNextPage}
               fetchNextPage={fetchNextPage}
+              infiniteScroll
             />
           ) : (
             !isLoading && (

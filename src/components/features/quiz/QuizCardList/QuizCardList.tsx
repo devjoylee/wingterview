@@ -5,10 +5,11 @@ import { LoadingIndicator } from '@/components/ui'
 
 interface Props {
   quizzes: QuizCardData[]
-  hasNextPage: boolean | undefined
-  isFetchingNextPage: boolean
-  fetchNextPage: () => void
+  hasNextPage?: boolean | undefined
+  isFetchingNextPage?: boolean
+  fetchNextPage?: () => void
   hasIndex?: boolean
+  infiniteScroll?: boolean
 }
 
 export const QuizCardList: React.FC<Props> = ({
@@ -17,10 +18,13 @@ export const QuizCardList: React.FC<Props> = ({
   isFetchingNextPage,
   fetchNextPage,
   hasIndex,
+  infiniteScroll,
 }) => {
   const observerTarget = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
+    if (!infiniteScroll) return
+
     const target = observerTarget.current
     const observer = new IntersectionObserver(
       entries => {
@@ -35,7 +39,7 @@ export const QuizCardList: React.FC<Props> = ({
     return () => {
       if (target) observer.unobserve(target)
     }
-  }, [fetchNextPage, hasNextPage])
+  }, [fetchNextPage, hasNextPage, infiniteScroll])
 
   return (
     <div className={styles.quizList}>
@@ -43,13 +47,13 @@ export const QuizCardList: React.FC<Props> = ({
         <QuizCard key={index} data={quiz} hasIndex={hasIndex} />
       ))}
 
-      {isFetchingNextPage && (
+      {infiniteScroll && isFetchingNextPage && (
         <div className={styles.loading}>
           <LoadingIndicator size={40} />
         </div>
       )}
 
-      {hasNextPage && (
+      {infiniteScroll && hasNextPage && (
         <div ref={observerTarget} className={styles.trigger}></div>
       )}
     </div>
