@@ -1,5 +1,14 @@
 @use '@/styles/variables' as *;
 
 .voiceRecorder {
+  width: 100%;
   font-size: 16px;
+  height: 54px;
+  overflow: hidden;
+  display: flex;
+  padding-left: 45px;
+  .recordingGif {
+    margin: 0 auto;
+    width: 60px;
+  }
 }
