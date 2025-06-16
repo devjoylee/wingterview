@@ -28,7 +28,7 @@ interface ProfileState {
   setFormErrors: (errors: Record<string, string>) => void
   setSelectedSeat: (seat: SeatData) => void
   setImageURL: (url: string) => void
-  setImageFile: (file: File) => void
+  setImageFile: (file: File | null) => void
   setCurrentStep: (currentStep: number) => void
   setIsKTB: (isKTB: boolean) => void
   resetKTBData: () => void
@@ -108,7 +108,7 @@ export const useProfileStore = create<ProfileState>()(
         })),
 
       setImageURL: (url: string) => set(() => ({ imageURL: url })),
-      setImageFile: (file: File) => set(() => ({ imageFile: file })),
+      setImageFile: (file: File | null) => set(() => ({ imageFile: file })),
       setSelectedSeat: seat => set({ selectedSeat: seat }),
 
       validateCurrentStep: currentStep => {
