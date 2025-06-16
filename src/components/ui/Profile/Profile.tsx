@@ -23,7 +23,7 @@ export const Profile: React.FC<ProfileProps> = ({ profileData }) => {
     <div className={styles.profile}>
       <div className={styles.profileHeader}>
         <div className={styles.thumbnail}>
-          <ProfileImage url={profileImageUrl} size={72} />
+          <ProfileImage url={profileImageUrl} size={75} />
         </div>
 
         <ul className={styles.myInfoList}>
@@ -38,16 +38,16 @@ export const Profile: React.FC<ProfileProps> = ({ profileData }) => {
 
           {isKTB ? (
             <>
-              <li className={`${styles.item} ${styles.curriculum}`}>
+              <li className={`${styles.item} ${styles.status}`}>
+                <span>카테부 {curriculum} 수강 중</span>
                 <img src={ryanImage} alt="" className={styles.ryan} />
-                <span>{curriculum} 과정</span>
               </li>
               <li className={styles.item}>
                 <FindSeatButton name="내 자리 보기" seatCode={seatCode} />
               </li>
             </>
           ) : (
-            <li className={styles.item}>
+            <li className={`${styles.item} ${styles.status}`}>
               <span>일반 회원</span>
             </li>
           )}
