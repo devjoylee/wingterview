@@ -22,6 +22,7 @@ interface InterviewerData extends BaseProfile {
 type IntervieweeData = BaseProfile
 
 interface ProfileFormData extends BaseProfile {
+  isKTB: boolean
   profileImageName: string | null
   seatPosition: {
     section: string | null

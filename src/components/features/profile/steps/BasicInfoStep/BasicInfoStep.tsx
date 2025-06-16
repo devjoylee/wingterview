@@ -5,13 +5,13 @@ import { useProfileStore } from '@/stores/profileStore'
 import { validateBasicInfo } from '@/utils/validators'
 
 export const BasicInfoStep: React.FC = React.memo(() => {
-  const { updateBasicInfo, formErrors, formData, setFormErrors } =
+  const { updateBasicInfo, formErrors, formData, setFormErrors, setIsKTB } =
     useProfileStore()
 
   const [userValue, setUserValue] = useState({
     name: formData.name,
     nickname: formData.nickname,
-    curriculum: formData.curriculum,
+    curriculum: formData.curriculum || '',
   })
 
   const curriculum: string[] = ['풀스택', '클라우드', '인공지능']
@@ -48,7 +48,14 @@ export const BasicInfoStep: React.FC = React.memo(() => {
   }
 
   const handleToggleChange = (isKTB: boolean): void => {
-    console.log(isKTB)
+    setIsKTB(isKTB)
+
+    if (!isKTB) {
+      setUserValue(prev => ({
+        ...prev,
+        curriculum: '',
+      }))
+    }
   }
 
   useEffect(() => {
@@ -92,17 +99,19 @@ export const BasicInfoStep: React.FC = React.memo(() => {
         )}
       </div>
 
-      <div className={styles.inputWrapper}>
-        <Dropdown
-          options={curriculum}
-          placeholder="과정명을 선택해주세요."
-          selectedOption={userValue.curriculum}
-          onChange={handleDropdownChange}
-        />
-        {formErrors.curriculum && (
-          <ErrorMessage size="small" error={formErrors.curriculum} />
-        )}
-      </div>
+      {formData.isKTB && (
+        <div className={styles.inputWrapper}>
+          <Dropdown
+            options={curriculum}
+            placeholder="과정명을 선택해주세요."
+            selectedOption={userValue.curriculum}
+            onChange={handleDropdownChange}
+          />
+          {formErrors.curriculum && (
+            <ErrorMessage size="small" error={formErrors.curriculum} />
+          )}
+        </div>
+      )}
     </div>
   )
 })

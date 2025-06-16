@@ -30,6 +30,8 @@ interface ProfileState {
   setImageURL: (url: string) => void
   setImageFile: (file: File) => void
   setCurrentStep: (currentStep: number) => void
+  setIsKTB: (isKTB: boolean) => void
+  resetKTBData: () => void
 }
 
 const initialFormData: ProfileFormData = {
@@ -39,6 +41,7 @@ const initialFormData: ProfileFormData = {
   jobInterest: [],
   techStack: [],
   profileImageName: null,
+  isKTB: true,
   seatPosition: {
     section: '',
     seat: [null, null],
@@ -139,6 +142,37 @@ export const useProfileStore = create<ProfileState>()(
 
       setFormErrors: errors => set({ formErrors: errors }),
       setCurrentStep: (currentStep: number) => set({ currentStep }),
+
+      resetKTBData: () =>
+        set(state => ({
+          formData: {
+            ...state.formData,
+            isKTB: false,
+            curriculum: '',
+            seatPosition: {
+              section: '',
+              seat: [null, null],
+            },
+          },
+          selectedSeat: {
+            section: '',
+            seat: [null, null],
+          },
+          formErrors: {},
+        })),
+
+      setIsKTB: (isKTB: boolean) => {
+        if (!isKTB) {
+          get().resetKTBData()
+        } else {
+          set(state => ({
+            formData: {
+              ...state.formData,
+              isKTB: true,
+            },
+          }))
+        }
+      },
     }),
     {
       name: 'profile-storage',
