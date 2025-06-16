@@ -56,8 +56,9 @@ export const QuestionPage: React.FC = () => {
     const handleNavClick = (e: MouseEvent) => {
       const target = e.target as HTMLElement
       const navbar = target.closest('[data-id="navbar"]')
+      const logo = target.closest('[data-id="logo"]')
 
-      if (navbar) {
+      if (navbar || logo) {
         e.preventDefault()
         e.stopPropagation()
         setEndConfirmModal(true)

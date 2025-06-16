@@ -12,7 +12,7 @@ export const Logo: React.FC<LogoProps> = ({ width = 150, white }) => {
   const navigate = useNavigate()
 
   return (
-    <div className={styles.logo}>
+    <div className={styles.logo} data-id="logo">
       <img
         src={white ? logoWhite : logo}
         alt="logo"
