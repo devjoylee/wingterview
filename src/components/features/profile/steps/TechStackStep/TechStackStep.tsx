@@ -8,17 +8,20 @@ export const TechStackStep: React.FC = React.memo(() => {
   const [selected, setSelected] = useState<string[]>(formData.techStack)
 
   const taglist: string[] = [
-    'Typescript',
-    'Javascript',
     'Java',
     'Spring',
     'React',
     'Python',
+    'Kubernetes',
     'AWS',
     'Pytorch',
-    'Kubernetes',
-    'Fastapi',
+    'FastAPI',
+    'DevOps',
+    'MLOps',
+    '보안',
     'Langchain',
+    '데이터베이스',
+    '소프트웨어 아키텍처',
   ]
 
   const toggleTag = (tag: string): void => {

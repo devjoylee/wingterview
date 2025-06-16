@@ -25,13 +25,16 @@ export const FinalConfirmStep = React.memo(() => {
 
         <div className={styles.myInfo}>
           <h2 className={styles.name}>
-            {formData.nickname} ({formData.name}) / {formData.curriculum}
+            {formData.nickname} ({formData.name})
+            {formData.isKTB && `/ ${formData.curriculum}`}
           </h2>
 
-          <div className={styles.seat}>
-            <MapPin size={12} />
-            <span>{seatCode}</span>
-          </div>
+          {formData.isKTB && (
+            <div className={styles.seat}>
+              <MapPin size={12} />
+              <span>{seatCode}</span>
+            </div>
+          )}
         </div>
       </div>
 

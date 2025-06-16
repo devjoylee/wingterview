@@ -1,4 +1,4 @@
-import { useCallback } from 'react'
+import { useCallback, useMemo } from 'react'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { EffectCoverflow, Pagination, Navigation } from 'swiper/modules'
 import { useProfileStore } from '@/stores'
@@ -15,7 +15,33 @@ import 'swiper/css/pagination'
 export const ProfileSlider: React.FC<{
   setSwiper: (swiper: SwiperType) => void
 }> = ({ setSwiper }) => {
-  const { currentStep, setCurrentStep } = useProfileStore()
+  const { currentStep, setCurrentStep, formData } = useProfileStore()
+  const isKTB = formData?.isKTB
+
+  const slides = useMemo(() => {
+    const slideArray = [
+      { id: 1, name: '기본 정보', component: <S.BasicInfoStep /> },
+      { id: 2, name: '희망 직무', component: <S.JobInterestStep /> },
+      { id: 3, name: '기술 스택', component: <S.TechStackStep /> },
+      { id: 4, name: '프로필 사진', component: <S.ProfileImageStep /> },
+    ]
+
+    if (isKTB) {
+      slideArray.push({
+        id: 5,
+        name: '교육장 자리 선택',
+        component: <S.SeatLocationStep />,
+      })
+    }
+
+    slideArray.push({
+      id: isKTB ? 6 : 5,
+      name: '최종 프로필 확인',
+      component: <S.FinalConfirmStep />,
+    })
+
+    return slideArray
+  }, [isKTB])
 
   const handleSlideChange = useCallback(
     (swiper: SwiperType) => {
@@ -23,15 +49,6 @@ export const ProfileSlider: React.FC<{
     },
     [setCurrentStep]
   )
-
-  const slides = [
-    { id: 1, name: '기본 정보', component: <S.BasicInfoStep /> },
-    { id: 2, name: '희망 직무', component: <S.JobInterestStep /> },
-    { id: 3, name: '기술 스택', component: <S.TechStackStep /> },
-    { id: 4, name: '프로필 사진', component: <S.ProfileImageStep /> },
-    { id: 5, name: '현재 위치 설정', component: <S.SeatLocationStep /> },
-    { id: 6, name: '최종 프로필 확인', component: <S.FinalConfirmStep /> },
-  ]
 
   const pagination = {
     clickable: false,
