@@ -17,8 +17,6 @@ export const SliderButtons: React.FC<SliderButtonProps> = ({
 
   const { validateCurrentStep, currentStep } = useProfileStore()
 
-  const isLastStep = currentStep === 5
-
   const handlePrev = () => {
     if (swiper) swiper.slidePrev()
   }
@@ -55,7 +53,7 @@ export const SliderButtons: React.FC<SliderButtonProps> = ({
         이전
       </button>
 
-      {!isLastStep ? (
+      {!isEnd ? (
         <button onClick={handleNext} disabled={isEnd}>
           다음
         </button>
