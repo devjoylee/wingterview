@@ -1,6 +1,10 @@
 pipeline {
   agent any
 
+  triggers {
+    githubPush()
+  }
+
   environment {
     AWS_REGION = 'ap-northeast-2'
     S3_BUCKET = 'winterview-dev'
