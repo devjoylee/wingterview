@@ -21,12 +21,22 @@ export const getInterviewHistory = async (
 export const getFeedback = async (userId: string, interviewId: string) => {
   try {
     const response = await apiClient.get<ApiResponse<FeedbackPageData>>(
-      API.AI_INTERVIEW.FEEDBACK(userId, interviewId)
+      API.AI_INTERVIEW.FEEDBACK_LIST(userId, interviewId)
     )
     console.log('🎉 피드백 조회 성공:', response.data)
     return response.data.data
   } catch (error) {
     console.error('피드백 조회 실패:', error)
+    throw error
+  }
+}
+
+export const requestFeedback = async (userId: string) => {
+  try {
+    await apiClient.put(API.AI_INTERVIEW.FEEDBACK_REQUEST(userId))
+    console.log('🎉 피드백 요청 성공')
+  } catch (error) {
+    console.error('피드백 요청 실패:', error)
     throw error
   }
 }

@@ -1,14 +1,16 @@
 import { useState } from 'react'
 import { updateInterviewStatus } from '@/api/interviewAPI'
 import { useNavigate } from 'react-router-dom'
-import { useAIInterviewStore, useTimerStore } from '@/stores'
+import { useAIInterviewStore, useAuthStore, useTimerStore } from '@/stores'
 import { useMediaRecorder } from './useMediaRecorder'
 import { endInterview } from '@/api/interviewAiAPI'
+import { requestFeedback } from '@/api/interviewHistoryAPI'
 
 export const useFinishInterview = () => {
   const navigate = useNavigate()
   const [loading, setLoading] = useState<boolean>(false)
 
+  const userId = useAuthStore(state => state.userId)
   const reset = useAIInterviewStore(state => state.resetInterviewData)
   const resetTimer = useTimerStore(state => state.resetTimer)
 
@@ -35,6 +37,7 @@ export const useFinishInterview = () => {
     const delay = new Promise(resolve => setTimeout(resolve, 1500))
 
     await uploadRecording(interviewId)
+    await requestFeedback(userId)
     await resetInterview(interviewId)
     await delay
     setLoading(false)

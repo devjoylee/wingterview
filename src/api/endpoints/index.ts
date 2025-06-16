@@ -40,8 +40,9 @@ export const API = {
       `/s3/presigned-url/recording?filename=${filename}`,
     HISTORY: (userId: string, limit: number, cursor?: string) =>
       `/user/${userId}/interview?limit=${limit}${cursor ? `&cursor=${cursor}` : ''}`,
-    FEEDBACK: (userId: string, interviewId: string) =>
+    FEEDBACK_LIST: (userId: string, interviewId: string) =>
       `/user/${userId}/interview/${interviewId}`,
+    FEEDBACK_REQUEST: (userId: string) => `/interview/${userId}/stt/feedback`,
   },
   PRESIGNED_URL: (filename?: string) =>
     `/s3/presigned-url?filename=${filename}`,
