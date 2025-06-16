@@ -1,4 +1,5 @@
 import { ProfileImage, StaticTag } from '@/components/ui'
+import { FindSeatButton } from '@/components/features'
 import ryanImage from '@assets/ryan.png'
 import styles from './styles.module.scss'
 
@@ -42,7 +43,7 @@ export const Profile: React.FC<ProfileProps> = ({ profileData }) => {
                 <span>{curriculum} 과정</span>
               </li>
               <li className={styles.item}>
-                <span>자리 : {seatCode}</span>
+                <FindSeatButton name="내 자리 보기" seatCode={seatCode} />
               </li>
             </>
           ) : (
