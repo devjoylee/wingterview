@@ -10,6 +10,8 @@ export const errorMessages: Record<string, string> = {
   QUESTION_NOT_FOUND: '존재하지 않는 질문 목록',
   USER_NOT_FOUND: '유저가 존재하지 않음',
   QUIZ_NOT_FOUND: '퀴즈가 존재하지 않음',
+  RECORD_NOT_FOUND: '녹음 파일이 존재하지 않음',
+  FEEDBACK_NOT_READY: '피드백이 준비되지 않음',
 
   // 409
   ALREADY_ENQUEUED: '이미 진입한 사용자',

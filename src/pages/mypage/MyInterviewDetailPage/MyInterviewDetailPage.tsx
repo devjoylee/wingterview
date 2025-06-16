@@ -1,4 +1,4 @@
-import { SubPageHeader } from '@/components/ui'
+import { EmptyPlaceholder, SubPageHeader } from '@/components/ui'
 import { AudioPlayer, FeedbackList } from '@/components/features'
 import styles from './styles.module.scss'
 import { dateFormatter, timeFormatter } from '@/utils'
@@ -7,10 +7,10 @@ import { useFeedback } from '@/hooks'
 import { useAuthStore } from '@/stores'
 
 export const MyInterviewDetailPage = () => {
-  const { id: interviewId } = useParams<{ id: string }>()
+  const { interviewId } = useParams<{ interviewId: string }>()
   const userId = useAuthStore(state => state.userId)
 
-  const { data: interview } = useFeedback(userId || '', interviewId || '')
+  const { data: interview } = useFeedback(userId, interviewId || '')
 
   return (
     <div className={styles.interviewDetailPage}>
@@ -20,7 +20,10 @@ export const MyInterviewDetailPage = () => {
         <div className={styles.title}>
           <h1>인터뷰 상세 기록</h1>
           <div className={styles.meta}>
-            <p>날짜: {dateFormatter(interview?.createdAt || '')}</p>
+            <p>
+              날짜:
+              {dateFormatter(interview?.createdAt || '')}
+            </p>
             <p>면접 시간: {timeFormatter(interview?.duration || 0, 'kor')}</p>
           </div>
         </div>
@@ -29,7 +32,14 @@ export const MyInterviewDetailPage = () => {
           <AudioPlayer audioURL={interview.recordingUrl} />
         )}
 
-        <FeedbackList list={interview?.feedback || []} />
+        {interview?.feedback.length ? (
+          <FeedbackList list={interview.feedback} />
+        ) : (
+          <EmptyPlaceholder
+            text={['면접 기록을 찾을 수 없습니다']}
+            type="sad"
+          />
+        )}
       </div>
     </div>
   )

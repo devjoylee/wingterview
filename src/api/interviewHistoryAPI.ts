@@ -1,5 +1,6 @@
 import apiClient from '@/api/apiClient'
 import { API } from './endpoints'
+import { errorHandler } from '@/utils/errorHandler'
 
 export const getInterviewHistory = async (
   userId: string,
@@ -26,8 +27,13 @@ export const getFeedback = async (userId: string, interviewId: string) => {
     console.log('🎉 피드백 조회 성공:', response.data)
     return response.data.data
   } catch (error) {
-    console.error('피드백 조회 실패:', error)
-    throw error
+    errorHandler(error)
+    return {
+      createdAt: '',
+      duration: 0,
+      feedback: [],
+      recordingUrl: '',
+    } as FeedbackPageData
   }
 }
 

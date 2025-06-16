@@ -25,7 +25,8 @@ export const useInterviewHistory = (userId: string, limit: number = 10) => {
 
 export const useFeedback = (userId: string, interviewId: string) => {
   return useQuery<FeedbackPageData>({
-    queryKey: ['feedback'],
+    queryKey: ['feedback', interviewId],
     queryFn: () => getFeedback(userId, interviewId),
+    staleTime: 5 * 60 * 1000,
   })
 }
