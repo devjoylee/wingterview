@@ -14,6 +14,17 @@ pipeline {
       }
     }
 
+    stage('Prepare Env File') {
+      steps {
+        withCredentials([file(credentialsId: 'env-dev', variable: 'ENV_FILE')]) {
+          sh '''
+            echo ".env 파일 복사 중"
+            cp $ENV_FILE .env
+          '''
+        }
+      }
+    }
+
     stage('Install & Build') {
       steps {
         sh '''
