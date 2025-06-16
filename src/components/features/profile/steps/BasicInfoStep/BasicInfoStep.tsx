@@ -71,6 +71,8 @@ export const BasicInfoStep: React.FC = React.memo(() => {
     <div className={styles.container}>
       <KTBOptionToggle isKTB={formData.isKTB} onChange={handleToggleChange} />
 
+      {!formData.isKTB && <span className={styles.spacer}></span>}
+
       <div className={styles.inputWrapper}>
         <input
           type="text"

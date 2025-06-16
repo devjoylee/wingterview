@@ -1,0 +1,100 @@
+@use '@/styles/variables' as *;
+
+.profile {
+  width: 100%;
+}
+
+.profileHeader {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 40px;
+  margin-bottom: 10px;
+}
+
+.thumbnail {
+  width: 48%;
+  div {
+    margin-left: auto;
+  }
+}
+
+.myInfoList {
+  position: relative;
+  width: 52%;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  word-break: break-all;
+
+  .item {
+    font-size: 15px;
+    font-weight: 600;
+    color: #333;
+    margin-right: 5px;
+    line-height: 1.3;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    width: 100%;
+
+    span {
+      font-size: 12px;
+      white-space: nowrap;
+      margin-right: 3px;
+    }
+  }
+
+  &::before {
+    position: absolute;
+    content: '';
+    background: #eee;
+    width: 1px;
+    height: 90%;
+    left: -20px;
+    top: 5px;
+  }
+
+  button {
+    font-size: 10px;
+    margin-left: -2px;
+  }
+
+  .status {
+    display: flex;
+    align-items: center;
+    margin-top: 4px;
+    flex-wrap: wrap;
+
+    span {
+      font-size: 11px;
+    }
+
+    .ryan {
+      width: 13px;
+      margin-left: 3px;
+      flex-shrink: 0;
+    }
+  }
+}
+
+.profileBody {
+  padding: 10px 5px;
+  text-align: center;
+
+  .section:first-child {
+    margin-bottom: 10px;
+  }
+
+  .title {
+    font-size: 14px;
+    font-weight: 500;
+    margin-bottom: 5px;
+  }
+
+  .tagList {
+    display: flex;
+    justify-content: center;
+    gap: 5px;
+    opacity: 0.85;
+  }
+}

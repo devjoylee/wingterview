@@ -25,7 +25,7 @@ export const ProfileImageStep = React.memo(() => {
           return
         }
 
-        if (!['image/png', 'image/jpeg', 'image/png'].includes(file.type)) {
+        if (!['image/png', 'image/jpeg', 'image/jpg'].includes(file.type)) {
           setError('jpg, jpeg, png만 업로드가 가능합니다.')
           return
         }
@@ -43,12 +43,24 @@ export const ProfileImageStep = React.memo(() => {
     }
   }
 
-  // 썸네일 클릭 시 파일 선택 트리거
   const handleThumbnailClick = () => {
     const fileInput = document.getElementById(
       'profile-upload'
     ) as HTMLInputElement
     fileInput?.click()
+  }
+
+  const handleResetImage = () => {
+    setImageURL('')
+    setImageFile(null)
+    setImageName('')
+    updateProfileImage('')
+    setError('')
+
+    const fileInput = document.getElementById(
+      'profile-upload'
+    ) as HTMLInputElement
+    if (fileInput) fileInput.value = ''
   }
 
   useEffect(() => {
@@ -85,6 +97,11 @@ export const ProfileImageStep = React.memo(() => {
           />
         </label>
       </div>
+      {imageURL && (
+        <button onClick={handleResetImage} className={styles.reset}>
+          사진 삭제
+        </button>
+      )}
     </div>
   )
 })
