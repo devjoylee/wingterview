@@ -13,25 +13,31 @@ export const FeedbackCard: React.FC<Props> = ({ feedback, idx }) => {
 
   return (
     <div className={styles.feedbackCard}>
-      <div className={styles.timestamp}>
-        <span onClick={() => jumpTo(startAt)}>{timeFormatter(startAt)}</span>~
-        <span onClick={() => jumpTo(endAt)}>{timeFormatter(endAt)}</span>
-      </div>
+      {startAt && (
+        <div className={styles.timestamp}>
+          <span onClick={() => jumpTo(startAt)}>{timeFormatter(startAt)}</span>~
+          <span onClick={() => jumpTo(endAt)}>{timeFormatter(endAt)}</span>
+        </div>
+      )}
 
       <h3 className={styles.question}>
         Q{idx + 1}. {question}
       </h3>
 
       <div className={styles.answer}>
-        <div className={styles.modelAnswer}>
-          <h4>모범 답안</h4>
-          <p>{modelAnswer}</p>
-        </div>
+        {modelAnswer && (
+          <div className={styles.modelAnswer}>
+            <h4>모범 답안</h4>
+            <p>{modelAnswer}</p>
+          </div>
+        )}
 
-        <div className={styles.feedback}>
-          <h4>피드백</h4>
-          <p>{commentary}</p>
-        </div>
+        {commentary && (
+          <div className={styles.feedback}>
+            <h4>피드백</h4>
+            <p>{commentary}</p>
+          </div>
+        )}
       </div>
     </div>
   )

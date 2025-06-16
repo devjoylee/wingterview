@@ -43,6 +43,7 @@ interface HistoryListData {
   questionCount: number
   duration: number
   hasFeedback: boolean
+  isFeedbackRequested: boolean
 }
 
 interface FeedbackPageData {
