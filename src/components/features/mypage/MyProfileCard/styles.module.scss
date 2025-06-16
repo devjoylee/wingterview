@@ -3,12 +3,14 @@
 .profileCard {
   position: relative;
   width: 100%;
-  min-height: 300px;
+  display: flex;
+  min-height: 260px;
   padding: 15px 20px;
   border-radius: 20px;
   background: #fff;
   border: 8px solid $blue-6;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
 
   &.blurred {
     .container {

@@ -5,6 +5,7 @@ interface BaseProfile {
   jobInterest: string[]
   techStack: string[]
   profileImageUrl?: string | null
+  isKTB: boolean
 }
 
 interface MyProfileData extends BaseProfile {
@@ -21,8 +22,11 @@ interface InterviewerData extends BaseProfile {
 
 type IntervieweeData = BaseProfile
 
+interface ProfileCardData extends BaseProfile {
+  seatCode: string
+}
+
 interface ProfileFormData extends BaseProfile {
-  isKTB: boolean
   profileImageName: string | null
   seatPosition: {
     section: string | null

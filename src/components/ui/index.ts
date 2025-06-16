@@ -10,6 +10,7 @@ export { GuideBox } from './GuideBox/GuideBox'
 export { ProfileImage } from './ProfileImage/ProfileImage'
 
 export { Navbar } from './Navbar/Navbar'
+export { Profile } from './Profile/Profile'
 export { ProfileCard } from './ProfileCard/ProfileCard'
 export { LoginButton } from './LoginButton/LoginButton'
 export { SubPageHeader } from './SubPageHeader/SubPageHeader'
