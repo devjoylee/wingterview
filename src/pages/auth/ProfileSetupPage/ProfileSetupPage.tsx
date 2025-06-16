@@ -10,6 +10,7 @@ import styles from './styles.module.scss'
 export const ProfileSetupPage: React.FC = () => {
   const navigate = useNavigate()
   const [showModal, setShowModal] = useState(false)
+  const [errorModal, setErrorModal] = useState(false)
   const [swiper, setSwiper] = useState<SwiperType>()
 
   const imageURL = useProfileStore(state => state.imageURL)
@@ -20,17 +21,26 @@ export const ProfileSetupPage: React.FC = () => {
   const handleSubmit = async () => {
     setShowModal(true)
 
-    await submitProfile()
+    try {
+      const delay = new Promise(resolve => setTimeout(resolve, 1000))
 
-    if (formData) {
-      localStorage.setItem('nickname', formData.nickname.split('.')[0])
-      sessionStorage.removeItem('profile-storage')
-    }
+      await delay
+      await submitProfile()
 
-    setTimeout(() => {
+      if (formData) {
+        localStorage.setItem('nickname', formData.nickname.split('.')[0])
+        sessionStorage.removeItem('profile-storage')
+      }
+
+      setTimeout(() => {
+        setShowModal(false)
+        navigate('/', { state: { myProfile: formData, imageURL: imageURL } })
+      }, 2000)
+    } catch (error) {
+      console.error('프로필 제출 에러:', error)
       setShowModal(false)
-      navigate('/', { state: { myProfile: formData, imageURL: imageURL } })
-    }, 2000)
+      setErrorModal(true)
+    }
   }
 
   useEffect(() => {
@@ -63,13 +73,19 @@ export const ProfileSetupPage: React.FC = () => {
       <ProfileSlider setSwiper={setSwiper} />
       <SliderButtons swiper={swiper} handleSubmit={handleSubmit} />
 
-      {showModal && (
-        <Modal
-          isOpen={showModal}
-          style="loading"
-          message={['프로필을 생성하고 있습니다.', '잠시만 기다려주세요.']}
-        />
-      )}
+      <Modal
+        isOpen={showModal}
+        style="loading"
+        message={['프로필을 생성하고 있습니다.', '잠시만 기다려주세요.']}
+      />
+
+      <Modal
+        isOpen={errorModal}
+        style="failed"
+        message={['프로필 제출에 실패했습니다.', '확인 후 다시 시도해주세요.']}
+        closable
+        toggleModal={() => setErrorModal(false)}
+      />
     </div>
   )
 }
