@@ -1,7 +1,7 @@
 import { InterviewHistoryCard } from '@/components/features'
 import styles from './styles.module.scss'
-import { useState, useRef, useEffect } from 'react'
-import { LoadingIndicator, Modal } from '@/components/ui'
+import { useRef, useEffect } from 'react'
+import { LoadingIndicator } from '@/components/ui'
 import { useNavigate } from 'react-router-dom'
 
 interface Props {
@@ -17,17 +17,12 @@ export const InterviewHistoryList: React.FC<Props> = ({
   isFetchingNextPage,
   fetchNextPage,
 }) => {
-  const [notReady, setNotReady] = useState(false)
   const navigate = useNavigate()
 
   const observerTarget = useRef<HTMLDivElement>(null)
 
-  const handleClick = (hasFeedback: boolean, id: string) => {
-    if (hasFeedback) {
-      navigate(`/mypage/interview/${id}`)
-    } else {
-      setNotReady(true)
-    }
+  const handleClick = (id: string) => {
+    navigate(`/mypage/interview/${id}`)
   }
 
   useEffect(() => {
@@ -66,13 +61,13 @@ export const InterviewHistoryList: React.FC<Props> = ({
         <div ref={observerTarget} className={styles.trigger}></div>
       )}
 
-      <Modal
+      {/* <Modal
         isOpen={notReady}
         style="failed"
         message={['피드백이 완성되지 않았습니다.', '조금만 기다려주세요!']}
         closable
         toggleModal={() => setNotReady(!notReady)}
-      />
+      /> */}
     </div>
   )
 }
