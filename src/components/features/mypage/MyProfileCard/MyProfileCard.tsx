@@ -38,7 +38,11 @@ export const MyProfileCard: React.FC<MyProfileCardProps> = ({ isLoggedIn }) => {
   return (
     <div className={styles.profileCard}>
       {isLoggedIn ? (
-        myProfile && <Profile profileData={myProfile} />
+        myProfile && (
+          <div className={styles.container}>
+            <Profile profileData={myProfile} />
+          </div>
+        )
       ) : (
         <div className={styles.overlay}>
           <LoginButton />

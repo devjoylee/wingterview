@@ -23,17 +23,12 @@ export const Profile: React.FC<ProfileProps> = ({ profileData }) => {
     <div className={styles.profile}>
       <div className={styles.profileHeader}>
         <div className={styles.thumbnail}>
-          <ProfileImage url={profileImageUrl} size={75} />
+          <ProfileImage url={profileImageUrl} size={73} />
         </div>
 
         <ul className={styles.myInfoList}>
-          <li className={styles.item}>
-            <span>이름 : </span>
-            {name}
-          </li>
-          <li className={styles.item}>
-            <span>닉네임 : </span>
-            {nickname}
+          <li className={`${styles.item} ${styles.name}`}>
+            {nickname} ({name})
           </li>
 
           {isKTB ? (
