@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Dropdown, ErrorMessage } from '@components/ui'
+import { Dropdown, ErrorMessage, KTBOptionToggle } from '@components/ui'
 import styles from './styles.module.scss'
 import { useProfileStore } from '@/stores/profileStore'
 import { validateBasicInfo } from '@/utils/validators'
@@ -47,6 +47,10 @@ export const BasicInfoStep: React.FC = React.memo(() => {
     })
   }
 
+  const handleToggleChange = (isKTB: boolean): void => {
+    console.log(isKTB)
+  }
+
   useEffect(() => {
     updateBasicInfo(userValue.name, userValue.nickname, userValue.curriculum)
   }, [
@@ -58,6 +62,8 @@ export const BasicInfoStep: React.FC = React.memo(() => {
 
   return (
     <div className={styles.container}>
+      <KTBOptionToggle isKTB={formData.isKTB} onChange={handleToggleChange} />
+
       <div className={styles.inputWrapper}>
         <input
           type="text"
