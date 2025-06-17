@@ -1,20 +1,29 @@
+import { useState } from 'react'
 import { QuizContent } from '@/components/features'
-import { useQuizStore } from '@/stores'
+import { useAuthStore, useQuizStore } from '@/stores'
 import { useNavigate } from 'react-router-dom'
 import wingLeft from '@/assets/wing-l.png'
 import wingRight from '@/assets/wing-r.png'
 import styles from './styles.module.scss'
+import { Button, Modal } from '@/components/ui'
+import { sendQuizResult } from '@/api/quizAPI'
 
 export const QuizProgressPage = () => {
   const navigate = useNavigate()
+  const [toggleModal, setToggleModal] = useState(false)
+  const [isFinishing, setIsFinishing] = useState(false)
+
+  const userId = useAuthStore(state => state.userId)
 
   const {
     quizzes,
     currentIndex,
     userAnswers,
+    isTrial,
     setCurrentIndex,
     setUserAnswer,
     setCurrentState,
+    resetQuiz,
   } = useQuizStore()
 
   const isDone = userAnswers[userAnswers.length - 1] !== -1
@@ -34,7 +43,31 @@ export const QuizProgressPage = () => {
     }
   }
 
-  const handleEnd = () => {
+  const handleStop = () => {
+    resetQuiz()
+    navigate('/quiz/awaiting')
+  }
+
+  const handleEnd = async () => {
+    setIsFinishing(true)
+    const delay = new Promise(resolve => setTimeout(resolve, 1500))
+
+    if (userId && !isTrial) {
+      const result = quizzes.map((quiz, idx) => {
+        const selectedIdx = userAnswers[idx]
+        return {
+          quizIdx: idx + 1,
+          userSelection: selectedIdx,
+          isCorrect: quiz.answerIdx === selectedIdx,
+        }
+      })
+
+      await sendQuizResult(userId, result)
+    }
+
+    await delay
+
+    setIsFinishing(false)
     setCurrentState('result')
     navigate('/quiz/result')
   }
@@ -49,31 +82,57 @@ export const QuizProgressPage = () => {
           />
         </div>
 
-        <QuizContent
-          quiz={quizzes[currentIndex]}
-          selectedAnswer={userAnswers[currentIndex]}
-          onSelect={index => setUserAnswer(currentIndex, index)}
-          number={`Question ${currentIndex + 1} of ${quizzes.length}`}
-        />
+        {quizzes.length && (
+          <QuizContent
+            quiz={quizzes[currentIndex]}
+            selectedAnswer={userAnswers[currentIndex] - 1}
+            onSelect={index => setUserAnswer(currentIndex, index)}
+            number={`Question ${currentIndex + 1} of ${quizzes.length}`}
+          />
+        )}
 
         <div className={styles.buttons}>
           <button onClick={handlePrev} disabled={currentIndex === 0}>
             <img src={wingLeft} alt="이전 버튼" />
           </button>
+
+          {!isDone ? (
+            <span
+              className={styles.stopButton}
+              onClick={() => setToggleModal(true)}
+            >
+              퀴즈 종료
+            </span>
+          ) : (
+            <span className={styles.gradeButton} onClick={handleEnd}>
+              채점하기
+            </span>
+          )}
+
           <button
             onClick={handleNext}
             disabled={userAnswers[currentIndex] === -1}
           >
             <img src={wingRight} alt="다음 버튼" />
           </button>
-
-          {isDone && (
-            <span className={styles.gradeButton} onClick={handleEnd}>
-              결과 보러가기
-            </span>
-          )}
         </div>
       </div>
+
+      <Modal
+        isOpen={toggleModal}
+        style="failed"
+        message={['진행 중인 퀴즈는 저장되지 않습니다.', '그래도 종료 할까요?']}
+        closable
+        toggleModal={() => setToggleModal(!toggleModal)}
+      >
+        <Button text="네, 종료할게요!" onClick={handleStop} />
+      </Modal>
+
+      <Modal
+        isOpen={isFinishing}
+        style="loading"
+        message={['퀴즈를 채점하고 있습니다.', '잠시만 기다려주세요.']}
+      />
     </div>
   )
 }

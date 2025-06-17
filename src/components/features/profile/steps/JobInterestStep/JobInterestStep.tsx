@@ -17,6 +17,12 @@ export const JobInterestStep: React.FC = React.memo(() => {
     '머신러닝 엔지니어',
     'AI 백엔드 개발자',
     'DevOps 엔지니어',
+    'MLOps 엔지니어',
+    '데이터 엔지니어',
+    '클라우드 아키텍트',
+    '정보보안 전문가',
+    '데이터베이스 관리자',
+    '소프트웨어 엔지니어',
   ]
 
   const toggleTag = (tag: string): void => {

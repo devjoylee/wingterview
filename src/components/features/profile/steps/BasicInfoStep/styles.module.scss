@@ -4,8 +4,8 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 35px;
-  gap: 23px;
+  margin-top: 10px;
+  gap: 20px;
   width: 100%;
   padding: 0 25px;
 }
@@ -13,6 +13,10 @@
 .inputWrapper {
   width: 100%;
   position: relative;
+
+  &:nth-child(2) {
+    margin-top: -8px;
+  }
 }
 
 .input {
@@ -30,11 +34,16 @@
 
   & + div {
     position: absolute;
+    margin-top: -2px;
   }
 
   &::placeholder {
     color: $gray-6;
   }
+}
+
+.spacer {
+  width: 100%;
 }
 
 input:-webkit-autofill,

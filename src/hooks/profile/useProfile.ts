@@ -1,16 +1,18 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { fetchMyProfile, submitProfile } from '@/api/profileAPI'
-import { useProfileStore } from '@/stores'
+import { useAuthStore, useProfileStore } from '@/stores'
 import { useImageUpload } from '../presigned'
 
 type ProfileAction = 'create' | 'get' | 'edit'
 
-export const useProfile = (action: ProfileAction, isLoggedIn?: boolean) => {
+export const useProfile = (action: ProfileAction) => {
   const queryClient = useQueryClient()
   const { uploadImage } = useImageUpload()
   const { formData, imageFile } = useProfileStore()
 
-  const profileQuery = useQuery<MyProfileData>({
+  const isLoggedIn = useAuthStore(state => state.isLoggedIn)
+
+  const query = useQuery<MyProfileData>({
     queryKey: ['userProfile'],
     queryFn: fetchMyProfile,
     enabled: action !== 'create' && isLoggedIn === true,
@@ -34,7 +36,8 @@ export const useProfile = (action: ProfileAction, isLoggedIn?: boolean) => {
 
   return {
     ...mutation,
-    myData: profileQuery.data,
-    isLoading: profileQuery.isLoading,
+    myData: query.data,
+    myId: query.data?.myId,
+    isLoading: query.isLoading,
   }
 }

@@ -1,9 +1,11 @@
 import styles from './styles.module.scss'
+import recordingGif from '@/assets/recording.gif'
 
 export const VoiceRecorder: React.FC = () => {
   return (
     <div className={styles.voiceRecorder}>
-      <div className={styles.controls}> 🔴 녹음 중...</div>
+      <img src={recordingGif} alt="recording" className={styles.recordingGif} />
+      <img src={recordingGif} alt="recording" className={styles.recordingGif} />
     </div>
   )
 }

@@ -5,6 +5,7 @@ interface BaseProfile {
   jobInterest: string[]
   techStack: string[]
   profileImageUrl?: string | null
+  isKTB: boolean
 }
 
 interface MyProfileData extends BaseProfile {
@@ -12,6 +13,7 @@ interface MyProfileData extends BaseProfile {
   seatCode: string | null
   interviewCnt: number
   isInQueue: boolean
+  myId: string
 }
 
 interface InterviewerData extends BaseProfile {
@@ -19,6 +21,10 @@ interface InterviewerData extends BaseProfile {
 }
 
 type IntervieweeData = BaseProfile
+
+interface ProfileCardData extends BaseProfile {
+  seatCode: string
+}
 
 interface ProfileFormData extends BaseProfile {
   profileImageName: string | null

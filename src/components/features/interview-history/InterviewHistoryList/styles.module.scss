@@ -1,0 +1,17 @@
+@use '@/styles/variables' as *;
+
+.historyList {
+  margin-top: 20px;
+}
+
+.historyList {
+  width: 100%;
+
+  .loading {
+    margin-top: 20px;
+  }
+
+  .trigger {
+    height: 50px;
+  }
+}

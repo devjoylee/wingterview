@@ -1,5 +1,6 @@
 import axios from 'axios'
 import { useAuthStore } from '@/stores/authStore'
+import { errorHandler } from '@/utils/errorHandler'
 
 const API_URL = import.meta.env.VITE_API_URL + '/api'
 const MOCK_DATA = import.meta.env.VITE_USE_MOCK_DATA === 'true'
@@ -23,6 +24,12 @@ apiClient.interceptors.request.use(config => {
 apiClient.interceptors.response.use(
   response => response,
   async error => {
+    const isHandled = errorHandler(error)
+
+    if (!isHandled) {
+      console.error('API 요청 실패:', error)
+    }
+
     return Promise.reject(error)
   }
 )

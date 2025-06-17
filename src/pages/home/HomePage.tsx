@@ -8,14 +8,16 @@ import styles from './styles.module.scss'
 export const HomePage: React.FC = () => {
   const [profile, setMyProfile] = useState<MyProfileData>()
   const isLoggedIn = useAuthStore(state => state.isLoggedIn)
+  const setUserId = useAuthStore(state => state.setUserId)
 
-  const { myData } = useProfile('get', isLoggedIn)
+  const { myData } = useProfile('get')
 
   useEffect(() => {
     if (myData) {
       setMyProfile(myData)
+      setUserId(myData.myId)
     }
-  }, [myData])
+  }, [myData, setUserId])
 
   return (
     <div className={styles.homePage}>

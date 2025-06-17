@@ -35,3 +35,34 @@ interface AIInterviewData {
   questionIdx: number
   question: string
 }
+
+interface HistoryListData {
+  id: string
+  createdAt: string
+  firstQuestion: string
+  questionCount: number
+  duration: number
+  hasFeedback: boolean
+  isFeedbackRequested: boolean
+}
+
+interface FeedbackPageData {
+  createdAt: string
+  duration: number
+  recordingUrl: string
+  feedback: Feedback[]
+}
+
+interface Feedback {
+  question: string
+  modelAnswer: string
+  commentary: string
+  startAt: number
+  endAt: number
+}
+
+interface HistoryResponse {
+  history: HistoryListData[]
+  hasNext: boolean
+  nextCursor: string
+}

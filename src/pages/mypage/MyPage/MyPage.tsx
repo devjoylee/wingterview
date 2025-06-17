@@ -1,7 +1,6 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { LoginButton, Logo, Modal } from '@/components/ui'
 import { FeatureCard, MyProfileCard } from '@/components/features'
-import { useProfile } from '@/hooks'
 import { useAuthStore } from '@/stores'
 import { SquarePen } from 'lucide-react'
 import styles from './styles.module.scss'
@@ -11,10 +10,7 @@ export const MyPage: React.FC = () => {
   const navigate = useNavigate()
   const [notReady, setNotReady] = useState(false)
   const [toggleModal, setToggleModal] = useState(false)
-  const [profile, setMyProfile] = useState<MyProfileData>()
   const isLoggedIn = useAuthStore(state => state.isLoggedIn)
-
-  const { myData } = useProfile('get', isLoggedIn)
 
   const linkTo = (link: string) => {
     if (!isLoggedIn) {
@@ -23,12 +19,6 @@ export const MyPage: React.FC = () => {
     }
     navigate(link)
   }
-
-  useEffect(() => {
-    if (myData) {
-      setMyProfile(myData)
-    }
-  }, [myData])
 
   return (
     <div className={styles.myPage}>
@@ -41,7 +31,7 @@ export const MyPage: React.FC = () => {
 
       <div className={styles.pageContent}>
         <section className={styles.profile}>
-          <MyProfileCard profile={profile} isLoggedIn={isLoggedIn} />
+          <MyProfileCard isLoggedIn={isLoggedIn} />
         </section>
 
         <Logo width={170} />
