@@ -8,19 +8,29 @@
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
+.cardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
 .timestamp {
+  display: flex;
+  align-items: center;
   font-weight: 600;
-  text-align: center;
   background: $blue-1;
   border-radius: 12px;
   padding: 2px 8px;
-  margin-bottom: 15px;
   color: #fff;
+  gap: 4px;
 
   span {
     font-size: 13px;
     padding: 0 4px;
     cursor: pointer;
+    display: inline-flex;
+    align-items: center;
 
     &:hover {
       text-decoration: underline;
@@ -28,9 +38,27 @@
   }
 }
 
+.shareButton {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: #f0f0f0;
+  border: none;
+  border-radius: 8px;
+  padding: 6px 10px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #555;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background: #e0e0e0;
+  }
+}
+
 .question {
   margin-bottom: 15px;
-
   font-size: 17px;
   font-weight: 600;
 }

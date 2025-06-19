@@ -1,0 +1,94 @@
+@use '@/styles/variables' as *;
+
+.boardDetailPage {
+  height: 100%;
+}
+
+.container {
+  padding: 25px 20px;
+  overflow-y: auto;
+  height: calc(100% - 60px);
+}
+
+.title {
+  margin-bottom: 30px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid $gray-2;
+}
+
+.authorInfo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  .avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+
+  .authorMeta {
+    display: flex;
+    flex-direction: column;
+
+    .authorName {
+      font-weight: 600;
+      font-size: 16px;
+      margin-bottom: 4px;
+    }
+
+    .meta {
+      display: flex;
+      gap: 15px;
+      font-size: 14px;
+      color: $gray-5;
+    }
+  }
+}
+
+.section {
+  color: #333;
+  & + & {
+    margin-top: 30px;
+  }
+}
+
+.sectionTitle {
+  font-weight: 600;
+  margin-bottom: 5px;
+}
+
+.question {
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1.5;
+}
+
+.modelAnswer,
+.feedback,
+.authorComment {
+  font-size: 15px;
+  line-height: 1.6;
+  padding: 15px;
+  border-radius: 8px;
+  margin-top: 5px;
+  background-color: #f9f9f9;
+}
+
+.feedback {
+  border-radius: 8px;
+}
+
+.authorComment {
+  border-radius: 8px;
+}
+
+.loading,
+.error {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  font-size: 16px;
+}

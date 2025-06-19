@@ -47,3 +47,7 @@ export { InterviewHistoryCard } from './interview-history/InterviewHistoryCard/I
 export { FeedbackList } from './interview-history/FeedbackList/FeedbackList'
 export { FeedbackCard } from './interview-history/FeedbackCard/FeedbackCard'
 export { AudioPlayer } from './interview-history/AudioPlayer/AudioPlayer'
+
+// board
+export { BoardPostList } from './board/BoardPostList/BoardPostList'
+export { ShareModal } from './board/ShareModal/ShareModal'

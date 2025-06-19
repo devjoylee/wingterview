@@ -1,0 +1,146 @@
+@use '@/styles/variables' as *;
+
+.postList {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.postItem {
+  cursor: pointer;
+  transition: transform 0.2s;
+
+  &:hover {
+    transform: translateY(-2px);
+  }
+}
+
+.myPost,
+.otherPost {
+  display: flex;
+  flex-direction: column;
+}
+
+.myPost {
+  color: #fff;
+  align-items: flex-end;
+
+  .author {
+    margin-left: 15px;
+  }
+
+  .name {
+    padding-right: 60px;
+    margin-bottom: 3px;
+  }
+
+  .avatarAndBubble {
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .content {
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .bubble {
+    background-color: $blue-1;
+
+    &::after {
+      content: '';
+      position: absolute;
+      right: -10px;
+      top: 15px;
+      border-top: 10px solid transparent;
+      border-bottom: 10px solid transparent;
+      border-left: 10px solid $blue-1;
+    }
+  }
+}
+
+.otherPost {
+  color: #333;
+  align-items: flex-start;
+
+  .author {
+    margin-right: 15px;
+  }
+  .name {
+    padding-left: 60px;
+    margin-bottom: 3px;
+  }
+
+  .avatarAndBubble {
+    display: flex;
+  }
+
+  .bubble {
+    background-color: $gray-3;
+
+    &::after {
+      content: '';
+      position: absolute;
+      left: -10px;
+      top: 15px;
+      border-top: 10px solid transparent;
+      border-bottom: 10px solid transparent;
+      border-right: 10px solid $gray-3;
+    }
+  }
+}
+
+.author {
+  .avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    background-color: $gray-3;
+  }
+}
+
+.name {
+  font-size: 14px;
+  color: #333;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.content {
+  flex: 1;
+  position: relative;
+
+  .bubble {
+    padding: 15px;
+    border-radius: 15px;
+    max-width: 90%;
+    display: inline-block;
+    position: relative;
+  }
+}
+
+.question {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 8px;
+  word-break: break-word;
+}
+
+.meta {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  margin-top: 8px;
+}
+
+.loading {
+  display: flex;
+  justify-content: center;
+  padding: 20px 0;
+}
+
+.trigger {
+  height: 10px;
+}

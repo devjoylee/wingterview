@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { QuizContent } from '@/components/features'
 import { useAuthStore, useQuizStore } from '@/stores'
 import { useNavigate } from 'react-router-dom'
@@ -25,6 +25,16 @@ export const QuizProgressPage = () => {
     setCurrentState,
     resetQuiz,
   } = useQuizStore()
+
+  useEffect(() => {
+    if (quizzes.length > 0) {
+      const isAlreadyDone = quizzes[0].userAnswer !== null
+      if (isAlreadyDone) {
+        setCurrentState('result')
+        navigate('/quiz/result')
+      }
+    }
+  }, [quizzes, navigate, setCurrentState])
 
   const isDone = userAnswers[userAnswers.length - 1] !== -1
 
@@ -82,7 +92,7 @@ export const QuizProgressPage = () => {
           />
         </div>
 
-        {quizzes.length && (
+        {quizzes.length > 0 && (
           <QuizContent
             quiz={quizzes[currentIndex]}
             selectedAnswer={userAnswers[currentIndex] - 1}

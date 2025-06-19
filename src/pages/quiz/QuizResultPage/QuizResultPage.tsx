@@ -1,13 +1,11 @@
-import { useNavigate } from 'react-router-dom'
 import { useQuizStore } from '@/stores'
-import { Button, CircleProgressBar } from '@/components/ui'
+import { CircleProgressBar } from '@/components/ui'
 import { QuizCardList } from '@/components/features'
 import { Check, X } from 'lucide-react'
 import styles from './styles.module.scss'
 
 export const QuizResultPage = () => {
-  const navigate = useNavigate()
-  const { quizzes, userAnswers, resetQuiz } = useQuizStore()
+  const { quizzes, userAnswers } = useQuizStore()
 
   const result: QuizCardData[] = quizzes.map((quiz, idx) => {
     const userAnswer = quiz.options[userAnswers[idx] - 1]
@@ -27,10 +25,10 @@ export const QuizResultPage = () => {
 
   const percentage = Math.round((correctCount / 10) * 100)
 
-  const restart = () => {
-    resetQuiz()
-    navigate('/quiz/awaiting')
-  }
+  // const restart = () => {
+  //   resetQuiz()
+  //   navigate('/quiz/awaiting')
+  // }
 
   return (
     <div className={styles.resultPage}>
@@ -58,7 +56,7 @@ export const QuizResultPage = () => {
 
         <div className={styles.quizResult}>
           <QuizCardList quizzes={result} hasIndex />
-          <Button text="다시 풀기" color="black" onClick={restart} />
+          {/* <Button text="다시 풀기" color="black" onClick={restart} /> */}
         </div>
       </div>
     </div>

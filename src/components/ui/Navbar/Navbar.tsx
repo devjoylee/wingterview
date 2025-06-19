@@ -19,8 +19,8 @@ export const Navbar: React.FC = () => {
       setActiveTab('interview')
     } else if (path.startsWith('/quiz')) {
       setActiveTab('quiz')
-    } else if (path.includes('chat')) {
-      setActiveTab('chat')
+    } else if (path.includes('board')) {
+      setActiveTab('board')
     } else if (path.includes('mypage') || path.includes('profile')) {
       setActiveTab('mypage')
     }
@@ -74,8 +74,8 @@ export const Navbar: React.FC = () => {
         <span>윙퀴즈</span>
       </div>
       <div
-        className={`${styles.navItem} ${activeTab === 'chat' ? styles.active : ''}`}
-        onClick={() => handleTabClick('chat', '/coming-soon')}
+        className={`${styles.navItem} ${activeTab === 'board' ? styles.active : ''}`}
+        onClick={() => handleTabClick('board', '/board')}
       >
         <MessageSquare />
         <span>게시판</span>
