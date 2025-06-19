@@ -46,4 +46,10 @@ export const API = {
   },
   PRESIGNED_URL: (filename?: string) =>
     `/s3/presigned-url?filename=${filename}`,
+  BOARD: {
+    LIST: (orderBy: string, limit: number, cursor?: string) =>
+      `/board?orderBy=${orderBy}&limit=${limit}${cursor ? `&cursor=${cursor}` : ''}`,
+    DETAIL: (boardId: string) => `/board/${boardId}`,
+    SHARE: (segmentId: string) => `/board/${segmentId}`,
+  },
 }

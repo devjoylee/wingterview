@@ -54,6 +54,7 @@ interface FeedbackPageData {
 }
 
 interface Feedback {
+  segmentId: string
   question: string
   modelAnswer: string
   commentary: string

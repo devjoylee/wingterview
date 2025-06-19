@@ -27,3 +27,6 @@ export { MyProfileEditPage } from './mypage/MyProfileEditPage/MyProfileEditPage'
 export { MyInterviewPage } from './mypage/MyInterviewPage/MyInterviewPage'
 export { MyInterviewDetailPage } from './mypage/MyInterviewDetailPage/MyInterviewDetailPage'
 export { MyQuizPage } from './mypage/MyQuizPage/MyQuizPage'
+
+export { BoardPage } from './board/BoardPage/BoardPage'
+export { BoardDetailPage } from './board/BoardDetailPage/BoardDetailPage'

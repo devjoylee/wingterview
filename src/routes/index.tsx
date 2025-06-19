@@ -94,6 +94,26 @@ const routes: RouteObject[] = [
           },
         ],
       },
+
+      {
+        path: 'board',
+        element: <L.Page hasNavbar={true} />,
+        children: [
+          // Public
+          { index: true, element: <P.BoardPage /> },
+
+          // Protected
+          {
+            element: <L.ProtectedLayout />,
+            children: [
+              {
+                path: ':boardId',
+                element: <P.BoardDetailPage />,
+              },
+            ],
+          },
+        ],
+      },
     ],
   },
 ]
