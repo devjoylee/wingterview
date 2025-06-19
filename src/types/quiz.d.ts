@@ -2,6 +2,7 @@ interface QuizData {
   question: string
   options: string[]
   answerIdx: number
+  userAnswer: number
   commentary: string
 }
 
