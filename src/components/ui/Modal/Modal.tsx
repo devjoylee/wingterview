@@ -8,7 +8,7 @@ interface ModalProps {
   isOpen: boolean
   children?: ReactNode
   message: string[]
-  style: 'loading' | 'failed' | 'congrats'
+  style: 'none' | 'loading' | 'failed' | 'congrats'
   closable?: boolean
   toggleModal?: () => void
 }
