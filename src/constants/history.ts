@@ -6,6 +6,7 @@ export const DUMMY_HISTORY_LIST: HistoryListData[] = [
     questionCount: 1,
     duration: 5,
     hasFeedback: false,
+    isFeedbackRequested: true,
   },
 
   {
@@ -15,6 +16,7 @@ export const DUMMY_HISTORY_LIST: HistoryListData[] = [
     questionCount: 5,
     duration: 15,
     hasFeedback: true,
+    isFeedbackRequested: true,
   },
 ]
 

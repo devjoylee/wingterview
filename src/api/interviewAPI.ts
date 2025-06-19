@@ -6,7 +6,6 @@ export const updateInterviewStatus = async (interviewId: string) => {
     const response = await apiClient.put<ApiResponse<InterviewStatusData>>(
       API.INTERVIEW.CHANGE_STATUS(interviewId)
     )
-    console.log('🎉 면접 상태 업데이트 성공:', response.data)
     return response.data
   } catch (error) {
     console.error('면접 상태 업데이트 실패:', error)
@@ -19,7 +18,6 @@ export const getInterviewStatus = async () => {
     const response = await apiClient.get<ApiResponse<InterviewData>>(
       API.INTERVIEW.STATUS
     )
-    console.log('🎉 면접 상태 불러오기 성공:', response.data)
     return response.data
   } catch (error) {
     console.error('면접 상태 불러오기 실패:', error)
@@ -36,7 +34,6 @@ export const generateQuestion = async (
       API.INTERVIEW.GET_QUESTIONS(interviewId),
       questionData || { question: '', keywords: '' } // 기본값은 메인 질문 생성
     )
-    console.log('🎉 면접 질문 생성 성공:', response.data)
     return response.data
   } catch (error) {
     console.error('면접 질문 생성 실패:', error)
@@ -53,7 +50,6 @@ export const sendSelectedQuestion = async (
       API.INTERVIEW.PICK_QUESTION(interviewId),
       { selectedIdx }
     )
-    console.log('🎉 선택한 질문 전송 성공:', response.data)
     return response.data
   } catch (error) {
     console.error('선택한 질문 전송 실패:', error)

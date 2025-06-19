@@ -21,8 +21,8 @@ export const InterviewHistoryList: React.FC<Props> = ({
 
   const observerTarget = useRef<HTMLDivElement>(null)
 
-  const handleClick = (id: string) => {
-    navigate(`/mypage/interview/${id}`)
+  const handleClick = (history: HistoryListData) => {
+    navigate(`/mypage/interview/${history.id}`)
   }
 
   useEffect(() => {
@@ -47,7 +47,7 @@ export const InterviewHistoryList: React.FC<Props> = ({
         <InterviewHistoryCard
           key={item.id}
           history={item}
-          onClick={handleClick}
+          onClick={() => handleClick(item)}
         />
       ))}
 

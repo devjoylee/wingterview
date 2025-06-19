@@ -5,7 +5,6 @@ import { http, HttpResponse } from 'msw'
 export const handlers = [
   // 카카오 로그인
   http.post(API.LOGIN.KAKAO, () => {
-    console.log('카카오 로그인 요청')
     return HttpResponse.json(
       {
         message: 'authorization_code_send_done',

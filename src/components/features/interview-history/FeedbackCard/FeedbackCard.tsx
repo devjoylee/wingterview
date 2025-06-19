@@ -13,7 +13,7 @@ export const FeedbackCard: React.FC<Props> = ({ feedback, idx }) => {
 
   return (
     <div className={styles.feedbackCard}>
-      {startAt && (
+      {endAt && (
         <div className={styles.timestamp}>
           <span onClick={() => jumpTo(startAt)}>{timeFormatter(startAt)}</span>~
           <span onClick={() => jumpTo(endAt)}>{timeFormatter(endAt)}</span>

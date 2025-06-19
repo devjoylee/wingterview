@@ -5,12 +5,11 @@ import { dateFormatter, timeFormatter } from '@/utils'
 
 interface Props {
   history: HistoryListData
-  onClick: (id: string) => void
+  onClick: (id: HistoryListData) => void
 }
 
 export const InterviewHistoryCard: React.FC<Props> = ({ history, onClick }) => {
   const {
-    id,
     createdAt,
     firstQuestion,
     questionCount,
@@ -20,7 +19,7 @@ export const InterviewHistoryCard: React.FC<Props> = ({ history, onClick }) => {
   } = history
 
   return (
-    <div className={styles.historyCard} onClick={() => onClick(id)}>
+    <div className={styles.historyCard} onClick={() => onClick(history)}>
       <div className={styles.header}>
         <span className={styles.date}>{dateFormatter(createdAt)}</span>
         <span className={styles.duration}>
