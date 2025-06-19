@@ -2,7 +2,7 @@ interface QuizData {
   question: string
   options: string[]
   answerIdx: number
-  userAnswer: number
+  userAnswer: number | null
   commentary: string
 }
 
