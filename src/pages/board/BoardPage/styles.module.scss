@@ -1,0 +1,57 @@
+@use '@/styles/variables' as *;
+
+.boardPage {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.pageHeader {
+  width: 100%;
+  min-height: 120px;
+  padding: 30px 20px 20px;
+  background-color: $blue-2;
+  position: relative;
+
+  .title {
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    color: #fff;
+    text-align: center;
+    margin: 20px 0;
+  }
+
+  .filters {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+
+    .filterButton {
+      color: rgba(255, 255, 255, 0.7);
+      font-size: 14px;
+      padding: 5px 10px;
+      border-radius: 15px;
+      transition: all 0.2s;
+
+      &.active {
+        color: white;
+        background-color: rgba(255, 255, 255, 0.2);
+      }
+    }
+  }
+}
+
+.pageContent {
+  flex: 1;
+  padding: 20px;
+  overflow-y: auto;
+}
+
+.notLoggedIn {
+  margin-top: 50px;
+  text-align: center;
+  button {
+    margin-top: 20px;
+  }
+}
