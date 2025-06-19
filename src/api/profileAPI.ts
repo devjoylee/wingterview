@@ -7,7 +7,6 @@ export const submitProfile = async (profileData: ProfileFormData) => {
       API.PROFILE.SUBMIT,
       profileData
     )
-    console.log('🎉 프로필 전송 성공:', response.data)
     return response.data
   } catch (error) {
     console.error('프로필 전송 실패:', error)
@@ -20,7 +19,6 @@ export const fetchMyProfile = async () => {
     const response = await apiClient.get<ApiResponse<MyProfileData>>(
       API.PROFILE.ME
     )
-    console.log('🎉 사용자 정보 조회 성공:', response.data.data)
     return response.data.data
   } catch (error) {
     console.error('사용자 정보 조회 실패:', error)

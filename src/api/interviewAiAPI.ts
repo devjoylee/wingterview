@@ -21,7 +21,6 @@ export const getInterviewId = async (duration: number) => {
         time: duration,
       }
     )
-    console.log('🎉 AI 면접 시작 성공:', response.data)
     return response.data.data.interviewId
   } catch (error) {
     console.error('AI 면접 시작 실패:', error)
@@ -32,7 +31,6 @@ export const getInterviewId = async (duration: number) => {
 export const endInterview = async (interviewId: string) => {
   try {
     await apiClient.delete(API.AI_INTERVIEW.END(interviewId))
-    console.log('🎉 AI 면접 종료')
   } catch (error) {
     console.error('AI 면접 종료 실패:', error)
     throw error
@@ -47,7 +45,6 @@ export const setInterviewTime = async (
     await apiClient.put(API.AI_INTERVIEW.TIME(interviewId), {
       time: selectedTime,
     })
-    console.log('🎉 면접 시간 설정 성공')
   } catch (error) {
     console.error('면접 시간 설정 실패:', error)
     throw error
@@ -63,7 +60,6 @@ export const generateQuestion = async (
       API.AI_INTERVIEW.QUESTION(interviewId),
       questionData || { question: '', keywords: '' } // 기본값은 메인 질문 생성
     )
-    console.log('🎉 면접 질문 생성 성공:', response.data)
     return response.data.data
   } catch (error) {
     console.error('면접 질문 생성 실패:', error)
