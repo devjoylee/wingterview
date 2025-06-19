@@ -27,6 +27,5 @@ export const useFeedback = (userId: string, interviewId: string) => {
   return useQuery<FeedbackPageData>({
     queryKey: ['feedback', interviewId],
     queryFn: () => getFeedback(userId, interviewId),
-    staleTime: 5 * 60 * 1000,
   })
 }
