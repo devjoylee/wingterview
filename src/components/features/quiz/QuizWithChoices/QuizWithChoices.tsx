@@ -1,5 +1,6 @@
 import { useQuizStore } from '@/stores'
 import styles from './styles.module.scss'
+import { QuizLevel } from '../QuizLevel/QuizLevel'
 
 interface Props {
   quiz: QuizData
@@ -17,7 +18,13 @@ export const QuizWithChoices: React.FC<Props> = ({ quiz }) => {
 
   return (
     <div className={styles.container}>
-      <h3 className={styles.number}>{quizIndex}</h3>
+      <div className={styles.quizHeader}>
+        <span className={styles.quizIndex}>
+          문제 <b>{quizIndex}</b> / 10
+        </span>
+        {quiz.difficulty ? <QuizLevel level={quiz.difficulty} /> : ''}
+      </div>
+
       <h2 className={styles.question}>{quiz.question}</h2>
 
       <div className={styles.options}>

@@ -4,6 +4,7 @@ interface QuizData {
   answerIdx: number
   userAnswer: number | null
   commentary: string
+  difficulty?: '상' | '중' | '하' | undefined
 }
 
 interface UserAnswerData {

@@ -1,0 +1,55 @@
+@use '@/styles/variables' as *;
+
+.level {
+  font-size: 14px;
+  margin-left: 12px;
+  margin-bottom: -3px;
+}
+
+.badge {
+  display: inline-block;
+  padding-left: 4px;
+  border-radius: 50%;
+  color: #fff;
+  width: 20px;
+  height: 20px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.red {
+  .icon {
+    fill: $red;
+    color: $red;
+  }
+  .badge {
+    background: $red;
+  }
+}
+
+.orange {
+  .icon {
+    fill: $orange;
+    color: $orange;
+  }
+  .badge {
+    background: $orange;
+  }
+}
+
+.blue {
+  .icon {
+    fill: $blue-2;
+    color: $blue-2;
+  }
+  .badge {
+    background: $blue-2;
+  }
+}
+
+.gray {
+  .icon {
+    fill: #777;
+    color: #777;
+  }
+}
