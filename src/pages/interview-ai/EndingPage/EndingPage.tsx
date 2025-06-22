@@ -60,16 +60,12 @@ export const EndingPage: React.FC = () => {
           수고하셨습니다!
         </h3>
 
-        <Button
-          text={
-            isRequested
-              ? '피드백 제출 완료'
-              : '면접 저장하고 Mr.윙에게 피드백 요청하기'
-          }
+        <button
+          className={styles.requestButton}
           onClick={handleRequestFeedback}
-          color="black"
-          disabled={isRequested}
-        />
+        >
+          {isRequested ? '피드백 제출 완료' : '피드백 요청 하기 Click!'}
+        </button>
 
         <p className={styles.subText}>
           피드백 생성까지는 최대 20분 소요됩니다.
@@ -103,7 +99,7 @@ export const EndingPage: React.FC = () => {
       <Modal
         isOpen={isSaving}
         style="loading"
-        message={['면접 데이터를 저장하고 있습니다.', '잠시만 기다려주세요.']}
+        message={['면접 데이터를 전송하고 있습니다.', '잠시만 기다려주세요.']}
       />
 
       <Modal
