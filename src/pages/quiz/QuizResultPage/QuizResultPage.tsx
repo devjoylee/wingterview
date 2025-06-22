@@ -1,6 +1,6 @@
 import { useQuizStore } from '@/stores'
 import { CircleProgressBar } from '@/components/ui'
-import { QuizCardList } from '@/components/features'
+import { QuizResultList } from '@/components/features'
 import { Check, X } from 'lucide-react'
 import styles from './styles.module.scss'
 
@@ -55,7 +55,7 @@ export const QuizResultPage = () => {
         </div>
 
         <div className={styles.quizResult}>
-          <QuizCardList quizzes={result} hasIndex />
+          <QuizResultList quizzes={result} hasIndex />
           {/* <Button text="다시 풀기" color="black" onClick={restart} /> */}
         </div>
       </div>

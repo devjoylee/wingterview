@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { QuizContent } from '@/components/features'
+import { QuizWithChoices } from '@/components/features'
 import { useAuthStore, useQuizStore } from '@/stores'
 import { useNavigate } from 'react-router-dom'
 import wingLeft from '@/assets/wing-l.png'
@@ -21,20 +21,9 @@ export const QuizProgressPage = () => {
     userAnswers,
     isTrial,
     setCurrentIndex,
-    setUserAnswer,
     setCurrentState,
     resetQuiz,
   } = useQuizStore()
-
-  useEffect(() => {
-    if (quizzes.length > 0) {
-      const isAlreadyDone = quizzes[0].userAnswer !== null
-      if (isAlreadyDone) {
-        setCurrentState('result')
-        navigate('/quiz/result')
-      }
-    }
-  }, [quizzes, navigate, setCurrentState])
 
   const isDone = userAnswers[userAnswers.length - 1] !== -1
 
@@ -82,6 +71,16 @@ export const QuizProgressPage = () => {
     navigate('/quiz/result')
   }
 
+  useEffect(() => {
+    if (quizzes.length > 0) {
+      const isAlreadyDone = quizzes[0].userAnswer !== null
+      if (isAlreadyDone) {
+        setCurrentState('result')
+        navigate('/quiz/result')
+      }
+    }
+  }, [quizzes, navigate, setCurrentState])
+
   return (
     <div className={styles.progressPage}>
       <div className={styles.container}>
@@ -92,14 +91,7 @@ export const QuizProgressPage = () => {
           />
         </div>
 
-        {quizzes.length > 0 && (
-          <QuizContent
-            quiz={quizzes[currentIndex]}
-            selectedAnswer={userAnswers[currentIndex] - 1}
-            onSelect={index => setUserAnswer(currentIndex, index)}
-            number={`Question ${currentIndex + 1} of ${quizzes.length}`}
-          />
-        )}
+        {quizzes.length > 0 && <QuizWithChoices quiz={quizzes[currentIndex]} />}
 
         <div className={styles.buttons}>
           <button onClick={handlePrev} disabled={currentIndex === 0}>

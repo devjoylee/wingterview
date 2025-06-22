@@ -4,9 +4,29 @@
   margin-bottom: 20px;
 }
 
-.number {
-  color: #333;
+.quizHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   margin-bottom: 5px;
+
+  & > span {
+    font-size: 14px;
+    color: #333;
+  }
+}
+
+.quizIndex {
+  b {
+    font-size: 20px;
+    font-weight: 700;
+  }
+}
+
+.quizLevel {
+  display: flex;
+  align-items: center;
+  margin-left: 5px;
 }
 
 .question {
