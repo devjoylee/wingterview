@@ -24,8 +24,8 @@ export { AnswerArea } from './interview/AnswerArea/AnswerArea'
 // quiz
 export { QuizTypeSelection } from './quiz/QuizTypeSelection/QuizTypeSelection'
 export { QuizContent } from './quiz/QuizContent/QuizContent'
-export { QuizCard } from './quiz/QuizCard/QuizCard'
-export { QuizCardList } from './quiz/QuizCardList/QuizCardList'
+export { QuizResultCard } from './quiz/QuizResultCard/QuizResultCard'
+export { QuizResultList } from './quiz/QuizResultList/QuizResultList'
 
 // match
 export { MatchInfoCard } from './match/MatchInfoCard/MatchInfoCard'

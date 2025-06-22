@@ -6,7 +6,7 @@ interface Props {
   hasIndex?: boolean
 }
 
-export const QuizCard: React.FC<Props> = ({ data, hasIndex }) => {
+export const QuizResultCard: React.FC<Props> = ({ data, hasIndex }) => {
   return (
     <div
       className={`${styles.quizCard} ${data.isCorrect ? styles.correct : styles.incorrect}`}

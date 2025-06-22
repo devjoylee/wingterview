@@ -1,5 +1,5 @@
 import { useRef, useEffect } from 'react'
-import { QuizCard } from '@/components/features'
+import { QuizResultCard } from '@/components/features'
 import styles from './styles.module.scss'
 import { LoadingIndicator } from '@/components/ui'
 
@@ -12,7 +12,7 @@ interface Props {
   infiniteScroll?: boolean
 }
 
-export const QuizCardList: React.FC<Props> = ({
+export const QuizResultList: React.FC<Props> = ({
   quizzes,
   hasNextPage,
   isFetchingNextPage,
@@ -44,7 +44,7 @@ export const QuizCardList: React.FC<Props> = ({
   return (
     <div className={styles.quizList}>
       {quizzes.map((quiz, index) => (
-        <QuizCard key={index} data={quiz} hasIndex={hasIndex} />
+        <QuizResultCard key={index} data={quiz} hasIndex={hasIndex} />
       ))}
 
       {infiniteScroll && isFetchingNextPage && (
