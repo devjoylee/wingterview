@@ -23,7 +23,7 @@ export { AnswerArea } from './interview/AnswerArea/AnswerArea'
 
 // quiz
 export { QuizTypeSelection } from './quiz/QuizTypeSelection/QuizTypeSelection'
-export { QuizContent } from './quiz/QuizContent/QuizContent'
+export { QuizWithChoices } from './quiz/QuizWithChoices/QuizWithChoices'
 export { QuizResultCard } from './quiz/QuizResultCard/QuizResultCard'
 export { QuizResultList } from './quiz/QuizResultList/QuizResultList'
 
