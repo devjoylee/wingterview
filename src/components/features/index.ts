@@ -15,11 +15,13 @@ export { Timer } from './interview/Timer/Timer'
 export { CurrentRound } from './interview/CurrentRound/CurrentRound'
 export { StarRating } from './interview/StarRating/StarRating'
 export { InterviewGuideline } from './interview/InterviewGuideline/InterviewGuideline'
+export { InterviewMicTest } from './interview/InterviewMicTest/InterviewMicTest'
 export { InterviewStartButton } from './interview/InterviewStartButton/InterviewStartButton'
 export { VoiceRecorder } from './interview/VoiceRecorder/VoiceRecorder'
 export { TimeSelection } from './interview/TimeSelection/TimeSelection'
 export { QuestionArea } from './interview/QuestionArea/QuestionArea'
 export { AnswerArea } from './interview/AnswerArea/AnswerArea'
+export { AudioController } from './interview/AudioController/AudioController'
 
 // quiz
 export { QuizTypeSelection } from './quiz/QuizTypeSelection/QuizTypeSelection'

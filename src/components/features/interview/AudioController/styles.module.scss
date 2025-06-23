@@ -1,0 +1,78 @@
+@use '@/styles/variables' as *;
+
+.controller {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  width: 90%;
+}
+
+.stopButton,
+.playButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  background: $blue-2;
+
+  .icon {
+    color: #fff;
+    fill: #fff;
+  }
+}
+
+.audioLevel {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 1;
+  padding: 8px 12px;
+  background: #f8f9fa;
+  border-radius: 8px;
+  border: 1px solid #e9ecef;
+
+  .levelBar {
+    flex: 1;
+    height: 8px;
+    background: #e5e7eb;
+    border-radius: 4px;
+    overflow: hidden;
+
+    .active {
+      height: 100%;
+      background: $blue-1;
+      transition: width 0.1s ease;
+      border-radius: 4px;
+      min-width: 2px;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .controller {
+    gap: 12px;
+    width: 95%;
+  }
+
+  .stopButton,
+  .playButton {
+    width: 32px;
+    height: 32px;
+
+    .icon {
+      width: 16px;
+      height: 16px;
+    }
+  }
+
+  .audioLevel {
+    gap: 8px;
+    padding: 6px 10px;
+
+    .levelBar {
+      height: 6px;
+    }
+  }
+}

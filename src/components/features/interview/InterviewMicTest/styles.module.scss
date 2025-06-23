@@ -1,6 +1,6 @@
 @use '@/styles/variables' as *;
 
-.guideline {
+.container {
   color: #333;
   text-align: center;
 
@@ -24,16 +24,32 @@
   min-height: 148px;
 }
 
-.alert {
-  display: block;
+.micTest {
+  display: flex;
+  justify-content: center;
+  min-height: 60px;
+  margin-bottom: 20px;
+}
+
+.error {
   color: $red;
   font-size: 14px;
-  font-weight: 600;
-  margin-bottom: 15px;
+  text-align: center;
+}
+
+.buttons {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  margin-top: 20px;
+
+  button {
+    min-width: 80px;
+  }
 }
 
 @media (max-width: 768px) {
-  .guideline {
+  .micTest {
     h3 {
       font-size: 17px;
       margin-bottom: 10px;

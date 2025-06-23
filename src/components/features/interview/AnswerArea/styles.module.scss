@@ -47,6 +47,23 @@
   }
 }
 
+.recording {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 1;
+  padding: 8px 12px;
+  background: #f8f9fa;
+  border-radius: 8px;
+  border: 1px solid #e9ecef;
+  font-size: 15px;
+
+  b {
+    font-weight: 600;
+    color: $red;
+  }
+}
+
 .helper {
   text-align: center;
   font-size: 14px;

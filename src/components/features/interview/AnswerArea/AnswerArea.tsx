@@ -1,5 +1,5 @@
 import { ProfileImage } from '@/components/ui'
-import { VoiceRecorder } from '@/components/features'
+import { Volume2 } from 'lucide-react'
 import { useProfile } from '@/hooks/profile'
 import styles from './styles.module.scss'
 import { useAIInterviewStore } from '@/stores'
@@ -19,7 +19,10 @@ export const AnswerArea: React.FC<{
           {myData && <ProfileImage url={myData.profileImageUrl} size={62} />}
         </div>
         <div className={styles.recording}>
-          <VoiceRecorder />
+          <Volume2 size={20} />
+          <span>
+            답변 내용을 <b>녹음 중 </b>입니다.
+          </span>
         </div>
       </div>
 

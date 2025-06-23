@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef } from 'react'
 import { Button, Modal } from '@/components/ui'
-import { InterviewGuideline } from '@/components/features'
+import { InterviewGuideline, InterviewMicTest } from '@/components/features'
 import {
   useStartInterview,
   useMediaRecorder,
@@ -10,21 +10,8 @@ import { useAIInterviewStore, useAuthStore } from '@/stores'
 import { findOldInterview } from '@/api/interviewAiAPI'
 import styles from './styles.module.scss'
 
-/**
- *   AI 면접 대기 페이지 flow
- *
- *   페이지 진입 시 캐싱된 데이터 있으면 reset
- *
- *   면접 시작 버튼 클릭하면
- *   1. 녹음 시작 요청 (startRecording)
- *   2. (API) 면접 ID 발급 요청 & 인터뷰 시간 전송
- *   3. (API) 인터뷰 상태 업데이트 (PENDING -> PROGRESS)
- *   4. (API) 면접 질문 생성
- *   5. 질문 페이지로 이동
- *   6. 타이머 시작 (5번과 동시에)
- */
-
 export const AwaitingPage: React.FC = () => {
+  const [currentStep, setCurrentStep] = useState<'intro' | 'micTest'>('intro')
   const [errorModal, setErrorModal] = useState(false)
   const [resetModal, setResetModal] = useState(false)
   const [error, setError] = useState<string[]>([])
@@ -80,7 +67,16 @@ export const AwaitingPage: React.FC = () => {
   return (
     <div className={styles.awaitingPage}>
       <div className={styles.container}>
-        <InterviewGuideline onClick={handleStartInterview} />
+        {currentStep === 'intro' && (
+          <InterviewGuideline onNext={() => setCurrentStep('micTest')} />
+        )}
+
+        {currentStep === 'micTest' && (
+          <InterviewMicTest
+            onPrev={() => setCurrentStep('intro')}
+            startInterview={handleStartInterview}
+          />
+        )}
       </div>
 
       <Modal
