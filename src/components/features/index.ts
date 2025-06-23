@@ -21,6 +21,7 @@ export { VoiceRecorder } from './interview/VoiceRecorder/VoiceRecorder'
 export { TimeSelection } from './interview/TimeSelection/TimeSelection'
 export { QuestionArea } from './interview/QuestionArea/QuestionArea'
 export { AnswerArea } from './interview/AnswerArea/AnswerArea'
+export { AudioController } from './interview/AudioController/AudioController'
 
 // quiz
 export { QuizTypeSelection } from './quiz/QuizTypeSelection/QuizTypeSelection'

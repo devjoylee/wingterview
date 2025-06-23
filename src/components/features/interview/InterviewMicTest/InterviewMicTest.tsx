@@ -1,4 +1,5 @@
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
+import { AudioController } from '@/components/features'
 import { Button } from '@/components/ui'
 import mrWing from '@/assets/mrwing.png'
 import styles from './styles.module.scss'
@@ -12,16 +13,66 @@ export const InterviewMicTest: React.FC<Props> = ({
   onPrev,
   startInterview,
 }) => {
+  const [isRecording, setIsRecording] = useState(false)
+  const [audioLevel, setAudioLevel] = useState(0)
   const [permission, setPermission] = useState(false)
 
+  const streamRef = useRef<MediaStream | null>(null)
+  const intervalRef = useRef<NodeJS.Timeout | null>(null)
+
+  const startMicTest = async () => {
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true })
+      streamRef.current = stream
+      setPermission(true)
+      setIsRecording(true)
+
+      const interval = setInterval(() => {
+        setAudioLevel(Math.random() * 100)
+      }, 100)
+      intervalRef.current = interval
+    } catch (error) {
+      console.error('마이크 권한을 얻을 수 없습니다:', error)
+      setPermission(false)
+    }
+  }
+
+  const stopMicTest = () => {
+    setIsRecording(false)
+
+    if (intervalRef.current) {
+      clearInterval(intervalRef.current)
+      intervalRef.current = null
+    }
+
+    if (streamRef.current) {
+      streamRef.current.getTracks().forEach(track => track.stop())
+      streamRef.current = null
+    }
+
+    setAudioLevel(0)
+  }
+
   const handleBack = () => {
+    stopMicTest()
     onPrev()
   }
 
   const handleStart = () => {
+    stopMicTest()
     startInterview()
-    setPermission(true)
   }
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      startMicTest()
+    }, 100)
+
+    return () => {
+      clearTimeout(timer)
+      stopMicTest()
+    }
+  }, [])
 
   return (
     <div className={styles.container}>
@@ -38,7 +89,15 @@ export const InterviewMicTest: React.FC<Props> = ({
           </p>
         )}
 
-        {permission && <div>오디오 컨트롤러</div>}
+        {permission && (
+          <AudioController
+            isRecording={isRecording}
+            audioLevel={audioLevel}
+            onPlay={startMicTest}
+            onStop={stopMicTest}
+            hasLevelBar
+          />
+        )}
       </div>
 
       <div className={styles.buttons}>
