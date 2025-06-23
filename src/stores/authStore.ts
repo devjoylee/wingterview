@@ -20,7 +20,7 @@ export const useAuthStore = create<AuthState>()(
       accessToken: '',
       isNewUser: false,
       isLoggedIn: false,
-      hasProfile: !!localStorage.getItem('nickname'),
+      hasProfile: !!sessionStorage.getItem('nickname'),
 
       setUserId: (userId: string) => set({ userId }),
       setAccessToken: (accessToken: string) => set({ accessToken }),

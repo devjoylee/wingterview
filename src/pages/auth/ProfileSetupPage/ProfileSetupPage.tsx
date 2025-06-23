@@ -22,13 +22,13 @@ export const ProfileSetupPage: React.FC = () => {
     setShowModal(true)
 
     try {
-      const delay = new Promise(resolve => setTimeout(resolve, 1000))
+      const delay = new Promise(resolve => setTimeout(resolve, 800))
 
-      await delay
       await submitProfile()
+      await delay
 
       if (formData) {
-        localStorage.setItem('nickname', formData.nickname.split('.')[0])
+        sessionStorage.setItem('nickname', formData.nickname.split('.')[0])
         sessionStorage.removeItem('profile-storage')
       }
 
