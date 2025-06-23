@@ -1,12 +1,14 @@
-import { InterviewStartButton, TimeSelection } from '@/components/features'
+import { TimeSelection } from '@/components/features'
 import { useAIInterviewStore, useAuthStore } from '@/stores'
+import { Button, LoginButton } from '@/components/ui'
 import mrWing from '@/assets/mrwing.png'
 import styles from './styles.module.scss'
-import { LoginButton } from '@/components/ui'
 
-export const InterviewGuideline: React.FC<{
-  onClick: () => void
-}> = ({ onClick }) => {
+interface Props {
+  onNext: () => void
+}
+
+export const InterviewGuideline: React.FC<Props> = ({ onNext }) => {
   const duration = useAIInterviewStore(state => state.duration)
   const isLoggedIn = useAuthStore(state => state.isLoggedIn)
 
@@ -34,7 +36,7 @@ export const InterviewGuideline: React.FC<{
         <>
           <p>
             <b>원하는 면접 시간을 선택한 후</b> <br />
-            START 버튼을 눌러 면접을 시작해보세요.
+            다음 버튼을 눌러 마이크 테스트를 진행해주세요.
           </p>
 
           <TimeSelection />
@@ -43,7 +45,7 @@ export const InterviewGuideline: React.FC<{
             * 마이크 권한사용 팝업이 뜨면 "허용" 클릭
           </span>
 
-          <InterviewStartButton onClick={onClick} disabled={!duration} />
+          <Button text="다음" onClick={onNext} disabled={!duration} />
         </>
       )}
     </div>
