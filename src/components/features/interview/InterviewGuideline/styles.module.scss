@@ -1,26 +1,8 @@
 @use '@/styles/variables' as *;
 
 .guideline {
-  padding: 0 20px;
-
-  & > * {
-    margin: 0 auto;
-  }
-}
-
-.mrwing {
-  width: 150px;
-  margin-bottom: -30px;
-  min-height: 148px;
-}
-
-.textBox {
   color: #333;
-  background-color: #fff;
-  padding: 50px 20px;
-  border-radius: 30px;
   text-align: center;
-  box-shadow: 5px 5px 0 rgba(255, 255, 255, 0.6);
 
   h3 {
     font-size: 19px;
@@ -31,6 +13,15 @@
   p {
     margin-bottom: 12px;
   }
+
+  & > * {
+    margin: 0 auto;
+  }
+}
+
+.mrwing {
+  width: 140px;
+  min-height: 148px;
 }
 
 .alert {
@@ -42,24 +33,18 @@
 }
 
 @media (max-width: 768px) {
-  .mrwing {
-    width: 120px;
-    min-height: 130px;
-    margin-bottom: -26px;
-  }
-
-  .textBox {
-    padding: 40px 20px;
-    border-radius: 30px;
-    text-align: center;
-
+  .guideline {
     h3 {
       font-size: 17px;
       margin-bottom: 10px;
     }
-
     p {
       font-size: 15px;
     }
+  }
+
+  .mrwing {
+    width: 120px;
+    min-height: 130px;
   }
 }

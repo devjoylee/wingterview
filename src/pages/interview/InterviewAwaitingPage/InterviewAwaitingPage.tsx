@@ -95,11 +95,7 @@ export const InterviewAwaitingPage: React.FC = () => {
   })
 
   const handleStartInterview = () => {
-    if (!interviewId) {
-      console.log('면접자 데이터를 찾을 수 없습니다.')
-      return
-    }
-
+    if (!interviewId) return
     updateStatus(interviewId) // 면접 상태 PENDING -> PROGRESS
   }
 

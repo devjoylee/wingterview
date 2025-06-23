@@ -1,7 +1,7 @@
 import { EmptyPlaceholder, SubPageHeader } from '@/components/ui'
 import styles from './styles.module.scss'
 import { CircleProgressBar } from '@/components/ui'
-import { QuizCardList, QuizFilterButton } from '@/components/features'
+import { QuizResultList, QuizFilterButton } from '@/components/features'
 import { useQuizHistory, useQuizStatistic } from '@/hooks'
 import { useState } from 'react'
 import { useAuthStore } from '@/stores'
@@ -29,7 +29,7 @@ export const MyQuizPage: React.FC = () => {
 
         <div className={styles.quizListContainer}>
           {quizzes && quizzes[0] ? (
-            <QuizCardList
+            <QuizResultList
               quizzes={quizzes}
               hasNextPage={hasNextPage}
               isFetchingNextPage={isFetchingNextPage}

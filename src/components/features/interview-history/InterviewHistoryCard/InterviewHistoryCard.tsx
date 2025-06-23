@@ -30,7 +30,8 @@ export const InterviewHistoryCard: React.FC<Props> = ({ history, onClick }) => {
 
       <div className={styles.body}>
         <h3 className={styles.question}>
-          Q. {firstQuestion} <span>외 {questionCount} 문제</span>
+          Q. {firstQuestion}
+          {questionCount > 1 && <span> 외 {questionCount - 1} 문제</span>}
         </h3>
         {isFeedbackRequested && (
           <div
