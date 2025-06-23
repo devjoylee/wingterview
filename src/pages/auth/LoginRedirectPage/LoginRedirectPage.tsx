@@ -32,9 +32,7 @@ export const LoginRedirectPage: React.FC = () => {
 
         setLoginState(accessToken, isNewUser)
 
-        setTimeout(() => {
-          navigate(isNewUser ? '/profile-setup' : '/', { replace: true })
-        }, 1200)
+        navigate(isNewUser ? '/profile-setup' : '/', { replace: true })
       } catch (err) {
         console.error('로그인 처리 중 오류 발생:', err)
         navigate('/login', { replace: true })
