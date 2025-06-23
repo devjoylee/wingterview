@@ -1,0 +1,66 @@
+@use '@/styles/variables' as *;
+
+.container {
+  color: #333;
+  text-align: center;
+
+  h3 {
+    font-size: 19px;
+    font-weight: bold;
+    margin-bottom: 15px;
+  }
+
+  p {
+    margin-bottom: 12px;
+  }
+
+  & > * {
+    margin: 0 auto;
+  }
+}
+
+.mrwing {
+  width: 140px;
+  min-height: 148px;
+}
+
+.micTest {
+  display: flex;
+  justify-content: center;
+  min-height: 60px;
+  margin-bottom: 20px;
+}
+
+.error {
+  color: $red;
+  font-size: 14px;
+  text-align: center;
+}
+
+.buttons {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  margin-top: 20px;
+
+  button {
+    min-width: 80px;
+  }
+}
+
+@media (max-width: 768px) {
+  .micTest {
+    h3 {
+      font-size: 17px;
+      margin-bottom: 10px;
+    }
+    p {
+      font-size: 15px;
+    }
+  }
+
+  .mrwing {
+    width: 120px;
+    min-height: 130px;
+  }
+}
