@@ -27,12 +27,61 @@
 .micTest {
   display: flex;
   justify-content: center;
-  min-height: 60px;
+  align-items: center;
+  min-height: 100px;
   margin-bottom: 20px;
 }
 
 .error {
   color: $red;
+  font-size: 14px;
+  text-align: center;
+  line-height: 1.5;
+}
+
+.controller {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  width: 90%;
+
+  button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: $blue-2;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  .icon {
+    color: #fff;
+    fill: #fff;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+.recordButton .icon {
+  fill: none;
+}
+
+.status {
+  flex: 1;
+  padding: 8px 12px;
+  background: #f8f9fa;
+  border-radius: 8px;
+  border: 1px solid #e9ecef;
+  color: #333;
+  font-weight: 600;
   font-size: 14px;
   text-align: center;
 }
@@ -49,7 +98,7 @@
 }
 
 @media (max-width: 768px) {
-  .micTest {
+  .container {
     h3 {
       font-size: 17px;
       margin-bottom: 10px;
@@ -62,5 +111,17 @@
   .mrwing {
     width: 120px;
     min-height: 130px;
+  }
+
+  .controller {
+    button {
+      width: 45px;
+      height: 45px;
+    }
+
+    .icon {
+      width: 22px;
+      height: 22px;
+    }
   }
 }
